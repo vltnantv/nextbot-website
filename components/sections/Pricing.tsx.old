@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { AddonCard } from "@/components/ui/AddonCard";
+// import { AddonCard } from "@/components/ui/AddonCard";
 import { PricingCalculator } from "@/components/sections/PricingCalculator";
 import { cn } from "@/lib/utils";
 

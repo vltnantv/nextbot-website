@@ -117,21 +117,18 @@ export function NeoHero() {
             variants={fadeIn}
             className="flex flex-wrap items-center justify-center gap-4"
           >
-            <Button
-              asChild
-              size="lg"
-              className="bg-white text-nextbot-midnight hover:bg-nextbot-silver shadow-2xl"
+            <Link
+              href="#pilot"
+              className="inline-flex items-center justify-center h-12 px-8 rounded-full bg-white text-nextbot-midnight hover:bg-nextbot-silver shadow-2xl font-semibold text-[15px] transition-all active:scale-[0.98]"
             >
-              <Link href="#pilot">Започни безплатно →</Link>
-            </Button>
-            <Button
-              asChild
-              variant="secondary"
-              size="lg"
-              className="border-white/30 text-white hover:bg-white/10"
+              Започни безплатно →
+            </Link>
+            <Link
+              href="#addons"
+              className="inline-flex items-center justify-center h-12 px-8 rounded-full border border-white/30 text-white hover:bg-white/10 font-semibold text-[15px] transition-all active:scale-[0.98]"
             >
-              <Link href="#addons">Виж добавките ↓</Link>
-            </Button>
+              Виж добавките ↓
+            </Link>
           </motion.div>
         </div>
       </Container>
