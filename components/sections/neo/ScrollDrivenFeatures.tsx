@@ -3,8 +3,7 @@
 import { useRef, useEffect, useState } from 'react'
 import { useLanguage } from '@/lib/i18n'
 import { translations } from '@/lib/translations'
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
+import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion'
 
 interface Feature {
   id: string
@@ -154,10 +153,8 @@ function FeatureContent({
 
 // Individual scroll section with side content
 function ScrollSection({ feature, index }: { feature: Feature; index: number }) {
-  const { ref, inView } = useInView({
-    threshold: 0.5,
-    triggerOnce: false,
-  })
+  const ref = useRef(null)
+  const inView = useInView(ref, { amount: 0.5 })
 
   const isLeft = index % 2 === 0
 
