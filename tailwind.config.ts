@@ -16,6 +16,7 @@ const config: Config = {
         "nextbot-silver": "#F8FAFC",
         "nextbot-cloud": "#E2E8F0",
         "nextbot-gold": "#F59E0B",
+        "neo-purple": "#6366F1",
       },
       fontFamily: {
         display: ["Inter", "system-ui", "sans-serif"],
@@ -69,6 +70,12 @@ const config: Config = {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-8px)" },
         },
+        orbit: {
+          "0%": { transform: "rotate(0deg) translateX(80px) rotate(0deg)" },
+          "100%": {
+            transform: "rotate(360deg) translateX(80px) rotate(-360deg)",
+          },
+        },
       },
       animation: {
         "fade-in-up": "fadeInUp 0.6s ease-out forwards",
@@ -78,6 +85,7 @@ const config: Config = {
         shimmer: "shimmer 2s linear infinite",
         "gradient-shift": "gradientShift 15s ease infinite",
         float: "float 2s ease-in-out infinite",
+        orbit: "orbit 20s linear infinite",
       },
     },
   },
@@ -92,6 +100,18 @@ const config: Config = {
           "-webkit-background-clip": "text",
           "-webkit-text-fill-color": "transparent",
           "background-clip": "text",
+        },
+        ".text-neo-gradient": {
+          background: "linear-gradient(135deg, #6366F1 0%, #06B6D4 100%)",
+          "-webkit-background-clip": "text",
+          "-webkit-text-fill-color": "transparent",
+          "background-clip": "text",
+        },
+        ".bg-neo-gradient": {
+          background: "linear-gradient(135deg, #6366F1 0%, #06B6D4 100%)",
+        },
+        ".neo-glow": {
+          "box-shadow": "0 0 40px rgba(99, 102, 241, 0.3)",
         },
       });
     }),

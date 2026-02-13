@@ -6,9 +6,10 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
-import { NAVIGATION_LINKS, SITE_CONFIG } from "@/lib/constants";
+import { NEO_NAV_LINKS } from "@/lib/neo-constants";
 import { cn, scrollToSection } from "@/lib/utils";
-import type { NavLink } from "@/types";
+
+type NavLink = { label: string; href: string };
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -185,7 +186,7 @@ export function Header() {
 
   // Active section tracker
   useEffect(() => {
-    const ids = NAVIGATION_LINKS.map((l) => l.href.replace("#", ""));
+    const ids = NEO_NAV_LINKS.map((l) => l.href.replace("#", ""));
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -253,7 +254,7 @@ export function Header() {
                   </button>
 
                   <ul className="hidden items-center gap-8 md:flex">
-                    {NAVIGATION_LINKS.map((link) => (
+                    {NEO_NAV_LINKS.map((link) => (
                       <NavItem
                         key={link.href}
                         link={link}
@@ -309,7 +310,7 @@ export function Header() {
 
       <MobileMenu
         open={mobileOpen && visible}
-        links={NAVIGATION_LINKS}
+        links={NEO_NAV_LINKS}
         activeSection={activeSection}
         onNavigate={handleNavigate}
         onClose={() => setMobileOpen(false)}

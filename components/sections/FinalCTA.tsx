@@ -110,8 +110,7 @@ export function FinalCTA() {
         {/* Top-left blur */}
         <div className="absolute -left-32 -top-32 h-96 w-96 rounded-full bg-white/[0.03] blur-[100px]" />
         {/* Bottom-right blur */}
-        <div className="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-white/[0.03] blur-[100px]" />
-        {/* Center blur */}
+<div className="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-white/[0.03] blur-[100px] max-md:hidden" />        {/* Center blur */}
         <div className="absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-nextbot-cyan/[0.04] blur-[120px]" />
       </div>
 

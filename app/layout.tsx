@@ -86,12 +86,13 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className}>
+
+      <body className={`${inter.className} overflow-x-hidden`}>
         <Header />
         <main>{children}</main>
-        <Footer />
-        <VoiceflowWidget />
-      </body>
-    </html>
-  );
-}
+        <Footer />     
+          {/* <VoiceflowWidget /> */}   
+           </body>
+              </html>
+                     );
+                       }

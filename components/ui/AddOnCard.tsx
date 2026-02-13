@@ -1,79 +1,113 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
 
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
-
-export interface AddOnCardProps {
-  /** Icon (emoji or SVG string) */
-  icon: string;
-  /** Card title */
-  title: string;
-  /** Description text */
-  description: string;
-  /** Monthly price in лв */
+interface AddonCardProps {
+  icon?: string;
+  name: string;
+  description?: string;
   price: number;
-  /** Show "Най-търсено" badge */
   popular?: boolean;
-  /** Optional className for customization */
-  className?: string;
+  color?: string;
 }
 
-// ---------------------------------------------------------------------------
-// Component
-// ---------------------------------------------------------------------------
-
-export function AddOnCard({
+export function AddonCard({
   icon,
-  title,
+  name,
   description,
   price,
-  popular = false,
-  className,
-}: AddOnCardProps) {
+  popular,
+  color = "#6366F1",
+}: AddonCardProps) {
   return (
     <motion.div
-      className={cn(
-        "relative rounded-[20px] border-2 bg-white p-6 transition-all duration-300",
-        popular
-          ? "border-nextbot-cyan"
-          : "border-nextbot-cloud hover:border-nextbot-cyan",
-        "hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(6,182,212,0.12)]",
-        className,
-      )}
-      whileHover={{ y: -4 }}
-      transition={{ duration: 0.3 }}
+      whileHover={{ y: -4, borderColor: color }}
+      className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 transition-all hover:bg-white/10"
     >
-      {/* Popular badge */}
       {popular && (
-        <div className="absolute right-0 top-0 rounded-bl-xl rounded-tr-[18px] bg-nextbot-cyan px-3 py-1.5">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-white">
-            Най-търсено
+        <div className="absolute -top-3 right-4">
+          <span
+            className="px-3 py-1 rounded-full text-[11px] font-semibold text-white shadow-lg"
+            style={{ backgroundColor: color }}
+          >
+            Popular
           </span>
         </div>
       )}
 
-      {/* Icon */}
-      <div className="mb-3 text-[32px] leading-none">{icon}</div>
+      {icon && <div className="text-[32px] mb-4">{icon}</div>}
 
-      {/* Title */}
-      <h3 className="mb-1 text-base font-semibold text-nextbot-midnight">
-        {title}
-      </h3>
+      <h3 className="text-[16px] font-bold text-white mb-2">{name}</h3>
 
-      {/* Description */}
-      <p className="mb-4 text-[13px] leading-relaxed text-gray-500">
-        {description}
-      </p>
+      {description && (
+        <p className="text-[13px] text-gray-400 mb-4 leading-relaxed">
+          {description}
+        </p>
+      )}
 
-      {/* Price */}
-      <div className="flex items-baseline gap-0.5">
-        <span className="text-sm text-gray-500">+</span>
-        <span className="text-2xl font-bold text-nextbot-ocean">{price}</span>
-        <span className="text-sm text-gray-500"> лв/месец</span>
+      <div className="flex items-baseline gap-1">
+        <span className="text-[11px] text-gray-500">+</span>
+        <span className="text-[20px] font-bold" style={{ color }}>
+          {price}
+        </span>
+        <span className="text-[13px] text-gray-500">лв/м</span>
+      </div>
+    </motion.div>
+  );
+}
+
+interface BundleCardProps {
+  name: string;
+  originalPrice: number;
+  bundlePrice: number;
+  savings: number;
+  color: string;
+  itemCount: number;
+}
+
+export function BundleCard({
+  name,
+  originalPrice,
+  bundlePrice,
+  savings,
+  color,
+  itemCount,
+}: BundleCardProps) {
+  return (
+    <motion.div
+      whileHover={{ scale: 1.02 }}
+      className="relative rounded-xl p-6 border-2 transition-all"
+      style={{
+        backgroundColor: `${color}10`,
+        borderColor: color,
+      }}
+    >
+      <div className="flex items-center justify-between">
+        <div className="flex-1">
+          <div className="flex items-center gap-3 mb-2">
+            <span className="text-[24px]">📦</span>
+            <h3 className="text-[18px] font-bold text-white">{name}</h3>
+          </div>
+          <p className="text-[13px] text-gray-400 mb-3">
+            всички {itemCount} добавки
+          </p>
+
+          <div className="flex items-center gap-3">
+            <span className="text-[15px] text-gray-500 line-through">
+              {originalPrice} лв
+            </span>
+            <span className="text-[32px] font-bold text-white">
+              {bundlePrice}
+            </span>
+            <span className="text-[13px] text-gray-400">лв/мес</span>
+          </div>
+        </div>
+
+        <div className="flex-shrink-0">
+          <div className="px-4 py-2 rounded-full bg-green-500 text-white text-[13px] font-semibold">
+            Спести {savings} лв
+          </div>
+        </div>
       </div>
     </motion.div>
   );

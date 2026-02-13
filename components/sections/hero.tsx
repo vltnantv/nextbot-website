@@ -179,8 +179,8 @@ export function Hero() {
 
       {/* ── Radial glow overlays ── */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        <div className="absolute left-1/2 top-1/4 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/4 rounded-full bg-nextbot-ocean/30 blur-[140px]" />
-        <div className="absolute bottom-0 right-0 h-[400px] w-[500px] rounded-full bg-nextbot-cyan/15 blur-[120px]" />
+      <div className="absolute left-1/2 top-1/4 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/4 rounded-full bg-nextbot-ocean/30 blur-[140px] max-md:hidden" />
+      <div className="absolute bottom-0 right-0 h-[400px] w-[500px] rounded-full bg-nextbot-cyan/15 blur-[120px]" />
       </div>
 
       {/* ── Noise texture ── */}
