@@ -1,320 +1,159 @@
-"use client";
+'use client'
 
-import { useState, useEffect, useCallback, useRef } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { Container } from "@/components/ui/container";
-import { Button } from "@/components/ui/button";
-import { NEO_NAV_LINKS } from "@/lib/neo-constants";
-import { cn, scrollToSection } from "@/lib/utils";
-
-type NavLink = { label: string; href: string };
-
-// ---------------------------------------------------------------------------
-// Constants
-// ---------------------------------------------------------------------------
-
-const SCROLL_THRESHOLD = 100;
-
-const navTransition = {
-  type: "tween" as const,
-  duration: 0.3,
-  ease: [0.25, 0.1, 0.25, 1],
-};
-
-// ---------------------------------------------------------------------------
-// Skip-to-content
-// ---------------------------------------------------------------------------
-
-function SkipToContent() {
-  return (
-    <a
-      href="#main-content"
-      className="fixed left-4 top-4 z-[100] -translate-y-full rounded-lg bg-nextbot-midnight px-4 py-2 text-sm font-medium text-white opacity-0 ring-2 ring-nextbot-cyan transition-all focus:translate-y-0 focus:opacity-100"
-    >
-      Skip to content
-    </a>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Desktop nav link
-// ---------------------------------------------------------------------------
-
-function NavItem({
-  link,
-  active,
-  onClick,
-}: {
-  link: NavLink;
-  active: boolean;
-  onClick: (href: string) => void;
-}) {
-  return (
-    <li>
-      <button
-        onClick={() => onClick(link.href)}
-        className={cn(
-          "group relative text-[14px] font-normal leading-none transition-opacity duration-200",
-          active ? "text-nextbot-midnight" : "text-nextbot-midnight/80",
-          "hover:opacity-60",
-        )}
-      >
-        {link.label}
-        <span
-          className={cn(
-            "absolute -bottom-1 left-0 h-[2px] bg-nextbot-cyan transition-all duration-300 ease-out",
-            active ? "w-full" : "w-0 group-hover:w-full",
-          )}
-        />
-      </button>
-    </li>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Mobile menu
-// ---------------------------------------------------------------------------
-
-function MobileMenu({
-  open,
-  links,
-  activeSection,
-  onNavigate,
-  onClose,
-}: {
-  open: boolean;
-  links: readonly NavLink[];
-  activeSection: string;
-  onNavigate: (href: string) => void;
-  onClose: () => void;
-}) {
-  const overlayRef = useRef<HTMLDivElement>(null);
-
-  const handleOverlayClick = useCallback(
-    (e: React.MouseEvent) => {
-      if (e.target === overlayRef.current) onClose();
-    },
-    [onClose],
-  );
-
-  useEffect(() => {
-    if (!open) return;
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
-  }, [open, onClose]);
-
-  useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
-
-  return (
-    <AnimatePresence>
-      {open && (
-        <motion.div
-          ref={overlayRef}
-          onClick={handleOverlayClick}
-          className="fixed inset-0 z-40 flex items-start justify-center bg-white/95 pt-24 backdrop-blur-xl"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={navTransition}
-        >
-          <nav aria-label="Mobile navigation">
-            <ul className="flex flex-col items-center gap-8">
-              {links.map((link) => (
-                <li key={link.href}>
-                  <button
-                    onClick={() => {
-                      onNavigate(link.href);
-                      onClose();
-                    }}
-                    className={cn(
-                      "text-lg font-normal transition-opacity hover:opacity-60",
-                      activeSection === link.href
-                        ? "text-nextbot-midnight"
-                        : "text-nextbot-midnight/70",
-                    )}
-                  >
-                    {link.label}
-                  </button>
-                </li>
-              ))}
-              <li className="mt-4">
-                <Button
-                  size="lg"
-                  className="rounded-full"
-                  onClick={() => {
-                    onNavigate("#contact");
-                    onClose();
-                  }}
-                >
-                  Започни пилот
-                </Button>
-              </li>
-            </ul>
-          </nav>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Header
-// ---------------------------------------------------------------------------
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { useLanguage } from '@/lib/i18n'
+import { t } from '@/lib/translations'
+import { LanguageToggle } from '@/components/LanguageToggle'
 
 export function Header() {
-  const [visible, setVisible] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const { lang } = useLanguage()
 
-  // Scroll visibility — simple scroll listener
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > SCROLL_THRESHOLD);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  // Active section tracker
-  useEffect(() => {
-    const ids = NEO_NAV_LINKS.map((l) => l.href.replace("#", ""));
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setActiveSection(`#${entry.target.id}`);
-          }
-        }
-      },
-      { rootMargin: "-40% 0px -50% 0px" },
-    );
-
-    ids.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
-  const handleNavigate = useCallback((href: string) => {
-    if (href.startsWith("#")) {
-      scrollToSection(href);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10)
     }
-  }, []);
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
-  const handleLogoClick = useCallback(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+  }, [menuOpen])
 
   return (
     <>
-      <SkipToContent />
-
-      <AnimatePresence>
-        {visible && (
-          <motion.header
-            className="fixed left-0 right-0 top-0 z-50"
-            initial={{ y: "-100%" }}
-            animate={{ y: 0 }}
-            exit={{ y: "-100%" }}
-            transition={navTransition}
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled || menuOpen
+            ? 'bg-black/60 backdrop-blur-xl border-b border-white/10'
+            : 'bg-transparent'
+        }`}
+      >
+        <nav className="max-w-screen-2xl mx-auto px-6 h-12 flex items-center justify-between">
+          {/* Logo */}
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-white"
+            onClick={() => setMenuOpen(false)}
           >
-            <nav
-              aria-label="Main navigation"
-              className="border-b border-black/[0.08] bg-white/80 backdrop-blur-[20px]"
+            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z" />
+            </svg>
+            <span className="font-semibold text-lg">Nextbot</span>
+          </Link>
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-8">
+            <Link href="/neo" className="text-sm text-gray-300 hover:text-white transition">
+              {t(lang, 'nav.neo')}
+            </Link>
+            <Link href="/about" className="text-sm text-gray-300 hover:text-white transition">
+              {t(lang, 'nav.about')}
+            </Link>
+          </div>
+
+          {/* Right Icons */}
+          <div className="flex items-center gap-4">
+            <LanguageToggle />
+
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="md:hidden w-5 h-5 flex items-center justify-center text-white"
+              aria-label="Menu"
             >
-              <Container>
-                <div className="flex h-12 items-center justify-between">
-                  <button
-                    onClick={handleLogoClick}
-                    className="flex items-center gap-2 transition-opacity hover:opacity-70"
-                    aria-label="NextBot — scroll to top"
-                  >
-                    <Image
-                      src="/logo.png"
-                      alt="NextBot Logo"
-                      width={36}
-                      height={36}
-                      className="h-9 w-9"
-                      priority
-                    />
-                    <span className="text-[20px] font-semibold leading-none text-nextbot-midnight">
-                      NextBot
-                    </span>
-                  </button>
+              {menuOpen ? (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </button>
+          </div>
+        </nav>
+      </header>
 
-                  <ul className="hidden items-center gap-8 md:flex">
-                    {NEO_NAV_LINKS.map((link) => (
-                      <NavItem
-                        key={link.href}
-                        link={link}
-                        active={activeSection === link.href}
-                        onClick={handleNavigate}
-                      />
-                    ))}
-                  </ul>
+      {/* Full-Screen Mobile Menu */}
+      <div
+        className={`md:hidden fixed inset-0 z-40 bg-black transition-transform duration-300 ${
+          menuOpen ? 'translate-y-0' : '-translate-y-full'
+        }`}
+        style={{ top: '48px' }}
+      >
+        <nav className="h-full overflow-y-auto">
+          <ul className="px-6 py-4">
+            <li>
+              <Link
+                href="/neo"
+                className="block py-4 text-2xl font-semibold text-white border-b border-gray-800"
+                onClick={() => setMenuOpen(false)}
+              >
+                {t(lang, 'nav.neo')}
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/about"
+                className="block py-4 text-2xl font-semibold text-white border-b border-gray-800"
+                onClick={() => setMenuOpen(false)}
+              >
+                {t(lang, 'nav.about')}
+              </Link>
+            </li>
 
-                  <div className="hidden md:block">
-                    <Button
-                      size="sm"
-                      className="rounded-full"
-                      onClick={() => handleNavigate("#contact")}
-                    >
-                      Започни пилот
-                    </Button>
-                  </div>
-
-                  <button
-                    onClick={() => setMobileOpen((prev) => !prev)}
-                    className="relative z-50 flex h-10 w-10 items-center justify-center rounded-lg transition-colors hover:bg-black/5 md:hidden"
-                    aria-label={mobileOpen ? "Close menu" : "Open menu"}
-                    aria-expanded={mobileOpen}
-                  >
-                    <div className="flex w-[18px] flex-col items-end gap-[5px]">
-                      <span
-                        className={cn(
-                          "h-[1.5px] rounded-full bg-nextbot-midnight transition-all duration-300",
-                          mobileOpen ? "w-[18px] translate-y-[6.5px] rotate-45" : "w-[18px]",
-                        )}
-                      />
-                      <span
-                        className={cn(
-                          "h-[1.5px] w-[14px] rounded-full bg-nextbot-midnight transition-all duration-300",
-                          mobileOpen && "opacity-0",
-                        )}
-                      />
-                      <span
-                        className={cn(
-                          "h-[1.5px] rounded-full bg-nextbot-midnight transition-all duration-300",
-                          mobileOpen ? "w-[18px] -translate-y-[6.5px] -rotate-45" : "w-[10px]",
-                        )}
-                      />
+            {/* Product Categories */}
+            <li className="mt-8">
+              <p className="text-xs uppercase tracking-wider text-gray-500 mb-4">
+                {t(lang, 'productMenu.title')}
+              </p>
+              <ul className="space-y-2">
+                <li>
+                  <Link href="/neo" className="block py-3" onClick={() => setMenuOpen(false)}>
+                    <div className="flex items-center justify-between">
+                      <span className="font-semibold text-white">{t(lang, 'productMenu.neo.name')}</span>
+                      <span className="text-xs bg-orange-500 text-white px-2 py-0.5 rounded-full">
+                        {t(lang, 'common.new')}
+                      </span>
                     </div>
-                  </button>
-                </div>
-              </Container>
-            </nav>
-          </motion.header>
-        )}
-      </AnimatePresence>
-
-      <MobileMenu
-        open={mobileOpen && visible}
-        links={NEO_NAV_LINKS}
-        activeSection={activeSection}
-        onNavigate={handleNavigate}
-        onClose={() => setMobileOpen(false)}
-      />
+                    <p className="text-sm text-gray-500 mt-1">{t(lang, 'productMenu.neo.tagline')}</p>
+                  </Link>
+                </li>
+                <li>
+                  <div className="block py-3 opacity-50">
+                    <div className="flex items-center justify-between">
+                      <span className="font-semibold text-white">{t(lang, 'productMenu.aria.name')}</span>
+                      <span className="text-xs bg-gray-800 px-2 py-0.5 rounded-full text-gray-400">
+                        {t(lang, 'common.comingSoon')}
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-500 mt-1">{t(lang, 'productMenu.aria.tagline')}</p>
+                  </div>
+                </li>
+                <li>
+                  <div className="block py-3 opacity-50">
+                    <div className="flex items-center justify-between">
+                      <span className="font-semibold text-white">{t(lang, 'productMenu.nova.name')}</span>
+                      <span className="text-xs bg-gray-800 px-2 py-0.5 rounded-full text-gray-400">
+                        {t(lang, 'common.comingSoon')}
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-500 mt-1">{t(lang, 'productMenu.nova.tagline')}</p>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </>
-  );
+  )
 }

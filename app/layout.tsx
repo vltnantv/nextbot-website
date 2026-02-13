@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
-import { VoiceflowWidget } from "@/components/VoiceflowWidget";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -87,12 +86,16 @@ export default function RootLayout({
         />
       </head>
 
-      <body className={`${inter.className} overflow-x-hidden`}>
+      <body className={inter.className}>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{Object.keys(localStorage).forEach(function(k){if(k.indexOf('voiceflow')>-1||k.indexOf('vf_')>-1)localStorage.removeItem(k)});Object.keys(sessionStorage).forEach(function(k){if(k.indexOf('voiceflow')>-1||k.indexOf('vf_')>-1)sessionStorage.removeItem(k)})}catch(e){}})();`,
+          }}
+        />
         <Header />
         <main>{children}</main>
-        <Footer />     
-          {/* <VoiceflowWidget /> */}   
-           </body>
+        <Footer />
+      </body>
               </html>
                      );
                        }
