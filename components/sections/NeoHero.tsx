@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
@@ -117,19 +118,19 @@ export function NeoHero() {
             className="flex flex-wrap items-center justify-center gap-4"
           >
             <Button
-              href="#pilot"
+              asChild
               size="lg"
               className="bg-white text-nextbot-midnight hover:bg-nextbot-silver shadow-2xl"
             >
-              Започни безплатно →
+              <Link href="#pilot">Започни безплатно →</Link>
             </Button>
             <Button
-              href="#addons"
-              variant="outline"
+              asChild
+              variant="secondary"
               size="lg"
               className="border-white/30 text-white hover:bg-white/10"
             >
-              Виж добавките ↓
+              <Link href="#addons">Виж добавките ↓</Link>
             </Button>
           </motion.div>
         </div>

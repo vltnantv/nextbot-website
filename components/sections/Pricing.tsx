@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { AddOnCard } from "@/components/ui/AddOnCard";
+import { AddonCard } from "@/components/ui/AddonCard";
 import { PricingCalculator } from "@/components/sections/PricingCalculator";
 import { cn } from "@/lib/utils";
 
@@ -397,7 +397,7 @@ export function Pricing() {
         >
           {ADD_ONS.map((addon, i) => (
             <motion.div key={i} variants={cardFade}>
-              <AddOnCard {...addon} />
+              <AddonCard {...addon} />
             </motion.div>
           ))}
         </motion.div>

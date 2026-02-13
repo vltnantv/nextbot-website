@@ -85,7 +85,7 @@ function MobileMenu({
   onClose,
 }: {
   open: boolean;
-  links: NavLink[];
+  links: readonly NavLink[];
   activeSection: string;
   onNavigate: (href: string) => void;
   onClose: () => void;

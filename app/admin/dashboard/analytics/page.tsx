@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { adminStore } from "@/lib/admin-store";
 import type { AnalyticsData } from "@/lib/admin-types";
@@ -11,13 +11,13 @@ export default function AnalyticsPage() {
   const [dateRange, setDateRange] = useState<DateRange>(30);
   const [analytics, setAnalytics] = useState<AnalyticsData[]>([]);
 
-  useEffect(() => {
-    loadAnalytics();
+  const loadAnalytics = useCallback(() => {
+    setAnalytics(adminStore.getAnalytics(dateRange));
   }, [dateRange]);
 
-  const loadAnalytics = () => {
-    setAnalytics(adminStore.getAnalytics(dateRange));
-  };
+  useEffect(() => {
+    loadAnalytics();
+  }, [loadAnalytics]);
 
   // Calculate KPIs
   const totalConversations = analytics.reduce(
