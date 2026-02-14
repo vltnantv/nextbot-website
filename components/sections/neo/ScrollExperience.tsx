@@ -20,90 +20,93 @@ export function ScrollExperience() {
       title: lang === 'bg' ? 'Клиентът пита' : 'Customer asks',
       subtitle: lang === 'bg' ? 'Навсякъде, по всяко време' : 'Anywhere, anytime',
       emoji: '💬',
-      theme: 'from-green-500 to-emerald-600'
+      theme: 'from-green-500 to-emerald-600',
+      bg: 'from-white to-gray-50 dark:from-black dark:to-gray-900'
     },
     {
       title: lang === 'bg' ? 'Neo разбира' : 'Neo understands',
       subtitle: lang === 'bg' ? 'Анализира контекста' : 'Analyzes context',
       emoji: '🧠',
-      theme: 'from-blue-500 to-indigo-600'
+      theme: 'from-blue-500 to-indigo-600',
+      bg: 'from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950'
     },
     {
       title: lang === 'bg' ? 'Отговаря моментално' : 'Responds instantly',
       subtitle: lang === 'bg' ? '< 1 секунда' : '< 1 second',
       emoji: '⚡',
-      theme: 'from-purple-500 to-pink-600'
+      theme: 'from-purple-500 to-pink-600',
+      bg: 'from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950'
     },
     {
-      title: lang === 'bg' ? 'Автоматизира всичко' : 'Automates everything',
+      title: lang === 'bg' ? 'Автоматизира' : 'Automates',
       subtitle: lang === 'bg' ? 'Календар • CRM • Email' : 'Calendar • CRM • Email',
       emoji: '🔗',
-      theme: 'from-orange-500 to-red-600'
+      theme: 'from-orange-500 to-red-600',
+      bg: 'from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950'
     },
     {
       title: lang === 'bg' ? 'Многоезичен' : 'Multilingual',
-      subtitle: lang === 'bg' ? '12+ езика автоматично' : '12+ languages automatically',
+      subtitle: lang === 'bg' ? '12+ езика' : '12+ languages',
       emoji: '🌍',
-      theme: 'from-cyan-500 to-blue-600'
+      theme: 'from-cyan-500 to-blue-600',
+      bg: 'from-pink-50 via-gray-600 to-black dark:from-pink-950 dark:via-gray-800 dark:to-black'
     }
-  ]
-
-  const mobileSceneStyles = [
-    { bg: 'from-white to-gray-50 dark:from-gray-950 dark:to-gray-900', text: 'text-gray-900 dark:text-white', sub: 'text-gray-500 dark:text-gray-400' },
-    { bg: 'from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950', text: 'text-gray-900 dark:text-white', sub: 'text-gray-500 dark:text-gray-400' },
-    { bg: 'from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950', text: 'text-gray-900 dark:text-white', sub: 'text-gray-500 dark:text-gray-400' },
-    { bg: 'from-purple-50 to-orange-50 dark:from-purple-950 dark:to-gray-950', text: 'text-gray-900 dark:text-white', sub: 'text-gray-500 dark:text-gray-400' },
-    { bg: 'from-orange-50 to-gray-100 dark:from-gray-950 dark:to-black', text: 'text-gray-900 dark:text-white', sub: 'text-gray-500 dark:text-gray-400' },
   ]
 
   if (isMobile) {
     return (
-      <section className="relative">
-        {scenes.map((scene, i) => (
-          <div
-            key={i}
-            className={`relative py-20 bg-gradient-to-b ${mobileSceneStyles[i].bg}`}
-          >
-            <div className="max-w-4xl mx-auto px-4">
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-80px' }}
-                transition={{ duration: 0.6, ease: 'easeOut' }}
-                className="text-center"
-              >
+      <div className="relative bg-white dark:bg-black">
+        {scenes.map((scene, i) => {
+          const isLast = i === scenes.length - 1
+
+          return (
+            <motion.section
+              key={i}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6 }}
+              className={`relative min-h-[70vh] flex items-center justify-center ${isLast ? 'py-32' : 'py-20'} bg-gradient-to-b ${scene.bg}`}
+            >
+              <div className="max-w-3xl mx-auto px-6 text-center">
                 <motion.div
-                  initial={{ scale: 0.5, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  viewport={{ once: true, margin: '-80px' }}
-                  transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
-                  className="text-6xl mb-5"
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ type: 'spring', duration: 0.6, delay: 0.2 }}
+                  className="text-7xl mb-6"
                 >
                   {scene.emoji}
                 </motion.div>
+
                 <motion.h3
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-80px' }}
-                  transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
-                  className={`text-2xl sm:text-3xl font-bold mb-2 ${mobileSceneStyles[i].text}`}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  className={`text-3xl sm:text-4xl font-bold mb-4 ${
+                    isLast ? 'text-white' : 'text-gray-900 dark:text-white'
+                  }`}
                 >
                   {scene.title}
                 </motion.h3>
+
                 <motion.p
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-80px' }}
-                  transition={{ duration: 0.5, delay: 0.3, ease: 'easeOut' }}
-                  className={`text-base sm:text-lg ${mobileSceneStyles[i].sub}`}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                  className={`text-lg sm:text-xl ${
+                    isLast ? 'text-gray-400' : 'text-gray-600 dark:text-gray-400'
+                  }`}
                 >
                   {scene.subtitle}
                 </motion.p>
-              </motion.div>
-            </div>
-          </div>
-        ))}
-      </section>
+              </div>
+            </motion.section>
+          )
+        })}
+      </div>
     )
   }
 

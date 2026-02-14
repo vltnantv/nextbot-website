@@ -20,7 +20,7 @@ export function PricingScroll() {
   const pricing = translations[lang].pricing
 
   return (
-    <div ref={containerRef} className="relative min-h-[120vh] bg-black text-white py-32 -mt-32">
+    <div ref={containerRef} className="relative min-h-[120vh] bg-black text-white py-20 sm:py-32">
 
       {/* Sticky container */}
       <div className="sticky top-20 h-screen flex items-center justify-center">
