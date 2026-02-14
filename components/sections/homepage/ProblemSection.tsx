@@ -7,7 +7,11 @@ import { useLanguage } from '@/lib/i18n'
 export function ProblemSection() {
   const { lang } = useLanguage()
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-100px' })
+  // Reduced margin for faster trigger
+  const isInView = useInView(ref, {
+    once: true,
+    margin: '-50px' // Was -100px, now triggers sooner
+  })
 
   const problems = [
     {
@@ -52,28 +56,31 @@ export function ProblemSection() {
   ]
 
   return (
-    <section ref={ref} className="py-32">
-      <div className="max-w-7xl mx-auto px-6">
+    <section ref={ref} className="relative py-16 sm:py-24 md:py-32 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          transition={{ duration: 0.4 }} // Faster: was 0.6
+          className="text-center mb-12 sm:mb-16 md:mb-20"
         >
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-white">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-white px-4">
             {lang === 'bg' ? 'Познато ли ти е?' : 'Sound familiar?'}
           </h2>
         </motion.div>
 
-        {/* Problem cards */}
-        <div className="grid md:grid-cols-3 gap-8">
+        {/* Problem cards - stack on mobile */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {problems.map((problem, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 0, y: 30 }} // Less distance: was y: 50
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
+              transition={{
+                duration: 0.4, // Faster: was 0.6
+                delay: index * 0.1 // Shorter stagger: was 0.2
+              }}
               className="relative group"
             >
               <div className="h-full bg-white/5 backdrop-blur-md rounded-3xl p-8 border border-white/10 transition-all duration-300 group-hover:border-white/20 group-hover:shadow-2xl">
@@ -106,10 +113,10 @@ export function ProblemSection() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="text-center mt-16"
+          transition={{ duration: 0.4, delay: 0.4 }} // Faster: was 0.6/0.8
+          className="text-center mt-12 sm:mt-16 px-4"
         >
-          <p className="text-xl text-gray-400">
+          <p className="text-lg sm:text-xl text-gray-400">
             {lang === 'bg'
               ? 'Има решение. И не е да наемеш още хора.'
               : "There's a solution. And it's not hiring more people."}

@@ -24,10 +24,22 @@
     overflow-x: clip;
   }
 
+  /* Optimize scroll performance */
+  section {
+    will-change: transform, opacity;
+  }
+
   body {
     @apply font-text text-nextbot-silver;
     background: #0a0a0a;
     overflow-x: clip;
+    font-feature-settings: "kern" 1;
+  }
+
+  /* Prevent text inflation on mobile */
+  h1, h2, h3, h4, h5, h6 {
+    text-size-adjust: none;
+    -webkit-text-size-adjust: none;
   }
 
   /* Cyan selection highlight */
@@ -137,6 +149,17 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* Better touch targets for mobile */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Touch manipulation for better mobile performance */
+  .touch-manipulation {
+    touch-action: manipulation;
   }
 }
 

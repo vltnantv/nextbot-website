@@ -1,293 +1,409 @@
 'use client'
 
-import { useRef, useEffect, useState, useCallback } from 'react'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { useLanguage } from '@/lib/i18n'
-
-// Scene icon configs for the animated logo
-const sceneIcons = [
-  { emoji: '💬', orbitEmojis: ['📱', '💻', '📧'] },
-  { emoji: '🧠', orbitEmojis: ['🔍', '📊', '💡'] },
-  { emoji: '⚡', orbitEmojis: ['✓', '🚀', '💨'] },
-  { emoji: '🔗', orbitEmojis: ['📅', '📊', '📧'] },
-  { emoji: '🌍', orbitEmojis: ['🇧🇬', '🇬🇧', '🇩🇪'] },
-]
 
 export function ScrollExperience() {
   const { lang } = useLanguage()
   const containerRef = useRef<HTMLDivElement>(null)
-  const [activeScene, setActiveScene] = useState(0)
-  const [progress, setProgress] = useState(0)
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 80%", "end start"]  // Start animation when section is 80% visible
+  })
+
+  // Background color transition - pure white to pure black
+  const backgroundColor = useTransform(
+    scrollYProgress,
+    [0, 0.4, 0.7, 1],
+    [
+      'rgb(255, 255, 255)',  // Start: pure white
+      'rgb(30, 30, 30)',     // Early middle: dark gray
+      'rgb(0, 0, 0)',        // Late middle: pure black
+      'rgb(0, 0, 0)'         // End: pure black (stays black)
+    ]
+  )
+
+  const backgroundColorDark = useTransform(
+    scrollYProgress,
+    [0, 0.4, 0.7, 1],
+    [
+      'rgb(0, 0, 0)',        // Start: pure black
+      'rgb(15, 15, 15)',     // Early middle: slightly lighter
+      'rgb(0, 0, 0)',        // Late middle: pure black
+      'rgb(0, 0, 0)'         // End: pure black (stays black)
+    ]
+  )
+
+  // Text color for better contrast
+  const textColor = useTransform(
+    scrollYProgress,
+    [0, 0.4, 1],
+    [
+      'rgb(17, 24, 39)',    // Dark text for light background
+      'rgb(243, 244, 246)',  // Light text for mid-transition
+      'rgb(255, 255, 255)'   // White text for black background
+    ]
+  )
+
+  // Scene progress values - extended ranges for longer visibility
+  const scene1Progress = useTransform(scrollYProgress, [0, 0.15, 0.25], [0, 1, 0])
+  const scene2Progress = useTransform(scrollYProgress, [0.2, 0.35, 0.45], [0, 1, 0])
+  const scene3Progress = useTransform(scrollYProgress, [0.4, 0.55, 0.65], [0, 1, 0])
+  const scene4Progress = useTransform(scrollYProgress, [0.6, 0.72, 0.82], [0, 1, 0])
+  const scene5Progress = useTransform(scrollYProgress, [0.7, 0.78, 1], [0, 1, 1]) // Multilingual stays much longer
 
   const scenes = [
     {
       title: lang === 'bg' ? 'Клиентът пита' : 'Customer asks',
       subtitle: lang === 'bg' ? 'Навсякъде, по всяко време' : 'Anywhere, anytime',
-      bg: '#0a2e1a',
-      glow: 'rgba(34, 197, 94, 0.3)',
+      emoji: '💬',
+      theme: 'from-green-500 to-emerald-600'
     },
     {
       title: lang === 'bg' ? 'Neo разбира' : 'Neo understands',
-      subtitle: lang === 'bg' ? 'Интелигентен AI, не робот' : 'Smart AI, not a robot',
-      bg: '#0a1a2e',
-      glow: 'rgba(59, 130, 246, 0.3)',
+      subtitle: lang === 'bg' ? 'Анализира контекста' : 'Analyzes context',
+      emoji: '🧠',
+      theme: 'from-blue-500 to-indigo-600'
     },
     {
-      title: lang === 'bg' ? 'Отговаря мигновено' : 'Responds instantly',
-      subtitle: lang === 'bg' ? 'Под 1 секунда' : 'Under 1 second',
-      bg: '#1a0a2e',
-      glow: 'rgba(168, 85, 247, 0.3)',
+      title: lang === 'bg' ? 'Отговаря моментално' : 'Responds instantly',
+      subtitle: lang === 'bg' ? '< 1 секунда' : '< 1 second',
+      emoji: '⚡',
+      theme: 'from-purple-500 to-pink-600'
     },
     {
       title: lang === 'bg' ? 'Автоматизира всичко' : 'Automates everything',
-      subtitle: lang === 'bg' ? 'Без ръчна работа' : 'Zero manual work',
-      bg: '#2e1a0a',
-      glow: 'rgba(249, 115, 22, 0.3)',
+      subtitle: lang === 'bg' ? 'Календар • CRM • Email' : 'Calendar • CRM • Email',
+      emoji: '🔗',
+      theme: 'from-orange-500 to-red-600'
     },
     {
-      title: lang === 'bg' ? 'На 12+ езика' : 'In 12+ languages',
-      subtitle: lang === 'bg' ? 'Автоматично разпознаване' : 'Automatic detection',
-      bg: '#0a0a2e',
-      glow: 'rgba(99, 102, 241, 0.3)',
-    },
+      title: lang === 'bg' ? 'Многоезичен' : 'Multilingual',
+      subtitle: lang === 'bg' ? '12+ езика автоматично' : '12+ languages automatically',
+      emoji: '🌍',
+      theme: 'from-cyan-500 to-blue-600'
+    }
   ]
 
-  const handleScroll = useCallback(() => {
-    if (!containerRef.current) return
-    const rect = containerRef.current.getBoundingClientRect()
-    const scrollable = containerRef.current.offsetHeight - window.innerHeight
-    if (scrollable <= 0) return
-
-    const p = Math.max(0, Math.min(1, -rect.top / scrollable))
-    setProgress(p)
-    setActiveScene(Math.min(4, Math.floor(p * 5)))
-  }, [])
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll()
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [handleScroll])
-
-  const scene = scenes[activeScene]
-  const icons = sceneIcons[activeScene]
-
-  // Rotation angle based on scroll progress within current scene
-  const sceneProgress = (progress * 5) % 1
-  const rotation = sceneProgress * 360
-
   return (
-    <div ref={containerRef} style={{ height: '500vh', position: 'relative' }}>
-      <div
-        style={{
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: scene.bg,
-          transition: 'background 0.6s ease',
-          overflow: 'hidden',
-        }}
-      >
-        {/* Main content */}
-        <div
-          style={{
-            width: '100%',
-            maxWidth: 1200,
-            margin: '0 auto',
-            padding: '0 24px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 64,
-          }}
-        >
-          {/* Left: Text */}
-          <div style={{ flex: 1 }}>
-            <h2
-              key={activeScene}
-              style={{
-                fontSize: 'clamp(2rem, 5vw, 4rem)',
-                fontWeight: 700,
-                color: '#ffffff',
-                margin: 0,
-                lineHeight: 1.1,
-              }}
-            >
-              {scene.title}
-            </h2>
-            <p style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', color: '#999', marginTop: 12 }}>
-              {scene.subtitle}
-            </p>
+    <div ref={containerRef} className="relative min-h-[450vh] -mt-32">
+      {/* Background - Light mode */}
+      <motion.div
+        className="dark:hidden absolute inset-0 -top-32"
+        style={{ backgroundColor }}
+      />
 
-            {/* Progress dots */}
-            <div style={{ display: 'flex', gap: 6, marginTop: 32 }}>
-              {scenes.map((_, i) => (
-                <div
-                  key={i}
-                  style={{
-                    height: 4,
-                    borderRadius: 2,
-                    transition: 'all 0.3s',
-                    width: i === activeScene ? 48 : 8,
-                    background: i === activeScene ? '#fff' : '#444',
-                  }}
+      {/* Background - Dark mode */}
+      <motion.div
+        className="hidden dark:block absolute inset-0 -top-32"
+        style={{ backgroundColor: backgroundColorDark }}
+      />
+
+      {/* Sticky container */}
+      <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
+        {/* Gradient glow */}
+        <div className="absolute inset-0 pointer-events-none">
+          <motion.div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[150px]"
+            style={{
+              background: 'linear-gradient(to bottom right, var(--tw-gradient-stops))',
+            }}
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.2, 0.3, 0.2],
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left: Content */}
+            <div className="text-center lg:text-left">
+              {scenes.map((scene, index) => (
+                <SceneText
+                  key={index}
+                  scene={scene}
+                  progress={
+                    index === 0 ? scene1Progress :
+                    index === 1 ? scene2Progress :
+                    index === 2 ? scene3Progress :
+                    index === 3 ? scene4Progress :
+                    scene5Progress
+                  }
+                  textColor={textColor}
                 />
               ))}
             </div>
-          </div>
 
-          {/* Right: Animated 3D Neo Logo */}
-          <div style={{ flexShrink: 0, position: 'relative', width: 320, height: 320 }}>
-            {/* Background glow */}
-            <div
-              style={{
-                position: 'absolute',
-                inset: -40,
-                borderRadius: '50%',
-                background: `radial-gradient(circle, ${scene.glow}, transparent 70%)`,
-                transition: 'background 0.6s ease',
-                animation: 'pulse-glow 3s ease-in-out infinite',
-              }}
-            />
+            {/* Right: iPhone mockup */}
+            <div className="flex items-center justify-center">
+              <div className="relative w-[280px] sm:w-[320px] h-[570px] sm:h-[650px]">
+                {/* iPhone frame */}
+                <div className="absolute inset-0 bg-gray-900 rounded-[3rem] shadow-2xl border-[14px] border-gray-900">
+                  {/* Notch */}
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-7 bg-gray-900 rounded-b-3xl z-10" />
 
-            {/* Outer ring */}
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                borderRadius: '50%',
-                border: '2px solid rgba(255,255,255,0.1)',
-                transform: `rotate(${rotation}deg)`,
-                transition: 'transform 0.1s linear',
-              }}
-            />
-
-            {/* Middle ring */}
-            <div
-              style={{
-                position: 'absolute',
-                inset: 30,
-                borderRadius: '50%',
-                border: '1px solid rgba(255,255,255,0.08)',
-                transform: `rotate(${-rotation * 0.5}deg)`,
-                transition: 'transform 0.1s linear',
-              }}
-            />
-
-            {/* Orbiting icons */}
-            {icons.orbitEmojis.map((emoji, i) => {
-              const angle = (i * 120 + rotation) * (Math.PI / 180)
-              const radius = 130
-              const x = Math.cos(angle) * radius
-              const y = Math.sin(angle) * radius
-
-              return (
-                <div
-                  key={`${activeScene}-${i}`}
-                  style={{
-                    position: 'absolute',
-                    left: '50%',
-                    top: '50%',
-                    transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
-                    width: 48,
-                    height: 48,
-                    borderRadius: 14,
-                    background: 'rgba(255,255,255,0.1)',
-                    backdropFilter: 'blur(10px)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: 24,
-                    border: '1px solid rgba(255,255,255,0.15)',
-                    boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
-                    transition: 'transform 0.1s linear',
-                  }}
-                >
-                  {emoji}
+                  {/* Screen */}
+                  <div className="relative w-full h-full bg-white dark:bg-gray-950 rounded-[2.3rem] overflow-hidden">
+                    {/* Dynamic content for each scene */}
+                    <PhoneContent
+                      scene1Progress={scene1Progress}
+                      scene2Progress={scene2Progress}
+                      scene3Progress={scene3Progress}
+                      scene4Progress={scene4Progress}
+                      scene5Progress={scene5Progress}
+                      lang={lang}
+                    />
+                  </div>
                 </div>
-              )
-            })}
-
-            {/* Center: Neo logo */}
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <div
-                style={{
-                  width: 120,
-                  height: 120,
-                  borderRadius: 30,
-                  background: 'linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05))',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: '0 25px 50px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1)',
-                  transition: 'transform 0.3s ease',
-                }}
-              >
-                <span style={{ fontSize: 56, filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))' }}>
-                  {icons.emoji}
-                </span>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
 
-            {/* Floating particles */}
-            {[...Array(6)].map((_, i) => (
-              <div
-                key={i}
-                style={{
-                  position: 'absolute',
-                  width: 4,
-                  height: 4,
-                  borderRadius: '50%',
-                  background: 'rgba(255,255,255,0.3)',
-                  left: `${20 + Math.sin(i * 1.2) * 40 + 20}%`,
-                  top: `${20 + Math.cos(i * 1.5) * 40 + 20}%`,
-                  animation: `float-particle ${2 + i * 0.5}s ease-in-out infinite alternate`,
-                  animationDelay: `${i * 0.3}s`,
-                }}
-              />
+// Scene text component
+function SceneText({ scene, progress, textColor }: { scene: any; progress: any; textColor: any }) {
+  // Longer hold at full opacity
+  const opacity = progress
+  const y = useTransform(progress, [0, 0.5, 1], [30, 0, -30])
+
+  return (
+    <motion.div
+      style={{ opacity, y }}
+      className="absolute inset-0 flex flex-col justify-center"
+    >
+      {/* Emoji - REDUCED SIZE with shadow */}
+      <div className="text-5xl sm:text-6xl mb-6 drop-shadow-2xl">
+        {scene.emoji}
+      </div>
+
+      {/* Title - Bold rounded font with subtle shadows */}
+      <motion.h2
+        className="text-3xl sm:text-4xl lg:text-5xl mb-4"
+        style={{
+          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Rounded", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+          fontWeight: 800,
+          letterSpacing: '-0.02em',
+          color: '#ffffff',
+          textShadow: '0 2px 12px rgba(0,0,0,0.4), 0 4px 24px rgba(0,0,0,0.2)'
+        }}
+      >
+        {scene.title}
+      </motion.h2>
+
+      {/* Subtitle - Bold rounded font with subtle shadows */}
+      <motion.p
+        className="text-lg sm:text-xl"
+        style={{
+          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Rounded", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+          fontWeight: 600,
+          letterSpacing: '0em',
+          color: '#ffffff',
+          textShadow: '0 1px 8px rgba(0,0,0,0.3), 0 2px 16px rgba(0,0,0,0.15)'
+        }}
+      >
+        {scene.subtitle}
+      </motion.p>
+    </motion.div>
+  )
+}
+
+// Phone content component
+function PhoneContent({ scene1Progress, scene2Progress, scene3Progress, scene4Progress, scene5Progress, lang }: any) {
+  // Use progress directly for longer visibility
+  const opacity1 = scene1Progress
+  const opacity2 = scene2Progress
+  const opacity3 = scene3Progress
+  const opacity4 = scene4Progress
+  const opacity5 = scene5Progress
+
+  return (
+    <div className="h-full flex items-center justify-center p-6 sm:p-8">
+      {/* Scene 1: WhatsApp message */}
+      <motion.div style={{ opacity: opacity1 }} className="absolute text-center w-full px-6">
+        <div className="space-y-4">
+          <div className="bg-green-100 dark:bg-green-900 rounded-2xl p-4 text-left">
+            <p className="text-sm text-gray-800 dark:text-gray-200">
+              {lang === 'bg' ? 'Имате ли свободни стаи?' : 'Do you have rooms available?'}
+            </p>
+          </div>
+          <div className="flex items-center gap-2 text-xs text-gray-500">
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+            <span>WhatsApp</span>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Scene 2: Thinking */}
+      <motion.div style={{ opacity: opacity2 }} className="absolute text-center w-full px-6">
+        <div className="space-y-3">
+          <div className="text-4xl">🧠</div>
+          <div className="space-y-2">
+            {[
+              lang === 'bg' ? 'Анализира...' : 'Analyzing...',
+              lang === 'bg' ? 'Проверява наличност' : 'Checking availability',
+              lang === 'bg' ? 'Изчислява цена' : 'Calculating price'
+            ].map((text, i) => (
+              <div key={i} className="flex items-center justify-center gap-2 text-xs text-gray-600 dark:text-gray-400">
+                <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />
+                <span>{text}</span>
+              </div>
             ))}
           </div>
         </div>
+      </motion.div>
 
-        {/* Bottom hint */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 24,
-            left: '50%',
-            transform: 'translateX(-50%)',
-            color: 'rgba(255,255,255,0.4)',
-            fontSize: 12,
-            textAlign: 'center',
-          }}
-        >
-          {lang === 'bg' ? 'Скролни надолу' : 'Scroll down'} ↓
+      {/* Scene 3: Response */}
+      <motion.div style={{ opacity: opacity3 }} className="absolute text-center w-full px-6">
+        <div className="space-y-4">
+          <div className="bg-blue-500 rounded-2xl p-4 text-left text-white">
+            <p className="text-sm">
+              {lang === 'bg'
+                ? 'Да! Имаме налични стаи за вашите дати. Цена: 120€/нощ.'
+                : 'Yes! We have rooms available for your dates. Price: 120€/night.'}
+            </p>
+          </div>
+          <div className="text-xs text-gray-500">
+            {lang === 'bg' ? 'Отговорено за 0.8s' : 'Responded in 0.8s'}
+          </div>
         </div>
+      </motion.div>
 
-        {/* Keyframe styles */}
-        <style>{`
-          @keyframes pulse-glow {
-            0%, 100% { opacity: 0.6; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.05); }
-          }
-          @keyframes float-particle {
-            0% { transform: translateY(0px); opacity: 0.3; }
-            100% { transform: translateY(-20px); opacity: 0.7; }
-          }
-        `}</style>
-      </div>
+      {/* Scene 4: Automation */}
+      <motion.div style={{ opacity: opacity4 }} className="absolute text-center w-full px-6">
+        <div className="space-y-3">
+          {[
+            { icon: '📅', text: lang === 'bg' ? 'Календар' : 'Calendar' },
+            { icon: '💼', text: 'CRM' },
+            { icon: '📧', text: 'Email' }
+          ].map((item, i) => (
+            <div key={i} className="flex items-center gap-3 bg-gray-100 dark:bg-gray-800 rounded-xl p-3">
+              <span className="text-2xl">{item.icon}</span>
+              <span className="text-sm font-medium text-gray-900 dark:text-white">{item.text}</span>
+              <svg className="w-4 h-4 ml-auto text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              </svg>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Scene 5: Languages */}
+      <motion.div style={{ opacity: opacity5 }} className="absolute text-center w-full px-6">
+        <div className="grid grid-cols-3 gap-3">
+          {['🇧🇬', '🇬🇧', '🇩🇪', '🇷🇺', '🇫🇷', '🇪🇸'].map((flag, i) => (
+            <div key={i} className="aspect-square bg-gray-100 dark:bg-gray-800 rounded-xl flex items-center justify-center text-3xl">
+              {flag}
+            </div>
+          ))}
+        </div>
+      </motion.div>
+    </div>
+  )
+}
+
+// Old scene content component (removed)
+function _SceneContent_OLD({ scene, lang }: { scene: number; lang: string }) {
+  return (
+    <div className="h-full flex items-center justify-center p-6 sm:p-8">
+      <motion.div
+        key={scene}
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+        className="text-center w-full"
+      >
+        {/* Scene 1: WhatsApp message */}
+        {scene === 1 && (
+          <div className="space-y-4">
+            <div className="bg-green-100 dark:bg-green-900 rounded-2xl p-4 text-left">
+              <p className="text-sm text-gray-800 dark:text-gray-200">
+                {lang === 'bg' ? 'Имате ли свободни стаи?' : 'Do you have rooms available?'}
+              </p>
+            </div>
+            <div className="flex items-center gap-2 text-xs text-gray-500">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+              <span>WhatsApp</span>
+            </div>
+          </div>
+        )}
+
+        {/* Scene 2: Thinking */}
+        {scene === 2 && (
+          <div className="space-y-3">
+            <div className="text-4xl">🧠</div>
+            <div className="space-y-2">
+              {[
+                lang === 'bg' ? 'Анализира...' : 'Analyzing...',
+                lang === 'bg' ? 'Проверява наличност' : 'Checking availability',
+                lang === 'bg' ? 'Изчислява цена' : 'Calculating price'
+              ].map((text, i) => (
+                <div key={i} className="flex items-center justify-center gap-2 text-xs text-gray-600 dark:text-gray-400">
+                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />
+                  <span>{text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Scene 3: Response */}
+        {scene === 3 && (
+          <div className="space-y-4">
+            <div className="bg-blue-500 rounded-2xl p-4 text-left text-white">
+              <p className="text-sm">
+                {lang === 'bg'
+                  ? 'Да! Имаме налични стаи за вашите дати. Цена: 120€/нощ.'
+                  : 'Yes! We have rooms available for your dates. Price: 120€/night.'}
+              </p>
+            </div>
+            <div className="text-xs text-gray-500">
+              {lang === 'bg' ? 'Отговорено за 0.8s' : 'Responded in 0.8s'}
+            </div>
+          </div>
+        )}
+
+        {/* Scene 4: Automation */}
+        {scene === 4 && (
+          <div className="space-y-3">
+            {[
+              { icon: '📅', text: lang === 'bg' ? 'Календар' : 'Calendar' },
+              { icon: '💼', text: 'CRM' },
+              { icon: '📧', text: 'Email' }
+            ].map((item, i) => (
+              <div key={i} className="flex items-center gap-3 bg-gray-100 dark:bg-gray-800 rounded-xl p-3">
+                <span className="text-2xl">{item.icon}</span>
+                <span className="text-sm font-medium text-gray-900 dark:text-white">{item.text}</span>
+                <svg className="w-4 h-4 ml-auto text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Scene 5: Languages */}
+        {scene === 5 && (
+          <div className="grid grid-cols-3 gap-3">
+            {['🇧🇬', '🇬🇧', '🇩🇪', '🇷🇺', '🇫🇷', '🇪🇸'].map((flag, i) => (
+              <div key={i} className="aspect-square bg-gray-100 dark:bg-gray-800 rounded-xl flex items-center justify-center text-3xl">
+                {flag}
+              </div>
+            ))}
+          </div>
+        )}
+      </motion.div>
     </div>
   )
 }

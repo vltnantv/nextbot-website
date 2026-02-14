@@ -4,64 +4,166 @@ import { useState } from 'react'
 import { useLanguage } from '@/lib/i18n'
 import { translations } from '@/lib/translations'
 import Link from 'next/link'
-
-// Social SVG icons
-function LinkedInIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-    </svg>
-  )
-}
-
-function TwitterIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-    </svg>
-  )
-}
-
-function FacebookIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-    </svg>
-  )
-}
+import { CalendlyButton } from '@/components/CalendlyButton'
 
 export function Footer() {
   const { lang } = useLanguage()
-  const f = translations[lang].footer
   const [email, setEmail] = useState('')
   const [subscribed, setSubscribed] = useState(false)
+  const [subscribing, setSubscribing] = useState(false)
 
-  const handleNewsletter = (e: React.FormEvent) => {
+  const footerData = translations[lang].footer as any
+
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!email) return
+    setSubscribing(true)
+
+    // TODO: Integrate with email service (Mailchimp, ConvertKit, etc.)
+    await new Promise(resolve => setTimeout(resolve, 1000))
+
     setSubscribed(true)
     setEmail('')
+    setSubscribing(false)
+
+    setTimeout(() => setSubscribed(false), 5000)
   }
 
   return (
-    <footer className="relative z-10 bg-[#0a0a0a]">
-      {/* Main footer */}
-      <div className="max-w-[980px] mx-auto px-6">
-        {/* Navigation grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 py-12 border-b border-black/[0.08] dark:border-white/[0.08]">
+    <footer className="bg-gray-50 dark:bg-black border-t border-gray-200 dark:border-gray-800/50">
+      {/* Stats bar */}
+      <div className="border-b border-gray-200 dark:border-gray-800/50 bg-white dark:bg-black">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+          <div className="grid grid-cols-3 gap-8 text-center">
+            <div>
+              <div className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                {footerData.stats.customers}
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">
+                {footerData.stats.customersLabel}
+              </div>
+            </div>
+            <div>
+              <div className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                {footerData.stats.messages}
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">
+                {footerData.stats.messagesLabel}
+              </div>
+            </div>
+            <div>
+              <div className="text-3xl sm:text-4xl font-bold text-green-600 dark:text-green-400 mb-2">
+                {footerData.stats.uptime}
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">
+                {footerData.stats.uptimeLabel}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* CTA Section */}
+      <div className="border-b border-gray-200 dark:border-gray-800 bg-gradient-to-br from-blue-600 to-purple-600">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16 text-center text-white">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-3">
+            {footerData.cta.title}
+          </h2>
+          <p className="text-lg sm:text-xl mb-6 text-white/90">
+            {footerData.cta.subtitle}
+          </p>
+          <CalendlyButton variant="outline" size="lg" />
+        </div>
+      </div>
+
+      {/* Main footer content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 lg:gap-12">
+          {/* Brand column */}
+          <div className="col-span-2 sm:col-span-3 lg:col-span-2">
+            <Link href="/" className="flex items-center gap-2 mb-4">
+              <svg className="w-8 h-8 text-blue-600" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z" />
+              </svg>
+              <span className="text-xl font-bold text-gray-900 dark:text-white">
+                Nextbot
+              </span>
+            </Link>
+
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-6 max-w-sm">
+              {footerData.tagline}
+            </p>
+
+            {/* Contact info */}
+            <div className="space-y-3 mb-6">
+              <a
+                href={`mailto:${footerData.contact.email}`}
+                className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                {footerData.contact.email}
+              </a>
+
+              <a
+                href={`tel:${footerData.contact.phone.replace(/\s/g, '')}`}
+                className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                {footerData.contact.phone}
+              </a>
+
+              <div className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-400">
+                <svg className="w-4 h-4 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <div>
+                  <div>{footerData.contact.address}</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                    {footerData.contact.businessHours}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Social icons */}
+            <div className="flex flex-wrap gap-3">
+              {footerData.social.items.map((social: any) => (
+                <a
+                  key={social.name}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 dark:hover:text-white transition-all"
+                  title={social.followers || social.name}
+                >
+                  <SocialIcon name={social.icon} />
+                </a>
+              ))}
+            </div>
+          </div>
+
           {/* Products */}
           <div>
-            <h3 className="text-xs font-semibold text-gray-900 dark:text-gray-100 mb-3">
-              {f.products.title}
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+              {footerData.products.title}
             </h3>
-            <ul className="space-y-2">
-              {f.products.items.map((item: any) => (
+            <ul className="space-y-3">
+              {footerData.products.items.map((item: any) => (
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                    className="group text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                   >
-                    {item.name}
+                    <div>{item.name}</div>
+                    {item.description && (
+                      <div className="text-xs text-gray-500 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-400">
+                        {item.description}
+                      </div>
+                    )}
                   </Link>
                 </li>
               ))}
@@ -70,18 +172,44 @@ export function Footer() {
 
           {/* Company */}
           <div>
-            <h3 className="text-xs font-semibold text-gray-900 dark:text-gray-100 mb-3">
-              {f.company.title}
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+              {footerData.company.title}
             </h3>
-            <ul className="space-y-2">
-              {f.company.items.map((item: any) => (
+            <ul className="space-y-3">
+              {footerData.company.items.map((item: any) => (
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                    className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                   >
                     {item.name}
+                    {item.badge && (
+                      <span className="px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 text-xs font-semibold">
+                        {item.badge}
+                      </span>
+                    )}
                   </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Resources */}
+          <div>
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+              {footerData.resources?.title || 'Resources'}
+            </h3>
+            <ul className="space-y-3">
+              {footerData.resources?.items.map((item: any) => (
+                <li key={item.name}>
+                  <a
+                    href={item.href}
+                    target={item.external ? '_blank' : undefined}
+                    rel={item.external ? 'noopener noreferrer' : undefined}
+                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                  >
+                    {item.name}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -89,102 +217,120 @@ export function Footer() {
 
           {/* Legal */}
           <div>
-            <h3 className="text-xs font-semibold text-gray-900 dark:text-gray-100 mb-3">
-              {f.legal.title}
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+              {footerData.legal.title}
             </h3>
-            <ul className="space-y-2">
-              {f.legal.items.map((item: any) => (
+            <ul className="space-y-3">
+              {footerData.legal.items.map((item: any) => (
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                   >
                     {item.name}
                   </Link>
                 </li>
               ))}
             </ul>
+
+            {/* Certifications */}
+            <div className="mt-6">
+              <h4 className="text-xs font-semibold text-gray-900 dark:text-white mb-3">
+                {footerData.certifications?.title}
+              </h4>
+              <div className="space-y-2">
+                {footerData.certifications?.items.map((cert: any) => (
+                  <div key={cert.name} className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
+                    <span>{cert.icon}</span>
+                    <span>{cert.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
-          {/* Contact */}
-          <div>
-            <h3 className="text-xs font-semibold text-gray-900 dark:text-gray-100 mb-3">
-              {f.contact.title}
-            </h3>
-            <ul className="space-y-2 text-xs text-gray-500 dark:text-gray-400">
-              <li>
-                <a href={`mailto:${f.contact.email}`} className="hover:text-gray-900 dark:hover:text-white transition-colors">
-                  {f.contact.email}
-                </a>
-              </li>
-              <li>
-                <a href={`tel:${f.contact.phone.replace(/\s/g, '')}`} className="hover:text-gray-900 dark:hover:text-white transition-colors">
-                  {f.contact.phone}
-                </a>
-              </li>
-              <li>{f.contact.address}</li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Newsletter + Social row */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 py-8 border-b border-black/[0.08] dark:border-white/[0.08]">
           {/* Newsletter */}
-          <div className="flex-1 max-w-sm">
-            <h3 className="text-xs font-semibold text-gray-900 dark:text-gray-100 mb-2">
-              {f.newsletter.title}
+          <div className="col-span-2 sm:col-span-1">
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+              {footerData.newsletter.title}
             </h3>
-            {subscribed ? (
-              <p className="text-xs text-blue-600">
-                {lang === 'bg' ? 'Благодарим!' : 'Thank you!'}
-              </p>
-            ) : (
-              <>
-                <form onSubmit={handleNewsletter} className="flex gap-2">
-                  <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder={f.newsletter.placeholder}
-                    className="h-8 flex-1 rounded-lg border border-black/10 dark:border-white/10 bg-white dark:bg-white/5 px-3 text-xs text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:border-blue-500 transition-colors"
-                  />
-                  <button
-                    type="submit"
-                    className="h-8 px-4 rounded-lg bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700 transition-colors"
-                  >
-                    {f.newsletter.button}
-                  </button>
-                </form>
-                <p className="text-[11px] text-gray-400 mt-1.5">{f.newsletter.note}</p>
-              </>
-            )}
-          </div>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+              {footerData.newsletter.description}
+            </p>
 
-          {/* Social */}
-          <div className="flex items-center gap-4">
-            <a href={f.social.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-gray-400 hover:text-gray-700 dark:hover:text-white transition-colors">
-              <LinkedInIcon className="w-5 h-5" />
-            </a>
-            <a href={f.social.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="text-gray-400 hover:text-gray-700 dark:hover:text-white transition-colors">
-              <TwitterIcon className="w-5 h-5" />
-            </a>
-            <a href={f.social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-gray-400 hover:text-gray-700 dark:hover:text-white transition-colors">
-              <FacebookIcon className="w-5 h-5" />
-            </a>
+            <form onSubmit={handleSubscribe} className="space-y-3">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={footerData.newsletter.placeholder}
+                required
+                disabled={subscribing || subscribed}
+                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50 transition-colors"
+              />
+              <button
+                type="submit"
+                disabled={subscribing || subscribed}
+                className="w-full px-4 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition-colors disabled:bg-green-500 disabled:cursor-not-allowed touch-manipulation"
+              >
+                {subscribed
+                  ? footerData.newsletter.success
+                  : subscribing
+                    ? '...'
+                    : footerData.newsletter.button}
+              </button>
+            </form>
+
+            <p className="text-xs text-gray-500 dark:text-gray-500 mt-3">
+              {footerData.newsletter.privacy}
+            </p>
           </div>
         </div>
+      </div>
 
-        {/* Bottom bar */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-2 py-5">
-          <p className="text-[11px] text-gray-400">{f.copyright}</p>
-          <p className="text-[11px] text-gray-400">
-            {f.madeWith}{' '}
-            <span className="text-red-500">&#10084;</span>{' '}
-            {f.madeIn}
-          </p>
+      {/* Bottom bar */}
+      <div className="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-black">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-2">
+              <p>{footerData.copyright}</p>
+              <p>{footerData.bulstat}</p>
+              <p>{footerData.vat}</p>
+            </div>
+            <p className="flex items-center gap-1">
+              {footerData.madeWith} <span className="text-red-500">❤️</span> {footerData.madeIn}
+            </p>
+          </div>
         </div>
       </div>
     </footer>
   )
+}
+
+// Social icon component
+function SocialIcon({ name }: { name: string }) {
+  const icons: Record<string, JSX.Element> = {
+    linkedin: (
+      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+      </svg>
+    ),
+    twitter: (
+      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" />
+      </svg>
+    ),
+    facebook: (
+      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+      </svg>
+    ),
+    github: (
+      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+      </svg>
+    )
+  }
+
+  return icons[name] || null
 }

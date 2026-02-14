@@ -9,7 +9,11 @@ import { AnimatedNeoLogo } from '@/components/AnimatedNeoLogo'
 export function NeoReveal() {
   const { lang } = useLanguage()
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true })
+  // Faster trigger
+  const isInView = useInView(ref, {
+    once: true,
+    margin: '-50px' // Reduced from -100px
+  })
 
   return (
     <section ref={ref} className="relative py-32 text-white">
@@ -23,23 +27,23 @@ export function NeoReveal() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left: Text reveal */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -30 }} // Less distance: was -50
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.5 }} // Faster: was 0.8
           >
             <motion.p
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
-              transition={{ delay: 0.2 }}
+              transition={{ delay: 0.1 }} // Shorter: was 0.2
               className="text-cyan-400 text-sm uppercase tracking-wider mb-4"
             >
               {lang === 'bg' ? 'Представяме' : 'Introducing'}
             </motion.p>
 
             <motion.h2
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }} // Less distance: was 20
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.4 }}
+              transition={{ delay: 0.2 }} // Shorter: was 0.4
               className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6"
             >
               Nextbot{' '}
@@ -49,9 +53,9 @@ export function NeoReveal() {
             </motion.h2>
 
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }} // Less distance: was 20
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.6 }}
+              transition={{ delay: 0.3 }} // Shorter: was 0.6
               className="text-xl text-gray-400 mb-8"
             >
               {lang === 'bg'
@@ -63,7 +67,7 @@ export function NeoReveal() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
-              transition={{ delay: 0.8 }}
+              transition={{ delay: 0.4 }} // Shorter: was 0.8
               className="space-y-4 mb-8"
             >
               {[
@@ -73,9 +77,9 @@ export function NeoReveal() {
               ].map((feature, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: -15 }} // Less distance: was -20
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ delay: 1 + i * 0.1 }}
+                  transition={{ delay: 0.5 + i * 0.05 }} // Shorter: was 1 + i * 0.1
                   className="flex items-center gap-3"
                 >
                   <svg
@@ -96,9 +100,9 @@ export function NeoReveal() {
 
             {/* CTA */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }} // Less distance: was 20
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 1.3 }}
+              transition={{ delay: 0.6 }} // Shorter: was 1.3
             >
               <Link
                 href="/neo"
@@ -119,9 +123,9 @@ export function NeoReveal() {
 
           {/* Right: Animated Neo logo */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.9 }} // Less scale: was 0.8
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 1, delay: 0.5 }}
+            transition={{ duration: 0.6, delay: 0.3 }} // Faster: was 1/0.5
             className="relative h-[400px]"
           >
             <AnimatedNeoLogo />

@@ -76,9 +76,10 @@ export function PricingCalculator() {
   return (
     <section
       id="calculator"
-      className="py-32 bg-gradient-to-br from-white to-gray-50 dark:from-gray-950 dark:to-black"
+      className="relative py-32 bg-gradient-to-br from-white to-gray-50 dark:from-gray-950 dark:to-black"
     >
-      <div className="max-w-7xl mx-auto px-6">
+
+      <div className="relative z-20 max-w-7xl mx-auto px-6">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -129,9 +130,25 @@ export function PricingCalculator() {
                             : 'border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:border-gray-300 dark:hover:border-gray-700'
                         }`}
                       >
-                        {/* Checkbox */}
+                        {/* Popular badge - TOP LEFT */}
+                        {addon.popular && !disabled && (
+                          <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-orange-500 text-white text-xs font-semibold z-10">
+                            {lang === 'bg' ? 'Популярно' : 'Popular'}
+                          </span>
+                        )}
+
+                        {/* Disabled label - TOP LEFT */}
+                        {disabled && (
+                          <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-gray-400 dark:bg-gray-600 text-white text-xs font-semibold z-10">
+                            {lang === 'bg'
+                              ? 'Включено'
+                              : 'Included'}
+                          </span>
+                        )}
+
+                        {/* Checkbox - TOP RIGHT */}
                         <div
-                          className={`absolute top-4 right-4 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
+                          className={`absolute top-3 right-3 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
                             isSelected
                               ? 'border-blue-500 bg-blue-500'
                               : 'border-gray-300 dark:border-gray-600'
@@ -152,25 +169,9 @@ export function PricingCalculator() {
                           )}
                         </div>
 
-                        {/* Popular badge */}
-                        {addon.popular && !disabled && (
-                          <span className="absolute top-4 left-4 px-2 py-1 rounded-full bg-orange-500 text-white text-xs font-semibold">
-                            {lang === 'bg' ? 'Популярно' : 'Popular'}
-                          </span>
-                        )}
-
-                        {/* Disabled label */}
-                        {disabled && (
-                          <span className="absolute top-4 left-4 px-2 py-1 rounded-full bg-gray-400 dark:bg-gray-600 text-white text-xs font-semibold">
-                            {lang === 'bg'
-                              ? 'Включено в друга опция'
-                              : 'Included in other option'}
-                          </span>
-                        )}
-
-                        {/* Content */}
-                        <div className="pr-8">
-                          <div className="font-semibold text-gray-900 dark:text-white mb-1">
+                        {/* Content - with top padding for badges */}
+                        <div className={`${addon.popular || disabled ? 'pt-8' : ''}`}>
+                          <div className="font-semibold text-gray-900 dark:text-white mb-2">
                             {addon.name}
                           </div>
                           <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
@@ -180,7 +181,7 @@ export function PricingCalculator() {
                             </span>
                           </div>
                           {addon.note && (
-                            <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                            <div className="text-xs text-gray-500 dark:text-gray-400 mt-2">
                               {addon.note}
                             </div>
                           )}

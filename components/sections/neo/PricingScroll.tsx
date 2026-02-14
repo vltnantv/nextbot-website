@@ -14,13 +14,14 @@ export function PricingScroll() {
     offset: ['start end', 'end start'],
   })
 
-  const baseY = useTransform(scrollYProgress, [0, 0.3, 1], [100, 0, -50])
-  const baseOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0.8])
+  const baseY = useTransform(scrollYProgress, [0, 0.3, 0.85, 1], [100, 0, -30, -80])
+  const baseOpacity = useTransform(scrollYProgress, [0, 0.2, 0.7, 0.9], [0, 1, 1, 0])
 
   const pricing = translations[lang].pricing
 
   return (
-    <div ref={containerRef} className="relative min-h-[200vh] bg-black text-white py-32">
+    <div ref={containerRef} className="relative min-h-[120vh] bg-black text-white py-32 -mt-32">
+
       {/* Sticky container */}
       <div className="sticky top-20 h-screen flex items-center justify-center">
         {/* Background glow */}
@@ -168,6 +169,7 @@ function AddonCard({
   startAt,
   stackOffset,
   lang,
+  popular,
 }: {
   scrollProgress: any
   icon: string
@@ -178,6 +180,7 @@ function AddonCard({
   startAt: number
   stackOffset: number
   lang: string
+  popular?: boolean
 }) {
   const y = useTransform(scrollProgress, [startAt, startAt + 0.2], [100, 0])
   const opacity = useTransform(scrollProgress, [startAt, startAt + 0.2], [0, 1])
@@ -196,8 +199,16 @@ function AddonCard({
       }}
       className="absolute w-full max-w-[280px] right-0"
     >
-      <div className={`bg-gradient-to-br ${color} rounded-2xl p-6 shadow-2xl border border-white/10`}>
-        <div className="text-4xl mb-3">{icon}</div>
+      <div className={`bg-gradient-to-br ${color} rounded-2xl p-6 shadow-2xl border border-white/10 relative`}>
+        {/* Popular badge - top left */}
+        {popular && (
+          <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs font-semibold z-10">
+            {lang === 'bg' ? 'Популярно' : 'Popular'}
+          </span>
+        )}
+
+        {/* Icon - with top margin if badge exists */}
+        <div className={`text-4xl mb-3 ${popular ? 'mt-6' : ''}`}>{icon}</div>
         <div className="text-xs text-white/60 uppercase tracking-wider mb-1">{category}</div>
         <div className="text-lg font-bold text-white mb-2">{name}</div>
         <div className="flex items-baseline gap-1">

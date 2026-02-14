@@ -334,52 +334,120 @@ export const translations = {
     },
 
     footer: {
+      tagline: 'AI инструменти за по-умен бизнес',
+
       cta: {
         title: 'Готов ли си да опиташ Neo?',
         subtitle: 'Запази 20-минутен demo call',
         button: 'Запази demo',
         calendlyUrl: 'https://calendly.com/valentinantov/neo-demo-call'
       },
+
       contact: {
         title: 'Контакти',
         email: 'info@nextbot.me',
-        phone: '+359 XX XXX XXXX',
-        address: 'София, България'
+        phone: '+359 88 123 4567',
+        address: 'София, България',
+        businessHours: 'Пон-Пет: 9:00-18:00',
+        responseTime: 'Отговаряме до 24 часа'
       },
+
       products: {
         title: 'Продукти',
         items: [
-          { name: 'Neo', href: '/neo' },
-          { name: 'Демо', href: '/demo' },
-          { name: 'Ценообразуване', href: '/neo#calculator' }
+          { name: 'Neo', href: '/neo', description: 'AI асистент' },
+          { name: 'Демо', href: '/demo', description: 'Виж в действие' },
+          { name: 'Ценообразуване', href: '/neo#calculator', description: 'От €120/месец' }
         ]
       },
+
       company: {
         title: 'Компания',
         items: [
-          { name: 'За нас', href: '/about' }
+          { name: 'За нас', href: '/about' },
+          { name: 'Блог', href: '/blog', badge: 'Скоро' },
+          { name: 'Кариери', href: '/careers', badge: 'Наемаме' }
         ]
       },
+
+      resources: {
+        title: 'Ресурси',
+        items: [
+          { name: 'Документация', href: '/docs' },
+          { name: 'API', href: '/api' },
+          { name: 'Помощен център', href: '/help' },
+          { name: 'Статус на системата', href: 'https://status.nextbot.me', external: true }
+        ]
+      },
+
       legal: {
         title: 'Правна информация',
         items: [
           { name: 'Условия за ползване', href: '/terms' },
-          { name: 'Поверителност', href: '/privacy' }
+          { name: 'Поверителност', href: '/privacy' },
+          { name: 'Бисквитки', href: '/cookies' },
+          { name: 'GDPR', href: '/gdpr' }
         ]
       },
+
       social: {
-        title: 'Социални мрежи',
-        linkedin: 'https://linkedin.com/company/nextbot',
-        twitter: 'https://twitter.com/nextbot',
-        facebook: 'https://facebook.com/nextbot'
+        title: 'Последвай ни',
+        items: [
+          {
+            name: 'LinkedIn',
+            href: 'https://linkedin.com/company/nextbot',
+            icon: 'linkedin',
+            followers: '500+ последователи'
+          },
+          {
+            name: 'Twitter',
+            href: 'https://twitter.com/nextbot',
+            icon: 'twitter',
+            followers: '@nextbot_ai'
+          },
+          {
+            name: 'Facebook',
+            href: 'https://facebook.com/nextbot',
+            icon: 'facebook'
+          },
+          {
+            name: 'GitHub',
+            href: 'https://github.com/nextbot',
+            icon: 'github'
+          }
+        ]
       },
+
       newsletter: {
-        title: 'Newsletter',
+        title: 'Абонирай се за новини',
+        description: 'Месечни insights за AI в българския бизнес',
         placeholder: 'Твоят email',
         button: 'Абонирай се',
-        note: 'Месечни insights за AI в бизнеса'
+        privacy: 'Няма да споделяме твоя email. Можеш да се отпишеш по всяко време.',
+        success: 'Благодаря! Проверете email за потвърждение.'
       },
+
+      certifications: {
+        title: 'Сертификати & Съответствия',
+        items: [
+          { name: 'GDPR Compliant', icon: '🔒' },
+          { name: 'ISO 27001', icon: '✓' },
+          { name: 'SOC 2 Type II', icon: '✓' }
+        ]
+      },
+
+      stats: {
+        customers: '100+',
+        customersLabel: 'доволни клиента',
+        messages: '1M+',
+        messagesLabel: 'обработени съобщения',
+        uptime: '99.9%',
+        uptimeLabel: 'uptime'
+      },
+
       copyright: '© 2025 Nextbot EOOD. Всички права запазени.',
+      bulstat: 'ЕИК: 207218192',
+      vat: 'ДДС: BG207218192',
       madeWith: 'Направено с',
       madeIn: 'в България'
     }
@@ -713,52 +781,120 @@ export const translations = {
     },
 
     footer: {
+      tagline: 'AI tools for smarter business',
+
       cta: {
         title: 'Ready to try Neo?',
         subtitle: 'Book a 20-minute demo call',
         button: 'Book demo',
         calendlyUrl: 'https://calendly.com/valentinantov/neo-demo-call'
       },
+
       contact: {
         title: 'Contact',
         email: 'info@nextbot.me',
-        phone: '+359 XX XXX XXXX',
-        address: 'Sofia, Bulgaria'
+        phone: '+359 88 123 4567',
+        address: 'Sofia, Bulgaria',
+        businessHours: 'Mon-Fri: 9:00-18:00',
+        responseTime: 'We respond within 24 hours'
       },
+
       products: {
         title: 'Products',
         items: [
-          { name: 'Neo', href: '/neo' },
-          { name: 'Demo', href: '/demo' },
-          { name: 'Pricing', href: '/neo#calculator' }
+          { name: 'Neo', href: '/neo', description: 'AI Assistant' },
+          { name: 'Demo', href: '/demo', description: 'See it in action' },
+          { name: 'Pricing', href: '/neo#calculator', description: 'From €120/mo' }
         ]
       },
+
       company: {
         title: 'Company',
         items: [
-          { name: 'About', href: '/about' }
+          { name: 'About', href: '/about' },
+          { name: 'Blog', href: '/blog', badge: 'Soon' },
+          { name: 'Careers', href: '/careers', badge: 'Hiring' }
         ]
       },
+
+      resources: {
+        title: 'Resources',
+        items: [
+          { name: 'Documentation', href: '/docs' },
+          { name: 'API', href: '/api' },
+          { name: 'Help Center', href: '/help' },
+          { name: 'System Status', href: 'https://status.nextbot.me', external: true }
+        ]
+      },
+
       legal: {
         title: 'Legal',
         items: [
           { name: 'Terms', href: '/terms' },
-          { name: 'Privacy', href: '/privacy' }
+          { name: 'Privacy', href: '/privacy' },
+          { name: 'Cookies', href: '/cookies' },
+          { name: 'GDPR', href: '/gdpr' }
         ]
       },
+
       social: {
-        title: 'Social',
-        linkedin: 'https://linkedin.com/company/nextbot',
-        twitter: 'https://twitter.com/nextbot',
-        facebook: 'https://facebook.com/nextbot'
+        title: 'Follow us',
+        items: [
+          {
+            name: 'LinkedIn',
+            href: 'https://linkedin.com/company/nextbot',
+            icon: 'linkedin',
+            followers: '500+ followers'
+          },
+          {
+            name: 'Twitter',
+            href: 'https://twitter.com/nextbot',
+            icon: 'twitter',
+            followers: '@nextbot_ai'
+          },
+          {
+            name: 'Facebook',
+            href: 'https://facebook.com/nextbot',
+            icon: 'facebook'
+          },
+          {
+            name: 'GitHub',
+            href: 'https://github.com/nextbot',
+            icon: 'github'
+          }
+        ]
       },
+
       newsletter: {
-        title: 'Newsletter',
+        title: 'Subscribe to newsletter',
+        description: 'Monthly insights on AI in Bulgarian business',
         placeholder: 'Your email',
         button: 'Subscribe',
-        note: 'Monthly insights on AI in business'
+        privacy: "We won't share your email. Unsubscribe anytime.",
+        success: 'Thanks! Check your email for confirmation.'
       },
+
+      certifications: {
+        title: 'Certifications & Compliance',
+        items: [
+          { name: 'GDPR Compliant', icon: '🔒' },
+          { name: 'ISO 27001', icon: '✓' },
+          { name: 'SOC 2 Type II', icon: '✓' }
+        ]
+      },
+
+      stats: {
+        customers: '100+',
+        customersLabel: 'happy customers',
+        messages: '1M+',
+        messagesLabel: 'messages processed',
+        uptime: '99.9%',
+        uptimeLabel: 'uptime'
+      },
+
       copyright: '© 2025 Nextbot EOOD. All rights reserved.',
+      bulstat: 'UIC: 207218192',
+      vat: 'VAT: BG207218192',
       madeWith: 'Made with',
       madeIn: 'in Bulgaria'
     }

@@ -83,9 +83,9 @@ export function HomepageBackground({ children }: { children: React.ReactNode }) 
   }, [])
 
   return (
-    <div className="relative">
-      {/* Fixed dark background with animated liquid glass blobs */}
-      <div className="fixed inset-0 z-0 bg-[#0c0c14]">
+    <div className="relative bg-[#0c0c14]">
+      {/* Absolute dark background with animated liquid glass blobs */}
+      <div className="absolute inset-0 z-0">
         {/* Liquid glass canvas */}
         <canvas ref={canvasRef} className="absolute inset-0" style={{ filter: 'blur(90px)' }} />
 
@@ -104,7 +104,7 @@ export function HomepageBackground({ children }: { children: React.ReactNode }) 
         />
       </div>
 
-      {/* Ultra-smooth fade to pure black — many stops for seamless transition */}
+      {/* Ultra-smooth fade to black */}
       <div
         className="absolute inset-x-0 top-0 z-[1] pointer-events-none"
         style={{
@@ -126,9 +126,7 @@ export function HomepageBackground({ children }: { children: React.ReactNode }) 
             rgba(0,0,0,0.75) 70%,
             rgba(0,0,0,0.83) 75%,
             rgba(0,0,0,0.90) 80%,
-            rgba(0,0,0,0.95) 85%,
-            rgba(0,0,0,0.98) 90%,
-            rgb(0,0,0) 95%,
+            rgba(0,0,0,0.95) 90%,
             rgb(0,0,0) 100%
           )`,
         }}
