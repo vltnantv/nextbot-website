@@ -21,14 +21,14 @@ export function ScrollExperience() {
       subtitle: lang === 'bg' ? 'Навсякъде, по всяко време' : 'Anywhere, anytime',
       emoji: '💬',
       theme: 'from-green-500 to-emerald-600',
-      bg: 'from-white to-gray-50 dark:from-black dark:to-gray-900'
+      bg: 'from-white to-white dark:from-black dark:to-black'
     },
     {
       title: lang === 'bg' ? 'Neo разбира' : 'Neo understands',
       subtitle: lang === 'bg' ? 'Анализира контекста' : 'Analyzes context',
       emoji: '🧠',
       theme: 'from-blue-500 to-indigo-600',
-      bg: 'from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950'
+      bg: 'from-white via-blue-50 to-blue-50 dark:from-black dark:via-blue-950 dark:to-blue-950'
     },
     {
       title: lang === 'bg' ? 'Отговаря моментално' : 'Responds instantly',
@@ -55,8 +55,9 @@ export function ScrollExperience() {
 
   if (isMobile) {
     return (
-      <div className="relative bg-white dark:bg-black">
+      <div className="relative bg-white dark:bg-black -mt-px">
         {scenes.map((scene, i) => {
+          const isFirst = i === 0
           const isLast = i === scenes.length - 1
 
           return (
@@ -66,7 +67,7 @@ export function ScrollExperience() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.6 }}
-              className={`relative min-h-[70vh] flex items-center justify-center ${isLast ? 'py-32' : 'py-20'} bg-gradient-to-b ${scene.bg}`}
+              className={`relative min-h-[70vh] flex items-center justify-center ${isFirst ? 'pt-0 pb-20' : isLast ? 'py-32' : 'py-20'} bg-gradient-to-b ${scene.bg}`}
             >
               <div className="max-w-3xl mx-auto px-6 text-center">
                 <motion.div
