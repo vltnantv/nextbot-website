@@ -1,58 +1,19 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useLanguage } from '@/lib/i18n'
 
 export function ScrollExperience() {
   const { lang } = useLanguage()
-  const containerRef = useRef<HTMLDivElement>(null)
+  const [isMobile, setIsMobile] = useState(false)
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start 80%", "end start"]  // Start animation when section is 80% visible
-  })
-
-  // Background color transition - pure white to pure black
-  const backgroundColor = useTransform(
-    scrollYProgress,
-    [0, 0.4, 0.7, 1],
-    [
-      'rgb(255, 255, 255)',  // Start: pure white
-      'rgb(30, 30, 30)',     // Early middle: dark gray
-      'rgb(0, 0, 0)',        // Late middle: pure black
-      'rgb(0, 0, 0)'         // End: pure black (stays black)
-    ]
-  )
-
-  const backgroundColorDark = useTransform(
-    scrollYProgress,
-    [0, 0.4, 0.7, 1],
-    [
-      'rgb(0, 0, 0)',        // Start: pure black
-      'rgb(15, 15, 15)',     // Early middle: slightly lighter
-      'rgb(0, 0, 0)',        // Late middle: pure black
-      'rgb(0, 0, 0)'         // End: pure black (stays black)
-    ]
-  )
-
-  // Text color for better contrast
-  const textColor = useTransform(
-    scrollYProgress,
-    [0, 0.4, 1],
-    [
-      'rgb(17, 24, 39)',    // Dark text for light background
-      'rgb(243, 244, 246)',  // Light text for mid-transition
-      'rgb(255, 255, 255)'   // White text for black background
-    ]
-  )
-
-  // Scene progress values - extended ranges for longer visibility
-  const scene1Progress = useTransform(scrollYProgress, [0, 0.15, 0.25], [0, 1, 0])
-  const scene2Progress = useTransform(scrollYProgress, [0.2, 0.35, 0.45], [0, 1, 0])
-  const scene3Progress = useTransform(scrollYProgress, [0.4, 0.55, 0.65], [0, 1, 0])
-  const scene4Progress = useTransform(scrollYProgress, [0.6, 0.72, 0.82], [0, 1, 0])
-  const scene5Progress = useTransform(scrollYProgress, [0.7, 0.78, 1], [0, 1, 1]) // Multilingual stays much longer
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   const scenes = [
     {
@@ -87,18 +48,77 @@ export function ScrollExperience() {
     }
   ]
 
-  return (
-    <div ref={containerRef} className="relative min-h-[450vh] -mt-32">
-      {/* Background - Light mode */}
-      <motion.div
-        className="dark:hidden absolute inset-0 -top-32"
-        style={{ backgroundColor }}
-      />
+  if (isMobile) {
+    return (
+      <section className="relative py-20">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="space-y-16">
+            {scenes.map((scene, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                className="text-center"
+              >
+                <div className="text-6xl mb-4">{scene.emoji}</div>
+                <h3 className="text-2xl sm:text-3xl font-bold mb-2 text-white">
+                  {scene.title}
+                </h3>
+                <p className="text-base sm:text-lg text-gray-400">
+                  {scene.subtitle}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
 
-      {/* Background - Dark mode */}
+  return <DesktopScrollExperience scenes={scenes} lang={lang} />
+}
+
+// Desktop version separated to avoid conditional hook calls
+function DesktopScrollExperience({ scenes, lang }: { scenes: any[]; lang: string }) {
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 80%", "end start"]
+  })
+
+  // Background overlay — transparent at start (inherits wrapper bg), fades to dark
+  const bgOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.15, 0.4, 1],
+    [0, 0, 1, 1]
+  )
+
+  const textColor = useTransform(
+    scrollYProgress,
+    [0, 0.15, 0.35, 1],
+    [
+      'rgb(17, 24, 39)',
+      'rgb(17, 24, 39)',
+      'rgb(243, 244, 246)',
+      'rgb(255, 255, 255)'
+    ]
+  )
+
+  // Scene progress values
+  const scene1Progress = useTransform(scrollYProgress, [0, 0.15, 0.25], [0, 1, 0])
+  const scene2Progress = useTransform(scrollYProgress, [0.2, 0.35, 0.45], [0, 1, 0])
+  const scene3Progress = useTransform(scrollYProgress, [0.4, 0.55, 0.65], [0, 1, 0])
+  const scene4Progress = useTransform(scrollYProgress, [0.6, 0.72, 0.82], [0, 1, 0])
+  const scene5Progress = useTransform(scrollYProgress, [0.7, 0.78, 1], [0, 1, 1])
+
+  return (
+    <div ref={containerRef} className="relative min-h-[450vh]">
+      {/* Dark overlay — fades in as user scrolls, transparent at start */}
       <motion.div
-        className="hidden dark:block absolute inset-0 -top-32"
-        style={{ backgroundColor: backgroundColorDark }}
+        className="absolute inset-0 bg-black"
+        style={{ opacity: bgOpacity }}
       />
 
       {/* Sticky container */}
@@ -152,7 +172,6 @@ export function ScrollExperience() {
 
                   {/* Screen */}
                   <div className="relative w-full h-full bg-white dark:bg-gray-950 rounded-[2.3rem] overflow-hidden">
-                    {/* Dynamic content for each scene */}
                     <PhoneContent
                       scene1Progress={scene1Progress}
                       scene2Progress={scene2Progress}
@@ -174,7 +193,6 @@ export function ScrollExperience() {
 
 // Scene text component
 function SceneText({ scene, progress, textColor }: { scene: any; progress: any; textColor: any }) {
-  // Longer hold at full opacity
   const opacity = progress
   const y = useTransform(progress, [0, 0.5, 1], [30, 0, -30])
 
@@ -183,12 +201,10 @@ function SceneText({ scene, progress, textColor }: { scene: any; progress: any; 
       style={{ opacity, y }}
       className="absolute inset-0 flex flex-col justify-center"
     >
-      {/* Emoji - REDUCED SIZE with shadow */}
       <div className="text-5xl sm:text-6xl mb-6 drop-shadow-2xl">
         {scene.emoji}
       </div>
 
-      {/* Title - Bold rounded font with subtle shadows */}
       <motion.h2
         className="text-3xl sm:text-4xl lg:text-5xl mb-4"
         style={{
@@ -202,7 +218,6 @@ function SceneText({ scene, progress, textColor }: { scene: any; progress: any; 
         {scene.title}
       </motion.h2>
 
-      {/* Subtitle - Bold rounded font with subtle shadows */}
       <motion.p
         className="text-lg sm:text-xl"
         style={{
@@ -221,7 +236,6 @@ function SceneText({ scene, progress, textColor }: { scene: any; progress: any; 
 
 // Phone content component
 function PhoneContent({ scene1Progress, scene2Progress, scene3Progress, scene4Progress, scene5Progress, lang }: any) {
-  // Use progress directly for longer visibility
   const opacity1 = scene1Progress
   const opacity2 = scene2Progress
   const opacity3 = scene3Progress
@@ -308,101 +322,6 @@ function PhoneContent({ scene1Progress, scene2Progress, scene3Progress, scene4Pr
             </div>
           ))}
         </div>
-      </motion.div>
-    </div>
-  )
-}
-
-// Old scene content component (removed)
-function _SceneContent_OLD({ scene, lang }: { scene: number; lang: string }) {
-  return (
-    <div className="h-full flex items-center justify-center p-6 sm:p-8">
-      <motion.div
-        key={scene}
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        className="text-center w-full"
-      >
-        {/* Scene 1: WhatsApp message */}
-        {scene === 1 && (
-          <div className="space-y-4">
-            <div className="bg-green-100 dark:bg-green-900 rounded-2xl p-4 text-left">
-              <p className="text-sm text-gray-800 dark:text-gray-200">
-                {lang === 'bg' ? 'Имате ли свободни стаи?' : 'Do you have rooms available?'}
-              </p>
-            </div>
-            <div className="flex items-center gap-2 text-xs text-gray-500">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              <span>WhatsApp</span>
-            </div>
-          </div>
-        )}
-
-        {/* Scene 2: Thinking */}
-        {scene === 2 && (
-          <div className="space-y-3">
-            <div className="text-4xl">🧠</div>
-            <div className="space-y-2">
-              {[
-                lang === 'bg' ? 'Анализира...' : 'Analyzing...',
-                lang === 'bg' ? 'Проверява наличност' : 'Checking availability',
-                lang === 'bg' ? 'Изчислява цена' : 'Calculating price'
-              ].map((text, i) => (
-                <div key={i} className="flex items-center justify-center gap-2 text-xs text-gray-600 dark:text-gray-400">
-                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />
-                  <span>{text}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Scene 3: Response */}
-        {scene === 3 && (
-          <div className="space-y-4">
-            <div className="bg-blue-500 rounded-2xl p-4 text-left text-white">
-              <p className="text-sm">
-                {lang === 'bg'
-                  ? 'Да! Имаме налични стаи за вашите дати. Цена: 120€/нощ.'
-                  : 'Yes! We have rooms available for your dates. Price: 120€/night.'}
-              </p>
-            </div>
-            <div className="text-xs text-gray-500">
-              {lang === 'bg' ? 'Отговорено за 0.8s' : 'Responded in 0.8s'}
-            </div>
-          </div>
-        )}
-
-        {/* Scene 4: Automation */}
-        {scene === 4 && (
-          <div className="space-y-3">
-            {[
-              { icon: '📅', text: lang === 'bg' ? 'Календар' : 'Calendar' },
-              { icon: '💼', text: 'CRM' },
-              { icon: '📧', text: 'Email' }
-            ].map((item, i) => (
-              <div key={i} className="flex items-center gap-3 bg-gray-100 dark:bg-gray-800 rounded-xl p-3">
-                <span className="text-2xl">{item.icon}</span>
-                <span className="text-sm font-medium text-gray-900 dark:text-white">{item.text}</span>
-                <svg className="w-4 h-4 ml-auto text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Scene 5: Languages */}
-        {scene === 5 && (
-          <div className="grid grid-cols-3 gap-3">
-            {['🇧🇬', '🇬🇧', '🇩🇪', '🇷🇺', '🇫🇷', '🇪🇸'].map((flag, i) => (
-              <div key={i} className="aspect-square bg-gray-100 dark:bg-gray-800 rounded-xl flex items-center justify-center text-3xl">
-                {flag}
-              </div>
-            ))}
-          </div>
-        )}
       </motion.div>
     </div>
   )

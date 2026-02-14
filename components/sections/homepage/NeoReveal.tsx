@@ -44,7 +44,7 @@ export function NeoReveal() {
               initial={{ opacity: 0, y: 15 }} // Less distance: was 20
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.2 }} // Shorter: was 0.4
-              className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 px-4"
             >
               Nextbot{' '}
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
@@ -56,7 +56,7 @@ export function NeoReveal() {
               initial={{ opacity: 0, y: 15 }} // Less distance: was 20
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.3 }} // Shorter: was 0.6
-              className="text-xl text-gray-400 mb-8"
+              className="text-lg sm:text-xl md:text-2xl text-gray-400 mb-8 px-4"
             >
               {lang === 'bg'
                 ? 'AI който отговаря вместо теб. Навсякъде. Винаги. Перфектно.'

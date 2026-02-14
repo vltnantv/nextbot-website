@@ -20,12 +20,12 @@ export function AnimatedNeoLogo() {
 
   return (
     <div className="relative w-full h-full flex items-center justify-center" style={{ perspective: 1000 }}>
-      {/* Glow background */}
+      {/* Glow behind logo — extends downward, no hard edge */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-blue-500/30 via-purple-500/30 to-cyan-500/30 rounded-full blur-3xl"
+        className="absolute w-[400px] h-[600px] translate-y-[100px] bg-gradient-to-b from-purple-500/10 via-purple-500/15 to-transparent dark:from-purple-500/20 dark:via-purple-500/25 dark:to-transparent rounded-full blur-[120px]"
         animate={{
           scale: [1, 1.2, 1],
-          opacity: [0.3, 0.6, 0.3],
+          opacity: [0.4, 0.6, 0.4],
         }}
         transition={{
           duration: 4,
@@ -55,7 +55,7 @@ export function AnimatedNeoLogo() {
         <svg
           viewBox="0 0 400 200"
           className="w-full h-auto max-w-md"
-          style={{ filter: 'drop-shadow(0 20px 40px rgba(59, 130, 246, 0.5))' }}
+          style={{ filter: 'drop-shadow(0 10px 20px rgba(0, 0, 0, 0.15))' }}
         >
           <defs>
             {/* Gradient for glass effect */}

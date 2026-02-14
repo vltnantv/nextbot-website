@@ -383,10 +383,9 @@ export const translations = {
       legal: {
         title: 'Правна информация',
         items: [
-          { name: 'Условия за ползване', href: '/terms' },
-          { name: 'Поверителност', href: '/privacy' },
-          { name: 'Бисквитки', href: '/cookies' },
-          { name: 'GDPR', href: '/gdpr' }
+          { name: 'Условия и поверителност', href: '/legal' },
+          { name: 'Бисквитки', href: '/legal?tab=cookies' },
+          { name: 'GDPR', href: '/legal?tab=gdpr' }
         ]
       },
 
@@ -404,16 +403,6 @@ export const translations = {
             href: 'https://twitter.com/nextbot',
             icon: 'twitter',
             followers: '@nextbot_ai'
-          },
-          {
-            name: 'Facebook',
-            href: 'https://facebook.com/nextbot',
-            icon: 'facebook'
-          },
-          {
-            name: 'GitHub',
-            href: 'https://github.com/nextbot',
-            icon: 'github'
           }
         ]
       },
@@ -830,10 +819,9 @@ export const translations = {
       legal: {
         title: 'Legal',
         items: [
-          { name: 'Terms', href: '/terms' },
-          { name: 'Privacy', href: '/privacy' },
-          { name: 'Cookies', href: '/cookies' },
-          { name: 'GDPR', href: '/gdpr' }
+          { name: 'Terms & Privacy', href: '/legal' },
+          { name: 'Cookies', href: '/legal?tab=cookies' },
+          { name: 'GDPR', href: '/legal?tab=gdpr' }
         ]
       },
 
@@ -851,16 +839,6 @@ export const translations = {
             href: 'https://twitter.com/nextbot',
             icon: 'twitter',
             followers: '@nextbot_ai'
-          },
-          {
-            name: 'Facebook',
-            href: 'https://facebook.com/nextbot',
-            icon: 'facebook'
-          },
-          {
-            name: 'GitHub',
-            href: 'https://github.com/nextbot',
-            icon: 'github'
           }
         ]
       },

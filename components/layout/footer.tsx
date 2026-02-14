@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useLanguage } from '@/lib/i18n'
 import { translations } from '@/lib/translations'
 import Link from 'next/link'
-import { CalendlyButton } from '@/components/CalendlyButton'
+import Image from 'next/image'
 
 export function Footer() {
   const { lang } = useLanguage()
@@ -62,28 +62,13 @@ export function Footer() {
         </div>
       </div>
 
-      {/* CTA Section */}
-      <div className="border-b border-gray-200 dark:border-gray-800 bg-gradient-to-br from-blue-600 to-purple-600">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16 text-center text-white">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-3">
-            {footerData.cta.title}
-          </h2>
-          <p className="text-lg sm:text-xl mb-6 text-white/90">
-            {footerData.cta.subtitle}
-          </p>
-          <CalendlyButton variant="outline" size="lg" />
-        </div>
-      </div>
-
       {/* Main footer content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 lg:gap-12">
           {/* Brand column */}
           <div className="col-span-2 sm:col-span-3 lg:col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <svg className="w-8 h-8 text-blue-600" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z" />
-              </svg>
+              <Image src="/icon.png" alt="Nextbot" width={32} height={32} className="w-8 h-8 dark:invert" />
               <span className="text-xl font-bold text-gray-900 dark:text-white">
                 Nextbot
               </span>
@@ -120,12 +105,7 @@ export function Footer() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
-                <div>
-                  <div>{footerData.contact.address}</div>
-                  <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
-                    {footerData.contact.businessHours}
-                  </div>
-                </div>
+                <div>{footerData.contact.address}</div>
               </div>
             </div>
 

@@ -2,14 +2,12 @@
 
 import { useEffect, useState } from 'react'
 import { useLanguage } from '@/lib/i18n'
-import { translations } from '@/lib/translations'
 import { motion } from 'framer-motion'
 
 const VOICEFLOW_PROJECT_ID = '6989fab0edb54740de5b4ea5'
 
 export default function DemoPage() {
   const { lang } = useLanguage()
-  const f = translations[lang].footer
   const [chatReady, setChatReady] = useState(false)
 
   useEffect(() => {
@@ -77,7 +75,7 @@ export default function DemoPage() {
         ]
 
   return (
-    <main className="min-h-screen bg-black pt-20 pb-20">
+    <main className="min-h-screen bg-white dark:bg-black pt-20 pb-20">
       <div className="max-w-7xl mx-auto px-6 py-12">
         {/* Header */}
         <motion.div
@@ -85,10 +83,10 @@ export default function DemoPage() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 text-white">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 text-gray-900 dark:text-white">
             {lang === 'bg' ? 'Опитай Neo в действие' : 'Try Neo in action'}
           </h1>
-          <p className="text-xl text-gray-400 mb-4">
+          <p className="text-xl text-gray-600 dark:text-gray-400 mb-4">
             {lang === 'bg'
               ? 'Попитай каквото искаш. Neo отговаря мигновено.'
               : 'Ask anything. Neo responds instantly.'}
@@ -107,7 +105,7 @@ export default function DemoPage() {
             animate={{ opacity: 1, x: 0 }}
             className="lg:col-span-2"
           >
-            <div className="bg-gray-900 rounded-3xl shadow-2xl border border-gray-800 overflow-hidden">
+            <div className="bg-gray-100 dark:bg-gray-900 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-800 overflow-hidden">
               {/* Chat header */}
               <div className="bg-gradient-to-r from-blue-600 to-cyan-500 px-6 py-4 flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-xl">
@@ -130,10 +128,10 @@ export default function DemoPage() {
                 />
 
                 {!chatReady && (
-                  <div className="absolute inset-0 bg-gray-900 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
                     <div className="text-center">
                       <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-                      <p className="text-gray-400">
+                      <p className="text-gray-600 dark:text-gray-400">
                         {lang === 'bg' ? 'Зарежда се...' : 'Loading...'}
                       </p>
                     </div>
@@ -150,8 +148,8 @@ export default function DemoPage() {
             className="space-y-6"
           >
             {/* Suggestions */}
-            <div className="bg-gray-900 rounded-2xl p-6 border border-gray-800">
-              <h3 className="font-semibold text-white mb-4">
+            <div className="bg-gray-100 dark:bg-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-800">
+              <h3 className="font-semibold text-gray-900 dark:text-white mb-4">
                 {lang === 'bg' ? 'Опитай с тези въпроси:' : 'Try these questions:'}
               </h3>
               <div className="space-y-2">
@@ -160,7 +158,7 @@ export default function DemoPage() {
                     key={i}
                     onClick={() => sendMessage(item)}
                     disabled={!chatReady}
-                    className="w-full text-left px-4 py-3 rounded-xl bg-gray-800 hover:bg-blue-950 border border-gray-700 hover:border-blue-500/50 transition-all text-sm text-gray-300 disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="w-full text-left px-4 py-3 rounded-xl bg-white dark:bg-gray-800 hover:bg-blue-50 dark:hover:bg-blue-950 border border-gray-200 dark:border-gray-700 hover:border-blue-500/50 transition-all text-sm text-gray-700 dark:text-gray-300 disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     💬 {item}
                   </button>
@@ -169,8 +167,8 @@ export default function DemoPage() {
             </div>
 
             {/* Features */}
-            <div className="bg-gray-900 rounded-2xl p-6 border border-gray-800">
-              <h3 className="font-semibold text-white mb-4">
+            <div className="bg-gray-100 dark:bg-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-800">
+              <h3 className="font-semibold text-gray-900 dark:text-white mb-4">
                 {lang === 'bg' ? 'Това което виждаш:' : "What you're seeing:"}
               </h3>
               <div className="space-y-3">
@@ -182,32 +180,12 @@ export default function DemoPage() {
                 ].map((item, i) => (
                   <div key={i} className="flex items-start gap-3">
                     <span className="text-2xl">{item.icon}</span>
-                    <span className="text-sm text-gray-400">{item.text}</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">{item.text}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* CTA */}
-            <div className="bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl p-6 text-white">
-              <h3 className="font-semibold mb-2">
-                {lang === 'bg' ? 'Искаш Neo за твоя бизнес?' : 'Want Neo for your business?'}
-              </h3>
-              <p className="text-sm text-white/80 mb-4">
-                {lang === 'bg' ? '20 минути. Без ангажименти.' : '20 minutes. No commitment.'}
-              </p>
-              <a
-                href={f.cta.calendlyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center w-full gap-2 px-6 py-3 rounded-full border border-white/30 text-white text-sm font-semibold hover:bg-white/10 transition-all"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                {f.cta.button}
-              </a>
-            </div>
           </motion.div>
         </div>
       </div>

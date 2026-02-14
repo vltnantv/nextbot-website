@@ -10,11 +10,13 @@ export function NeoHero() {
   const { lang } = useLanguage()
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white dark:bg-black pt-20">
-      {/* Background elements */}
-      <div className="absolute inset-0 overflow-hidden opacity-30">
-        <div className="absolute top-20 -left-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 -right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl" />
+    <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-visible">
+      {/* Background glows */}
+      <div className="absolute inset-0 overflow-visible pointer-events-none">
+        <div className="absolute top-20 left-10 w-[500px] h-[500px] bg-blue-500/10 dark:bg-blue-500/15 rounded-full blur-[120px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/4 w-[900px] h-[900px] bg-gradient-to-b from-blue-500/5 via-purple-500/8 to-purple-500/5 dark:from-blue-500/10 dark:via-purple-500/15 dark:to-purple-500/10 rounded-full blur-[180px]" />
+        {/* Purple glow extending down into next section */}
+        <div className="absolute -bottom-[400px] right-1/4 w-[800px] h-[800px] bg-purple-500/15 dark:bg-purple-500/20 rounded-full blur-[200px]" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-20">
@@ -81,6 +83,7 @@ export function NeoHero() {
           </motion.div>
         </div>
       </div>
+
     </section>
   )
 }

@@ -1,15 +1,23 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
+import { useState, useEffect, useRef } from 'react'
 import { useLanguage } from '@/lib/i18n'
+import { translations } from '@/lib/translations'
+import Link from 'next/link'
+import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { LanguageToggle } from '@/components/LanguageToggle'
 
 export function Header() {
   const { lang } = useLanguage()
-  const [menuOpen, setMenuOpen] = useState(false)
+  const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
   const [productsOpen, setProductsOpen] = useState(false)
+  const [mobileProductsOpen, setMobileProductsOpen] = useState(false)
+  const productsTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  const t = translations[lang]
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20)
@@ -17,239 +25,204 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Close menu on route change
   useEffect(() => {
     if (menuOpen) {
       document.body.style.overflow = 'hidden'
     } else {
-      document.body.style.overflow = 'unset'
+      document.body.style.overflow = ''
     }
   }, [menuOpen])
 
-  const navigation = {
-    products: {
-      label: lang === 'bg' ? 'Продукти' : 'Products',
-      items: [
-        {
-          name: 'Neo',
-          href: '/neo',
-          description: lang === 'bg' ? 'AI асистент за твоя бизнес' : 'AI assistant for your business',
-          badge: lang === 'bg' ? 'Ново' : 'New',
-          available: true
-        },
-        {
-          name: 'Aria',
-          href: '#',
-          description: null, // Remove description
-          badge: lang === 'bg' ? 'Очаквайте' : 'Coming Soon',
-          available: false
-        },
-        {
-          name: 'Nova',
-          href: '#',
-          description: null, // Remove description
-          badge: lang === 'bg' ? 'Очаквайте' : 'Coming Soon',
-          available: false
-        }
-      ]
-    },
-    main: [
-      // Remove "Neo" from here - only in Products submenu
-      {
-        name: lang === 'bg' ? 'Демо' : 'Demo',
-        href: '/demo'
-      },
-      {
-        name: lang === 'bg' ? 'За нас' : 'About',
-        href: '/about'
-      }
-    ]
+  // Close menu on route change
+  useEffect(() => {
+    setMenuOpen(false)
+    setProductsOpen(false)
+    setMobileProductsOpen(false)
+  }, [pathname])
+
+  const handleProductsEnter = () => {
+    if (productsTimeoutRef.current) clearTimeout(productsTimeoutRef.current)
+    setProductsOpen(true)
   }
 
+  const handleProductsLeave = () => {
+    productsTimeoutRef.current = setTimeout(() => setProductsOpen(false), 200)
+  }
+
+  const simpleNavItems = [
+    { name: lang === 'bg' ? 'Демо' : 'Demo', href: '/demo' },
+    { name: lang === 'bg' ? 'За нас' : 'About', href: '/about' }
+  ]
+
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled || menuOpen
-          ? 'bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50'
-          : 'bg-transparent'
-      }`}
-    >
-      <nav className="max-w-screen-2xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between">
-        {/* Logo */}
-        <Link
-          href="/"
-          className="flex items-center gap-2 text-black dark:text-white z-50"
-          onClick={() => setMenuOpen(false)}
-        >
-          <svg className="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
-          </svg>
-          <span className="font-semibold text-lg sm:text-xl">Nextbot</span>
-        </Link>
-
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-8">
-          {/* Products dropdown */}
-          <div className="relative group">
-            <button className="flex items-center gap-1 text-black dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-2">
-              {navigation.products.label}
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-
-            {/* Dropdown menu */}
-            <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-              <div className="bg-white dark:bg-black border border-gray-200 dark:border-gray-800 rounded-2xl shadow-xl p-2 min-w-[280px]">
-                {navigation.products.items.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.available ? item.href : '#'}
-                    className={`block px-4 py-3 rounded-xl transition-colors ${
-                      item.available
-                        ? 'hover:bg-gray-100 dark:hover:bg-gray-900'
-                        : 'opacity-60 cursor-not-allowed'
-                    }`}
-                    onClick={(e) => !item.available && e.preventDefault()}
-                  >
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="font-semibold text-black dark:text-white">
-                        {item.name}
-                      </span>
-                      <span className={`text-xs px-2 py-0.5 rounded-full ${
-                        item.available
-                          ? 'bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-400'
-                          : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
-                      }`}>
-                        {item.badge}
-                      </span>
-                    </div>
-                    {item.description && (
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        {item.description}
-                      </p>
-                    )}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Other nav items */}
-          {navigation.main.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="text-black dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            >
-              {item.name}
-            </Link>
-          ))}
-        </div>
-
-        {/* Right side */}
-        <div className="flex items-center gap-3 sm:gap-4">
-          <LanguageToggle />
-
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="lg:hidden w-10 h-10 flex items-center justify-center -mr-2 z-50"
-            aria-label="Menu"
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled || menuOpen
+            ? 'bg-white/90 dark:bg-black/90 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50'
+            : 'bg-transparent'
+        }`}
+      >
+        <nav className="max-w-screen-2xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+          {/* Logo */}
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-black dark:text-white relative z-50"
+            onClick={() => setMenuOpen(false)}
           >
-            <div className="w-5 h-4 relative flex flex-col justify-between">
-              <span className={`w-full h-0.5 bg-black dark:bg-white transition-all duration-300 ${
-                menuOpen ? 'rotate-45 translate-y-1.5' : ''
-              }`} />
-              <span className={`w-full h-0.5 bg-black dark:bg-white transition-all duration-300 ${
-                menuOpen ? 'opacity-0' : ''
-              }`} />
-              <span className={`w-full h-0.5 bg-black dark:bg-white transition-all duration-300 ${
-                menuOpen ? '-rotate-45 -translate-y-2' : ''
-              }`} />
-            </div>
-          </button>
-        </div>
-      </nav>
+            <Image src="/icon.png" alt="Nextbot" width={32} height={32} className="w-8 h-8 dark:invert" />
+            <span className="font-semibold text-xl">Nextbot</span>
+          </Link>
 
-      {/* Mobile Menu */}
-      {menuOpen && (
-        <div className="lg:hidden fixed inset-0 bg-white dark:bg-black pt-14 overflow-y-auto">
-          <div className="px-6 py-8">
-            {/* Products section */}
-            <div className="mb-8">
-              <button
-                onClick={() => setProductsOpen(!productsOpen)}
-                className="flex items-center justify-between w-full text-lg font-semibold text-black dark:text-white mb-4"
-              >
-                {navigation.products.label}
-                <svg
-                  className={`w-5 h-5 transition-transform ${productsOpen ? 'rotate-180' : ''}`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center gap-8">
+            {/* Products dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={handleProductsEnter}
+              onMouseLeave={handleProductsLeave}
+            >
+              <button className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1">
+                {t.productMenu.title}
+                <svg className={`w-3.5 h-3.5 transition-transform ${productsOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
 
               {productsOpen && (
-                <div className="space-y-2 pl-4 border-l-2 border-gray-200 dark:border-gray-800">
-                  {navigation.products.items.map((item) => (
+                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3">
+                  <div className="bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 p-2 min-w-[260px]">
+                    {/* Neo */}
                     <Link
-                      key={item.name}
-                      href={item.available ? item.href : '#'}
-                      onClick={(e) => {
-                        if (!item.available) {
-                          e.preventDefault()
-                        } else {
-                          setMenuOpen(false)
-                        }
-                      }}
-                      className={`block py-3 ${
-                        item.available ? '' : 'opacity-60 cursor-not-allowed'
-                      }`}
+                      href="/neo"
+                      className="flex items-center gap-2 px-3 py-2.5 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                     >
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="font-semibold text-black dark:text-white">
-                          {item.name}
-                        </span>
-                        <span className={`text-xs px-2 py-1 rounded-full ${
-                          item.available
-                            ? 'bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-400'
-                            : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
-                        }`}>
-                          {item.badge}
-                        </span>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-semibold text-gray-900 dark:text-white">{t.productMenu.neo.name}</span>
+                          <span className="text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400">
+                            {t.productMenu.neo.new}
+                          </span>
+                        </div>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">{t.productMenu.neo.tagline}</p>
                       </div>
-                      {/* Only show description for available products */}
-                      {item.description && item.available && (
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                          {item.description}
-                        </p>
-                      )}
                     </Link>
-                  ))}
+
+                    {/* Aria */}
+                    <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg opacity-60 cursor-default">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-semibold text-gray-900 dark:text-white">{t.productMenu.aria.name}</span>
+                          <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+                            {t.productMenu.aria.comingSoon}
+                          </span>
+                        </div>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">{t.productMenu.aria.tagline}</p>
+                      </div>
+                    </div>
+
+                    {/* Nova */}
+                    <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg opacity-60 cursor-default">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-semibold text-gray-900 dark:text-white">{t.productMenu.nova.name}</span>
+                          <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+                            {t.productMenu.nova.comingSoon}
+                          </span>
+                        </div>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">{t.productMenu.nova.tagline}</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
 
-            {/* Main navigation items */}
-            <div className="space-y-1 border-t border-gray-200 dark:border-gray-800 pt-8">
-              {navigation.main.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="block py-4 text-lg font-semibold text-black dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
+            {simpleNavItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              >
+                {item.name}
+              </Link>
+            ))}
           </div>
+
+          {/* Right side */}
+          <div className="flex items-center gap-3 relative z-50">
+            <LanguageToggle />
+
+            {/* Mobile menu button */}
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="lg:hidden w-10 h-10 flex items-center justify-center"
+              aria-label="Menu"
+            >
+              <div className="w-5 h-4 flex flex-col justify-between">
+                <span className={`block h-0.5 w-full bg-black dark:bg-white transition-all ${menuOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
+                <span className={`block h-0.5 w-full bg-black dark:bg-white transition-all ${menuOpen ? 'opacity-0' : ''}`} />
+                <span className={`block h-0.5 w-full bg-black dark:bg-white transition-all ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+              </div>
+            </button>
+          </div>
+        </nav>
+      </header>
+
+      {/* Mobile Menu - outside header for proper z-index layering */}
+      {menuOpen && (
+        <div className="fixed inset-0 bg-white dark:bg-black z-40 lg:hidden pt-20">
+          <nav className="px-6 py-8">
+            {/* Products with expandable sub-menu */}
+            <button
+              onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
+              className="w-full flex items-center justify-between py-4 text-2xl font-semibold text-gray-900 dark:text-white"
+            >
+              {t.productMenu.title}
+              <svg className={`w-5 h-5 transition-transform ${mobileProductsOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {mobileProductsOpen && (
+              <div className="pl-4 pb-2 space-y-3">
+                <Link
+                  href="/neo"
+                  onClick={() => setMenuOpen(false)}
+                  className="flex items-center gap-3 py-2"
+                >
+                  <span className="text-lg font-medium text-gray-900 dark:text-white">{t.productMenu.neo.name}</span>
+                  <span className="text-xs font-semibold uppercase px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400">
+                    {t.productMenu.neo.new}
+                  </span>
+                </Link>
+                <div className="flex items-center gap-3 py-2 opacity-50">
+                  <span className="text-lg font-medium text-gray-900 dark:text-white">{t.productMenu.aria.name}</span>
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500">
+                    {t.productMenu.aria.comingSoon}
+                  </span>
+                </div>
+                <div className="flex items-center gap-3 py-2 opacity-50">
+                  <span className="text-lg font-medium text-gray-900 dark:text-white">{t.productMenu.nova.name}</span>
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500">
+                    {t.productMenu.nova.comingSoon}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {simpleNavItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                onClick={() => setMenuOpen(false)}
+                className="block py-4 text-2xl font-semibold text-gray-900 dark:text-white"
+              >
+                {item.name}
+              </Link>
+            ))}
+          </nav>
         </div>
       )}
-    </header>
+    </>
   )
 }
