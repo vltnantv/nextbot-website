@@ -63,8 +63,8 @@ const REASSURANCES = [
   "✓ 30 дни безплатно",
 ];
 
-const PHONE_NUMBER = "+359 88 123 4567"; // Replace with real number
-const PHONE_DISPLAY = "+359 88 123 4567"; // Format for display
+const PHONE_NUMBER = "+359 894 288 119"; // Replace with real number
+const PHONE_DISPLAY = "+359 894 288 119"; // Format for display
 
 // ---------------------------------------------------------------------------
 // Icons

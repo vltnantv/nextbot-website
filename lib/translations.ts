@@ -346,7 +346,7 @@ export const translations = {
       contact: {
         title: 'Контакти',
         email: 'info@nextbot.me',
-        phone: '+359 88 123 4567',
+        phone: '+359 894 288 119',
         address: 'София, България',
         businessHours: 'Пон-Пет: 9:00-18:00',
         responseTime: 'Отговаряме до 24 часа'
@@ -782,7 +782,7 @@ export const translations = {
       contact: {
         title: 'Contact',
         email: 'info@nextbot.me',
-        phone: '+359 88 123 4567',
+        phone: '+359 894 288 119',
         address: 'Sofia, Bulgaria',
         businessHours: 'Mon-Fri: 9:00-18:00',
         responseTime: 'We respond within 24 hours'

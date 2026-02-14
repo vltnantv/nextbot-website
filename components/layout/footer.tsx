@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { useLanguage } from '@/lib/i18n'
 import { translations } from '@/lib/translations'
 import Link from 'next/link'
-import Image from 'next/image'
 
 export function Footer() {
   const { lang } = useLanguage()
@@ -68,7 +67,7 @@ export function Footer() {
           {/* Brand column */}
           <div className="col-span-2 sm:col-span-3 lg:col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <Image src="/icon.png" alt="Nextbot" width={32} height={32} className="w-8 h-8 dark:invert" />
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center font-bold text-white text-lg">N</div>
               <span className="text-xl font-bold text-gray-900 dark:text-white">
                 Nextbot
               </span>

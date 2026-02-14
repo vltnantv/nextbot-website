@@ -234,7 +234,7 @@ Live Chat:
 Пон-Пет: 9:00-18:00 EET
 
 Телефон:
-+359 XX XXX XXXX
++359 894 288 119
 За спешни случаи`
             },
             {
@@ -482,7 +482,7 @@ Available in dashboard
 Mon-Fri: 9:00-18:00 EET
 
 Phone:
-+359 XX XXX XXXX
++359 894 288 119
 For urgent cases`
             },
             {

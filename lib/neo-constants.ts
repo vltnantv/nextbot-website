@@ -229,6 +229,6 @@ export const NEO_NAV_LINKS = [
 export const NEO_COMPANY = {
   name: "Nextbot EOOD",
   email: "info@nextbot.me",
-  phone: "+359 88 123 4567",
+  phone: "+359 894 288 119",
   url: "https://nextbot.me",
 } as const;

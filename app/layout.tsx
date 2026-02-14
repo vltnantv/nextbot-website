@@ -15,9 +15,9 @@ export const metadata: Metadata = {
   title: "NextBot",
   description: "NextBot",
   icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
   },
   viewport: {
     width: "device-width",
@@ -47,7 +47,7 @@ export default function RootLayout({
     logo: "https://nextbot.me/logo.png",
     contactPoint: {
       "@type": "ContactPoint",
-      telephone: "+359-88-123-4567",
+      telephone: "+359-894-288-119",
       contactType: "Sales",
       availableLanguage: ["Bulgarian", "English"],
     },

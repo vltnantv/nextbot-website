@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from 'react'
 import { useLanguage } from '@/lib/i18n'
 import { translations } from '@/lib/translations'
 import Link from 'next/link'
-import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { LanguageToggle } from '@/components/LanguageToggle'
 
@@ -70,7 +69,7 @@ export function Header() {
             className="flex items-center gap-2 text-black dark:text-white relative z-50"
             onClick={() => setMenuOpen(false)}
           >
-            <Image src="/icon.png" alt="Nextbot" width={32} height={32} className="w-8 h-8 dark:invert" />
+            <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center font-bold text-white text-lg">N</div>
             <span className="font-semibold text-xl">Nextbot</span>
           </Link>
 

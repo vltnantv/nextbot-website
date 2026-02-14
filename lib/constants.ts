@@ -11,7 +11,7 @@ export const SITE_CONFIG = {
     "Nextbot delivers enterprise-grade AI automation — from hotel bookings to e-commerce support and call-center quality assurance.",
   url: "https://nextbot.me",
   email: "info@nextbot.me",
-  phone: "+359 88 123 4567",
+  phone: "+359 894 288 119",
 } as const;
 
 // ---------------------------------------------------------------------------
