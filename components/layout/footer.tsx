@@ -158,17 +158,25 @@ export function Footer() {
             <ul className="space-y-3">
               {footerData.company.items.map((item: any) => (
                 <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-                  >
-                    {item.name}
-                    {item.badge && (
-                      <span className="px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 text-xs font-semibold">
-                        {item.badge}
+                  {item.disabled ? (
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-gray-400 dark:text-gray-600 cursor-default">
+                        {item.name}
                       </span>
-                    )}
-                  </Link>
+                      {item.badge && (
+                        <span className="px-2 py-0.5 rounded-full bg-gray-200 dark:bg-gray-800 text-gray-500 text-xs font-semibold">
+                          {item.badge}
+                        </span>
+                      )}
+                    </div>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                    >
+                      {item.name}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>

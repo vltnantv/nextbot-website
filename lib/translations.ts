@@ -365,8 +365,8 @@ export const translations = {
         title: 'Компания',
         items: [
           { name: 'За нас', href: '/about' },
-          { name: 'Блог', href: '/blog', badge: 'Скоро' },
-          { name: 'Кариери', href: '/careers', badge: 'Наемаме' }
+          { name: 'Блог', href: '#', disabled: true, badge: 'Скоро' },
+          { name: 'Кариери', href: '#', disabled: true, badge: 'Скоро' }
         ]
       },
 
@@ -801,8 +801,8 @@ export const translations = {
         title: 'Company',
         items: [
           { name: 'About', href: '/about' },
-          { name: 'Blog', href: '/blog', badge: 'Soon' },
-          { name: 'Careers', href: '/careers', badge: 'Hiring' }
+          { name: 'Blog', href: '#', disabled: true, badge: 'Soon' },
+          { name: 'Careers', href: '#', disabled: true, badge: 'Soon' }
         ]
       },
 
