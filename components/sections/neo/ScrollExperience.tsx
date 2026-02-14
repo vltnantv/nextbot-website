@@ -48,30 +48,61 @@ export function ScrollExperience() {
     }
   ]
 
+  const mobileSceneStyles = [
+    { bg: 'from-white to-gray-50 dark:from-gray-950 dark:to-gray-900', text: 'text-gray-900 dark:text-white', sub: 'text-gray-500 dark:text-gray-400' },
+    { bg: 'from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950', text: 'text-gray-900 dark:text-white', sub: 'text-gray-500 dark:text-gray-400' },
+    { bg: 'from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950', text: 'text-gray-900 dark:text-white', sub: 'text-gray-500 dark:text-gray-400' },
+    { bg: 'from-purple-50 to-orange-50 dark:from-purple-950 dark:to-gray-950', text: 'text-gray-900 dark:text-white', sub: 'text-gray-500 dark:text-gray-400' },
+    { bg: 'from-orange-50 to-gray-100 dark:from-gray-950 dark:to-black', text: 'text-gray-900 dark:text-white', sub: 'text-gray-500 dark:text-gray-400' },
+  ]
+
   if (isMobile) {
     return (
-      <section className="relative py-20">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="space-y-16">
-            {scenes.map((scene, i) => (
+      <section className="relative">
+        {scenes.map((scene, i) => (
+          <div
+            key={i}
+            className={`relative py-20 bg-gradient-to-b ${mobileSceneStyles[i].bg}`}
+          >
+            <div className="max-w-4xl mx-auto px-4">
               <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-50px' }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
                 className="text-center"
               >
-                <div className="text-6xl mb-4">{scene.emoji}</div>
-                <h3 className="text-2xl sm:text-3xl font-bold mb-2 text-white">
+                <motion.div
+                  initial={{ scale: 0.5, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  viewport={{ once: true, margin: '-80px' }}
+                  transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
+                  className="text-6xl mb-5"
+                >
+                  {scene.emoji}
+                </motion.div>
+                <motion.h3
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-80px' }}
+                  transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
+                  className={`text-2xl sm:text-3xl font-bold mb-2 ${mobileSceneStyles[i].text}`}
+                >
                   {scene.title}
-                </h3>
-                <p className="text-base sm:text-lg text-gray-400">
+                </motion.h3>
+                <motion.p
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-80px' }}
+                  transition={{ duration: 0.5, delay: 0.3, ease: 'easeOut' }}
+                  className={`text-base sm:text-lg ${mobileSceneStyles[i].sub}`}
+                >
                   {scene.subtitle}
-                </p>
+                </motion.p>
               </motion.div>
-            ))}
+            </div>
           </div>
-        </div>
+        ))}
       </section>
     )
   }
