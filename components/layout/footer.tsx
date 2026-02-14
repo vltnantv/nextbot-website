@@ -190,14 +190,25 @@ export function Footer() {
             <ul className="space-y-3">
               {footerData.resources?.items.map((item: any) => (
                 <li key={item.name}>
-                  <a
-                    href={item.href}
-                    target={item.external ? '_blank' : undefined}
-                    rel={item.external ? 'noopener noreferrer' : undefined}
-                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-                  >
-                    {item.name}
-                  </a>
+                  {item.disabled ? (
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-gray-400 dark:text-gray-600 cursor-default">
+                        {item.name}
+                      </span>
+                      {item.badge && (
+                        <span className="text-xs px-1.5 py-0.5 rounded bg-gray-200 dark:bg-gray-800 text-gray-500 dark:text-gray-500">
+                          {item.badge}
+                        </span>
+                      )}
+                    </div>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                    >
+                      {item.name}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>

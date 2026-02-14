@@ -373,10 +373,10 @@ export const translations = {
       resources: {
         title: 'Ресурси',
         items: [
-          { name: 'Документация', href: '/docs' },
-          { name: 'API', href: '/api' },
-          { name: 'Помощен център', href: '/help' },
-          { name: 'Статус на системата', href: 'https://status.nextbot.me', external: true }
+          { name: 'Документация', href: '/documentation' },
+          { name: 'API', href: '/api-docs' },
+          { name: 'Помощен център', href: '#', disabled: true, badge: 'Скоро' },
+          { name: 'Статус на системата', href: '#', disabled: true, badge: 'Скоро' }
         ]
       },
 
@@ -809,10 +809,10 @@ export const translations = {
       resources: {
         title: 'Resources',
         items: [
-          { name: 'Documentation', href: '/docs' },
-          { name: 'API', href: '/api' },
-          { name: 'Help Center', href: '/help' },
-          { name: 'System Status', href: 'https://status.nextbot.me', external: true }
+          { name: 'Documentation', href: '/documentation' },
+          { name: 'API', href: '/api-docs' },
+          { name: 'Help Center', href: '#', disabled: true, badge: 'Soon' },
+          { name: 'System Status', href: '#', disabled: true, badge: 'Soon' }
         ]
       },
 
