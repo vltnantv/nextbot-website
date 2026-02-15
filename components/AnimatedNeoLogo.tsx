@@ -5,8 +5,14 @@ import { useEffect, useState } from 'react'
 
 export function AnimatedNeoLogo() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
+    const mobile = window.innerWidth < 1024
+    setIsMobile(mobile)
+
+    if (mobile) return // Skip mouse tracking on mobile
+
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({
         x: (e.clientX / window.innerWidth - 0.5) * 20,
@@ -20,34 +26,36 @@ export function AnimatedNeoLogo() {
 
   return (
     <div className="relative w-full h-full flex items-center justify-center" style={{ perspective: 1000 }}>
-      {/* Glow behind logo — extends downward, no hard edge */}
-      <motion.div
-        className="absolute w-[400px] h-[600px] translate-y-[100px] bg-gradient-to-b from-purple-500/10 via-purple-500/15 to-transparent dark:from-purple-500/20 dark:via-purple-500/25 dark:to-transparent rounded-full blur-[120px]"
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.4, 0.6, 0.4],
-        }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-      />
+      {/* Glow behind logo — extends downward, no hard edge (desktop only) */}
+      {!isMobile && (
+        <motion.div
+          className="absolute w-[400px] h-[600px] translate-y-[100px] bg-gradient-to-b from-purple-500/10 via-purple-500/15 to-transparent dark:from-purple-500/20 dark:via-purple-500/25 dark:to-transparent rounded-full blur-[120px]"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.4, 0.6, 0.4],
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+      )}
 
       {/* Neo text with bubble glass effect */}
       <motion.div
         className="relative"
-        animate={{
+        animate={isMobile ? {} : {
           rotateX: [0, 5, 0, -5, 0],
           rotateY: [0, -5, 0, 5, 0],
           rotateZ: [0, 2, 0, -2, 0],
         }}
-        transition={{
+        transition={isMobile ? {} : {
           duration: 6,
           repeat: Infinity,
           ease: 'easeInOut',
         }}
-        style={{
+        style={isMobile ? {} : {
           x: mousePosition.x,
           y: mousePosition.y,
         }}
@@ -124,8 +132,8 @@ export function AnimatedNeoLogo() {
           </text>
         </svg>
 
-        {/* Floating particles around logo */}
-        {[...Array(12)].map((_, i) => (
+        {/* Floating particles around logo (desktop only) */}
+        {!isMobile && [...Array(12)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute w-2 h-2 bg-blue-400 rounded-full"
@@ -150,21 +158,29 @@ export function AnimatedNeoLogo() {
       </motion.div>
 
       {/* Subtitle */}
-      <motion.div
-        className="absolute bottom-0 left-1/2 transform -translate-x-1/2 text-center"
-        animate={{
-          opacity: [0.5, 1, 0.5],
-        }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-      >
-        <p className="text-sm text-gray-400 dark:text-gray-600 font-semibold tracking-wider">
-          AI ASSISTANT
-        </p>
-      </motion.div>
+      {isMobile ? (
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 text-center">
+          <p className="text-sm text-gray-400 dark:text-gray-600 font-semibold tracking-wider">
+            AI ASSISTANT
+          </p>
+        </div>
+      ) : (
+        <motion.div
+          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 text-center"
+          animate={{
+            opacity: [0.5, 1, 0.5],
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        >
+          <p className="text-sm text-gray-400 dark:text-gray-600 font-semibold tracking-wider">
+            AI ASSISTANT
+          </p>
+        </motion.div>
+      )}
     </div>
   )
 }

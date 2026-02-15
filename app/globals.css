@@ -25,10 +25,7 @@
     max-width: 100vw;
   }
 
-  /* Optimize scroll performance */
-  section {
-    will-change: transform, opacity;
-  }
+  /* will-change only where actually needed — not blanket on all sections */
 
   body {
     @apply font-text text-nextbot-silver;
@@ -193,6 +190,59 @@ footer ~ *:not(script):not(style):not(link) {
    Print — hide chrome, optimize for paper
    ======================================================================== */
 
+
+/* ========================================================================
+   Mobile Performance — reduce GPU-heavy effects
+   ======================================================================== */
+
+@media (max-width: 1024px) {
+  /* Cap large blur effects */
+  .blur-\[120px\],
+  .blur-\[150px\],
+  .blur-\[180px\],
+  .blur-\[200px\] {
+    filter: blur(40px) !important;
+  }
+
+  /* Faster transitions globally */
+  * {
+    animation-duration: 0.3s !important;
+    transition-duration: 0.3s !important;
+  }
+
+  /* Kill expensive infinite animations */
+  .animate-pulse {
+    animation: none !important;
+  }
+}
+
+/* ========================================================================
+   CSS Transition Utilities — lighter than Framer Motion
+   ======================================================================== */
+
+.fade-in {
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+}
+
+.slide-up {
+  transform: translateY(20px);
+  opacity: 0;
+  transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+}
+
+.slide-up.visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* ========================================================================
+   Print — hide chrome, optimize for paper
+   ======================================================================== */
 
 @media print {
   header,

@@ -61,50 +61,28 @@ export function ScrollExperience() {
           const isLast = i === scenes.length - 1
 
           return (
-            <motion.section
+            <section
               key={i}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.6 }}
               className={`relative min-h-[70vh] flex items-center justify-center ${isFirst ? 'pt-0 pb-20' : isLast ? 'py-32' : 'py-20'} bg-gradient-to-b ${scene.bg}`}
             >
               <div className="max-w-3xl mx-auto px-6 text-center">
-                <motion.div
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ type: 'spring', duration: 0.6, delay: 0.2 }}
-                  className="text-7xl mb-6"
-                >
+                <div className="text-7xl mb-6">
                   {scene.emoji}
-                </motion.div>
+                </div>
 
-                <motion.h3
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                  className={`text-3xl sm:text-4xl font-bold mb-4 ${
-                    isLast ? 'text-white' : 'text-gray-900 dark:text-white'
-                  }`}
-                >
+                <h3 className={`text-3xl sm:text-4xl font-bold mb-4 ${
+                  isLast ? 'text-white' : 'text-gray-900 dark:text-white'
+                }`}>
                   {scene.title}
-                </motion.h3>
+                </h3>
 
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.4 }}
-                  className={`text-lg sm:text-xl ${
-                    isLast ? 'text-gray-400' : 'text-gray-600 dark:text-gray-400'
-                  }`}
-                >
+                <p className={`text-lg sm:text-xl ${
+                  isLast ? 'text-gray-400' : 'text-gray-600 dark:text-gray-400'
+                }`}>
                   {scene.subtitle}
-                </motion.p>
+                </p>
               </div>
-            </motion.section>
+            </section>
           )
         })}
       </div>
