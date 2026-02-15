@@ -1,6 +1,10 @@
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+let _resend: Resend | null = null
+function getResend() {
+  if (!_resend) _resend = new Resend(process.env.RESEND_API_KEY)
+  return _resend
+}
 const notificationEmail = process.env.NOTIFICATION_EMAIL || 'info@nextbot.me'
 
 interface DemoBooking {
@@ -25,7 +29,7 @@ interface SignupData {
 
 export async function sendDemoNotification(data: DemoBooking) {
   // Email to team
-  await resend.emails.send({
+  await getResend().emails.send({
     from: 'Nextbot <noreply@nextbot.me>',
     to: notificationEmail,
     subject: `New Demo Request: ${data.name} - ${data.company || 'N/A'}`,
@@ -73,7 +77,7 @@ export async function sendDemoNotification(data: DemoBooking) {
   })
 
   // Confirmation to customer
-  await resend.emails.send({
+  await getResend().emails.send({
     from: 'Nextbot <noreply@nextbot.me>',
     to: data.email,
     subject: 'Demo Request Confirmed - Nextbot',
@@ -108,7 +112,7 @@ export async function sendDemoNotification(data: DemoBooking) {
 
 export async function sendSignupNotification(data: SignupData) {
   // Email to team
-  await resend.emails.send({
+  await getResend().emails.send({
     from: 'Nextbot <noreply@nextbot.me>',
     to: notificationEmail,
     subject: `New Signup: ${data.fullName} - ${data.businessName}`,
@@ -150,7 +154,7 @@ export async function sendSignupNotification(data: SignupData) {
   })
 
   // Welcome email to customer
-  await resend.emails.send({
+  await getResend().emails.send({
     from: 'Nextbot <noreply@nextbot.me>',
     to: data.email,
     subject: 'Welcome to Nextbot!',
