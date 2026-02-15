@@ -13,6 +13,7 @@ export function SimplePricing() {
   const gridRef = useRef<HTMLDivElement>(null)
   const [highlightStyle, setHighlightStyle] = useState({ left: 0, top: 0, width: 0, height: 0 })
   const [mobileCard, setMobileCard] = useState(1) // start on Pro
+  const [[page, direction], setPage] = useState([1, 0])
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
@@ -213,24 +214,34 @@ export function SimplePricing() {
         {/* Mobile: swipeable carousel left/right */}
         <div className="md:hidden mb-20 max-w-6xl mx-auto">
           <div className="relative pt-4">
-            <AnimatePresence mode="wait" custom={mobileCard}>
+            <AnimatePresence mode="wait" initial={false} custom={direction}>
               <motion.div
-                key={mobileCard}
-                custom={mobileCard}
-                initial={{ x: 300, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: -300, opacity: 0 }}
+                key={page}
+                custom={direction}
+                variants={{
+                  enter: (dir: number) => ({ x: dir > 0 ? 300 : -300, opacity: 0 }),
+                  center: { x: 0, opacity: 1 },
+                  exit: (dir: number) => ({ x: dir > 0 ? -300 : 300, opacity: 0 }),
+                }}
+                initial="enter"
+                animate="center"
+                exit="exit"
                 transition={{ type: 'spring', stiffness: 350, damping: 30 }}
                 drag="x"
                 dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.3}
+                dragElastic={0.2}
                 style={{ touchAction: 'pan-y' }}
                 onDragEnd={(_e, info) => {
                   const threshold = 50
-                  if (info.offset.x < -threshold && mobileCard < plans.length - 1) {
-                    setMobileCard(mobileCard + 1)
-                  } else if (info.offset.x > threshold && mobileCard > 0) {
-                    setMobileCard(mobileCard - 1)
+                  const velocity = info.velocity.x
+                  if ((info.offset.x < -threshold || velocity < -500) && mobileCard < plans.length - 1) {
+                    const next = mobileCard + 1
+                    setPage([next, 1])
+                    setMobileCard(next)
+                  } else if ((info.offset.x > threshold || velocity > 500) && mobileCard > 0) {
+                    const prev = mobileCard - 1
+                    setPage([prev, -1])
+                    setMobileCard(prev)
                   }
                 }}
                 className={`relative p-8 rounded-3xl border-2 ${(plans[mobileCard] as any).popular ? 'border-blue-600 shadow-2xl' : 'border-gray-200 dark:border-gray-800'} bg-white dark:bg-gray-900`}
@@ -253,7 +264,7 @@ export function SimplePricing() {
           {/* Dot indicators + arrows */}
           <div className="flex items-center justify-center gap-6 mt-6">
             <button
-              onClick={() => setMobileCard(Math.max(0, mobileCard - 1))}
+              onClick={() => { const prev = Math.max(0, mobileCard - 1); setPage([prev, -1]); setMobileCard(prev) }}
               disabled={mobileCard === 0}
               className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${mobileCard === 0 ? 'opacity-30' : 'bg-gray-100 dark:bg-gray-800 active:scale-90'}`}
             >
@@ -263,13 +274,13 @@ export function SimplePricing() {
               {plans.map((_, i) => (
                 <button
                   key={i}
-                  onClick={() => setMobileCard(i)}
+                  onClick={() => { setPage([i, i > mobileCard ? 1 : -1]); setMobileCard(i) }}
                   className={`h-2 rounded-full transition-all duration-300 ${i === mobileCard ? 'w-8 bg-blue-600' : 'w-2 bg-gray-300 dark:bg-gray-700'}`}
                 />
               ))}
             </div>
             <button
-              onClick={() => setMobileCard(Math.min(plans.length - 1, mobileCard + 1))}
+              onClick={() => { const next = Math.min(plans.length - 1, mobileCard + 1); setPage([next, 1]); setMobileCard(next) }}
               disabled={mobileCard === plans.length - 1}
               className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${mobileCard === plans.length - 1 ? 'opacity-30' : 'bg-gray-100 dark:bg-gray-800 active:scale-90'}`}
             >
