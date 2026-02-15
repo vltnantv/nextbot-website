@@ -10,10 +10,11 @@ export function NeoHero() {
   const { lang } = useLanguage()
   const ref = useRef(null)
   const [isMobile, setIsMobile] = useState(false)
+  const [gyroEnabled, setGyroEnabled] = useState(false)
   const tiltX = useMotionValue(0)
   const tiltY = useMotionValue(0)
-  const smoothTiltX = useSpring(tiltX, { stiffness: 80, damping: 25 })
-  const smoothTiltY = useSpring(tiltY, { stiffness: 80, damping: 25 })
+  const smoothTiltX = useSpring(tiltX, { stiffness: 100, damping: 20 })
+  const smoothTiltY = useSpring(tiltY, { stiffness: 100, damping: 20 })
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 1024)
@@ -22,36 +23,45 @@ export function NeoHero() {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  // Gyroscope for mobile
+  // Gyroscope handler
   useEffect(() => {
-    if (!isMobile) return
+    if (!gyroEnabled) return
 
     const handleOrientation = (e: DeviceOrientationEvent) => {
       const gamma = e.gamma ?? 0
       const beta = e.beta ?? 0
-      tiltX.set(gamma / 4)
-      tiltY.set(Math.max(-30, Math.min(30, beta - 45)) / 4)
+      tiltX.set(gamma / 2)
+      tiltY.set(Math.max(-30, Math.min(30, beta - 40)) / 2)
     }
 
-    const requestPermission = async () => {
-      const DOE = DeviceOrientationEvent as any
-      if (typeof DOE.requestPermission === 'function') {
-        try {
-          const permission = await DOE.requestPermission()
-          if (permission === 'granted') {
-            window.addEventListener('deviceorientation', handleOrientation)
-          }
-        } catch {
-          // Permission denied
-        }
-      } else {
-        window.addEventListener('deviceorientation', handleOrientation)
-      }
-    }
-
-    requestPermission()
+    window.addEventListener('deviceorientation', handleOrientation)
     return () => window.removeEventListener('deviceorientation', handleOrientation)
-  }, [isMobile, tiltX, tiltY])
+  }, [gyroEnabled, tiltX, tiltY])
+
+  // Request gyroscope on first tap (iOS requires user gesture)
+  const enableGyro = async () => {
+    if (gyroEnabled) return
+    const DOE = DeviceOrientationEvent as any
+    if (typeof DOE.requestPermission === 'function') {
+      try {
+        const permission = await DOE.requestPermission()
+        if (permission === 'granted') setGyroEnabled(true)
+      } catch {
+        // denied
+      }
+    } else {
+      setGyroEnabled(true)
+    }
+  }
+
+  // Auto-enable gyro on Android (no permission needed)
+  useEffect(() => {
+    if (!isMobile) return
+    const DOE = DeviceOrientationEvent as any
+    if (typeof DOE.requestPermission !== 'function') {
+      setGyroEnabled(true)
+    }
+  }, [isMobile])
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -60,14 +70,14 @@ export function NeoHero() {
 
   const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.8, 0])
 
-  // Mouse effect for desktop
+  // Mouse effect for desktop — track across whole section
   const handleMouseMove = (e: React.MouseEvent) => {
     if (isMobile) return
     const rect = e.currentTarget.getBoundingClientRect()
     const centerX = rect.left + rect.width / 2
     const centerY = rect.top + rect.height / 2
-    tiltX.set((e.clientX - centerX) / 25)
-    tiltY.set((e.clientY - centerY) / 25)
+    tiltX.set((e.clientX - centerX) / 15)
+    tiltY.set((e.clientY - centerY) / 15)
   }
 
   const handleMouseLeave = () => {
@@ -83,7 +93,12 @@ export function NeoHero() {
   ]
 
   return (
-    <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+    <section
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
+    >
       {/* Static background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-white via-blue-50 to-purple-50 dark:from-black dark:via-blue-950 dark:to-purple-950" />
 
@@ -183,8 +198,7 @@ export function NeoHero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.3, ease: APPLE_EASE }}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
+            onClick={enableGyro}
             className="relative h-[350px] sm:h-[450px] lg:h-[550px] flex items-center justify-center cursor-pointer select-none"
           >
             {/* Static glow — no infinite animation */}

@@ -9,10 +9,11 @@ export function NeoReveal() {
   const { lang } = useLanguage()
   const ref = useRef(null)
   const [isMobile, setIsMobile] = useState(false)
+  const [gyroEnabled, setGyroEnabled] = useState(false)
   const tiltX = useMotionValue(0)
   const tiltY = useMotionValue(0)
-  const smoothTiltX = useSpring(tiltX, { stiffness: 120, damping: 20 })
-  const smoothTiltY = useSpring(tiltY, { stiffness: 120, damping: 20 })
+  const smoothTiltX = useSpring(tiltX, { stiffness: 100, damping: 20 })
+  const smoothTiltY = useSpring(tiltY, { stiffness: 100, damping: 20 })
 
   const isInView = useInView(ref, {
     once: true,
@@ -26,45 +27,54 @@ export function NeoReveal() {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  // Gyroscope for mobile
+  // Gyroscope handler
   useEffect(() => {
-    if (!isMobile) return
+    if (!gyroEnabled) return
 
     const handleOrientation = (e: DeviceOrientationEvent) => {
       const gamma = e.gamma ?? 0
       const beta = e.beta ?? 0
-      tiltX.set(gamma / 3)
-      tiltY.set(Math.max(-30, Math.min(30, beta - 45)) / 3)
+      tiltX.set(gamma / 2)
+      tiltY.set(Math.max(-30, Math.min(30, beta - 40)) / 2)
     }
 
-    const requestPermission = async () => {
-      const DOE = DeviceOrientationEvent as any
-      if (typeof DOE.requestPermission === 'function') {
-        try {
-          const permission = await DOE.requestPermission()
-          if (permission === 'granted') {
-            window.addEventListener('deviceorientation', handleOrientation)
-          }
-        } catch {
-          // Permission denied
-        }
-      } else {
-        window.addEventListener('deviceorientation', handleOrientation)
-      }
-    }
-
-    requestPermission()
+    window.addEventListener('deviceorientation', handleOrientation)
     return () => window.removeEventListener('deviceorientation', handleOrientation)
-  }, [isMobile, tiltX, tiltY])
+  }, [gyroEnabled, tiltX, tiltY])
 
-  // Mouse for desktop
+  // Request gyroscope on tap (iOS requires user gesture)
+  const enableGyro = async () => {
+    if (gyroEnabled) return
+    const DOE = DeviceOrientationEvent as any
+    if (typeof DOE.requestPermission === 'function') {
+      try {
+        const permission = await DOE.requestPermission()
+        if (permission === 'granted') setGyroEnabled(true)
+      } catch {
+        // denied
+      }
+    } else {
+      setGyroEnabled(true)
+    }
+  }
+
+  // Auto-enable on Android
+  useEffect(() => {
+    if (!isMobile) return
+    const DOE = DeviceOrientationEvent as any
+    if (typeof DOE.requestPermission !== 'function') {
+      setGyroEnabled(true)
+    }
+  }, [isMobile])
+
+  // Mouse for desktop — tracked on section level
   const handleMouseMove = (e: React.MouseEvent) => {
     if (isMobile) return
     const rect = e.currentTarget.getBoundingClientRect()
     const centerX = rect.left + rect.width / 2
     const centerY = rect.top + rect.height / 2
-    tiltX.set((e.clientX - centerX) / 20)
-    tiltY.set((e.clientY - centerY) / 20)
+    tiltX.set((e.clientX - centerX) / 15)
+    tiltY.set((e.clientY - centerY) / 15)
   }
 
   const handleMouseLeave = () => {
@@ -73,7 +83,7 @@ export function NeoReveal() {
   }
 
   return (
-    <section ref={ref} className="relative py-32 text-white">
+    <section ref={ref} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} className="relative py-32 text-white">
       {/* Subtle glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full bg-blue-500/[0.06] blur-[120px]" />
@@ -184,8 +194,7 @@ export function NeoReveal() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.6, delay: 0.3 }}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
+            onClick={enableGyro}
             className="relative h-[400px] flex items-center justify-center select-none cursor-pointer"
           >
             <motion.div
