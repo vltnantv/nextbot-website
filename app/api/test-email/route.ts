@@ -7,7 +7,7 @@ export async function GET() {
 
     const result = await resend.emails.send({
       from: 'Nextbot <noreply@nextbot.me>',
-      to: 'valentinantov@icloud.com',
+      to: 'valentinantov03@gmail.com',
       subject: 'Test Email from Nextbot',
       html: '<p>This is a test email.</p>'
     })

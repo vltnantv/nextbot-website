@@ -5,7 +5,7 @@ function getResend() {
   if (!_resend) _resend = new Resend(process.env.RESEND_API_KEY)
   return _resend
 }
-const notificationEmail = process.env.NOTIFICATION_EMAIL || 'valentinantov@icloud.com'
+const notificationEmail = process.env.NOTIFICATION_EMAIL || 'info@nextbot.me'
 
 interface DemoBooking {
   name: string
