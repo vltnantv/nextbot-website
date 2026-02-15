@@ -37,6 +37,7 @@ export function AppleHero() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-4">
           <Link
             href="/neo"
+            scroll={true}
             className="w-full sm:w-auto group relative inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-3.5 text-base font-semibold rounded-full text-white bg-blue-600 hover:bg-blue-500 transition-all duration-200 shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 active:scale-95"
           >
             {t(lang, 'hero.cta')}

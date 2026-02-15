@@ -206,7 +206,7 @@ export function PricingCalculator() {
               <Checkbox checked={isSelected} />
             )}
             {isLocked ? (
-              <Image src="/logo-icon.png" alt="Neo" width={40} height={40} className="mb-3" />
+              <Image src="/logo-icon.png" alt="Neo" width={40} height={40} className="mb-3 dark:invert dark:brightness-0" />
             ) : (
               <div className="text-3xl mb-3">{ch.icon}</div>
             )}

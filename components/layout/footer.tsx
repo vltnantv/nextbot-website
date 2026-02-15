@@ -67,7 +67,7 @@ export function Footer() {
         {/* Top row: Logo + Contact + Social */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 pb-8 border-b border-gray-200 dark:border-gray-800/50">
           <Link href="/" className="flex items-center gap-2">
-            <Image src="/logo-icon.png" alt="Nextbot" width={36} height={36} />
+            <Image src="/logo-icon.png" alt="Nextbot" width={36} height={36} className="dark:invert dark:brightness-0" />
             <span className="text-lg font-bold text-gray-900 dark:text-white">Nextbot</span>
           </Link>
 

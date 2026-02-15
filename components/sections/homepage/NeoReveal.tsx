@@ -106,6 +106,7 @@ export function NeoReveal() {
             >
               <Link
                 href="/neo"
+                scroll={true}
                 className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-black font-semibold hover:bg-gray-100 transition-all shadow-2xl hover:scale-105"
               >
                 {lang === 'bg' ? 'Виж как работи' : 'See how it works'}

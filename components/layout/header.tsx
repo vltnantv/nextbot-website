@@ -70,7 +70,7 @@ export function Header() {
             className="flex items-center gap-2 text-black dark:text-white relative z-50"
             onClick={() => setMenuOpen(false)}
           >
-            <Image src="/logo-icon.png" alt="Nextbot" width={48} height={48} />
+            <Image src="/logo-icon.png" alt="Nextbot" width={48} height={48} className="dark:invert dark:brightness-0" />
             <span className="font-semibold text-xl">Nextbot</span>
           </Link>
 

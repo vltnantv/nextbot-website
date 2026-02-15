@@ -24,11 +24,32 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: "NextBot",
-  description: "NextBot",
+  description: "AI Communication Platform - 24/7 AI асистент за вашия бизнес",
   icons: {
     icon: "/favicon.png",
     shortcut: "/favicon.png",
     apple: "/favicon.png",
+  },
+  openGraph: {
+    title: "Nextbot",
+    description: "AI Communication Platform - 24/7 AI асистент за вашия бизнес",
+    url: "https://nextbot.me",
+    siteName: "Nextbot",
+    images: [
+      {
+        url: "https://nextbot.me/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Nextbot - AI Communication Platform",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Nextbot",
+    description: "AI Communication Platform - 24/7 AI асистент за вашия бизнес",
+    images: ["https://nextbot.me/og-image.png"],
   },
 };
 
