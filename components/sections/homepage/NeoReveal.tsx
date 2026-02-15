@@ -172,7 +172,7 @@ export function NeoReveal() {
               transition={{ delay: 0.6 }}
             >
               <Link
-                href="/neo"
+                href="/demo"
                 scroll={true}
                 className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-black font-semibold hover:bg-gray-100 transition-all shadow-2xl hover:scale-105"
               >
