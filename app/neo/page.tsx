@@ -1,5 +1,4 @@
 import { NeoHero } from '@/components/sections/neo/NeoHero'
-import { NeoCTA } from '@/components/sections/neo/NeoCTA'
 import dynamic from 'next/dynamic'
 
 const ScrollExperience = dynamic(
@@ -31,7 +30,6 @@ export default function NeoPage() {
       </div>
       <PricingScroll />
       <PricingCalculator />
-      <NeoCTA />
     </main>
   )
 }

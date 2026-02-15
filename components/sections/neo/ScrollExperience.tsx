@@ -1,8 +1,51 @@
 'use client'
 
 import { useRef, useState, useEffect } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform, useMotionValue, animate, type PanInfo } from 'framer-motion'
 import { useLanguage } from '@/lib/i18n'
+
+const SCENES_DATA = (lang: string) => [
+  {
+    title: lang === 'bg' ? 'Клиентът пита' : 'Customer asks',
+    subtitle: lang === 'bg' ? 'Навсякъде, по всяко време' : 'Anywhere, anytime',
+    emoji: '💬',
+    theme: 'from-green-500 to-emerald-600',
+    bg: 'from-white to-white dark:from-black dark:to-black',
+    mobileBg: 'from-white via-blue-50 to-blue-100 dark:from-black dark:via-blue-950 dark:to-blue-900',
+  },
+  {
+    title: lang === 'bg' ? 'Neo разбира' : 'Neo understands',
+    subtitle: lang === 'bg' ? 'Анализира контекста' : 'Analyzes context',
+    emoji: '🧠',
+    theme: 'from-blue-500 to-indigo-600',
+    bg: 'from-white via-blue-50 to-blue-50 dark:from-black dark:via-blue-950 dark:to-blue-950',
+    mobileBg: 'from-blue-100 via-purple-50 to-purple-100 dark:from-blue-900 dark:via-purple-950 dark:to-purple-900',
+  },
+  {
+    title: lang === 'bg' ? 'Отговаря моментално' : 'Responds instantly',
+    subtitle: lang === 'bg' ? '< 1 секунда' : '< 1 second',
+    emoji: '⚡',
+    theme: 'from-purple-500 to-pink-600',
+    bg: 'from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950',
+    mobileBg: 'from-purple-100 via-pink-50 to-pink-100 dark:from-purple-900 dark:via-pink-950 dark:to-pink-900',
+  },
+  {
+    title: lang === 'bg' ? 'Автоматизира' : 'Automates',
+    subtitle: lang === 'bg' ? 'Календар • CRM • Email' : 'Calendar • CRM • Email',
+    emoji: '🔗',
+    theme: 'from-orange-500 to-red-600',
+    bg: 'from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950',
+    mobileBg: 'from-pink-100 via-orange-50 to-orange-100 dark:from-pink-900 dark:via-orange-950 dark:to-orange-900',
+  },
+  {
+    title: lang === 'bg' ? 'Многоезичен' : 'Multilingual',
+    subtitle: lang === 'bg' ? '12+ езика' : '12+ languages',
+    emoji: '🌍',
+    theme: 'from-cyan-500 to-blue-600',
+    bg: 'from-pink-50 via-gray-600 to-black dark:from-pink-950 dark:via-gray-800 dark:to-black',
+    mobileBg: 'from-orange-100 via-gray-600 to-black dark:from-orange-900 dark:via-gray-800 dark:to-black',
+  },
+]
 
 export function ScrollExperience() {
   const { lang } = useLanguage()
@@ -15,175 +58,193 @@ export function ScrollExperience() {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  const scenes = [
-    {
-      title: lang === 'bg' ? 'Клиентът пита' : 'Customer asks',
-      subtitle: lang === 'bg' ? 'Навсякъде, по всяко време' : 'Anywhere, anytime',
-      emoji: '💬',
-      theme: 'from-green-500 to-emerald-600',
-      bg: 'from-white to-white dark:from-black dark:to-black'
-    },
-    {
-      title: lang === 'bg' ? 'Neo разбира' : 'Neo understands',
-      subtitle: lang === 'bg' ? 'Анализира контекста' : 'Analyzes context',
-      emoji: '🧠',
-      theme: 'from-blue-500 to-indigo-600',
-      bg: 'from-white via-blue-50 to-blue-50 dark:from-black dark:via-blue-950 dark:to-blue-950'
-    },
-    {
-      title: lang === 'bg' ? 'Отговаря моментално' : 'Responds instantly',
-      subtitle: lang === 'bg' ? '< 1 секунда' : '< 1 second',
-      emoji: '⚡',
-      theme: 'from-purple-500 to-pink-600',
-      bg: 'from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950'
-    },
-    {
-      title: lang === 'bg' ? 'Автоматизира' : 'Automates',
-      subtitle: lang === 'bg' ? 'Календар • CRM • Email' : 'Calendar • CRM • Email',
-      emoji: '🔗',
-      theme: 'from-orange-500 to-red-600',
-      bg: 'from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950'
-    },
-    {
-      title: lang === 'bg' ? 'Многоезичен' : 'Multilingual',
-      subtitle: lang === 'bg' ? '12+ езика' : '12+ languages',
-      emoji: '🌍',
-      theme: 'from-cyan-500 to-blue-600',
-      bg: 'from-pink-50 via-gray-600 to-black dark:from-pink-950 dark:via-gray-800 dark:to-black'
-    }
-  ]
+  const scenes = SCENES_DATA(lang)
 
   if (isMobile) {
-    return (
-      <div className="relative bg-white dark:bg-black -mt-px">
-        {scenes.map((scene, i) => {
-          const isFirst = i === 0
-          const isLast = i === scenes.length - 1
-
-          return (
-            <section
-              key={i}
-              className={`relative min-h-[70vh] flex items-center justify-center ${isFirst ? 'pt-0 pb-20' : isLast ? 'py-32' : 'py-20'} bg-gradient-to-b ${scene.bg}`}
-            >
-              <div className="max-w-3xl mx-auto px-6 text-center">
-                <div className="text-7xl mb-6">
-                  {scene.emoji}
-                </div>
-
-                <h3 className={`text-3xl sm:text-4xl font-bold mb-4 ${
-                  isLast ? 'text-white' : 'text-gray-900 dark:text-white'
-                }`}>
-                  {scene.title}
-                </h3>
-
-                <p className={`text-lg sm:text-xl ${
-                  isLast ? 'text-gray-400' : 'text-gray-600 dark:text-gray-400'
-                }`}>
-                  {scene.subtitle}
-                </p>
-              </div>
-            </section>
-          )
-        })}
-      </div>
-    )
+    return <MobileCarousel scenes={scenes} lang={lang} />
   }
 
   return <DesktopScrollExperience scenes={scenes} lang={lang} />
 }
 
-// Desktop version separated to avoid conditional hook calls
+// ─── Mobile: Swipeable carousel with spring physics ────────────────────────
+
+function MobileCarousel({ scenes, lang }: { scenes: any[]; lang: string }) {
+  const [activeIndex, setActiveIndex] = useState(0)
+  const x = useMotionValue(0)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [containerWidth, setContainerWidth] = useState(0)
+
+  useEffect(() => {
+    if (containerRef.current) {
+      setContainerWidth(containerRef.current.offsetWidth)
+    }
+    const handleResize = () => {
+      if (containerRef.current) setContainerWidth(containerRef.current.offsetWidth)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  useEffect(() => {
+    if (containerWidth > 0) {
+      animate(x, -activeIndex * containerWidth, {
+        type: 'spring',
+        stiffness: 300,
+        damping: 30,
+      })
+    }
+  }, [activeIndex, containerWidth])
+
+  const handleDragEnd = (_: any, info: PanInfo) => {
+    const swipe = Math.abs(info.offset.x) * Math.abs(info.velocity.x)
+    if (swipe > 100 || Math.abs(info.offset.x) > 50) {
+      if (info.offset.x < 0 && activeIndex < scenes.length - 1) {
+        setActiveIndex(activeIndex + 1)
+      } else if (info.offset.x > 0 && activeIndex > 0) {
+        setActiveIndex(activeIndex - 1)
+      } else {
+        animate(x, -activeIndex * containerWidth, {
+          type: 'spring',
+          stiffness: 300,
+          damping: 30,
+        })
+      }
+    } else {
+      animate(x, -activeIndex * containerWidth, {
+        type: 'spring',
+        stiffness: 300,
+        damping: 30,
+      })
+    }
+  }
+
+  return (
+    <section className="py-16 bg-white dark:bg-black overflow-hidden">
+      <div className="mb-6 px-4 text-center">
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          {lang === 'bg' ? 'Swipe за да разгледаш' : 'Swipe to explore'}
+        </p>
+      </div>
+
+      <div ref={containerRef} className="relative overflow-hidden">
+        <motion.div
+          className="flex"
+          style={{ x, touchAction: 'pan-y' }}
+          drag="x"
+          dragConstraints={{
+            left: -(scenes.length - 1) * containerWidth,
+            right: 0,
+          }}
+          dragElastic={0.12}
+          onDragEnd={handleDragEnd}
+        >
+          {scenes.map((scene, i) => {
+            const isLast = i === scenes.length - 1
+            return (
+              <div
+                key={i}
+                className="flex-shrink-0 px-4"
+                style={{ width: containerWidth }}
+              >
+                <div
+                  className={`min-h-[65vh] flex items-center justify-center rounded-3xl bg-gradient-to-br ${scene.mobileBg} px-6 py-16`}
+                >
+                  <div className="text-center">
+                    <motion.div
+                      initial={{ scale: 0.5 }}
+                      whileInView={{ scale: 1 }}
+                      transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+                      className="text-7xl mb-6"
+                    >
+                      {scene.emoji}
+                    </motion.div>
+                    <h3
+                      className={`text-3xl font-bold mb-4 ${
+                        isLast ? 'text-white' : 'text-gray-900 dark:text-white'
+                      }`}
+                    >
+                      {scene.title}
+                    </h3>
+                    <p
+                      className={`text-lg ${
+                        isLast ? 'text-gray-300' : 'text-gray-600 dark:text-gray-400'
+                      }`}
+                    >
+                      {scene.subtitle}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+        </motion.div>
+      </div>
+
+      {/* Progress dots */}
+      <div className="flex justify-center gap-2 mt-8">
+        {scenes.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setActiveIndex(i)}
+            className={`h-2 rounded-full transition-all ${
+              i === activeIndex
+                ? 'w-8 bg-blue-600'
+                : 'w-2 bg-gray-300 dark:bg-gray-700'
+            }`}
+          />
+        ))}
+      </div>
+    </section>
+  )
+}
+
+// ─── Desktop: Scroll-driven experience (unchanged logic) ───────────────────
+
 function DesktopScrollExperience({ scenes, lang }: { scenes: any[]; lang: string }) {
   const containerRef = useRef<HTMLDivElement>(null)
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start 80%", "end start"]
+    offset: ['start 80%', 'end start'],
   })
 
-  // Background overlay — transparent at start (inherits wrapper bg), fades to dark
-  const bgOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.15, 0.4, 1],
-    [0, 0, 1, 1]
-  )
+  const bgOpacity = useTransform(scrollYProgress, [0, 0.15, 0.4, 1], [0, 0, 1, 1])
 
-  const textColor = useTransform(
-    scrollYProgress,
-    [0, 0.15, 0.35, 1],
-    [
-      'rgb(17, 24, 39)',
-      'rgb(17, 24, 39)',
-      'rgb(243, 244, 246)',
-      'rgb(255, 255, 255)'
-    ]
-  )
-
-  // Scene progress values
   const scene1Progress = useTransform(scrollYProgress, [0, 0.15, 0.25], [0, 1, 0])
   const scene2Progress = useTransform(scrollYProgress, [0.2, 0.35, 0.45], [0, 1, 0])
   const scene3Progress = useTransform(scrollYProgress, [0.4, 0.55, 0.65], [0, 1, 0])
   const scene4Progress = useTransform(scrollYProgress, [0.6, 0.72, 0.82], [0, 1, 0])
   const scene5Progress = useTransform(scrollYProgress, [0.7, 0.78, 1], [0, 1, 1])
 
+  const progressArr = [scene1Progress, scene2Progress, scene3Progress, scene4Progress, scene5Progress]
+
   return (
     <div ref={containerRef} className="relative min-h-[450vh]">
-      {/* Dark overlay — fades in as user scrolls, transparent at start */}
-      <motion.div
-        className="absolute inset-0 bg-black"
-        style={{ opacity: bgOpacity }}
-      />
+      <motion.div className="absolute inset-0 bg-black" style={{ opacity: bgOpacity }} />
 
-      {/* Sticky container */}
       <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
-        {/* Gradient glow */}
         <div className="absolute inset-0 pointer-events-none">
           <motion.div
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[150px]"
-            style={{
-              background: 'linear-gradient(to bottom right, var(--tw-gradient-stops))',
-            }}
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.2, 0.3, 0.2],
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
+            style={{ background: 'linear-gradient(to bottom right, var(--tw-gradient-stops))' }}
+            animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.3, 0.2] }}
+            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
           />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left: Content */}
             <div className="text-center lg:text-left">
               {scenes.map((scene, index) => (
-                <SceneText
-                  key={index}
-                  scene={scene}
-                  progress={
-                    index === 0 ? scene1Progress :
-                    index === 1 ? scene2Progress :
-                    index === 2 ? scene3Progress :
-                    index === 3 ? scene4Progress :
-                    scene5Progress
-                  }
-                  textColor={textColor}
-                />
+                <SceneText key={index} scene={scene} progress={progressArr[index]} />
               ))}
             </div>
 
-            {/* Right: iPhone mockup */}
             <div className="flex items-center justify-center">
               <div className="relative w-[280px] sm:w-[320px] h-[570px] sm:h-[650px]">
-                {/* iPhone frame */}
                 <div className="absolute inset-0 bg-gray-900 rounded-[3rem] shadow-2xl border-[14px] border-gray-900">
-                  {/* Notch */}
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-7 bg-gray-900 rounded-b-3xl z-10" />
-
-                  {/* Screen */}
                   <div className="relative w-full h-full bg-white dark:bg-gray-950 rounded-[2.3rem] overflow-hidden">
                     <PhoneContent
                       scene1Progress={scene1Progress}
@@ -204,41 +265,30 @@ function DesktopScrollExperience({ scenes, lang }: { scenes: any[]; lang: string
   )
 }
 
-// Scene text component
-function SceneText({ scene, progress, textColor }: { scene: any; progress: any; textColor: any }) {
+function SceneText({ scene, progress }: { scene: any; progress: any }) {
   const opacity = progress
   const y = useTransform(progress, [0, 0.5, 1], [30, 0, -30])
 
   return (
-    <motion.div
-      style={{ opacity, y }}
-      className="absolute inset-0 flex flex-col justify-center"
-    >
-      <div className="text-5xl sm:text-6xl mb-6 drop-shadow-2xl">
-        {scene.emoji}
-      </div>
-
+    <motion.div style={{ opacity, y }} className="absolute inset-0 flex flex-col justify-center">
+      <div className="text-5xl sm:text-6xl mb-6 drop-shadow-2xl">{scene.emoji}</div>
       <motion.h2
         className="text-3xl sm:text-4xl lg:text-5xl mb-4"
         style={{
-          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Rounded", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
           fontWeight: 800,
           letterSpacing: '-0.02em',
           color: '#ffffff',
-          textShadow: '0 2px 12px rgba(0,0,0,0.4), 0 4px 24px rgba(0,0,0,0.2)'
+          textShadow: '0 2px 12px rgba(0,0,0,0.4), 0 4px 24px rgba(0,0,0,0.2)',
         }}
       >
         {scene.title}
       </motion.h2>
-
       <motion.p
         className="text-lg sm:text-xl"
         style={{
-          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Rounded", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
           fontWeight: 600,
-          letterSpacing: '0em',
           color: '#ffffff',
-          textShadow: '0 1px 8px rgba(0,0,0,0.3), 0 2px 16px rgba(0,0,0,0.15)'
+          textShadow: '0 1px 8px rgba(0,0,0,0.3), 0 2px 16px rgba(0,0,0,0.15)',
         }}
       >
         {scene.subtitle}
@@ -247,18 +297,17 @@ function SceneText({ scene, progress, textColor }: { scene: any; progress: any; 
   )
 }
 
-// Phone content component
-function PhoneContent({ scene1Progress, scene2Progress, scene3Progress, scene4Progress, scene5Progress, lang }: any) {
-  const opacity1 = scene1Progress
-  const opacity2 = scene2Progress
-  const opacity3 = scene3Progress
-  const opacity4 = scene4Progress
-  const opacity5 = scene5Progress
-
+function PhoneContent({
+  scene1Progress,
+  scene2Progress,
+  scene3Progress,
+  scene4Progress,
+  scene5Progress,
+  lang,
+}: any) {
   return (
     <div className="h-full flex items-center justify-center p-6 sm:p-8">
-      {/* Scene 1: WhatsApp message */}
-      <motion.div style={{ opacity: opacity1 }} className="absolute text-center w-full px-6">
+      <motion.div style={{ opacity: scene1Progress }} className="absolute text-center w-full px-6">
         <div className="space-y-4">
           <div className="bg-green-100 dark:bg-green-900 rounded-2xl p-4 text-left">
             <p className="text-sm text-gray-800 dark:text-gray-200">
@@ -272,15 +321,14 @@ function PhoneContent({ scene1Progress, scene2Progress, scene3Progress, scene4Pr
         </div>
       </motion.div>
 
-      {/* Scene 2: Thinking */}
-      <motion.div style={{ opacity: opacity2 }} className="absolute text-center w-full px-6">
+      <motion.div style={{ opacity: scene2Progress }} className="absolute text-center w-full px-6">
         <div className="space-y-3">
           <div className="text-4xl">🧠</div>
           <div className="space-y-2">
             {[
               lang === 'bg' ? 'Анализира...' : 'Analyzing...',
               lang === 'bg' ? 'Проверява наличност' : 'Checking availability',
-              lang === 'bg' ? 'Изчислява цена' : 'Calculating price'
+              lang === 'bg' ? 'Изчислява цена' : 'Calculating price',
             ].map((text, i) => (
               <div key={i} className="flex items-center justify-center gap-2 text-xs text-gray-600 dark:text-gray-400">
                 <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />
@@ -291,8 +339,7 @@ function PhoneContent({ scene1Progress, scene2Progress, scene3Progress, scene4Pr
         </div>
       </motion.div>
 
-      {/* Scene 3: Response */}
-      <motion.div style={{ opacity: opacity3 }} className="absolute text-center w-full px-6">
+      <motion.div style={{ opacity: scene3Progress }} className="absolute text-center w-full px-6">
         <div className="space-y-4">
           <div className="bg-blue-500 rounded-2xl p-4 text-left text-white">
             <p className="text-sm">
@@ -307,13 +354,12 @@ function PhoneContent({ scene1Progress, scene2Progress, scene3Progress, scene4Pr
         </div>
       </motion.div>
 
-      {/* Scene 4: Automation */}
-      <motion.div style={{ opacity: opacity4 }} className="absolute text-center w-full px-6">
+      <motion.div style={{ opacity: scene4Progress }} className="absolute text-center w-full px-6">
         <div className="space-y-3">
           {[
             { icon: '📅', text: lang === 'bg' ? 'Календар' : 'Calendar' },
             { icon: '💼', text: 'CRM' },
-            { icon: '📧', text: 'Email' }
+            { icon: '📧', text: 'Email' },
           ].map((item, i) => (
             <div key={i} className="flex items-center gap-3 bg-gray-100 dark:bg-gray-800 rounded-xl p-3">
               <span className="text-2xl">{item.icon}</span>
@@ -326,8 +372,7 @@ function PhoneContent({ scene1Progress, scene2Progress, scene3Progress, scene4Pr
         </div>
       </motion.div>
 
-      {/* Scene 5: Languages */}
-      <motion.div style={{ opacity: opacity5 }} className="absolute text-center w-full px-6">
+      <motion.div style={{ opacity: scene5Progress }} className="absolute text-center w-full px-6">
         <div className="grid grid-cols-3 gap-3">
           {['🇧🇬', '🇬🇧', '🇩🇪', '🇷🇺', '🇫🇷', '🇪🇸'].map((flag, i) => (
             <div key={i} className="aspect-square bg-gray-100 dark:bg-gray-800 rounded-xl flex items-center justify-center text-3xl">
