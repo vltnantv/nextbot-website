@@ -7,8 +7,12 @@ export async function POST(request: Request) {
 
     console.log('New demo request:', data)
 
-    // Send emails (notification to team + confirmation to customer)
-    await sendDemoNotification(data)
+    // Send emails (best-effort, don't block the response)
+    try {
+      await sendDemoNotification(data)
+    } catch (emailError) {
+      console.error('Email sending failed (non-blocking):', emailError)
+    }
 
     return NextResponse.json({ success: true })
   } catch (error) {
