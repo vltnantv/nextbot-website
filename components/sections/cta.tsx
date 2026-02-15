@@ -31,7 +31,7 @@ export function CTA() {
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Button size="lg">
-              Start Free Trial
+              Get Started
               <svg
                 className="ml-2 h-4 w-4"
                 fill="none"
@@ -51,7 +51,7 @@ export function CTA() {
             </Button>
           </div>
           <p className="mt-6 text-sm text-nextbot-cloud/40">
-            No credit card required. 14-day free trial.
+            Book a demo to see Nextbot in action.
           </p>
         </motion.div>
       </Container>

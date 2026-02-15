@@ -50,7 +50,7 @@ export function ProblemSection() {
         lang === 'bg'
           ? 'Но не можеш да не отговориш. Затова работата ти няма граници.'
           : "But you can't not answer. That's why work has no boundaries.",
-      icon: '😤',
+      icon: '😩',
       color: 'from-yellow-500 to-red-500',
     },
   ]

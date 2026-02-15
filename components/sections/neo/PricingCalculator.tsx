@@ -301,8 +301,8 @@ export function PricingCalculator() {
                       <div className="text-2xl font-bold">€{annualTotal}</div>
                       <div className="text-xs opacity-70">
                         {lang === 'bg'
-                          ? '/година (2 месеца безплатни)'
-                          : '/year (2 months free)'}
+                          ? '/година (2 месеца отстъпка)'
+                          : '/year (2 months discount)'}
                       </div>
                     </motion.div>
                   )}
@@ -315,8 +315,8 @@ export function PricingCalculator() {
 
                 <p className="text-xs opacity-60 text-center mt-4">
                   {lang === 'bg'
-                    ? '30 дни безплатно • Без кредитна карта'
-                    : '30 days free • No credit card'}
+                    ? 'Setup за 2-3 дни • Поддръжка на български'
+                    : 'Setup in 2-3 days • Bulgarian support'}
                 </p>
               </motion.div>
             </div>

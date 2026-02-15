@@ -51,31 +51,27 @@ export default function LegalPage() {
             content: 'Цените на услугите са публикувани на нашия уебсайт. Всички цени са в евро (EUR) и не включват ДДС. Плащанията се извършват месечно или годишно, в зависимост от избрания план. При годишно плащане се предоставя отстъпка от 2 месеца.'
           },
           {
-            title: '5. Безплатен пробен период',
-            content: 'Предлагаме 30-дневен безплатен пробен период за нови потребители. През този период можете да тествате всички функции на услугата. Не се изисква кредитна карта за започване на пробния период.'
-          },
-          {
-            title: '6. Прекратяване на услугата',
+            title: '5. Прекратяване на услугата',
             content: 'Можете да прекратите използването на услугата по всяко време от вашия акаунт. При прекратяване, вашите данни ще бъдат изтрити след 30 дни, освен ако не е предвидено друго от закона.'
           },
           {
-            title: '7. Интелектуална собственост',
+            title: '6. Интелектуална собственост',
             content: 'Всички права върху софтуера, дизайна, съдържанието и търговските марки на Nextbot са собственост на Nextbot EOOD. Не можете да копирате, модифицирате или разпространявате нашата интелектуална собственост без писмено разрешение.'
           },
           {
-            title: '8. Отговорност и гаранции',
+            title: '7. Отговорност и гаранции',
             content: 'Услугата се предоставя "както е". Nextbot не носи отговорност за щети, произтичащи от използването или невъзможността за използване на услугата. Гарантираме 99.9% uptime, с изключение на планирани поддръжки.'
           },
           {
-            title: '9. Защита на данните',
+            title: '8. Защита на данните',
             content: 'Обработваме вашите данни съгласно GDPR и българското законодателство. Подробности за обработката на лични данни можете да намерите в секцията "Поверителност".'
           },
           {
-            title: '10. Изменения в условията',
+            title: '9. Изменения в условията',
             content: 'Запазваме правото да променяме тези условия. При съществени промени ще ви уведомим по имейл 30 дни предварително.'
           },
           {
-            title: '11. Приложимо право',
+            title: '10. Приложимо право',
             content: 'Тези условия се регулират от законодателството на Република България. Всички спорове ще бъдат решавани в компетентните съдилища в София, България.'
           }
         ]
@@ -207,34 +203,30 @@ export default function LegalPage() {
           },
           {
             title: '4. Pricing and Payments',
-            content: 'All prices are in euros (EUR) and exclude VAT. Payments are monthly or annually. Annual payments get 2 months free.'
+            content: 'All prices are in euros (EUR) and exclude VAT. Payments are monthly or annually. Annual payments include a discount.'
           },
           {
-            title: '5. Free Trial',
-            content: 'We offer a 30-day free trial. No credit card required.'
-          },
-          {
-            title: '6. Termination',
+            title: '5. Termination',
             content: 'You may terminate at any time. Data will be deleted after 30 days.'
           },
           {
-            title: '7. Intellectual Property',
+            title: '6. Intellectual Property',
             content: 'All rights to our software, design, and content are owned by Nextbot EOOD.'
           },
           {
-            title: '8. Liability',
+            title: '7. Liability',
             content: 'Service provided "as is". We guarantee 99.9% uptime excluding maintenance.'
           },
           {
-            title: '9. Data Protection',
+            title: '8. Data Protection',
             content: 'We process data according to GDPR. See Privacy section for details.'
           },
           {
-            title: '10. Changes',
+            title: '9. Changes',
             content: 'We reserve the right to modify terms with 30 days notice.'
           },
           {
-            title: '11. Applicable Law',
+            title: '10. Applicable Law',
             content: 'Governed by Bulgarian law. Disputes resolved in Sofia, Bulgaria.'
           }
         ]

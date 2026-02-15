@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useLanguage } from '@/lib/i18n'
 import { translations } from '@/lib/translations'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { LanguageToggle } from '@/components/LanguageToggle'
 
@@ -69,7 +70,7 @@ export function Header() {
             className="flex items-center gap-2 text-black dark:text-white relative z-50"
             onClick={() => setMenuOpen(false)}
           >
-            <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center font-bold text-white text-lg">N</div>
+            <Image src="/logo-icon.png" alt="Nextbot" width={48} height={48} />
             <span className="font-semibold text-xl">Nextbot</span>
           </Link>
 
@@ -183,28 +184,37 @@ export function Header() {
               </svg>
             </button>
             {mobileProductsOpen && (
-              <div className="pl-4 pb-2 space-y-3">
+              <div className="pl-4 pb-2 space-y-4">
                 <Link
                   href="/neo"
                   onClick={() => setMenuOpen(false)}
-                  className="flex items-center gap-3 py-2"
+                  className="block py-2"
                 >
-                  <span className="text-lg font-medium text-gray-900 dark:text-white">{t.productMenu.neo.name}</span>
-                  <span className="text-xs font-semibold uppercase px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400">
-                    {t.productMenu.neo.new}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg font-medium text-gray-900 dark:text-white">{t.productMenu.neo.name}</span>
+                    <span className="text-xs font-semibold uppercase px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400">
+                      {t.productMenu.neo.new}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{t.productMenu.neo.tagline}</p>
                 </Link>
-                <div className="flex items-center gap-3 py-2 opacity-50">
-                  <span className="text-lg font-medium text-gray-900 dark:text-white">{t.productMenu.aria.name}</span>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500">
-                    {t.productMenu.aria.comingSoon}
-                  </span>
+                <div className="py-2 opacity-50">
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg font-medium text-gray-900 dark:text-white">{t.productMenu.aria.name}</span>
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500">
+                      {t.productMenu.aria.comingSoon}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{t.productMenu.aria.tagline}</p>
                 </div>
-                <div className="flex items-center gap-3 py-2 opacity-50">
-                  <span className="text-lg font-medium text-gray-900 dark:text-white">{t.productMenu.nova.name}</span>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500">
-                    {t.productMenu.nova.comingSoon}
-                  </span>
+                <div className="py-2 opacity-50">
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg font-medium text-gray-900 dark:text-white">{t.productMenu.nova.name}</span>
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500">
+                      {t.productMenu.nova.comingSoon}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{t.productMenu.nova.tagline}</p>
                 </div>
               </div>
             )}

@@ -58,9 +58,9 @@ const reassuranceFade = {
 // ---------------------------------------------------------------------------
 
 const REASSURANCES = [
-  "✓ Без кредитна карта",
+  "✓ Setup за 2-3 дни",
   "✓ Без договор",
-  "✓ 30 дни безплатно",
+  "✓ от €120/месец",
 ];
 
 const PHONE_NUMBER = "+359 894 288 119"; // Replace with real number
@@ -135,7 +135,7 @@ export function FinalCTA() {
               }}
             >
               <span className="text-[13px] font-semibold text-white">
-                🎯 Pilot Program - 7 места свободни
+                🎯 Ограничени места
               </span>
             </motion.div>
           </motion.div>
@@ -161,7 +161,7 @@ export function FinalCTA() {
               transitionDelay: "0.2s",
             }}
           >
-            30 дни безплатно.
+            Започни с Neo.
           </motion.h2>
 
           {/* Sub text */}
@@ -181,7 +181,7 @@ export function FinalCTA() {
               className="group mb-8 rounded-2xl bg-white px-12 py-5 text-lg font-semibold text-nextbot-midnight shadow-[0_8px_32px_rgba(0,0,0,0.2)] transition-all duration-300 hover:scale-105 hover:shadow-[0_16px_48px_rgba(0,0,0,0.3)] active:scale-[0.98]"
               iconRight={<ArrowRightIcon />}
             >
-              Започни безплатния пилот
+              Започни сега
             </Button>
           </motion.div>
 

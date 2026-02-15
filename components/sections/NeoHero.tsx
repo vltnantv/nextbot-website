@@ -106,7 +106,7 @@ export function NeoHero() {
           >
             <StatPill value="199 лв" label="от / месец" />
             <StatPill value="24/7" label="без почивен ден" />
-            <StatPill value="30 дни" label="безплатно" />
+            <StatPill value="2-3 дни" label="setup" />
           </motion.div>
 
           {/* CTAs */}
@@ -121,7 +121,7 @@ export function NeoHero() {
               href="#pilot"
               className="inline-flex items-center justify-center h-12 px-8 rounded-full bg-white text-nextbot-midnight hover:bg-nextbot-silver shadow-2xl font-semibold text-[15px] transition-all active:scale-[0.98]"
             >
-              Започни безплатно →
+              Започни сега →
             </Link>
             <Link
               href="#addons"

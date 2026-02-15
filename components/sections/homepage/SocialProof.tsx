@@ -23,24 +23,24 @@ const testimonials = {
     {
       quote: 'Neo отговаря на гостите ни по-бързо от рецепцията. Резервациите ни нараснаха с 30%.',
       name: 'Мария К.',
-      role: 'Мениджър, Хотел Парадайс',
+      role: '',
     },
     {
       quote: 'Спестихме 20+ часа седмично от customer support. Neo се справя перфектно.',
       name: 'Георги Д.',
-      role: 'CEO, ShopBG',
+      role: '',
     },
   ],
   en: [
     {
       quote: 'Neo responds to our guests faster than the front desk. Bookings increased by 30%.',
       name: 'Maria K.',
-      role: 'Manager, Hotel Paradise',
+      role: '',
     },
     {
       quote: 'We saved 20+ hours per week on customer support. Neo handles it perfectly.',
       name: 'George D.',
-      role: 'CEO, ShopBG',
+      role: '',
     },
   ],
 }

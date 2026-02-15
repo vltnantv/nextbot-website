@@ -50,7 +50,7 @@ export const translations = {
     earlyAccess: {
       title: 'Ранен достъп',
       subtitle: 'Първите 10 компании в България',
-      description: 'Получи пълен достъп до Neo безплатно за 30 дни. Без ангажименти.',
+      description: 'Получи ранен достъп до Neo. Ограничени места.',
       spotsLeft: 'останали места',
       spotsTotal: 'от 10',
       form: {
@@ -69,7 +69,7 @@ export const translations = {
     common: {
       learnMore: 'Научи повече',
       buyNow: 'Купи сега',
-      tryFree: 'Пробвай безплатно',
+      tryFree: 'Започни сега',
       from: 'от',
       perMonth: '/месец',
       new: 'Ново',
@@ -211,7 +211,7 @@ export const translations = {
         totalLabel: 'Обща цена',
         perMonth: '/месец',
         perYear: '/година',
-        annualToggle: 'Годишно (2 месеца безплатни)',
+        annualToggle: 'Годишно (2 месеца отстъпка)',
         cta: 'Започни с тази конфигурация'
       }
     },
@@ -223,7 +223,7 @@ export const translations = {
         headline: 'AI асистент който',
         headlineAccent: 'никога не спи',
         subheadline: 'Отговаря на клиентите ти 24/7. Навсякъде. На всеки език. Без почивен ден.',
-        cta: 'Започни безплатно',
+        cta: 'Започни сега',
         watchDemo: 'Виж demo'
       },
 
@@ -327,7 +327,7 @@ export const translations = {
 
       cta: {
         title: 'Готов ли си да опиташ Neo?',
-        subtitle: '30 дни безплатно. Без кредитна карта.',
+        subtitle: 'Setup за 2-3 дни. Поддръжка на български.',
         button: 'Започни сега',
         note: 'Setup за 2-3 дни. Поддръжка на български.'
       }
@@ -373,6 +373,7 @@ export const translations = {
       resources: {
         title: 'Ресурси',
         items: [
+          { name: 'Научи повече', href: '/learn-more' },
           { name: 'Документация', href: '/documentation' },
           { name: 'API', href: '/api-docs' },
           { name: 'Помощен център', href: '#', disabled: true, badge: 'Скоро' },
@@ -487,7 +488,7 @@ export const translations = {
     earlyAccess: {
       title: 'Early Access',
       subtitle: 'First 10 companies in Bulgaria',
-      description: 'Get full access to Neo free for 30 days. No commitments.',
+      description: 'Get full access to Neo. Limited spots available.',
       spotsLeft: 'spots left',
       spotsTotal: 'of 10',
       form: {
@@ -505,7 +506,7 @@ export const translations = {
     common: {
       learnMore: 'Learn more',
       buyNow: 'Buy now',
-      tryFree: 'Try for free',
+      tryFree: 'Get started',
       from: 'from',
       perMonth: '/month',
       new: 'New',
@@ -647,7 +648,7 @@ export const translations = {
         totalLabel: 'Total price',
         perMonth: '/month',
         perYear: '/year',
-        annualToggle: 'Annual (2 months free)',
+        annualToggle: 'Annual (2 months discount)',
         cta: 'Start with this configuration'
       }
     },
@@ -659,7 +660,7 @@ export const translations = {
         headline: 'AI assistant that',
         headlineAccent: 'never sleeps',
         subheadline: 'Answers your customers 24/7. Everywhere. In any language. No days off.',
-        cta: 'Start free',
+        cta: 'Get started',
         watchDemo: 'Watch demo'
       },
 
@@ -763,7 +764,7 @@ export const translations = {
 
       cta: {
         title: 'Ready to try Neo?',
-        subtitle: '30 days free. No credit card required.',
+        subtitle: 'Setup in 2-3 days. Support in Bulgarian.',
         button: 'Start now',
         note: 'Setup in 2-3 days. Support in Bulgarian.'
       }
@@ -809,6 +810,7 @@ export const translations = {
       resources: {
         title: 'Resources',
         items: [
+          { name: 'Learn More', href: '/learn-more' },
           { name: 'Documentation', href: '/documentation' },
           { name: 'API', href: '/api-docs' },
           { name: 'Help Center', href: '#', disabled: true, badge: 'Soon' },

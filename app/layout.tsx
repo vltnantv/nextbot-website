@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
@@ -11,24 +11,25 @@ const inter = Inter({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "NextBot",
-  description: "NextBot",
-  icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
-    apple: "/favicon.svg",
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 5,
-    userScalable: true,
-  },
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
     { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
   ],
+};
+
+export const metadata: Metadata = {
+  title: "NextBot",
+  description: "NextBot",
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
@@ -58,7 +59,7 @@ export default function RootLayout({
     "@type": "Product",
     name: "Nextbot AI Assistant",
     description:
-      "24/7 AI асистент за хотели с 30-дневен безплатен пилот",
+      "24/7 AI асистент за хотели и бизнес",
     brand: {
       "@type": "Brand",
       name: "Nextbot",
@@ -99,7 +100,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{Object.keys(localStorage).forEach(function(k){if(k.indexOf('voiceflow')>-1||k.indexOf('vf_')>-1)localStorage.removeItem(k)});Object.keys(sessionStorage).forEach(function(k){if(k.indexOf('voiceflow')>-1||k.indexOf('vf_')>-1)sessionStorage.removeItem(k)})}catch(e){}})();`,
+            __html: `(function(){try{Object.keys(localStorage).forEach(function(k){if(k.indexOf('voiceflow')>-1||k.indexOf('vf_')>-1)localStorage.removeItem(k)});Object.keys(sessionStorage).forEach(function(k){if(k.indexOf('voiceflow')>-1||k.indexOf('vf_')>-1)sessionStorage.removeItem(k)})}catch(e){}})(window.scrollTo(0,0));if('scrollRestoration' in history)history.scrollRestoration='manual';`,
           }}
         />
         <Header />

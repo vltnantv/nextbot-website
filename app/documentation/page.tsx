@@ -198,8 +198,7 @@ Add-ons:
 - Базова аналитика: +€25/месец
 - AI модел upgrade: +€60/месец
 
-30-дневен безплатен пробен период
-Пълен достъп до всички функции.`
+Годишна отстъпка: Платете за 10 месеца, получавате 12.`
             },
             {
               title: 'Billing',
@@ -446,8 +445,7 @@ Add-ons:
 - Basic analytics: +€25/month
 - AI model upgrade: +€60/month
 
-30-day free trial
-Full access to all features.`
+Annual discount: Pay for 10 months, get 12.`
             },
             {
               title: 'Billing',
@@ -588,8 +586,8 @@ Yes, fully GDPR compliant.`
           </h2>
           <p className="text-xl mb-8 text-white/90">
             {lang === 'bg'
-              ? 'Запази безплатен demo call и виж Neo в действие'
-              : 'Book a free demo call and see Neo in action'}
+              ? 'Запази demo call и виж Neo в действие'
+              : 'Book a demo call and see Neo in action'}
           </p>
           <Link
             href="/demo"

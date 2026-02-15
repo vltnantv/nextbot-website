@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useLanguage } from '@/lib/i18n'
 import { translations } from '@/lib/translations'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export function Footer() {
   const { lang } = useLanguage()
@@ -31,8 +32,8 @@ export function Footer() {
     <footer className="bg-gray-50 dark:bg-black border-t border-gray-200 dark:border-gray-800/50">
       {/* Stats bar */}
       <div className="border-b border-gray-200 dark:border-gray-800/50 bg-white dark:bg-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-          <div className="grid grid-cols-3 gap-8 text-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+          <div className="grid grid-cols-3 gap-6 text-center">
             <div>
               <div className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-2">
                 {footerData.stats.customers}
@@ -62,68 +63,42 @@ export function Footer() {
       </div>
 
       {/* Main footer content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 lg:gap-12">
-          {/* Brand column */}
-          <div className="col-span-2 sm:col-span-3 lg:col-span-2">
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center font-bold text-white text-lg">N</div>
-              <span className="text-xl font-bold text-gray-900 dark:text-white">
-                Nextbot
-              </span>
-            </Link>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+        {/* Top row: Logo + Contact + Social */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 pb-8 border-b border-gray-200 dark:border-gray-800/50">
+          <Link href="/" className="flex items-center gap-2">
+            <Image src="/logo-icon.png" alt="Nextbot" width={36} height={36} />
+            <span className="text-lg font-bold text-gray-900 dark:text-white">Nextbot</span>
+          </Link>
 
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-6 max-w-sm">
-              {footerData.tagline}
-            </p>
-
-            {/* Contact info */}
-            <div className="space-y-3 mb-6">
-              <a
-                href={`mailto:${footerData.contact.email}`}
-                className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                {footerData.contact.email}
-              </a>
-
-              <a
-                href={`tel:${footerData.contact.phone.replace(/\s/g, '')}`}
-                className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-                {footerData.contact.phone}
-              </a>
-
-              <div className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-400">
-                <svg className="w-4 h-4 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                <div>{footerData.contact.address}</div>
-              </div>
-            </div>
-
-            {/* Social icons */}
-            <div className="flex flex-wrap gap-3">
-              {footerData.social.items.map((social: any) => (
-                <a
-                  key={social.name}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 dark:hover:text-white transition-all"
-                  title={social.followers || social.name}
-                >
-                  <SocialIcon name={social.icon} />
-                </a>
-              ))}
-            </div>
+          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+            <a href={`mailto:${footerData.contact.email}`} className="hover:text-gray-900 dark:hover:text-white transition-colors">
+              {footerData.contact.email}
+            </a>
+            <span className="hidden sm:inline text-gray-300 dark:text-gray-700">|</span>
+            <a href={`tel:${footerData.contact.phone.replace(/\s/g, '')}`} className="hover:text-gray-900 dark:hover:text-white transition-colors">
+              {footerData.contact.phone}
+            </a>
           </div>
+
+          <div className="flex gap-2">
+            {footerData.social.items.map((social: any) => (
+              <a
+                key={social.name}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 dark:hover:text-white transition-all"
+                title={social.followers || social.name}
+              >
+                <SocialIcon name={social.icon} />
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* Links row */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-6 lg:gap-8">
 
           {/* Products */}
           <div>
@@ -230,67 +205,31 @@ export function Footer() {
                 </li>
               ))}
             </ul>
+          </div>
 
-            {/* Certifications */}
-            <div className="mt-6">
-              <h4 className="text-xs font-semibold text-gray-900 dark:text-white mb-3">
-                {footerData.certifications?.title}
-              </h4>
-              <div className="space-y-2">
-                {footerData.certifications?.items.map((cert: any) => (
-                  <div key={cert.name} className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
-                    <span>{cert.icon}</span>
-                    <span>{cert.name}</span>
-                  </div>
-                ))}
-              </div>
+          {/* Certifications */}
+          <div>
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+              {footerData.certifications?.title}
+            </h3>
+            <div className="space-y-2">
+              {footerData.certifications?.items.map((cert: any) => (
+                <div key={cert.name} className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
+                  <span>{cert.icon}</span>
+                  <span>{cert.name}</span>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Newsletter */}
-          <div className="col-span-2 sm:col-span-1">
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
-              {footerData.newsletter.title}
-            </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              {footerData.newsletter.description}
-            </p>
-
-            <form onSubmit={handleSubscribe} className="space-y-3">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder={footerData.newsletter.placeholder}
-                required
-                disabled={subscribing || subscribed}
-                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50 transition-colors"
-              />
-              <button
-                type="submit"
-                disabled={subscribing || subscribed}
-                className="w-full px-4 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition-colors disabled:bg-green-500 disabled:cursor-not-allowed touch-manipulation"
-              >
-                {subscribed
-                  ? footerData.newsletter.success
-                  : subscribing
-                    ? '...'
-                    : footerData.newsletter.button}
-              </button>
-            </form>
-
-            <p className="text-xs text-gray-500 dark:text-gray-500 mt-3">
-              {footerData.newsletter.privacy}
-            </p>
-          </div>
         </div>
       </div>
 
       {/* Bottom bar */}
       <div className="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
-            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-2">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-1">
               <p>{footerData.copyright}</p>
               <p>{footerData.bulstat}</p>
               <p>{footerData.vat}</p>
@@ -315,7 +254,7 @@ function SocialIcon({ name }: { name: string }) {
     ),
     twitter: (
       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" />
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
       </svg>
     ),
     facebook: (

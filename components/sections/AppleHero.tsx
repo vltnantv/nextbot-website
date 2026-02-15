@@ -42,7 +42,7 @@ export function AppleHero() {
             {t(lang, 'hero.cta')}
           </Link>
           <Link
-            href="/neo"
+            href="/learn-more"
             className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-3.5 text-base font-semibold rounded-full text-blue-400 hover:underline decoration-2 underline-offset-4"
           >
             {t(lang, 'hero.learnMore')}

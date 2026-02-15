@@ -64,7 +64,7 @@ export function HomepageCTA() {
             {f.cta.button}
           </a>
           <Link
-            href="/neo"
+            href="/learn-more"
             className="inline-flex items-center gap-2 px-8 py-4 border border-white/20 text-white font-semibold rounded-full hover:bg-white/10 transition-all"
           >
             {lang === 'bg' ? 'Научи повече' : 'Learn more'}
@@ -82,8 +82,8 @@ export function HomepageCTA() {
           className="text-sm text-gray-500 mt-8"
         >
           {lang === 'bg'
-            ? '30 дни безплатно • Без кредитна карта • Setup за 2-3 дни'
-            : '30 days free • No credit card • Setup in 2-3 days'}
+            ? 'Setup за 2-3 дни • Поддръжка на български • от €120/месец'
+            : 'Setup in 2-3 days • Bulgarian support • from €120/month'}
         </motion.p>
       </div>
     </section>
