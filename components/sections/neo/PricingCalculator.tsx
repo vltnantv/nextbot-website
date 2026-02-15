@@ -4,7 +4,6 @@ import { useState, useMemo, useCallback, useEffect } from 'react'
 import { useLanguage } from '@/lib/i18n'
 import { t } from '@/lib/translations'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import {
   INDUSTRIES,
@@ -31,7 +30,6 @@ const STEP_META = [
 
 export function PricingCalculator() {
   const { lang } = useLanguage()
-  const router = useRouter()
   const l = useCallback((bg: string, en: string) => (lang === 'bg' ? bg : en), [lang])
 
   const [currentStep, setCurrentStep] = useState(0)
@@ -691,12 +689,17 @@ export function PricingCalculator() {
                 </div>
 
                 {/* CTA */}
-                <button
-                  onClick={() => { saveConfig(); router.push('/book-demo') }}
+                <a
+                  href="/book-demo"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    try { saveConfig() } catch {}
+                    window.location.href = '/book-demo'
+                  }}
                   className="block w-full mt-6 px-6 py-4 rounded-full bg-white dark:bg-black text-black dark:text-white font-semibold hover:scale-105 transition-transform shadow-lg text-center cursor-pointer"
                 >
                   {l('Започни с тази конфигурация', 'Start with this configuration')}
-                </button>
+                </a>
 
                 <p className="text-xs opacity-60 text-center mt-4">
                   {l(
