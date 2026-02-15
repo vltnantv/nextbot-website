@@ -23,16 +23,16 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "NextBot",
-  description: "AI Communication Platform - 24/7 AI асистент за вашия бизнес",
+  title: "Nextbot - AI Chatbot & Voice Assistant | Neo & Aria",
+  description: "Neo AI chatbot отговаря на съобщения. Aria voice assistant отговаря на обаждания. 24/7 автоматизация на customer service.",
   icons: {
     icon: "/favicon.png",
     shortcut: "/favicon.png",
     apple: "/favicon.png",
   },
   openGraph: {
-    title: "Nextbot",
-    description: "AI Communication Platform - 24/7 AI асистент за вашия бизнес",
+    title: "Nextbot - AI Chatbot & Voice Assistant",
+    description: "Neo AI chatbot отговаря на съобщения. Aria voice assistant отговаря на обаждания. 24/7 автоматизация.",
     url: "https://nextbot.me",
     siteName: "Nextbot",
     images: [
@@ -47,8 +47,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nextbot",
-    description: "AI Communication Platform - 24/7 AI асистент за вашия бизнес",
+    title: "Nextbot - AI Chatbot & Voice Assistant",
+    description: "Neo AI chatbot отговаря на съобщения. Aria voice assistant отговаря на обаждания. 24/7 автоматизация.",
     images: ["https://nextbot.me/og-image.png"],
   },
 };
@@ -87,12 +87,12 @@ export default function RootLayout({
     },
     offers: {
       "@type": "Offer",
-      price: "299",
-      priceCurrency: "BGN",
+      price: "59",
+      priceCurrency: "EUR",
       priceSpecification: {
         "@type": "UnitPriceSpecification",
-        price: "299",
-        priceCurrency: "BGN",
+        price: "59",
+        priceCurrency: "EUR",
         unitText: "месец",
       },
       availability: "https://schema.org/InStock",

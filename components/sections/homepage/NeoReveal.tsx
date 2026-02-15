@@ -1,23 +1,80 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { motion, useInView, useMotionValue, useSpring } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
 import { useLanguage } from '@/lib/i18n'
 import Link from 'next/link'
-import { AnimatedNeoLogo } from '@/components/AnimatedNeoLogo'
 
 export function NeoReveal() {
   const { lang } = useLanguage()
   const ref = useRef(null)
-  // Faster trigger
+  const [isMobile, setIsMobile] = useState(false)
+  const tiltX = useMotionValue(0)
+  const tiltY = useMotionValue(0)
+  const smoothTiltX = useSpring(tiltX, { stiffness: 120, damping: 20 })
+  const smoothTiltY = useSpring(tiltY, { stiffness: 120, damping: 20 })
+
   const isInView = useInView(ref, {
     once: true,
-    margin: '-50px' // Reduced from -100px
+    margin: '-50px'
   })
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  // Gyroscope for mobile
+  useEffect(() => {
+    if (!isMobile) return
+
+    const handleOrientation = (e: DeviceOrientationEvent) => {
+      const gamma = e.gamma ?? 0
+      const beta = e.beta ?? 0
+      tiltX.set(gamma / 3)
+      tiltY.set(Math.max(-30, Math.min(30, beta - 45)) / 3)
+    }
+
+    const requestPermission = async () => {
+      const DOE = DeviceOrientationEvent as any
+      if (typeof DOE.requestPermission === 'function') {
+        try {
+          const permission = await DOE.requestPermission()
+          if (permission === 'granted') {
+            window.addEventListener('deviceorientation', handleOrientation)
+          }
+        } catch {
+          // Permission denied
+        }
+      } else {
+        window.addEventListener('deviceorientation', handleOrientation)
+      }
+    }
+
+    requestPermission()
+    return () => window.removeEventListener('deviceorientation', handleOrientation)
+  }, [isMobile, tiltX, tiltY])
+
+  // Mouse for desktop
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (isMobile) return
+    const rect = e.currentTarget.getBoundingClientRect()
+    const centerX = rect.left + rect.width / 2
+    const centerY = rect.top + rect.height / 2
+    tiltX.set((e.clientX - centerX) / 20)
+    tiltY.set((e.clientY - centerY) / 20)
+  }
+
+  const handleMouseLeave = () => {
+    tiltX.set(0)
+    tiltY.set(0)
+  }
 
   return (
     <section ref={ref} className="relative py-32 text-white">
-      {/* Subtle glow — no hard edges, blends with page gradient */}
+      {/* Subtle glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full bg-blue-500/[0.06] blur-[120px]" />
         <div className="absolute top-1/3 left-1/4 w-[500px] h-[400px] rounded-full bg-purple-500/[0.04] blur-[100px]" />
@@ -27,23 +84,23 @@ export function NeoReveal() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left: Text reveal */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }} // Less distance: was -50
+            initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.5 }} // Faster: was 0.8
+            transition={{ duration: 0.5 }}
           >
             <motion.p
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
-              transition={{ delay: 0.1 }} // Shorter: was 0.2
+              transition={{ delay: 0.1 }}
               className="text-cyan-400 text-sm uppercase tracking-wider mb-4"
             >
               {lang === 'bg' ? 'Представяме' : 'Introducing'}
             </motion.p>
 
             <motion.h2
-              initial={{ opacity: 0, y: 15 }} // Less distance: was 20
+              initial={{ opacity: 0, y: 15 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.2 }} // Shorter: was 0.4
+              transition={{ delay: 0.2 }}
               className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 px-4"
             >
               Nextbot{' '}
@@ -53,9 +110,9 @@ export function NeoReveal() {
             </motion.h2>
 
             <motion.p
-              initial={{ opacity: 0, y: 15 }} // Less distance: was 20
+              initial={{ opacity: 0, y: 15 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.3 }} // Shorter: was 0.6
+              transition={{ delay: 0.3 }}
               className="text-lg sm:text-xl md:text-2xl text-gray-400 mb-8 px-4"
             >
               {lang === 'bg'
@@ -67,7 +124,7 @@ export function NeoReveal() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
-              transition={{ delay: 0.4 }} // Shorter: was 0.8
+              transition={{ delay: 0.4 }}
               className="space-y-4 mb-8"
             >
               {[
@@ -77,9 +134,9 @@ export function NeoReveal() {
               ].map((feature, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, x: -15 }} // Less distance: was -20
+                  initial={{ opacity: 0, x: -15 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ delay: 0.5 + i * 0.05 }} // Shorter: was 1 + i * 0.1
+                  transition={{ delay: 0.5 + i * 0.05 }}
                   className="flex items-center gap-3"
                 >
                   <svg
@@ -100,9 +157,9 @@ export function NeoReveal() {
 
             {/* CTA */}
             <motion.div
-              initial={{ opacity: 0, y: 15 }} // Less distance: was 20
+              initial={{ opacity: 0, y: 15 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.6 }} // Shorter: was 1.3
+              transition={{ delay: 0.6 }}
             >
               <Link
                 href="/neo"
@@ -122,14 +179,36 @@ export function NeoReveal() {
             </motion.div>
           </motion.div>
 
-          {/* Right: Animated Neo logo */}
+          {/* Right: Animated Neo bubble letters with tilt */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }} // Less scale: was 0.8
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }} // Faster: was 1/0.5
-            className="relative h-[400px]"
+            transition={{ duration: 0.6, delay: 0.3 }}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            className="relative h-[400px] flex items-center justify-center select-none cursor-pointer"
           >
-            <AnimatedNeoLogo />
+            <motion.div
+              className="flex gap-3 sm:gap-5"
+              style={{ x: smoothTiltX, y: smoothTiltY }}
+            >
+              {['N', 'E', 'O'].map((letter, i) => (
+                <motion.span
+                  key={letter}
+                  className="text-8xl sm:text-[10rem] font-black bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text"
+                  style={{
+                    WebkitTextStroke: '2px rgba(255,255,255,0.1)',
+                    lineHeight: 1,
+                  }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: 0.4 + i * 0.1 }}
+                  whileHover={{ scale: 1.08, transition: { duration: 0.2 } }}
+                >
+                  {letter}
+                </motion.span>
+              ))}
+            </motion.div>
           </motion.div>
         </div>
       </div>

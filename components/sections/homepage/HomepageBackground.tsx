@@ -12,9 +12,15 @@ export function HomepageBackground({ children }: { children: React.ReactNode }) 
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
+    const isMobile = window.innerWidth < 1024
+
     const setCanvasSize = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
+      // Use smaller canvas on mobile for performance
+      const scale = isMobile ? 0.5 : 1
+      canvas.width = window.innerWidth * scale
+      canvas.height = window.innerHeight * scale
+      canvas.style.width = '100%'
+      canvas.style.height = '100%'
     }
     setCanvasSize()
     window.addEventListener('resize', setCanvasSize)
@@ -31,8 +37,8 @@ export function HomepageBackground({ children }: { children: React.ReactNode }) 
         this.x = Math.random() * w
         this.y = Math.random() * h
         this.radius = Math.random() * 280 + 140
-        this.vx = (Math.random() - 0.5) * 0.35
-        this.vy = (Math.random() - 0.5) * 0.35
+        this.vx = (Math.random() - 0.5) * 0.25
+        this.vy = (Math.random() - 0.5) * 0.25
         const colors = [
           'rgba(96, 165, 250, 0.12)',
           'rgba(167, 139, 250, 0.10)',
@@ -63,33 +69,49 @@ export function HomepageBackground({ children }: { children: React.ReactNode }) 
       }
     }
 
+    // Fewer blobs on mobile
+    const blobCount = isMobile ? 3 : 5
     const blobs: Blob[] = []
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < blobCount; i++) {
       blobs.push(new Blob(canvas.width, canvas.height))
     }
 
-    function animate() {
+    let animId: number
+    let lastTime = 0
+    const targetFPS = isMobile ? 20 : 30 // Throttle FPS
+    const interval = 1000 / targetFPS
+
+    function animate(time: number) {
+      animId = requestAnimationFrame(animate)
+      const delta = time - lastTime
+      if (delta < interval) return
+      lastTime = time - (delta % interval)
+
       if (!ctx || !canvas) return
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       blobs.forEach((b) => {
         b.update(canvas.width, canvas.height)
         b.draw(ctx)
       })
-      requestAnimationFrame(animate)
     }
-    animate()
+    animId = requestAnimationFrame(animate)
 
-    return () => window.removeEventListener('resize', setCanvasSize)
+    return () => {
+      cancelAnimationFrame(animId)
+      window.removeEventListener('resize', setCanvasSize)
+    }
   }, [])
 
   return (
     <div className="relative bg-[#0c0c14]">
-      {/* Absolute dark background with animated liquid glass blobs */}
+      {/* Animated liquid glass blobs */}
       <div className="absolute inset-0 z-0">
-        {/* Liquid glass canvas */}
-        <canvas ref={canvasRef} className="absolute inset-0" style={{ filter: 'blur(90px)' }} />
+        <canvas
+          ref={canvasRef}
+          className="absolute inset-0 blur-[70px] lg:blur-[70px]"
+        />
 
-        {/* Mesh gradient overlays (subtle on dark) */}
+        {/* Mesh gradient overlays */}
         <div className="absolute inset-0 opacity-40">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-600/15 via-transparent to-purple-600/10" />
           <div className="absolute inset-0 bg-gradient-to-bl from-cyan-500/10 via-transparent to-indigo-600/10" />
@@ -104,7 +126,7 @@ export function HomepageBackground({ children }: { children: React.ReactNode }) 
         />
       </div>
 
-      {/* Ultra-smooth fade to black */}
+      {/* Fade to black */}
       <div
         className="absolute inset-x-0 top-0 z-[1] pointer-events-none"
         style={{

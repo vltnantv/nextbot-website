@@ -8,13 +8,13 @@ const stats = {
     { value: '<1s', label: 'Средно време за отговор' },
     { value: '24/7', label: 'Винаги наличен' },
     { value: '12+', label: 'Поддържани езика' },
-    { value: '€120', label: 'от / месец' },
+    { value: '€59', label: 'от / месец' },
   ],
   en: [
     { value: '<1s', label: 'Average response time' },
     { value: '24/7', label: 'Always available' },
     { value: '12+', label: 'Languages supported' },
-    { value: '€120', label: 'from / month' },
+    { value: '€59', label: 'from / month' },
   ],
 }
 

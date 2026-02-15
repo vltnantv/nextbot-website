@@ -109,24 +109,24 @@ export function Header() {
                     </Link>
 
                     {/* Aria */}
-                    <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg opacity-60 cursor-default">
+                    <Link href="/aria" className="flex items-center gap-2 px-3 py-2.5 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
                       <div>
                         <div className="flex items-center gap-2">
                           <span className="text-sm font-semibold text-gray-900 dark:text-white">{t.productMenu.aria.name}</span>
-                          <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+                          <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400">
                             {t.productMenu.aria.comingSoon}
                           </span>
                         </div>
                         <p className="text-xs text-gray-500 dark:text-gray-400">{t.productMenu.aria.tagline}</p>
                       </div>
-                    </div>
+                    </Link>
 
                     {/* Nova */}
                     <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg opacity-60 cursor-default">
                       <div>
                         <div className="flex items-center gap-2">
                           <span className="text-sm font-semibold text-gray-900 dark:text-white">{t.productMenu.nova.name}</span>
-                          <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+                          <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400">
                             {t.productMenu.nova.comingSoon}
                           </span>
                         </div>
@@ -160,9 +160,9 @@ export function Header() {
               aria-label="Menu"
             >
               <div className="w-5 h-4 flex flex-col justify-between">
-                <span className={`block h-0.5 w-full bg-black dark:bg-white transition-all ${menuOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
+                <span className={`block h-0.5 w-full bg-black dark:bg-white transition-all origin-center ${menuOpen ? 'rotate-45 translate-y-[7px]' : ''}`} />
                 <span className={`block h-0.5 w-full bg-black dark:bg-white transition-all ${menuOpen ? 'opacity-0' : ''}`} />
-                <span className={`block h-0.5 w-full bg-black dark:bg-white transition-all ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+                <span className={`block h-0.5 w-full bg-black dark:bg-white transition-all origin-center ${menuOpen ? '-rotate-45 -translate-y-[7px]' : ''}`} />
               </div>
             </button>
           </div>
@@ -198,19 +198,19 @@ export function Header() {
                   </div>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{t.productMenu.neo.tagline}</p>
                 </Link>
-                <div className="py-2 opacity-50">
+                <Link href="/aria" className="block py-2" onClick={() => setMenuOpen(false)}>
                   <div className="flex items-center gap-2">
                     <span className="text-lg font-medium text-gray-900 dark:text-white">{t.productMenu.aria.name}</span>
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500">
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400">
                       {t.productMenu.aria.comingSoon}
                     </span>
                   </div>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{t.productMenu.aria.tagline}</p>
-                </div>
+                </Link>
                 <div className="py-2 opacity-50">
                   <div className="flex items-center gap-2">
                     <span className="text-lg font-medium text-gray-900 dark:text-white">{t.productMenu.nova.name}</span>
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500">
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400">
                       {t.productMenu.nova.comingSoon}
                     </span>
                   </div>

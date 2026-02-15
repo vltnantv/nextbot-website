@@ -183,22 +183,24 @@ Real-time Dashboard
           items: [
             {
               title: 'Ценообразуване',
-              content: `База: €120/месец
-Включва:
-- 1000 съобщения
-- 1 канал (WhatsApp, Messenger, или Web)
-- Basic аналитика
-- Email поддръжка
+              content: `Starter: €59/месец
+- 500 съобщения, 1 канал, 2 езика, Basic analytics
+
+Pro: €119/месец (Популярен)
+- 2,000 съобщения, 3 канала, 5 езика
+- Google Calendar, Email notifications, CRM
+
+Enterprise: €299/месец
+- 10,000 съобщения, всички канали, 12+ езика
+- White-label, Dedicated model, Phone support
 
 Add-ons:
-- Допълнителен канал: +€30/месец
-- Календар интеграция: +€40/месец
-- CRM интеграция: +€50/месец
-- Email автоматизация: +€35/месец
-- Базова аналитика: +€25/месец
-- AI модел upgrade: +€60/месец
+- +500 съобщения: +€20/месец
+- +1,000 съобщения: +€35/месец
+- Допълнителен канал: +€25/месец
+- Dedicated support: +€99/месец
 
-Годишна отстъпка: Платете за 10 месеца, получавате 12.`
+Годишна отстъпка: 17% (2 месеца безплатно).`
             },
             {
               title: 'Billing',
@@ -430,22 +432,24 @@ Data Export
           items: [
             {
               title: 'Pricing',
-              content: `Base: €120/month
-Includes:
-- 1000 messages
-- 1 channel (WhatsApp, Messenger, or Web)
-- Basic analytics
-- Email support
+              content: `Starter: €59/month
+- 500 messages, 1 channel, 2 languages, Basic analytics
+
+Pro: €119/month (Popular)
+- 2,000 messages, 3 channels, 5 languages
+- Google Calendar, Email notifications, CRM
+
+Enterprise: €299/month
+- 10,000 messages, all channels, 12+ languages
+- White-label, Dedicated model, Phone support
 
 Add-ons:
-- Additional channel: +€30/month
-- Calendar integration: +€40/month
-- CRM integration: +€50/month
-- Email automation: +€35/month
-- Basic analytics: +€25/month
-- AI model upgrade: +€60/month
+- +500 messages: +€20/month
+- +1,000 messages: +€35/month
+- Extra channel: +€25/month
+- Dedicated support: +€99/month
 
-Annual discount: Pay for 10 months, get 12.`
+Annual discount: 17% off (2 months free).`
             },
             {
               title: 'Billing',

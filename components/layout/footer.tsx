@@ -32,29 +32,29 @@ export function Footer() {
     <footer className="bg-gray-50 dark:bg-black border-t border-gray-200 dark:border-gray-800/50">
       {/* Stats bar */}
       <div className="border-b border-gray-200 dark:border-gray-800/50 bg-white dark:bg-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
-          <div className="grid grid-cols-3 gap-6 text-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 sm:py-5">
+          <div className="grid grid-cols-3 gap-2 sm:gap-4 text-center">
             <div>
-              <div className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+              <div className="text-xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-0.5">
                 {footerData.stats.customers}
               </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">
+              <div className="text-[10px] sm:text-xs text-gray-600 dark:text-gray-400">
                 {footerData.stats.customersLabel}
               </div>
             </div>
             <div>
-              <div className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+              <div className="text-xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-0.5">
                 {footerData.stats.messages}
               </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">
+              <div className="text-[10px] sm:text-xs text-gray-600 dark:text-gray-400">
                 {footerData.stats.messagesLabel}
               </div>
             </div>
             <div>
-              <div className="text-3xl sm:text-4xl font-bold text-green-600 dark:text-green-400 mb-2">
+              <div className="text-xl sm:text-3xl font-bold text-green-600 dark:text-green-400 mb-0.5">
                 {footerData.stats.uptime}
               </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">
+              <div className="text-[10px] sm:text-xs text-gray-600 dark:text-gray-400">
                 {footerData.stats.uptimeLabel}
               </div>
             </div>
@@ -63,32 +63,48 @@ export function Footer() {
       </div>
 
       {/* Main footer content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-6">
         {/* Top row: Logo + Contact + Social */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 pb-8 border-b border-gray-200 dark:border-gray-800/50">
-          <Link href="/" className="flex items-center gap-2">
-            <Image src="/logo-icon.png" alt="Nextbot" width={36} height={36} className="dark:invert dark:brightness-0" />
-            <span className="text-lg font-bold text-gray-900 dark:text-white">Nextbot</span>
-          </Link>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 mb-3 sm:mb-5 pb-3 sm:pb-5 border-b border-gray-200 dark:border-gray-800/50">
+          <div className="flex items-center justify-between">
+            <Link href="/" className="flex items-center gap-2">
+              <Image src="/logo-icon.png" alt="Nextbot" width={28} height={28} className="dark:invert dark:brightness-0" />
+              <span className="text-base font-bold text-gray-900 dark:text-white">Nextbot</span>
+            </Link>
+            <div className="flex sm:hidden gap-1.5">
+              {footerData.social.items.map((social: any) => (
+                <a
+                  key={social.name}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 dark:hover:text-white transition-all"
+                  title={social.followers || social.name}
+                >
+                  <SocialIcon name={social.icon} />
+                </a>
+              ))}
+            </div>
+          </div>
 
-          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+          <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
             <a href={`mailto:${footerData.contact.email}`} className="hover:text-gray-900 dark:hover:text-white transition-colors">
               {footerData.contact.email}
             </a>
-            <span className="hidden sm:inline text-gray-300 dark:text-gray-700">|</span>
+            <span className="text-gray-300 dark:text-gray-700">|</span>
             <a href={`tel:${footerData.contact.phone.replace(/\s/g, '')}`} className="hover:text-gray-900 dark:hover:text-white transition-colors">
               {footerData.contact.phone}
             </a>
           </div>
 
-          <div className="flex gap-2">
+          <div className="hidden sm:flex gap-1.5">
             {footerData.social.items.map((social: any) => (
               <a
                 key={social.name}
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 dark:hover:text-white transition-all"
+                className="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 dark:hover:text-white transition-all"
                 title={social.followers || social.name}
               >
                 <SocialIcon name={social.icon} />
@@ -98,26 +114,21 @@ export function Footer() {
         </div>
 
         {/* Links row */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-6 lg:gap-8">
+        <div className="grid grid-cols-3 sm:grid-cols-5 gap-x-3 gap-y-3 sm:gap-x-6 sm:gap-y-4">
 
           {/* Products */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+            <h3 className="text-xs font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-2.5">
               {footerData.products.title}
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-1.5">
               {footerData.products.items.map((item: any) => (
                 <li key={item.name}>
                   <Link
                     href={item.href}
                     className="group text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                   >
-                    <div>{item.name}</div>
-                    {item.description && (
-                      <div className="text-xs text-gray-500 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-400">
-                        {item.description}
-                      </div>
-                    )}
+                    {item.name}
                   </Link>
                 </li>
               ))}
@@ -126,19 +137,19 @@ export function Footer() {
 
           {/* Company */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+            <h3 className="text-xs font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-2.5">
               {footerData.company.title}
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-1.5">
               {footerData.company.items.map((item: any) => (
                 <li key={item.name}>
                   {item.disabled ? (
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5">
                       <span className="text-sm text-gray-400 dark:text-gray-600 cursor-default">
                         {item.name}
                       </span>
                       {item.badge && (
-                        <span className="px-2 py-0.5 rounded-full bg-gray-200 dark:bg-gray-800 text-gray-500 text-xs font-semibold">
+                        <span className="px-1.5 py-px rounded-full bg-gray-200 dark:bg-gray-800 text-gray-500 text-[10px] font-semibold">
                           {item.badge}
                         </span>
                       )}
@@ -158,19 +169,19 @@ export function Footer() {
 
           {/* Resources */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+            <h3 className="text-xs font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-2.5">
               {footerData.resources?.title || 'Resources'}
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-1.5">
               {footerData.resources?.items.map((item: any) => (
                 <li key={item.name}>
                   {item.disabled ? (
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5">
                       <span className="text-sm text-gray-400 dark:text-gray-600 cursor-default">
                         {item.name}
                       </span>
                       {item.badge && (
-                        <span className="text-xs px-1.5 py-0.5 rounded bg-gray-200 dark:bg-gray-800 text-gray-500 dark:text-gray-500">
+                        <span className="text-[10px] px-1.5 py-px rounded bg-gray-200 dark:bg-gray-800 text-gray-500 dark:text-gray-500">
                           {item.badge}
                         </span>
                       )}
@@ -190,10 +201,10 @@ export function Footer() {
 
           {/* Legal */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+            <h3 className="text-xs font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-2.5">
               {footerData.legal.title}
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-1.5">
               {footerData.legal.items.map((item: any) => (
                 <li key={item.name}>
                   <Link
@@ -209,13 +220,13 @@ export function Footer() {
 
           {/* Certifications */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+            <h3 className="text-xs font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-2.5">
               {footerData.certifications?.title}
             </h3>
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               {footerData.certifications?.items.map((cert: any) => (
-                <div key={cert.name} className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
-                  <span>{cert.icon}</span>
+                <div key={cert.name} className="flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-400">
+                  <span className="text-xs">{cert.icon}</span>
                   <span>{cert.name}</span>
                 </div>
               ))}
@@ -227,9 +238,9 @@ export function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-1">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 sm:py-3">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-1 text-[11px] sm:text-xs text-gray-500 dark:text-gray-400">
+            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-2 sm:gap-x-3 gap-y-0">
               <p>{footerData.copyright}</p>
               <p>{footerData.bulstat}</p>
               <p>{footerData.vat}</p>

@@ -3,6 +3,7 @@ import { ProblemSection } from '@/components/sections/homepage/ProblemSection'
 import { NeoReveal } from '@/components/sections/homepage/NeoReveal'
 import { UseCases } from '@/components/sections/homepage/UseCases'
 import { SocialProof } from '@/components/sections/homepage/SocialProof'
+import { ProductComparison } from '@/components/sections/ProductComparison'
 import { HomepageBackground } from '@/components/sections/homepage/HomepageBackground'
 
 function SectionBlend({ color = 'blue' }: { color?: 'blue' | 'purple' | 'cyan' }) {
@@ -30,6 +31,8 @@ export default function HomePage() {
         <SectionBlend color="cyan" />
         <UseCases />
         <SectionBlend color="purple" />
+        <ProductComparison />
+        <SectionBlend color="cyan" />
         <SocialProof />
       </main>
     </HomepageBackground>

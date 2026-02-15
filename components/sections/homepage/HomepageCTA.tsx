@@ -82,8 +82,8 @@ export function HomepageCTA() {
           className="text-sm text-gray-500 mt-8"
         >
           {lang === 'bg'
-            ? 'Setup за 2-3 дни • Поддръжка на български • от €120/месец'
-            : 'Setup in 2-3 days • Bulgarian support • from €120/month'}
+            ? 'Setup за 2-3 дни • Поддръжка на български • от €59/месец'
+            : 'Setup in 2-3 days • Bulgarian support • from €59/month'}
         </motion.p>
       </div>
     </section>

@@ -42,6 +42,37 @@ export default function DemoPage() {
         autostart: true,
       }).then(() => {
         setChatReady(true)
+        // Hide Voiceflow's built-in header (inside shadow DOM)
+        const hideHeader = () => {
+          const embed = document.getElementById('voiceflow-chat-embed')
+          if (!embed) return
+          const shadowRoot = embed.querySelector('div')?.shadowRoot
+          if (shadowRoot) {
+            const style = document.createElement('style')
+            style.textContent = `
+              .vfrc-header, [class*="Header"], [class*="assistant-info"], [class*="AssistantInfo"] { display: none !important; }
+            `
+            shadowRoot.appendChild(style)
+          }
+          // Also try iframe approach
+          const iframes = embed.querySelectorAll('iframe')
+          iframes.forEach(iframe => {
+            try {
+              const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document
+              if (iframeDoc) {
+                const style = iframeDoc.createElement('style')
+                style.textContent = `
+                  .vfrc-header, [class*="Header"], [class*="assistant-info"], [class*="AssistantInfo"] { display: none !important; }
+                `
+                iframeDoc.head.appendChild(style)
+              }
+            } catch {}
+          })
+        }
+        // Retry a few times since widget renders async
+        setTimeout(hideHeader, 500)
+        setTimeout(hideHeader, 1500)
+        setTimeout(hideHeader, 3000)
       })
     }
     document.body.appendChild(script)
@@ -106,26 +137,29 @@ export default function DemoPage() {
             className="lg:col-span-2"
           >
             <div className="bg-gray-100 dark:bg-gray-900 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-800 overflow-hidden">
-              {/* Chat header */}
-              <div className="bg-gradient-to-r from-blue-600 to-cyan-500 px-6 py-4 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-xl">
-                  🤖
-                </div>
-                <div>
-                  <div className="text-white font-semibold">Neo</div>
-                  <div className="text-white/70 text-sm flex items-center gap-1.5">
-                    <span className="w-2 h-2 bg-green-400 rounded-full inline-block" />
-                    {lang === 'bg' ? 'Онлайн • AI Асистент' : 'Online • AI Assistant'}
-                  </div>
-                </div>
-              </div>
-
               {/* Voiceflow embedded chat */}
-              <div className="relative" style={{ height: 700 }}>
+              <div className="relative" style={{ height: 750 }}>
                 <div
                   id="voiceflow-chat-embed"
                   style={{ width: '100%', height: '100%' }}
                 />
+                {/* Overlay to cover Voiceflow's built-in footer */}
+                <div className="absolute bottom-0 left-0 right-0 z-10 bg-gray-100 dark:bg-gray-900 flex items-center justify-center pt-0 pb-1" style={{ height: 30 }}>
+                  <span className="text-[10px] text-gray-400">Powered by <span className="font-semibold text-gray-500 dark:text-gray-300">Nextbot</span></span>
+                </div>
+                {/* Overlay to cover Voiceflow's built-in header */}
+                <div className="absolute top-0 left-0 right-0 z-10 bg-gradient-to-r from-blue-600 to-cyan-500 px-5 py-3 flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-lg">
+                    🤖
+                  </div>
+                  <div>
+                    <div className="text-white font-semibold text-sm">Neo</div>
+                    <div className="text-white/70 text-xs flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 bg-green-400 rounded-full inline-block" />
+                      {lang === 'bg' ? 'Онлайн • AI Асистент' : 'Online • AI Assistant'}
+                    </div>
+                  </div>
+                </div>
 
                 {!chatReady && (
                   <div className="absolute inset-0 bg-gray-100 dark:bg-gray-900 flex items-center justify-center">

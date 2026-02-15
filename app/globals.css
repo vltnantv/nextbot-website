@@ -16,13 +16,17 @@
   }
 
   html {
-    scroll-behavior: auto;
+    scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     -webkit-text-size-adjust: 100%;
     overflow-x: clip;
     max-width: 100vw;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
   }
 
   /* will-change only where actually needed — not blanket on all sections */
@@ -196,21 +200,21 @@ footer ~ *:not(script):not(style):not(link) {
    ======================================================================== */
 
 @media (max-width: 1024px) {
-  /* Cap large blur effects */
+  /* Cap large blur effects on mobile */
+  .blur-\[80px\],
+  .blur-\[100px\],
   .blur-\[120px\],
   .blur-\[150px\],
   .blur-\[180px\],
   .blur-\[200px\] {
-    filter: blur(40px) !important;
+    filter: blur(30px) !important;
   }
 
-  /* Faster transitions globally */
-  * {
-    animation-duration: 0.3s !important;
-    transition-duration: 0.3s !important;
+  .blur-3xl {
+    filter: blur(20px) !important;
   }
 
-  /* Kill expensive infinite animations */
+  /* Kill expensive infinite animations on mobile */
   .animate-pulse {
     animation: none !important;
   }

@@ -53,8 +53,8 @@ export function PricingScroll() {
             </h2>
             <p className="text-xl text-gray-400">
               {lang === 'bg'
-                ? 'База €120 + добави само това което ти трябва'
-                : 'Base €120 + add only what you need'}
+                ? 'База €59 + добави само това което ти трябва'
+                : 'Base €59 + add only what you need'}
             </p>
           </motion.div>
 
@@ -71,7 +71,7 @@ export function PricingScroll() {
                     Base
                   </span>
                   <div className="text-right">
-                    <div className="text-4xl font-bold">€120</div>
+                    <div className="text-4xl font-bold">€59</div>
                     <div className="text-sm text-gray-400">
                       {lang === 'bg' ? '/месец' : '/month'}
                     </div>
@@ -143,10 +143,10 @@ export function PricingScroll() {
             className="text-center mt-16"
           >
             <a
-              href="#calculator"
+              href="#pricing"
               className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-black font-semibold hover:bg-gray-100 transition-all shadow-lg hover:scale-105"
             >
-              {lang === 'bg' ? 'Изчисли точната цена' : 'Calculate exact price'}
+              {lang === 'bg' ? 'Избери своя план' : 'Choose your plan'}
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
               </svg>

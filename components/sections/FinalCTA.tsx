@@ -60,7 +60,7 @@ const reassuranceFade = {
 const REASSURANCES = [
   "✓ Setup за 2-3 дни",
   "✓ Без договор",
-  "✓ от €120/месец",
+  "✓ от €59/месец",
 ];
 
 const PHONE_NUMBER = "+359 894 288 119"; // Replace with real number

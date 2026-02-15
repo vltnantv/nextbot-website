@@ -31,13 +31,13 @@ export const translations = {
       title: 'Продукти',
       neo: {
         name: 'Neo',
-        tagline: 'AI асистент за твоя бизнес',
-        new: 'Ново'
+        tagline: 'AI Chatbot за съобщения',
+        new: 'Live'
       },
       aria: {
         name: 'Aria',
-        tagline: 'Customer support AI',
-        comingSoon: 'Очаквайте'
+        tagline: 'Гласов AI асистент за обаждания',
+        comingSoon: 'Скоро'
       },
       nova: {
         name: 'Nova',
@@ -81,7 +81,7 @@ export const translations = {
       currency: '€',
       base: {
         name: 'Neo Base',
-        price: 120,
+        price: 59,
         period: '/месец',
         description: 'Всичко необходимо за да започнеш',
         features: [
@@ -155,7 +155,7 @@ export const translations = {
             id: 'starter',
             name: 'Starter Pack',
             description: 'За малкия бизнес',
-            price: 120,
+            price: 59,
             savings: 0,
             features: [
               'Neo Base',
@@ -169,9 +169,9 @@ export const translations = {
             id: 'business',
             name: 'Business Pack',
             description: 'Най-популярен избор',
-            price: 280,
-            originalPrice: 320,
-            savings: 40,
+            price: 119,
+            originalPrice: 149,
+            savings: 30,
             features: [
               'Neo Base',
               'WhatsApp Business',
@@ -187,9 +187,9 @@ export const translations = {
             id: 'enterprise',
             name: 'Enterprise Pack',
             description: 'За сериозния бизнес',
-            price: 600,
-            originalPrice: 720,
-            savings: 120,
+            price: 299,
+            originalPrice: 399,
+            savings: 100,
             features: [
               'Neo Base',
               'Всички канали',
@@ -219,12 +219,12 @@ export const translations = {
     // Neo Product Page
     neo: {
       hero: {
-        eyebrow: 'Nextbot Neo',
-        headline: 'AI асистент който',
-        headlineAccent: 'никога не спи',
-        subheadline: 'Отговаря на клиентите ти 24/7. Навсякъде. На всеки език. Без почивен ден.',
+        eyebrow: '💬 AI Chatbot за съобщения',
+        headline: 'Neo: AI Chatbot',
+        headlineAccent: 'за съобщения',
+        subheadline: 'Автоматични отговори по WhatsApp, Messenger, Instagram. Без човешка намеса. 24/7.',
         cta: 'Започни сега',
-        watchDemo: 'Виж demo'
+        watchDemo: 'Пробвай demo'
       },
 
       stats: [
@@ -311,7 +311,7 @@ export const translations = {
         title: 'Прозрачно ценообразуване',
         base: {
           name: 'Neo Base',
-          price: 120,
+          price: 59,
           period: '/месец',
           currency: '€',
           features: [
@@ -355,9 +355,10 @@ export const translations = {
       products: {
         title: 'Продукти',
         items: [
-          { name: 'Neo', href: '/neo', description: 'AI асистент' },
+          { name: 'Neo', href: '/neo', description: 'AI Chatbot за съобщения' },
+          { name: 'Aria', href: '/aria', description: 'Гласов AI асистент (скоро)' },
           { name: 'Демо', href: '/demo', description: 'Виж в действие' },
-          { name: 'Ценообразуване', href: '/neo#calculator', description: 'От €120/месец' }
+          { name: 'Ценообразуване', href: '/neo#pricing', description: 'От €59/месец' }
         ]
       },
 
@@ -435,7 +436,7 @@ export const translations = {
         uptimeLabel: 'uptime'
       },
 
-      copyright: '© 2025 Nextbot EOOD. Всички права запазени.',
+      copyright: '© 2026 Nextbot EOOD. Всички права запазени.',
       bulstat: 'ЕИК: 207218192',
       vat: 'ДДС: BG207218192',
       madeWith: 'Направено с',
@@ -470,13 +471,13 @@ export const translations = {
       title: 'Products',
       neo: {
         name: 'Neo',
-        tagline: 'AI assistant for your business',
-        new: 'New'
+        tagline: 'AI Chatbot for messages',
+        new: 'Live'
       },
       aria: {
         name: 'Aria',
-        tagline: 'Customer support AI',
-        comingSoon: 'Coming soon'
+        tagline: 'Voice AI assistant for calls',
+        comingSoon: 'Soon'
       },
       nova: {
         name: 'Nova',
@@ -518,7 +519,7 @@ export const translations = {
       currency: '€',
       base: {
         name: 'Neo Base',
-        price: 120,
+        price: 59,
         period: '/month',
         description: 'Everything you need to get started',
         features: [
@@ -592,7 +593,7 @@ export const translations = {
             id: 'starter',
             name: 'Starter Pack',
             description: 'For small businesses',
-            price: 120,
+            price: 59,
             savings: 0,
             features: [
               'Neo Base',
@@ -606,9 +607,9 @@ export const translations = {
             id: 'business',
             name: 'Business Pack',
             description: 'Most popular choice',
-            price: 280,
-            originalPrice: 320,
-            savings: 40,
+            price: 119,
+            originalPrice: 149,
+            savings: 30,
             features: [
               'Neo Base',
               'WhatsApp Business',
@@ -624,9 +625,9 @@ export const translations = {
             id: 'enterprise',
             name: 'Enterprise Pack',
             description: 'For serious business',
-            price: 600,
-            originalPrice: 720,
-            savings: 120,
+            price: 299,
+            originalPrice: 399,
+            savings: 100,
             features: [
               'Neo Base',
               'All channels',
@@ -656,12 +657,12 @@ export const translations = {
     // Neo Product Page
     neo: {
       hero: {
-        eyebrow: 'Nextbot Neo',
-        headline: 'AI assistant that',
-        headlineAccent: 'never sleeps',
-        subheadline: 'Answers your customers 24/7. Everywhere. In any language. No days off.',
+        eyebrow: '💬 AI Chatbot for messages',
+        headline: 'Neo: AI Chatbot',
+        headlineAccent: 'for messages',
+        subheadline: 'Automatic replies on WhatsApp, Messenger, Instagram. No human needed. 24/7.',
         cta: 'Get started',
-        watchDemo: 'Watch demo'
+        watchDemo: 'Try demo'
       },
 
       stats: [
@@ -748,7 +749,7 @@ export const translations = {
         title: 'Transparent pricing',
         base: {
           name: 'Neo Base',
-          price: 120,
+          price: 59,
           period: '/month',
           currency: '€',
           features: [
@@ -792,9 +793,10 @@ export const translations = {
       products: {
         title: 'Products',
         items: [
-          { name: 'Neo', href: '/neo', description: 'AI Assistant' },
+          { name: 'Neo', href: '/neo', description: 'AI Chatbot for messages' },
+          { name: 'Aria', href: '/aria', description: 'Voice AI Assistant (coming soon)' },
           { name: 'Demo', href: '/demo', description: 'See it in action' },
-          { name: 'Pricing', href: '/neo#calculator', description: 'From €120/mo' }
+          { name: 'Pricing', href: '/neo#pricing', description: 'From €59/mo' }
         ]
       },
 
@@ -872,7 +874,7 @@ export const translations = {
         uptimeLabel: 'uptime'
       },
 
-      copyright: '© 2025 Nextbot EOOD. All rights reserved.',
+      copyright: '© 2026 Nextbot EOOD. All rights reserved.',
       bulstat: 'UIC: 207218192',
       vat: 'VAT: BG207218192',
       madeWith: 'Made with',
