@@ -1,606 +1,170 @@
 'use client'
 
 import { useLanguage } from '@/lib/i18n'
-import { motion } from 'framer-motion'
-import Link from 'next/link'
+import { AnimateIn } from '@/components/AnimateIn'
 import { useState } from 'react'
+
+const copy = {
+  en: {
+    label: 'Documentation',
+    headline: 'Everything you need to deploy and operate Neo.',
+    sections: [
+      {
+        id: 'getting-started',
+        title: 'Getting Started',
+        items: [
+          { title: 'What is Neo?', content: 'Neo is an AI assistant that answers your customers 24/7 in any language and platform. Works on WhatsApp, Facebook Messenger, Instagram, Telegram, and your website. Setup takes 15-30 minutes.' },
+          { title: 'How it works', content: '1. Connect channels — WhatsApp, Facebook, Instagram, etc.\n2. Train Neo — Upload FAQ, products, rules\n3. Test — Check responses in sandbox\n4. Go live — Neo starts answering customers' },
+          { title: 'First steps', content: 'Step 1: Create account at nextbot.me\nStep 2: Connect WhatsApp Business number\nStep 3: Upload FAQ and business info\nStep 4: Send test messages\nStep 5: Activate Neo for real customers' },
+        ],
+      },
+      {
+        id: 'channels',
+        title: 'Channels',
+        items: [
+          { title: 'WhatsApp Business', content: 'Requirements: WhatsApp Business account, verified phone number, Meta Business Manager.\n\nSetup:\n1. Connect Meta Business Manager\n2. Select WhatsApp number\n3. Activate webhook\n4. Done — Neo receives messages' },
+          { title: 'Facebook Messenger', content: 'Steps:\n1. Connect Facebook page\n2. Grant permissions to Neo\n3. Configure auto-replies\n4. Neo responds to Messenger messages' },
+          { title: 'Instagram Direct', content: 'Setup:\n1. Professional Instagram account\n2. Connected to Facebook page\n3. Messenger API activated\n4. Neo handles DMs' },
+          { title: 'Web Chat Widget', content: 'Add Neo to your website:\n\n<script src="https://cdn.nextbot.me/widget.js"></script>\n<script>\n  NextbotWidget.init({\n    botId: \'YOUR_BOT_ID\',\n    position: \'bottom-right\',\n    language: \'en\'\n  });\n</script>\n\nWidget is responsive and works on all devices.' },
+        ],
+      },
+      {
+        id: 'features',
+        title: 'Features',
+        items: [
+          { title: 'Multilingual', content: 'Neo automatically detects and responds in 12+ languages: Bulgarian, English, German, Russian, French, Spanish, Italian, Turkish, Greek, Romanian, Polish, and more. No configuration needed.' },
+          { title: 'Automations', content: 'Calendar — Google Calendar, Outlook. Checks availability, books appointments, sends reminders.\n\nCRM — HubSpot, Salesforce. Creates leads, updates contacts, tracks communication.\n\nEmail — Gmail, Outlook. Sends confirmations, follow-ups, newsletters.' },
+          { title: 'Analytics', content: 'Real-time dashboard: active conversations, response time, satisfaction rate.\n\nDetailed reports: top questions, peak hours, conversion rate.\n\nExport: CSV, Excel, API access, custom reports.' },
+        ],
+      },
+      {
+        id: 'pricing',
+        title: 'Pricing',
+        items: [
+          { title: 'Plans', content: 'Starter: €59/month — 500 conversations, 1 channel, 2 languages, basic analytics\n\nProfessional: €149/month — 2,500 conversations, all channels, 5 languages, CRM, calendar\n\nEnterprise: Custom — unlimited conversations, all channels, 12+ languages, dedicated support' },
+          { title: 'Billing', content: 'Monthly or annual billing. Credit card (Stripe) or bank transfer. Annual discount: 2 months free. Cancel anytime. Data retained for 30 days after cancellation.' },
+        ],
+      },
+      {
+        id: 'support',
+        title: 'Support',
+        items: [
+          { title: 'Contact', content: 'Email: support@nextbot.me (response within 24h)\nLive Chat: Available in dashboard, Mon-Fri 9:00-18:00 EET\nPhone: +359 894 288 119 (urgent cases)' },
+          { title: 'FAQ', content: 'How long does setup take? 15-30 minutes.\nCan I change plans? Yes, anytime.\nWhat if I exceed conversations? €0.05 per additional conversation.\nCan I cancel? Yes, no commitments.\nGDPR compliant? Yes, fully.' },
+        ],
+      },
+    ],
+  },
+  bg: {
+    label: 'Документация',
+    headline: 'Всичко необходимо за внедряване и работа с Neo.',
+    sections: [
+      {
+        id: 'getting-started',
+        title: 'Начало',
+        items: [
+          { title: 'Какво е Neo?', content: 'Neo е AI асистент, който отговаря на клиентите ви 24/7 на всеки език и платформа. Работи на WhatsApp, Facebook Messenger, Instagram, Telegram и вашия уебсайт. Настройката отнема 15-30 минути.' },
+          { title: 'Как работи?', content: '1. Свържете канали — WhatsApp, Facebook, Instagram и др.\n2. Обучете Neo — Качете FAQ, продукти, правила\n3. Тествайте — Проверете отговорите в sandbox\n4. Пуснете live — Neo започва да отговаря на клиенти' },
+          { title: 'Първи стъпки', content: 'Стъпка 1: Създайте акаунт на nextbot.me\nСтъпка 2: Свържете WhatsApp Business номер\nСтъпка 3: Качете FAQ и информация за бизнеса\nСтъпка 4: Изпратете тестови съобщения\nСтъпка 5: Активирайте Neo за реални клиенти' },
+        ],
+      },
+      {
+        id: 'channels',
+        title: 'Канали',
+        items: [
+          { title: 'WhatsApp Business', content: 'Изисквания: WhatsApp Business акаунт, верифициран телефонен номер, Meta Business Manager.\n\nНастройка:\n1. Свържете Meta Business Manager\n2. Изберете WhatsApp номер\n3. Активирайте webhook\n4. Готово — Neo получава съобщения' },
+          { title: 'Facebook Messenger', content: 'Стъпки:\n1. Свържете Facebook страница\n2. Дайте разрешения на Neo\n3. Настройте автоматични отговори\n4. Neo отговаря на Messenger съобщения' },
+          { title: 'Instagram Direct', content: 'Настройка:\n1. Професионален Instagram акаунт\n2. Свързан с Facebook страница\n3. Активиран Messenger API\n4. Neo обработва DM-ве' },
+          { title: 'Web Chat Widget', content: 'Добавете Neo на вашия уебсайт:\n\n<script src="https://cdn.nextbot.me/widget.js"></script>\n<script>\n  NextbotWidget.init({\n    botId: \'YOUR_BOT_ID\',\n    position: \'bottom-right\',\n    language: \'bg\'\n  });\n</script>\n\nWidget-ът е responsive и работи на всички устройства.' },
+        ],
+      },
+      {
+        id: 'features',
+        title: 'Функции',
+        items: [
+          { title: 'Многоезичност', content: 'Neo автоматично разпознава и отговаря на 12+ езика: български, английски, немски, руски, френски, испански, италиански, турски, гръцки, румънски, полски и още. Не е нужна настройка.' },
+          { title: 'Автоматизации', content: 'Календар — Google Calendar, Outlook. Проверява свободни часове, запазва срещи, изпраща напомняния.\n\nCRM — HubSpot, Salesforce. Създава lead-ове, обновява контакти, проследява комуникация.\n\nEmail — Gmail, Outlook. Изпраща потвърждения, follow-up съобщения, newsletters.' },
+          { title: 'Аналитика', content: 'Real-time dashboard: активни разговори, време за отговор, satisfaction rate.\n\nДетайлни reports: топ въпроси, peak hours, conversion rate.\n\nЕкспорт: CSV, Excel, API достъп, custom reports.' },
+        ],
+      },
+      {
+        id: 'pricing',
+        title: 'Цени',
+        items: [
+          { title: 'Планове', content: 'Starter: €59/месец — 500 разговора, 1 канал, 2 езика, базова аналитика\n\nProfessional: €149/месец — 2,500 разговора, всички канали, 5 езика, CRM, календар\n\nEnterprise: Custom — неограничени разговори, всички канали, 12+ езика, персонална поддръжка' },
+          { title: 'Фактуриране', content: 'Месечно или годишно фактуриране. Кредитна карта (Stripe) или банков превод. Годишна отстъпка: 2 месеца безплатно. Откажете по всяко време. Данните се пазят 30 дни след отказ.' },
+        ],
+      },
+      {
+        id: 'support',
+        title: 'Поддръжка',
+        items: [
+          { title: 'Контакт', content: 'Email: support@nextbot.me (отговор до 24ч)\nLive Chat: Наличен в dashboard-а, Пон-Пет 9:00-18:00 EET\nТелефон: +359 894 288 119 (спешни случаи)' },
+          { title: 'Често задавани въпроси', content: 'Колко време отнема setup-ът? 15-30 минути.\nМога ли да сменя плана? Да, по всяко време.\nКакво става ако надвиша разговорите? €0.05 за допълнителен разговор.\nМога ли да откажа? Да, без договорки.\nGDPR compliant? Да, напълно.' },
+        ],
+      },
+    ],
+  },
+}
 
 export default function DocumentationPage() {
   const { lang } = useLanguage()
-  const [activeSection, setActiveSection] = useState('getting-started')
-
-  const content = {
-    bg: {
-      title: 'Документация',
-      subtitle: 'Всичко което трябва да знаеш за Nextbot Neo',
-      sections: [
-        {
-          id: 'getting-started',
-          title: 'Начало',
-          icon: '🚀',
-          items: [
-            {
-              title: 'Какво е Nextbot Neo?',
-              content: `Nextbot Neo е AI асистент който отговаря на клиентите ти 24/7 на всеки език и платформа.
-
-Работи на WhatsApp, Facebook Messenger, Instagram, Viber, Telegram и твоя уебсайт.
-
-Можеш да го настроиш за минути, без техническа експертиза.`
-            },
-            {
-              title: 'Как работи?',
-              content: `1. Свържеш каналите - WhatsApp, Facebook, Instagram, и др.
-2. Обучаваш Neo - Качваш FAQ, продукти, правила
-3. Тестваш - Проверяваш отговорите в sandbox среда
-4. Пускаш live - Neo започва да отговаря на клиенти
-
-Целият процес отнема 15-30 минути.`
-            },
-            {
-              title: 'Първи стъпки',
-              content: `Стъпка 1: Регистрирай се
-Създай акаунт на nextbot.me
-
-Стъпка 2: Свържи WhatsApp
-Свържи своя WhatsApp Business номер
-
-Стъпка 3: Обучи Neo
-Качи FAQ и информация за бизнеса си
-
-Стъпка 4: Тествай
-Изпрати тестови съобщения
-
-Стъпка 5: Go Live
-Активирай Neo за реални клиенти`
-            }
-          ]
-        },
-        {
-          id: 'channels',
-          title: 'Канали',
-          icon: '📱',
-          items: [
-            {
-              title: 'WhatsApp Business',
-              content: `Neo работи с WhatsApp Business API.
-
-Изисквания:
-- WhatsApp Business акаунт
-- Верифициран телефонен номер
-- Meta Business Manager
-
-Настройка:
-1. Свържи Meta Business Manager
-2. Избери WhatsApp номер
-3. Активирай webhook
-4. Готово - Neo получава съобщения`
-            },
-            {
-              title: 'Facebook Messenger',
-              content: `Интеграция с Facebook страница.
-
-Стъпки:
-1. Свържи Facebook страница
-2. Дай разрешения на Neo
-3. Настрой автоматични отговори
-4. Neo отговаря на Messenger съобщения`
-            },
-            {
-              title: 'Instagram Direct',
-              content: `Отговаряй на Instagram съобщения автоматично.
-
-Настройка:
-1. Професионален Instagram акаунт
-2. Свързан с Facebook страница
-3. Активиран Messenger API
-4. Neo обработва DM-ве`
-            },
-            {
-              title: 'Web Chat Widget',
-              content: `Добави Neo на твоя уебсайт.
-
-Интеграция:
-
-<script src="https://cdn.nextbot.me/widget.js"></script>
-<script>
-  NextbotWidget.init({
-    botId: 'YOUR_BOT_ID',
-    position: 'bottom-right',
-    language: 'bg'
-  });
-</script>
-
-Widget-ът е responsive и работи на всички устройства.`
-            }
-          ]
-        },
-        {
-          id: 'features',
-          title: 'Функции',
-          icon: '⚡',
-          items: [
-            {
-              title: 'Многоезичност',
-              content: `Neo автоматично разпознава и отговаря на 12+ езика:
-
-🇧🇬 Български
-🇬🇧 Английски
-🇩🇪 Немски
-🇷🇺 Руски
-🇫🇷 Френски
-🇪🇸 Испански
-🇮🇹 Италиански
-🇹🇷 Турски
-🇬🇷 Гръцки
-🇷🇴 Румънски
-
-Не е нужна настройка - работи автоматично.`
-            },
-            {
-              title: 'Автоматизации',
-              content: `Neo се интегрира с твоите системи:
-
-Календар - Google Calendar, Outlook
-- Проверява свободни часове
-- Запазва срещи
-- Изпраща напомняния
-
-CRM - HubSpot, Salesforce
-- Създава lead-ове
-- Обновява контакти
-- Проследява комуникация
-
-Email - Gmail, Outlook
-- Изпраща потвърждения
-- Follow-up съобщения
-- Newsletters`
-            },
-            {
-              title: 'Аналитика',
-              content: `Виж точно какво се случва:
-
-Real-time Dashboard
-- Активни разговори
-- Време за отговор
-- Satisfaction rate
-
-Детайлни Reports
-- Най-често задавани въпроси
-- Peak hours
-- Conversion rate
-
-Експорт на данни
-- CSV, Excel
-- API достъп
-- Custom reports`
-            }
-          ]
-        },
-        {
-          id: 'pricing',
-          title: 'Цени',
-          icon: '💰',
-          items: [
-            {
-              title: 'Ценообразуване',
-              content: `Starter: €59/месец
-- 500 съобщения, 1 канал, 2 езика, Basic analytics
-
-Pro: €119/месец (Популярен)
-- 2,000 съобщения, 3 канала, 5 езика
-- Google Calendar, Email notifications, CRM
-
-Enterprise: €299/месец
-- 10,000 съобщения, всички канали, 12+ езика
-- White-label, Dedicated model, Phone support
-
-Add-ons:
-- +500 съобщения: +€20/месец
-- +1,000 съобщения: +€35/месец
-- Допълнителен канал: +€25/месец
-- Dedicated support: +€99/месец
-
-Годишна отстъпка: 17% (2 месеца безплатно).`
-            },
-            {
-              title: 'Billing',
-              content: `Плащане:
-- Месечно или годишно
-- Кредитна карта (Stripe)
-- Банков превод
-- Автоматично фактуриране
-
-Годишна отстъпка:
-Плащаш за 10 месеца, получаваш 12.
-
-Отказ:
-Можеш да откажеш по всяко време.
-Данните ти се пазят 30 дни.`
-            }
-          ]
-        },
-        {
-          id: 'support',
-          title: 'Поддръжка',
-          icon: '🛟',
-          items: [
-            {
-              title: 'Как да получиш помощ',
-              content: `Email Support:
-support@nextbot.me
-Отговаряме до 24 часа
-
-Live Chat:
-Налично в dashboard-а
-Пон-Пет: 9:00-18:00 EET
-
-Телефон:
-+359 894 288 119
-За спешни случаи`
-            },
-            {
-              title: 'Често задавани въпроси',
-              content: `Колко време отнема setup-а?
-15-30 минути за basic настройка.
-
-Мога ли да сменя плана?
-Да, по всяко време.
-
-Какво става ако надвиша съобщенията?
-Плащаш €0.05 за допълнително съобщение.
-
-Мога ли да отказа?
-Да, без договорки.
-
-Поддържате ли GDPR?
-Да, напълно GDPR compliant.`
-            }
-          ]
-        }
-      ]
-    },
-    en: {
-      title: 'Documentation',
-      subtitle: 'Everything you need to know about Nextbot Neo',
-      sections: [
-        {
-          id: 'getting-started',
-          title: 'Getting Started',
-          icon: '🚀',
-          items: [
-            {
-              title: 'What is Nextbot Neo?',
-              content: `Nextbot Neo is an AI assistant that answers your customers 24/7 in any language and platform.
-
-Works on WhatsApp, Facebook Messenger, Instagram, Viber, Telegram and your website.
-
-You can set it up in minutes, no technical expertise required.`
-            },
-            {
-              title: 'How does it work?',
-              content: `1. Connect channels - WhatsApp, Facebook, Instagram, etc.
-2. Train Neo - Upload FAQ, products, rules
-3. Test - Check responses in sandbox
-4. Go live - Neo starts answering customers
-
-The entire process takes 15-30 minutes.`
-            },
-            {
-              title: 'First Steps',
-              content: `Step 1: Sign up
-Create account at nextbot.me
-
-Step 2: Connect WhatsApp
-Link your WhatsApp Business number
-
-Step 3: Train Neo
-Upload FAQ and business info
-
-Step 4: Test
-Send test messages
-
-Step 5: Go Live
-Activate Neo for real customers`
-            }
-          ]
-        },
-        {
-          id: 'channels',
-          title: 'Channels',
-          icon: '📱',
-          items: [
-            {
-              title: 'WhatsApp Business',
-              content: `Neo works with WhatsApp Business API.
-
-Requirements:
-- WhatsApp Business account
-- Verified phone number
-- Meta Business Manager
-
-Setup:
-1. Connect Meta Business Manager
-2. Select WhatsApp number
-3. Activate webhook
-4. Done - Neo receives messages`
-            },
-            {
-              title: 'Facebook Messenger',
-              content: `Integration with Facebook page.
-
-Steps:
-1. Connect Facebook page
-2. Grant permissions to Neo
-3. Configure auto-replies
-4. Neo responds to Messenger messages`
-            },
-            {
-              title: 'Instagram Direct',
-              content: `Answer Instagram messages automatically.
-
-Setup:
-1. Professional Instagram account
-2. Connected to Facebook page
-3. Messenger API activated
-4. Neo handles DMs`
-            },
-            {
-              title: 'Web Chat Widget',
-              content: `Add Neo to your website.
-
-Integration:
-
-<script src="https://cdn.nextbot.me/widget.js"></script>
-<script>
-  NextbotWidget.init({
-    botId: 'YOUR_BOT_ID',
-    position: 'bottom-right',
-    language: 'en'
-  });
-</script>
-
-Widget is responsive and works on all devices.`
-            }
-          ]
-        },
-        {
-          id: 'features',
-          title: 'Features',
-          icon: '⚡',
-          items: [
-            {
-              title: 'Multilingual',
-              content: `Neo automatically detects and responds in 12+ languages:
-
-🇧🇬 Bulgarian
-🇬🇧 English
-🇩🇪 German
-🇷🇺 Russian
-🇫🇷 French
-🇪🇸 Spanish
-🇮🇹 Italian
-🇹🇷 Turkish
-🇬🇷 Greek
-🇷🇴 Romanian
-
-No configuration needed - works automatically.`
-            },
-            {
-              title: 'Automations',
-              content: `Neo integrates with your systems:
-
-Calendar - Google Calendar, Outlook
-- Checks availability
-- Books appointments
-- Sends reminders
-
-CRM - HubSpot, Salesforce
-- Creates leads
-- Updates contacts
-- Tracks communication
-
-Email - Gmail, Outlook
-- Sends confirmations
-- Follow-up messages
-- Newsletters`
-            },
-            {
-              title: 'Analytics',
-              content: `See exactly what's happening:
-
-Real-time Dashboard
-- Active conversations
-- Response time
-- Satisfaction rate
-
-Detailed Reports
-- Most asked questions
-- Peak hours
-- Conversion rate
-
-Data Export
-- CSV, Excel
-- API access
-- Custom reports`
-            }
-          ]
-        },
-        {
-          id: 'pricing',
-          title: 'Pricing',
-          icon: '💰',
-          items: [
-            {
-              title: 'Pricing',
-              content: `Starter: €59/month
-- 500 messages, 1 channel, 2 languages, Basic analytics
-
-Pro: €119/month (Popular)
-- 2,000 messages, 3 channels, 5 languages
-- Google Calendar, Email notifications, CRM
-
-Enterprise: €299/month
-- 10,000 messages, all channels, 12+ languages
-- White-label, Dedicated model, Phone support
-
-Add-ons:
-- +500 messages: +€20/month
-- +1,000 messages: +€35/month
-- Extra channel: +€25/month
-- Dedicated support: +€99/month
-
-Annual discount: 17% off (2 months free).`
-            },
-            {
-              title: 'Billing',
-              content: `Payment:
-- Monthly or annually
-- Credit card (Stripe)
-- Bank transfer
-- Automatic invoicing
-
-Annual discount:
-Pay for 10 months, get 12.
-
-Cancellation:
-Cancel anytime.
-Data retained for 30 days.`
-            }
-          ]
-        },
-        {
-          id: 'support',
-          title: 'Support',
-          icon: '🛟',
-          items: [
-            {
-              title: 'How to get help',
-              content: `Email Support:
-support@nextbot.me
-Response within 24h
-
-Live Chat:
-Available in dashboard
-Mon-Fri: 9:00-18:00 EET
-
-Phone:
-+359 894 288 119
-For urgent cases`
-            },
-            {
-              title: 'FAQ',
-              content: `How long does setup take?
-15-30 minutes for basic setup.
-
-Can I change plans?
-Yes, anytime.
-
-What if I exceed messages?
-Pay €0.05 per additional message.
-
-Can I cancel?
-Yes, no commitments.
-
-Do you support GDPR?
-Yes, fully GDPR compliant.`
-            }
-          ]
-        }
-      ]
-    }
-  }
-
-  const t = content[lang as keyof typeof content]
+  const t = copy[lang]
+  const [activeSection, setActiveSection] = useState(t.sections[0].id)
 
   return (
-    <main className="min-h-screen bg-white dark:bg-black pt-20">
-      {/* Hero */}
-      <section className="py-16 bg-gradient-to-br from-blue-50 to-white dark:from-gray-950 dark:to-black border-b border-gray-200 dark:border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
-              {t.title}
-            </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400">
-              {t.subtitle}
-            </p>
-          </motion.div>
+    <>
+      <section className="pt-36 pb-0 sm:pt-44">
+        <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
+          <AnimateIn>
+            <p className="text-[0.7rem] text-indigo-400/60 uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
+            <h1 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white max-w-2xl">{t.headline}</h1>
+          </AnimateIn>
         </div>
       </section>
 
-      {/* Main content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-        <div className="grid lg:grid-cols-4 gap-8">
-          {/* Sidebar */}
-          <aside className="lg:col-span-1">
-            <nav className="sticky top-24 space-y-1">
-              {t.sections.map((section) => (
-                <button
-                  key={section.id}
-                  onClick={() => setActiveSection(section.id)}
-                  className={`w-full text-left px-4 py-3 rounded-lg transition-colors flex items-center gap-3 ${
-                    activeSection === section.id
-                      ? 'bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 font-semibold'
-                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900'
-                  }`}
-                >
-                  <span className="text-2xl">{section.icon}</span>
-                  <span>{section.title}</span>
-                </button>
-              ))}
-            </nav>
-          </aside>
+      <section className="py-12 sm:py-16">
+        <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-12 lg:gap-16">
+            {/* Sidebar */}
+            <AnimateIn>
+              <nav className="sticky top-24 flex lg:flex-col gap-1 overflow-x-auto lg:overflow-x-visible">
+                {t.sections.map((section) => (
+                  <button
+                    key={section.id}
+                    onClick={() => setActiveSection(section.id)}
+                    className={`text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
+                      activeSection === section.id
+                        ? 'text-white bg-white/[0.04]'
+                        : 'text-zinc-600 hover:text-zinc-400'
+                    }`}
+                  >
+                    {section.title}
+                  </button>
+                ))}
+              </nav>
+            </AnimateIn>
 
-          {/* Content */}
-          <div className="lg:col-span-3">
-            {t.sections
-              .filter(s => s.id === activeSection)
-              .map((section) => (
-                <div key={section.id} className="space-y-8">
-                  {section.items.map((item, i) => (
-                    <motion.article
-                      key={i}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.1 }}
-                      className="bg-white dark:bg-gray-900 rounded-2xl p-8 border border-gray-200 dark:border-gray-800"
-                    >
-                      <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
-                        {item.title}
-                      </h2>
-                      <p className="text-gray-600 dark:text-gray-400 whitespace-pre-line leading-relaxed">
-                        {item.content}
-                      </p>
-                    </motion.article>
-                  ))}
-                </div>
-              ))}
+            {/* Content */}
+            <div>
+              {t.sections
+                .filter(s => s.id === activeSection)
+                .map((section) => (
+                  <div key={section.id} className="space-y-10">
+                    {section.items.map((item, i) => (
+                      <AnimateIn key={i} delay={i * 60}>
+                        <div className="rounded-2xl border border-white/[0.05] p-6 sm:p-8">
+                          <h2 className="text-[1.05rem] font-medium text-white mb-4">{item.title}</h2>
+                          <p className="text-sm text-zinc-500 leading-[1.8] whitespace-pre-line">{item.content}</p>
+                        </div>
+                      </AnimateIn>
+                    ))}
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* CTA */}
-      <section className="py-20 bg-gradient-to-br from-blue-600 to-purple-600">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center text-white">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            {lang === 'bg' ? 'Готов да започнеш?' : 'Ready to start?'}
-          </h2>
-          <p className="text-xl mb-8 text-white/90">
-            {lang === 'bg'
-              ? 'Запази demo call и виж Neo в действие'
-              : 'Book a demo call and see Neo in action'}
-          </p>
-          <Link
-            href="/demo"
-            className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-white text-blue-600 font-semibold hover:scale-105 transition-transform"
-          >
-            {lang === 'bg' ? 'Запази demo' : 'Book demo'}
-          </Link>
-        </div>
       </section>
-    </main>
+    </>
   )
 }

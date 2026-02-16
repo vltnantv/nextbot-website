@@ -1,152 +1,53 @@
 'use client'
 
 import { useLanguage } from '@/lib/i18n'
-import { motion } from 'framer-motion'
+import { AnimateIn } from '@/components/AnimateIn'
 import { useState } from 'react'
 
 function CodeBlock({ children }: { children: string }) {
   const [copied, setCopied] = useState(false)
 
-  const copy = () => {
+  const handleCopy = () => {
     navigator.clipboard.writeText(children)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
 
   return (
-    <div className="relative group my-4">
-      <pre className="bg-gray-950 text-gray-300 rounded-xl p-4 overflow-x-auto text-sm leading-relaxed border border-gray-800">
-        <code>{children}</code>
+    <div className="relative group mt-4">
+      <pre className="bg-white/[0.02] border border-white/[0.04] rounded-xl p-5 overflow-x-auto text-[0.78rem] leading-[1.7] font-mono">
+        <code className="text-zinc-400">{children}</code>
       </pre>
       <button
-        onClick={copy}
-        className="absolute top-3 right-3 px-2 py-1 rounded-md bg-gray-800 text-gray-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity hover:bg-gray-700 hover:text-white"
+        onClick={handleCopy}
+        className="absolute top-3 right-3 px-2 py-1 rounded text-[0.65rem] text-zinc-600 bg-white/[0.04] opacity-0 group-hover:opacity-100 transition-opacity hover:text-zinc-400"
       >
-        {copied ? 'Copied!' : 'Copy'}
+        {copied ? 'Copied' : 'Copy'}
       </button>
     </div>
   )
 }
 
-export default function APIPage() {
-  const { lang } = useLanguage()
-
-  const content = {
-    bg: {
-      title: 'API Документация',
-      subtitle: 'Интегрирай Nextbot в твоята система',
-      sections: [
-        {
-          title: 'Автентикация',
-          description: 'Всички API заявки изискват API ключ в header-а. Вземи твоя API ключ от Dashboard → Settings → API Keys.',
-          code: 'Authorization: Bearer YOUR_API_KEY'
-        },
-        {
-          title: 'Base URL',
-          description: 'Всички endpoints започват с този base URL.',
-          code: 'https://api.nextbot.me/v1'
-        },
-        {
-          title: 'Изпрати съобщение',
-          description: 'POST /messages/send\n\nИзпраща съобщение от името на Neo.',
-          code: `// Request
-POST /messages/send
-Content-Type: application/json
-
-{
-  "channel": "whatsapp",
-  "recipient": "+359888123456",
-  "message": "Здравей! Как мога да ти помогна?"
-}
-
-// Response - 200 OK
-{
-  "id": "msg_123abc",
-  "status": "sent",
-  "timestamp": "2025-02-14T15:30:00Z"
-}`
-        },
-        {
-          title: 'Получи съобщения',
-          description: 'GET /messages\n\nВзема списък със съобщения.\n\nQuery Parameters:\n- channel - whatsapp, messenger, web\n- limit - max 100\n- offset - за pagination',
-          code: `// Request
-GET /messages?channel=whatsapp&limit=10
-
-// Response - 200 OK
-{
-  "messages": [
-    {
-      "id": "msg_123",
-      "channel": "whatsapp",
-      "sender": "+359888123456",
-      "message": "Имате ли свободни стаи?",
-      "timestamp": "2025-02-14T15:30:00Z",
-      "replied": true
-    }
-  ],
-  "total": 1,
-  "hasMore": false
-}`
-        },
-        {
-          title: 'Webhooks',
-          description: 'Регистрирай webhook за да получаваш real-time уведомления.\n\nPOST /webhooks',
-          code: `// Register webhook
-POST /webhooks
-{
-  "url": "https://yoursite.com/webhook",
-  "events": ["message.received", "message.sent"]
-}
-
-// Webhook Payload (what you receive)
-{
-  "event": "message.received",
-  "data": {
-    "id": "msg_123",
-    "channel": "whatsapp",
-    "sender": "+359888123456",
-    "message": "Hello",
-    "timestamp": "2025-02-14T15:30:00Z"
-  }
-}`
-        },
-        {
-          title: 'Rate Limits',
-          description: 'Лимити:\n- 100 requests/минута\n- 10,000 requests/ден\n\nПри надвишаване: HTTP 429 Too Many Requests',
-          code: `X-RateLimit-Limit: 100
-X-RateLimit-Remaining: 99
-X-RateLimit-Reset: 1644854400`
-        },
-        {
-          title: 'Errors',
-          description: 'Error Codes:\n- invalid_api_key - невалиден ключ\n- rate_limit_exceeded - превишен лимит\n- invalid_request - грешна заявка\n- server_error - сървър грешка',
-          code: `{
-  "error": {
-    "code": "invalid_api_key",
-    "message": "API key is invalid or expired"
-  }
-}`
-        }
-      ]
-    },
-    en: {
-      title: 'API Documentation',
-      subtitle: 'Integrate Nextbot into your system',
-      sections: [
-        {
-          title: 'Authentication',
-          description: 'All API requests require an API key in the header. Get your API key from Dashboard → Settings → API Keys.',
-          code: 'Authorization: Bearer YOUR_API_KEY'
-        },
-        {
-          title: 'Base URL',
-          description: 'All endpoints start with this base URL.',
-          code: 'https://api.nextbot.me/v1'
-        },
-        {
-          title: 'Send Message',
-          description: 'POST /messages/send\n\nSends a message on behalf of Neo.',
-          code: `// Request
+const copy = {
+  en: {
+    label: 'API',
+    headline: 'Integrate NextBot into your systems.',
+    sub: 'REST API with full documentation for custom integrations.',
+    sections: [
+      {
+        title: 'Authentication',
+        desc: 'All API requests require an API key in the header. Get your key from Dashboard > Settings > API Keys.',
+        code: 'Authorization: Bearer YOUR_API_KEY',
+      },
+      {
+        title: 'Base URL',
+        desc: 'All endpoints start with this base URL.',
+        code: 'https://api.nextbot.me/v1',
+      },
+      {
+        title: 'Send Message',
+        desc: 'POST /messages/send — Sends a message on behalf of Neo.',
+        code: `// Request
 POST /messages/send
 Content-Type: application/json
 
@@ -156,20 +57,20 @@ Content-Type: application/json
   "message": "Hello! How can I help you?"
 }
 
-// Response - 200 OK
+// Response — 200 OK
 {
   "id": "msg_123abc",
   "status": "sent",
   "timestamp": "2025-02-14T15:30:00Z"
-}`
-        },
-        {
-          title: 'Get Messages',
-          description: 'GET /messages\n\nRetrieves list of messages.\n\nQuery Parameters:\n- channel - whatsapp, messenger, web\n- limit - max 100\n- offset - for pagination',
-          code: `// Request
+}`,
+      },
+      {
+        title: 'Get Messages',
+        desc: 'GET /messages — Retrieves list of messages.\n\nQuery params: channel, limit (max 100), offset.',
+        code: `// Request
 GET /messages?channel=whatsapp&limit=10
 
-// Response - 200 OK
+// Response — 200 OK
 {
   "messages": [
     {
@@ -183,19 +84,19 @@ GET /messages?channel=whatsapp&limit=10
   ],
   "total": 1,
   "hasMore": false
-}`
-        },
-        {
-          title: 'Webhooks',
-          description: 'Register webhook to receive real-time notifications.\n\nPOST /webhooks',
-          code: `// Register webhook
+}`,
+      },
+      {
+        title: 'Webhooks',
+        desc: 'POST /webhooks — Register webhook for real-time notifications.',
+        code: `// Register webhook
 POST /webhooks
 {
   "url": "https://yoursite.com/webhook",
   "events": ["message.received", "message.sent"]
 }
 
-// Webhook Payload (what you receive)
+// Webhook Payload
 {
   "event": "message.received",
   "data": {
@@ -205,93 +106,174 @@ POST /webhooks
     "message": "Hello",
     "timestamp": "2025-02-14T15:30:00Z"
   }
-}`
-        },
-        {
-          title: 'Rate Limits',
-          description: 'Limits:\n- 100 requests/minute\n- 10,000 requests/day\n\nWhen exceeded: HTTP 429 Too Many Requests',
-          code: `X-RateLimit-Limit: 100
+}`,
+      },
+      {
+        title: 'Rate Limits',
+        desc: '100 requests/minute, 10,000 requests/day. Exceeding returns HTTP 429.',
+        code: `X-RateLimit-Limit: 100
 X-RateLimit-Remaining: 99
-X-RateLimit-Reset: 1644854400`
-        },
-        {
-          title: 'Errors',
-          description: 'Error Codes:\n- invalid_api_key - invalid key\n- rate_limit_exceeded - limit exceeded\n- invalid_request - bad request\n- server_error - server error',
-          code: `{
+X-RateLimit-Reset: 1644854400`,
+      },
+      {
+        title: 'Errors',
+        desc: 'Error codes: invalid_api_key, rate_limit_exceeded, invalid_request, server_error.',
+        code: `{
   "error": {
     "code": "invalid_api_key",
     "message": "API key is invalid or expired"
   }
-}`
-        }
-      ]
-    }
-  }
+}`,
+      },
+    ],
+    ctaTitle: 'Need help with the API?',
+    ctaEmail: 'api@nextbot.me',
+  },
+  bg: {
+    label: 'API',
+    headline: 'Интегрирайте NextBot в системите си.',
+    sub: 'REST API с пълна документация за custom интеграции.',
+    sections: [
+      {
+        title: 'Автентикация',
+        desc: 'Всички API заявки изискват API ключ в header-а. Вземете ключа от Dashboard > Settings > API Keys.',
+        code: 'Authorization: Bearer YOUR_API_KEY',
+      },
+      {
+        title: 'Base URL',
+        desc: 'Всички endpoints започват с този base URL.',
+        code: 'https://api.nextbot.me/v1',
+      },
+      {
+        title: 'Изпрати съобщение',
+        desc: 'POST /messages/send — Изпраща съобщение от името на Neo.',
+        code: `// Request
+POST /messages/send
+Content-Type: application/json
 
-  const t = content[lang as keyof typeof content]
+{
+  "channel": "whatsapp",
+  "recipient": "+359888123456",
+  "message": "Здравей! Как мога да ти помогна?"
+}
+
+// Response — 200 OK
+{
+  "id": "msg_123abc",
+  "status": "sent",
+  "timestamp": "2025-02-14T15:30:00Z"
+}`,
+      },
+      {
+        title: 'Получи съобщения',
+        desc: 'GET /messages — Взема списък със съобщения.\n\nQuery params: channel, limit (max 100), offset.',
+        code: `// Request
+GET /messages?channel=whatsapp&limit=10
+
+// Response — 200 OK
+{
+  "messages": [
+    {
+      "id": "msg_123",
+      "channel": "whatsapp",
+      "sender": "+359888123456",
+      "message": "Имате ли свободни стаи?",
+      "timestamp": "2025-02-14T15:30:00Z",
+      "replied": true
+    }
+  ],
+  "total": 1,
+  "hasMore": false
+}`,
+      },
+      {
+        title: 'Webhooks',
+        desc: 'POST /webhooks — Регистрирайте webhook за real-time уведомления.',
+        code: `// Register webhook
+POST /webhooks
+{
+  "url": "https://yoursite.com/webhook",
+  "events": ["message.received", "message.sent"]
+}
+
+// Webhook Payload
+{
+  "event": "message.received",
+  "data": {
+    "id": "msg_123",
+    "channel": "whatsapp",
+    "sender": "+359888123456",
+    "message": "Hello",
+    "timestamp": "2025-02-14T15:30:00Z"
+  }
+}`,
+      },
+      {
+        title: 'Rate Limits',
+        desc: '100 заявки/минута, 10,000 заявки/ден. При превишаване: HTTP 429.',
+        code: `X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 99
+X-RateLimit-Reset: 1644854400`,
+      },
+      {
+        title: 'Грешки',
+        desc: 'Error codes: invalid_api_key, rate_limit_exceeded, invalid_request, server_error.',
+        code: `{
+  "error": {
+    "code": "invalid_api_key",
+    "message": "API key is invalid or expired"
+  }
+}`,
+      },
+    ],
+    ctaTitle: 'Нужна ви е помощ с API?',
+    ctaEmail: 'api@nextbot.me',
+  },
+}
+
+export default function APIPage() {
+  const { lang } = useLanguage()
+  const t = copy[lang]
 
   return (
-    <main className="min-h-screen bg-white dark:bg-black pt-20">
-      {/* Hero */}
-      <section className="py-16 bg-gradient-to-br from-purple-50 to-white dark:from-gray-950 dark:to-black border-b border-gray-200 dark:border-gray-800">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
-              {t.title}
-            </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400">
-              {t.subtitle}
-            </p>
-          </motion.div>
+    <>
+      <section className="pt-36 pb-0 sm:pt-44">
+        <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
+          <AnimateIn>
+            <p className="text-[0.7rem] text-indigo-400/60 uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
+            <h1 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white max-w-2xl">{t.headline}</h1>
+            <p className="mt-5 text-[1.05rem] text-zinc-500 max-w-xl leading-[1.7]">{t.sub}</p>
+          </AnimateIn>
         </div>
       </section>
 
-      {/* Content */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
-        <div className="space-y-12">
-          {t.sections.map((section, i) => (
-            <motion.article
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
-              className="bg-white dark:bg-gray-900 rounded-2xl p-8 border border-gray-200 dark:border-gray-800"
-            >
-              <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
-                {section.title}
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400 whitespace-pre-line leading-relaxed mb-4">
-                {section.description}
-              </p>
-              <CodeBlock>{section.code}</CodeBlock>
-            </motion.article>
-          ))}
+      <section className="py-12 sm:py-16">
+        <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
+          <div className="max-w-3xl space-y-12">
+            {t.sections.map((section, i) => (
+              <AnimateIn key={i} delay={i * 40}>
+                <div className="rounded-2xl border border-white/[0.05] p-6 sm:p-8">
+                  <h2 className="text-[1.05rem] font-medium text-white mb-3">{section.title}</h2>
+                  <p className="text-sm text-zinc-500 leading-[1.7] whitespace-pre-line">{section.desc}</p>
+                  <CodeBlock>{section.code}</CodeBlock>
+                </div>
+              </AnimateIn>
+            ))}
+          </div>
         </div>
-      </div>
+      </section>
 
       {/* CTA */}
-      <section className="py-20 bg-gradient-to-br from-purple-600 to-pink-600">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center text-white">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            {lang === 'bg' ? 'Нужна ти е помощ с API?' : 'Need help with the API?'}
-          </h2>
-          <p className="text-xl mb-8 text-white/90">
-            {lang === 'bg'
-              ? 'Свържи се с нашия tech team'
-              : 'Contact our tech team'}
-          </p>
-          <a
-            href="mailto:api@nextbot.me"
-            className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-white text-purple-600 font-semibold hover:scale-105 transition-transform"
-          >
-            api@nextbot.me
-          </a>
+      <section className="py-28 sm:py-36 border-t border-white/[0.04]">
+        <div className="max-w-[1100px] mx-auto px-5 sm:px-8 text-center">
+          <AnimateIn>
+            <h2 className="text-[1.75rem] sm:text-[2rem] font-semibold text-white mb-6">{t.ctaTitle}</h2>
+            <a href={`mailto:${t.ctaEmail}`} className="inline-flex items-center px-7 py-3.5 bg-white text-zinc-950 text-[0.9rem] font-medium rounded-lg hover:bg-zinc-100 transition-colors">
+              {t.ctaEmail}
+            </a>
+          </AnimateIn>
         </div>
       </section>
-    </main>
+    </>
   )
 }

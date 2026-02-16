@@ -1,249 +1,89 @@
 'use client'
-import { useLanguage } from '@/lib/i18n'
-import { t } from '@/lib/translations'
-import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion'
-import { useRef, useState, useEffect } from 'react'
 
-const APPLE_EASE = [0.22, 1, 0.36, 1] as const
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { useLanguage } from '@/lib/i18n'
+
+const copy = {
+  en: {
+    badge: 'AI Sales & Support Assistant',
+    headline: 'Every lead gets an instant, intelligent response.',
+    sub: 'Neo is an AI assistant that handles customer conversations across chat, WhatsApp, and messaging platforms. It understands context, qualifies leads, books meetings, and works 24/7 — without human intervention.',
+    cta: 'Get Started',
+    cta2: 'Try Live Demo',
+    stats: [
+      { value: '<1s', label: 'Response time' },
+      { value: '12+', label: 'Languages' },
+      { value: '24/7', label: 'Availability' },
+      { value: '€0', label: 'Setup fee' },
+    ],
+  },
+  bg: {
+    badge: 'AI асистент за продажби и поддръжка',
+    headline: 'Всеки лийд получава мигновен, интелигентен отговор.',
+    sub: 'Neo е AI асистент, който управлява разговори с клиенти чрез чат, WhatsApp и месинджър платформи. Разбира контекст, квалифицира лийдове, резервира срещи и работи 24/7 — без човешка намеса.',
+    cta: 'Започни сега',
+    cta2: 'Пробвай демо',
+    stats: [
+      { value: '<1с', label: 'Време за отговор' },
+      { value: '12+', label: 'Езика' },
+      { value: '24/7', label: 'Наличност' },
+      { value: '€0', label: 'Setup такса' },
+    ],
+  },
+}
 
 export function NeoHero() {
   const { lang } = useLanguage()
-  const ref = useRef(null)
-  const [isMobile, setIsMobile] = useState(false)
-  const [gyroEnabled, setGyroEnabled] = useState(false)
-  const tiltX = useMotionValue(0)
-  const tiltY = useMotionValue(0)
-  const smoothTiltX = useSpring(tiltX, { stiffness: 100, damping: 20 })
-  const smoothTiltY = useSpring(tiltY, { stiffness: 100, damping: 20 })
+  const t = copy[lang]
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 1024)
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
+    requestAnimationFrame(() => setMounted(true))
   }, [])
 
-  // Gyroscope handler
-  useEffect(() => {
-    if (!gyroEnabled) return
-
-    const handleOrientation = (e: DeviceOrientationEvent) => {
-      const gamma = e.gamma ?? 0
-      const beta = e.beta ?? 0
-      tiltX.set(gamma / 2)
-      tiltY.set(Math.max(-30, Math.min(30, beta - 40)) / 2)
-    }
-
-    window.addEventListener('deviceorientation', handleOrientation)
-    return () => window.removeEventListener('deviceorientation', handleOrientation)
-  }, [gyroEnabled, tiltX, tiltY])
-
-  // Request gyroscope on first tap (iOS requires user gesture)
-  const enableGyro = async () => {
-    if (gyroEnabled) return
-    const DOE = DeviceOrientationEvent as any
-    if (typeof DOE.requestPermission === 'function') {
-      try {
-        const permission = await DOE.requestPermission()
-        if (permission === 'granted') setGyroEnabled(true)
-      } catch {
-        // denied
-      }
-    } else {
-      setGyroEnabled(true)
-    }
-  }
-
-  // Auto-enable gyro on Android (no permission needed)
-  useEffect(() => {
-    if (!isMobile) return
-    const DOE = DeviceOrientationEvent as any
-    if (typeof DOE.requestPermission !== 'function') {
-      setGyroEnabled(true)
-    }
-  }, [isMobile])
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start start', 'end start']
-  })
-
-  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.8, 0])
-
-  // Mouse effect for desktop — track across whole section
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (isMobile) return
-    const rect = e.currentTarget.getBoundingClientRect()
-    const centerX = rect.left + rect.width / 2
-    const centerY = rect.top + rect.height / 2
-    tiltX.set((e.clientX - centerX) / 15)
-    tiltY.set((e.clientY - centerY) / 15)
-  }
-
-  const handleMouseLeave = () => {
-    tiltX.set(0)
-    tiltY.set(0)
-  }
-
-  const stats = [
-    { value: '€59', label: lang === 'bg' ? 'от/месец' : 'from/mo' },
-    { value: '<1s', label: lang === 'bg' ? 'отговор' : 'response' },
-    { value: '24/7', label: lang === 'bg' ? 'активен' : 'active' },
-    { value: '12+', label: lang === 'bg' ? 'езика' : 'languages' }
-  ]
-
   return (
-    <section
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
-    >
-      {/* Static background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white via-blue-50 to-purple-50 dark:from-black dark:via-blue-950 dark:to-purple-950" />
+    <section className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden">
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(99,102,241,0.06),transparent_60%)]" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
+      </div>
 
-      {/* Static decorative orbs — no animation, just CSS */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/10 dark:bg-blue-400/20 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-400/10 dark:bg-purple-400/20 rounded-full blur-3xl" />
+      <div className="relative z-10 max-w-[1100px] mx-auto px-5 sm:px-8 pt-36 pb-24 sm:pt-44 sm:pb-32">
+        <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/[0.06] bg-white/[0.02] mb-8 transition-all duration-[1200ms] ${mounted ? 'opacity-100' : 'opacity-0 translate-y-2'}`}>
+          <span className="w-1.5 h-1.5 rounded-full bg-indigo-400/60" />
+          <span className="text-[0.75rem] text-zinc-500 font-medium tracking-wide">{t.badge}</span>
+        </div>
 
-      {/* Content */}
-      <motion.div
-        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-20 w-full"
-        style={!isMobile ? { opacity } : {}}
-      >
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left: Content */}
-          <div className="text-center lg:text-left">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, ease: APPLE_EASE }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 text-sm font-semibold mb-6"
-            >
-              <span>💬</span>
-              <span>{t(lang, 'neo.hero.eyebrow')}</span>
-            </motion.div>
+        <h1 className={`text-[2.5rem] sm:text-[3.5rem] lg:text-[4.25rem] font-semibold leading-[1.08] tracking-[-0.035em] text-white max-w-3xl text-balance transition-all duration-[1200ms] ease-out delay-100 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          {t.headline}
+        </h1>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1, ease: APPLE_EASE }}
-              className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6"
-            >
-              <span className="text-gray-900 dark:text-white">{t(lang, 'neo.hero.headline')}</span>
-              <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
-                {t(lang, 'neo.hero.headlineAccent')}
-              </span>
-            </motion.h1>
+        <p className={`mt-7 text-[1.1rem] sm:text-[1.2rem] text-zinc-400 max-w-xl leading-[1.7] font-light transition-all duration-[1200ms] ease-out delay-200 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          {t.sub}
+        </p>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2, ease: APPLE_EASE }}
-              className="text-lg sm:text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto lg:mx-0"
-            >
-              {t(lang, 'neo.hero.subheadline')}
-            </motion.p>
+        <div className={`mt-10 flex flex-col sm:flex-row items-start gap-4 transition-all duration-[1200ms] ease-out delay-[400ms] ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          <Link href="/book-demo" className="group inline-flex items-center gap-2 px-7 py-3.5 bg-white text-zinc-950 text-[0.9rem] font-medium rounded-lg hover:bg-zinc-100 transition-colors">
+            {t.cta}
+            <svg className="w-4 h-4 text-zinc-400 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </Link>
+          <Link href="/demo" className="inline-flex items-center gap-2 px-7 py-3.5 text-zinc-400 text-[0.9rem] font-medium rounded-lg border border-white/[0.08] hover:border-white/[0.14] hover:text-zinc-300 transition-all">
+            {t.cta2}
+          </Link>
+        </div>
 
-            {/* Stats — simple fade in */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.3, ease: APPLE_EASE }}
-              className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 mb-8"
-            >
-              {stats.map((stat, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.35 + i * 0.07 }}
-                  className="text-center lg:text-left p-4 rounded-2xl bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800"
-                >
-                  <div className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-blue-600 to-purple-600">
-                    {stat.value}
-                  </div>
-                  <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-                    {stat.label}
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-
-            {/* CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5, ease: APPLE_EASE }}
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
-            >
-              <a
-                href="#pricing"
-                className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold shadow-lg hover:shadow-xl hover:brightness-110 transition-all duration-200"
-              >
-                {t(lang, 'neo.hero.watchDemo')}
-              </a>
-              <a
-                href="/demo"
-                className="inline-flex items-center justify-center px-8 py-4 rounded-full border-2 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white font-semibold hover:border-gray-400 dark:hover:border-gray-600 transition-colors duration-200"
-              >
-                {lang === 'bg' ? 'Виж demo' : 'Watch demo'}
-              </a>
-            </motion.div>
-          </div>
-
-          {/* Right: Interactive Neo visualization */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: APPLE_EASE }}
-            onClick={enableGyro}
-            className="relative h-[350px] sm:h-[450px] lg:h-[550px] flex items-center justify-center cursor-pointer select-none"
-          >
-            {/* Static glow — no infinite animation */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-64 h-64 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-full blur-3xl" />
+        <div className={`mt-20 sm:mt-28 grid grid-cols-2 sm:grid-cols-4 gap-8 transition-all duration-[1200ms] ease-out delay-[600ms] ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          {t.stats.map((s, i) => (
+            <div key={i} className="border-l border-white/[0.06] pl-5">
+              <div className="text-[1.75rem] sm:text-[2rem] font-semibold tracking-tight text-white leading-none">{s.value}</div>
+              <div className="mt-1.5 text-sm text-zinc-600">{s.label}</div>
             </div>
-
-            {/* Neo letters with tilt */}
-            <motion.div
-              className="relative flex gap-3 sm:gap-5"
-              style={{ x: smoothTiltX, y: smoothTiltY }}
-            >
-              {['N', 'E', 'O'].map((letter, i) => (
-                <motion.span
-                  key={letter}
-                  className="text-8xl sm:text-[10rem] font-black bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text"
-                  style={{
-                    WebkitTextStroke: '2px rgba(255,255,255,0.1)',
-                    lineHeight: 1,
-                  }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.6,
-                    delay: 0.4 + i * 0.1,
-                    ease: APPLE_EASE,
-                  }}
-                  whileHover={!isMobile ? { scale: 1.08, transition: { duration: 0.2 } } : undefined}
-                >
-                  {letter}
-                </motion.span>
-              ))}
-            </motion.div>
-          </motion.div>
+          ))}
         </div>
-      </motion.div>
-
-      {/* Scroll indicator — CSS animation only */}
-      {!isMobile && (
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 animate-bounce">
-          <div className="w-6 h-10 rounded-full border-2 border-gray-400 dark:border-gray-600 flex items-start justify-center p-2">
-            <div className="w-1 h-3 rounded-full bg-gray-400 dark:bg-gray-600" />
-          </div>
-        </div>
-      )}
+      </div>
     </section>
   )
 }

@@ -1,13 +1,10 @@
 export default function Loading() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-nextbot-midnight">
-      {/* Nextbot logo with pulse animation */}
-      <div className="text-center">
-        <div className="mb-4 inline-flex h-16 w-16 items-center justify-center animate-pulse rounded-2xl bg-gradient-to-br from-nextbot-cyan to-nextbot-ocean">
-          <span className="text-3xl font-bold leading-none text-white">N</span>
-        </div>
-        <p className="text-sm text-white/60">Зареждане...</p>
+    <div className="fixed inset-0 z-[100] bg-[#09090b] flex items-center justify-center">
+      <div className="relative flex items-center justify-center">
+        <div className="absolute w-20 h-20 rounded-full bg-indigo-500/5 animate-ping" style={{ animationDuration: '2s' }} />
+        <div className="w-8 h-8 rounded-full border border-white/[0.06] border-t-indigo-400/40 animate-spin" style={{ animationDuration: '0.8s' }} />
       </div>
     </div>
-  );
+  )
 }

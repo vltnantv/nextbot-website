@@ -1,183 +1,190 @@
 'use client'
 
 import { useLanguage } from '@/lib/i18n'
-import { motion } from 'framer-motion'
-import { CalendlyButton } from '@/components/CalendlyButton'
+import { AnimateIn } from '@/components/AnimateIn'
+import Link from 'next/link'
+
+const copy = {
+  en: {
+    label: 'About',
+    headline: 'We build AI systems that automate business communication.',
+    sub: 'NextBot is an AI technology company based in Sofia, Bulgaria. We develop intelligent assistants that help businesses respond faster, convert more leads, and operate 24/7.',
+    stats: [
+      { value: '2024', label: 'Founded' },
+      { value: '100+', label: 'Businesses served' },
+      { value: '1M+', label: 'Messages processed' },
+      { value: '99.9%', label: 'Uptime' },
+    ],
+    storyLabel: 'Our Story',
+    storyHeadline: 'Built to solve a simple problem.',
+    storyText: 'In 2024, we saw businesses across Bulgaria losing customers for one reason: they couldn\'t respond fast enough. A hotel in Bansko missed a booking because the owner saw the message the next morning. A restaurant in Sofia lost an order because it was Saturday night. An e-commerce store lost a sale because a customer asked something at 11 PM.\n\nAll these problems have one solution: AI that responds instantly, in any language, on any channel, at any hour.',
+    missionLabel: 'Mission',
+    missionHeadline: 'Make AI communication accessible to every business.',
+    missionText: 'From small family hotels to large e-commerce operations — every business deserves intelligent, always-on customer communication. We build the technology that makes this possible.',
+    valuesLabel: 'Values',
+    valuesHeadline: 'How we operate.',
+    values: [
+      { title: 'Simplicity', desc: 'AI should be simple to deploy. No complex setup, no technical overhead. It just works.' },
+      { title: 'Trust', desc: 'Your data is yours. Your customers are yours. We\'re the infrastructure that helps you serve them better.' },
+      { title: 'Performance', desc: 'Every response under 1 second. Every system 99.9% available. We measure everything and optimize constantly.' },
+    ],
+    teamLabel: 'Team',
+    teamText: 'A focused team of engineers, AI specialists, and entrepreneurs based in Sofia, Bulgaria. We build, ship, and iterate — fast.',
+    ctaHeadline: 'See what we\'ve built.',
+    ctaSub: 'Explore our AI products or book a call to discuss your use case.',
+    cta1: 'View Products',
+    cta2: 'Book a Call',
+  },
+  bg: {
+    label: 'За нас',
+    headline: 'Създаваме AI системи, които автоматизират бизнес комуникацията.',
+    sub: 'NextBot е AI технологична компания, базирана в София, България. Разработваме интелигентни асистенти, които помагат на бизнесите да отговарят по-бързо, да конвертират повече лийдове и да работят 24/7.',
+    stats: [
+      { value: '2024', label: 'Основана' },
+      { value: '100+', label: 'Обслужени бизнеси' },
+      { value: '1M+', label: 'Обработени съобщения' },
+      { value: '99.9%', label: 'Uptime' },
+    ],
+    storyLabel: 'Нашата история',
+    storyHeadline: 'Създадена да реши прост проблем.',
+    storyText: 'През 2024 видяхме как бизнеси в България губят клиенти по една причина: не могат да отговорят достатъчно бързо. Хотел в Банско пропусна резервация, защото собственикът видя съобщението на следващата сутрин. Ресторант в София пропусна поръчка, защото беше събота вечерта. E-commerce магазин загуби продажба, защото клиентът попита нещо в 23:00.\n\nВсички тези проблеми имат едно решение: AI, който отговаря мигновено, на всеки език, по всеки канал, по всяко време.',
+    missionLabel: 'Мисия',
+    missionHeadline: 'Правим AI комуникацията достъпна за всеки бизнес.',
+    missionText: 'От малки семейни хотели до големи e-commerce операции — всеки бизнес заслужава интелигентна, винаги налична комуникация с клиенти. Ние изграждаме технологията, която прави това възможно.',
+    valuesLabel: 'Ценности',
+    valuesHeadline: 'Как работим.',
+    values: [
+      { title: 'Простота', desc: 'AI трябва да е лесен за внедряване. Без сложни настройки, без техническо натоварване. Просто работи.' },
+      { title: 'Доверие', desc: 'Вашите данни са ваши. Вашите клиенти са ваши. Ние сме инфраструктурата, която ви помага да ги обслужвате по-добре.' },
+      { title: 'Производителност', desc: 'Всеки отговор под 1 секунда. Всяка система 99.9% налична. Измерваме всичко и оптимизираме постоянно.' },
+    ],
+    teamLabel: 'Екип',
+    teamText: 'Фокусиран екип от инженери, AI специалисти и предприемачи, базирани в София, България. Изграждаме, доставяме и итерираме — бързо.',
+    ctaHeadline: 'Вижте какво сме създали.',
+    ctaSub: 'Разгледайте нашите AI продукти или запазете обаждане, за да обсъдим вашия случай.',
+    cta1: 'Вижте продуктите',
+    cta2: 'Запазете обаждане',
+  },
+}
 
 export default function AboutPage() {
   const { lang } = useLanguage()
-
-  const content = {
-    bg: {
-      title: 'За Nextbot',
-      subtitle: 'Мисията ни е да направим AI комуникацията достъпна за всеки бизнес в България',
-      story: {
-        title: 'Нашата история',
-        text: `През 2024 година видяхме как български бизнеси губят клиенти заради една проста причина: не успяват да отговорят навреме.
-
-Хотел в Банско губи резервация, защото собственикът е видял съобщението на следващата сутрин. Ресторант в София пропуска поръчка, защото е събота вечер. E-commerce магазин губи продажба, защото клиентът пита нещо в 23:00 часа.
-
-Всички тези проблеми имат едно решение: AI асистент който никога не спи.
-
-Затова създадохме Nextbot Neo - AI който отговаря на българските клиенти 24/7, на техния език, навсякъде където те са.`
-      },
-      mission: {
-        title: 'Нашата мисия',
-        text: 'Да направим AI комуникацията достъпна, разбираема и ефективна за всеки български бизнес - от малкия семеен хотел до големия e-commerce магазин.'
-      },
-      values: [
-        { icon: '🎯', title: 'Простота', description: 'AI технологията трябва да е проста за използване. Без сложни настройки, без техническа ангажираност. Просто работи.' },
-        { icon: '🤝', title: 'Доверие', description: 'Вашите данни са ваши. Вашите клиенти са ваши. Ние сме само инструментът който ви помага да им служите по-добре.' },
-        { icon: '📈', title: 'Растеж', description: 'Успехът ви е нашият успех. Когато вие растете, ние растем. Затова правим всичко да ви помогнем да растете.' }
-      ],
-      team: {
-        title: 'Екипът',
-        text: 'Малък екип от предприемачи, разработчици и AI специалисти базирани в София, България. Обединени от една цел: да направим AI достъпен за българския бизнес.'
-      },
-      stats: [
-        { value: '2024', label: 'Основана' },
-        { value: '100+', label: 'Клиенти' },
-        { value: '1M+', label: 'Съобщения' },
-        { value: '99.9%', label: 'Uptime' }
-      ],
-      cta: {
-        title: 'Готов да започнеш?',
-        subtitle: 'Запази 20-минутен разговор и виж как Neo може да помогне на твоя бизнес'
-      }
-    },
-    en: {
-      title: 'About Nextbot',
-      subtitle: 'Our mission is to make AI communication accessible to every business in Bulgaria',
-      story: {
-        title: 'Our Story',
-        text: `In 2024, we saw how Bulgarian businesses were losing customers for one simple reason: they couldn't respond in time.
-
-A hotel in Bansko loses a booking because the owner saw the message the next morning. A restaurant in Sofia misses an order because it's Saturday evening. An e-commerce store loses a sale because a customer asked something at 11 PM.
-
-All these problems have one solution: an AI assistant that never sleeps.
-
-That's why we created Nextbot Neo - AI that answers Bulgarian customers 24/7, in their language, wherever they are.`
-      },
-      mission: {
-        title: 'Our Mission',
-        text: 'To make AI communication accessible, understandable, and effective for every Bulgarian business - from small family hotels to large e-commerce stores.'
-      },
-      values: [
-        { icon: '🎯', title: 'Simplicity', description: 'AI technology should be simple to use. No complex setup, no technical commitment. It just works.' },
-        { icon: '🤝', title: 'Trust', description: 'Your data is yours. Your customers are yours. We\'re just the tool that helps you serve them better.' },
-        { icon: '📈', title: 'Growth', description: 'Your success is our success. When you grow, we grow. That\'s why we do everything to help you grow.' }
-      ],
-      team: {
-        title: 'The Team',
-        text: 'A small team of entrepreneurs, developers, and AI specialists based in Sofia, Bulgaria. United by one goal: to make AI accessible to Bulgarian business.'
-      },
-      stats: [
-        { value: '2024', label: 'Founded' },
-        { value: '100+', label: 'Customers' },
-        { value: '1M+', label: 'Messages' },
-        { value: '99.9%', label: 'Uptime' }
-      ],
-      cta: {
-        title: 'Ready to start?',
-        subtitle: 'Book a 20-minute call and see how Neo can help your business'
-      }
-    }
-  }
-
-  const t = content[lang as keyof typeof content]
+  const t = copy[lang]
 
   return (
-    <main className="min-h-screen bg-white dark:bg-black pt-20">
+    <>
       {/* Hero */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-white dark:from-gray-950 dark:to-black">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <h1 className="text-5xl sm:text-6xl font-bold mb-6 text-gray-900 dark:text-white">
-              {t.title}
-            </h1>
-            <p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-400">
-              {t.subtitle}
-            </p>
-          </motion.div>
+      <section className="relative pt-36 pb-28 sm:pt-44 sm:pb-36 overflow-hidden">
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
+        <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
+          <AnimateIn>
+            <p className="text-[0.7rem] text-indigo-400/60 uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
+            <h1 className="text-[2rem] sm:text-[3rem] lg:text-[3.75rem] font-semibold leading-[1.08] tracking-[-0.035em] text-white max-w-3xl text-balance">{t.headline}</h1>
+            <p className="mt-7 text-[1.1rem] text-zinc-400 max-w-xl leading-[1.7] font-light">{t.sub}</p>
+          </AnimateIn>
         </div>
       </section>
 
       {/* Stats */}
-      <section className="py-12 border-y border-gray-200 dark:border-gray-800">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
+      <section className="py-16 border-y border-white/[0.04]">
+        <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
             {t.stats.map((stat, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
-                <div className="text-4xl font-bold text-gray-900 dark:text-white mb-2">{stat.value}</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</div>
-              </motion.div>
+              <AnimateIn key={i} delay={i * 80}>
+                <div className="border-l border-white/[0.06] pl-5">
+                  <div className="text-[1.75rem] sm:text-[2rem] font-semibold tracking-tight text-white leading-none font-mono">{stat.value}</div>
+                  <div className="mt-1.5 text-sm text-zinc-600">{stat.label}</div>
+                </div>
+              </AnimateIn>
             ))}
           </div>
         </div>
       </section>
 
       {/* Story */}
-      <section className="py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-8 text-gray-900 dark:text-white">{t.story.title}</h2>
-            <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed whitespace-pre-line">{t.story.text}</p>
-          </motion.div>
+      <section className="py-28 sm:py-36">
+        <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
+          <AnimateIn>
+            <p className="text-[0.7rem] text-zinc-600 uppercase tracking-[0.2em] font-medium mb-5">{t.storyLabel}</p>
+            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white max-w-2xl">{t.storyHeadline}</h2>
+          </AnimateIn>
+          <AnimateIn delay={100}>
+            <p className="mt-10 text-[1rem] text-zinc-400 max-w-2xl leading-[1.8] whitespace-pre-line">{t.storyText}</p>
+          </AnimateIn>
         </div>
       </section>
 
       {/* Mission */}
-      <section className="py-20 bg-gray-50 dark:bg-gray-950">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-gray-900 dark:text-white">{t.mission.title}</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400 leading-relaxed">{t.mission.text}</p>
-          </motion.div>
+      <section className="py-28 sm:py-36 border-y border-white/[0.04]">
+        <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
+          <AnimateIn>
+            <p className="text-[0.7rem] text-indigo-400/60 uppercase tracking-[0.2em] font-medium mb-5">{t.missionLabel}</p>
+            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white max-w-2xl">{t.missionHeadline}</h2>
+          </AnimateIn>
+          <AnimateIn delay={100}>
+            <p className="mt-8 text-[1.05rem] text-zinc-500 max-w-2xl leading-[1.7]">{t.missionText}</p>
+          </AnimateIn>
         </div>
       </section>
 
       {/* Values */}
-      <section className="py-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="grid md:grid-cols-3 gap-8">
-            {t.values.map((value, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-white dark:bg-gray-900 rounded-2xl p-8 border border-gray-200 dark:border-gray-800"
-              >
-                <div className="text-5xl mb-4">{value.icon}</div>
-                <h3 className="text-2xl font-bold mb-3 text-gray-900 dark:text-white">{value.title}</h3>
-                <p className="text-gray-600 dark:text-gray-400 leading-relaxed">{value.description}</p>
-              </motion.div>
+      <section className="py-28 sm:py-36">
+        <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
+          <AnimateIn>
+            <p className="text-[0.7rem] text-zinc-600 uppercase tracking-[0.2em] font-medium mb-5">{t.valuesLabel}</p>
+            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white max-w-2xl">{t.valuesHeadline}</h2>
+          </AnimateIn>
+
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-px bg-white/[0.04] rounded-2xl overflow-hidden">
+            {t.values.map((v, i) => (
+              <AnimateIn key={i} delay={i * 80}>
+                <div className="bg-[#09090b] p-8 sm:p-10 h-full">
+                  <span className="text-[0.65rem] text-zinc-700 font-mono block mb-4">{String(i + 1).padStart(2, '0')}</span>
+                  <h3 className="text-[1.05rem] font-medium text-white mb-3">{v.title}</h3>
+                  <p className="text-sm text-zinc-600 leading-[1.7]">{v.desc}</p>
+                </div>
+              </AnimateIn>
             ))}
           </div>
         </div>
       </section>
 
       {/* Team */}
-      <section className="py-20 bg-gray-50 dark:bg-gray-950">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-gray-900 dark:text-white">{t.team.title}</h2>
-            <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">{t.team.text}</p>
-          </motion.div>
+      <section className="py-20 border-t border-white/[0.04]">
+        <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
+          <AnimateIn>
+            <p className="text-[0.7rem] text-zinc-600 uppercase tracking-[0.2em] font-medium mb-5">{t.teamLabel}</p>
+            <p className="text-[1.05rem] text-zinc-500 max-w-2xl leading-[1.7]">{t.teamText}</p>
+          </AnimateIn>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-gradient-to-br from-blue-600 to-purple-600 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">{t.cta.title}</h2>
-            <p className="text-xl mb-8 text-white/90">{t.cta.subtitle}</p>
-            <CalendlyButton variant="outline" size="lg" />
-          </motion.div>
+      <section className="py-28 sm:py-36 border-t border-white/[0.04]">
+        <div className="max-w-[1100px] mx-auto px-5 sm:px-8 text-center">
+          <AnimateIn>
+            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white">{t.ctaHeadline}</h2>
+            <p className="mt-5 text-[1.05rem] text-zinc-500 max-w-lg mx-auto leading-[1.7]">{t.ctaSub}</p>
+            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link href="/#products" className="inline-flex items-center gap-2 px-7 py-3.5 bg-white text-zinc-950 text-[0.9rem] font-medium rounded-lg hover:bg-zinc-100 transition-colors">
+                {t.cta1}
+              </Link>
+              <Link href="/book-demo" className="inline-flex items-center gap-2 px-7 py-3.5 text-zinc-400 text-[0.9rem] font-medium rounded-lg border border-white/[0.08] hover:border-white/[0.14] hover:text-zinc-300 transition-all">
+                {t.cta2}
+              </Link>
+            </div>
+          </AnimateIn>
         </div>
       </section>
-    </main>
+
+      {/* Legal info */}
+      <div className="border-t border-white/[0.04] py-12">
+        <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
+          <p className="text-xs text-zinc-700">
+            Nextbot EOOD / {lang === 'bg' ? 'ЕИК' : 'UIC'}: 207218192 / Sofia, Bulgaria
+          </p>
+        </div>
+      </div>
+    </>
   )
 }

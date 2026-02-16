@@ -1,149 +1,201 @@
 'use client'
 
 import { useLanguage } from '@/lib/i18n'
-import { motion } from 'framer-motion'
+import { AnimateIn } from '@/components/AnimateIn'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useRef, useCallback } from 'react'
 
-const content = {
-  bg: {
-    badge: 'Скоро',
-    title: 'Aria: Гласов AI Асистент',
-    subtitle: 'Aria отговаря на телефонни обаждания автоматично с естествен глас. Разбира български и още 12+ езика.',
-    waitlistTitle: 'Бъдете първите, които ще опитат Aria',
-    waitlistDescription: 'Оставете имейла си и ще ви уведомим, когато Aria е готова.',
-    emailPlaceholder: 'вашият@имейл.com',
-    submitButton: 'Запиши ме',
-    submitting: 'Изпращане...',
-    successMessage: 'Благодарим! Ще ви уведомим, когато Aria стартира.',
-    errorMessage: 'Възникна грешка. Моля, опитайте отново.',
-    demoTitle: 'Как работи Aria',
-    demoSteps: [
-      { icon: '📞', label: 'Клиент се обажда', description: 'Входящо обаждане на вашия номер' },
-      { icon: '🤖', label: 'Aria отговаря', description: 'С естествен глас на български' },
-      { icon: '💬', label: 'Разбира нуждата', description: 'AI анализира и разбира контекста' },
-      { icon: '✅', label: 'Решава задачата', description: 'Резервация, информация или пренасочване' },
-    ],
-    featuresTitle: 'Възможности',
-    features: [
-      { icon: '🗣️', title: 'Естествен български глас', description: 'Aria говори на перфектен български с естествена интонация и темпо.' },
-      { icon: '🧠', title: 'Разбира контекста', description: 'Напреднал AI, който разбира намерението зад въпросите на клиентите.' },
-      { icon: '📝', title: 'Записва разговорите', description: 'Всяко обаждане се записва и транскрибира автоматично за преглед.' },
-      { icon: '🔗', title: 'Интеграции', description: 'Свързва се с Google Calendar, CRM системи и вашите вътрешни инструменти.' },
-      { icon: '📱', title: 'Неограничени линии', description: 'Мащабирайте до колкото линии ви трябват без забавяне.' },
-      { icon: '🌍', title: '12+ езика', description: 'Освен български, Aria поддържа английски, немски, испански и още.' },
-    ],
-    useCasesTitle: 'Примери за употреба',
-    useCases: [
-      { icon: '🍽️', title: 'Приемане на резервации', description: 'Aria приема и потвърждава резервации за ресторанти и хотели автоматично.' },
-      { icon: '❓', title: 'Често задавани въпроси', description: 'Отговаря на повтарящи се въпроси без да натоварва екипа ви.' },
-      { icon: '📅', title: 'Записване за часове', description: 'Букира часове за клиники, салони и сервизи директно в календара.' },
-      { icon: '📋', title: 'Събиране на информация', description: 'Събира данни от обаждащите се и ги изпраща структурирано.' },
-      { icon: '🔀', title: 'Пренасочване към отдели', description: 'Разбира нуждата и пренасочва към правилния отдел или служител.' },
-      { icon: '🕐', title: '24/7 телефонна линия', description: 'Aria никога не спи - отговаря денонощно, включително празници.' },
-    ],
-    pricingTitle: 'Предварителни цени',
-    pricingSubtitle: 'Окончателните цени може да се променят при стартиране.',
-    plans: [
-      {
-        name: 'Voice Starter',
-        price: '€99',
-        period: '/мес',
-        features: ['200 минути разговори', '1 телефонна линия', 'Български глас', 'Базово пренасочване'],
-        highlighted: false,
-      },
-      {
-        name: 'Voice Pro',
-        price: '€249',
-        period: '/мес',
-        features: ['1000 минути разговори', '5 телефонни линии', 'Всички гласове', 'Напреднало пренасочване', 'CRM интеграция', 'Аналитика'],
-        highlighted: true,
-      },
-    ],
-    launchLabel: 'Очаквана дата на стартиране',
-    launchDate: 'Q2 2026',
-    ctaTitle: 'Междувременно, опитайте Neo',
-    ctaDescription: 'Neo е нашият текстов AI асистент за уебсайтове - наличен днес.',
-    ctaButton: 'Разгледайте Neo',
-  },
+const copy = {
   en: {
     badge: 'Coming Soon',
-    title: 'Aria: Voice AI Assistant',
-    subtitle: 'Aria answers phone calls automatically with a natural voice. Understands Bulgarian and 12+ languages.',
-    waitlistTitle: 'Be the first to try Aria',
-    waitlistDescription: 'Leave your email and we\'ll notify you when Aria is ready.',
+    label: 'Voice AI',
+    headline: 'Aria answers your phone calls with AI.',
+    sub: 'A voice AI assistant that handles inbound calls with natural conversation. Understands context, speaks 12+ languages, and integrates with your systems — 24/7.',
+    waitlistTitle: 'Join the early access list',
+    waitlistSub: 'Be the first to deploy Aria when it launches.',
     emailPlaceholder: 'your@email.com',
     submitButton: 'Join Waitlist',
     submitting: 'Submitting...',
-    successMessage: 'Thank you! We\'ll notify you when Aria launches.',
-    errorMessage: 'An error occurred. Please try again.',
-    demoTitle: 'How Aria Works',
-    demoSteps: [
-      { icon: '📞', label: 'Customer calls', description: 'Incoming call to your number' },
-      { icon: '🤖', label: 'Aria answers', description: 'With a natural voice in Bulgarian' },
-      { icon: '💬', label: 'Understands the need', description: 'AI analyzes and understands context' },
-      { icon: '✅', label: 'Resolves the task', description: 'Reservation, info, or routing' },
+    successMessage: 'You\'re on the list. We\'ll notify you when Aria launches.',
+    errorMessage: 'Something went wrong. Please try again.',
+    howTitle: 'How Aria Works',
+    howHeadline: 'From ring to resolution in seconds.',
+    steps: [
+      { num: '01', title: 'Customer Calls', desc: 'An inbound call reaches your business number. Aria picks up instantly — no hold time, no voicemail.' },
+      { num: '02', title: 'Aria Understands', desc: 'Natural language processing identifies intent, detects language, and retrieves context from your knowledge base.' },
+      { num: '03', title: 'Speaks Naturally', desc: 'Aria responds with a natural voice in the caller\'s language. Handles questions, takes bookings, routes calls.' },
+      { num: '04', title: 'Systems Updated', desc: 'CRM updated. Calendar synced. Transcript logged. Your team has full visibility without picking up the phone.' },
     ],
-    featuresTitle: 'Features',
-    features: [
-      { icon: '🗣️', title: 'Natural Bulgarian Voice', description: 'Aria speaks perfect Bulgarian with natural intonation and pacing.' },
-      { icon: '🧠', title: 'Understands Context', description: 'Advanced AI that understands the intent behind customer questions.' },
-      { icon: '📝', title: 'Records Conversations', description: 'Every call is recorded and transcribed automatically for review.' },
-      { icon: '🔗', title: 'Integrations', description: 'Connects with Google Calendar, CRM systems, and your internal tools.' },
-      { icon: '📱', title: 'Unlimited Lines', description: 'Scale to as many lines as you need without delays.' },
-      { icon: '🌍', title: '12+ Languages', description: 'Besides Bulgarian, Aria supports English, German, Spanish, and more.' },
+    capLabel: 'Capabilities',
+    capHeadline: 'What Aria does on every call.',
+    capabilities: [
+      { title: 'Natural Voice', desc: 'Speaks Bulgarian, English, German, and 12+ languages with natural intonation and pacing.' },
+      { title: 'Context Awareness', desc: 'Understands the intent behind questions. Maintains context across the entire conversation.' },
+      { title: 'Call Recording', desc: 'Every call is recorded and transcribed automatically. Full searchable history for your team.' },
+      { title: 'Calendar Booking', desc: 'Books appointments directly into Google Calendar or Outlook. Handles rescheduling and reminders.' },
+      { title: 'Smart Routing', desc: 'Routes calls to the right department or person based on intent. Escalates urgent matters instantly.' },
+      { title: 'Unlimited Lines', desc: 'Scale to as many concurrent calls as needed. No busy signals, no missed calls.' },
     ],
-    useCasesTitle: 'Use Cases',
+    useCasesLabel: 'Use Cases',
+    useCasesHeadline: 'Built for businesses that miss calls.',
     useCases: [
-      { icon: '🍽️', title: 'Taking Reservations', description: 'Aria accepts and confirms reservations for restaurants and hotels automatically.' },
-      { icon: '❓', title: 'FAQ', description: 'Answers repetitive questions without burdening your team.' },
-      { icon: '📅', title: 'Appointment Booking', description: 'Books appointments for clinics, salons, and services directly in the calendar.' },
-      { icon: '📋', title: 'Information Gathering', description: 'Collects data from callers and sends it in a structured format.' },
-      { icon: '🔀', title: 'Department Routing', description: 'Understands the need and routes to the right department or employee.' },
-      { icon: '🕐', title: '24/7 Phone Line', description: 'Aria never sleeps - answers around the clock, including holidays.' },
+      { title: 'Reservations', desc: 'Hotels and restaurants: accept and confirm bookings automatically, even at 2 AM.' },
+      { title: 'Appointment Booking', desc: 'Clinics, salons, and services: book directly into the calendar without staff involvement.' },
+      { title: 'FAQ Handling', desc: 'Answer repetitive questions about hours, pricing, availability — without burdening your team.' },
+      { title: 'Lead Capture', desc: 'Collect caller information, qualify leads, and send structured data to your CRM.' },
     ],
-    pricingTitle: 'Preliminary Pricing',
-    pricingSubtitle: 'Final pricing may change at launch.',
+    pricingLabel: 'Preliminary Pricing',
+    pricingHeadline: 'Simple voice AI pricing.',
+    pricingSub: 'Final pricing may adjust at launch.',
     plans: [
       {
-        name: 'Voice Starter',
-        price: '€99',
-        period: '/mo',
-        features: ['200 minutes of calls', '1 phone line', 'Bulgarian voice', 'Basic routing'],
-        highlighted: false,
+        name: 'Voice Starter', price: '€99', period: '/month',
+        desc: 'For small businesses handling basic call automation.',
+        features: ['200 minutes/month', '1 phone line', 'Bulgarian + English', 'Basic call routing', 'Call transcription'],
       },
       {
-        name: 'Voice Pro',
-        price: '€249',
-        period: '/mo',
-        features: ['1000 minutes of calls', '5 phone lines', 'All voices', 'Advanced routing', 'CRM integration', 'Analytics'],
-        highlighted: true,
+        name: 'Voice Pro', price: '€249', period: '/month',
+        desc: 'For businesses that need advanced voice automation.',
+        features: ['1,000 minutes/month', '5 phone lines', 'All 12+ languages', 'Advanced routing', 'CRM integration', 'Calendar booking', 'Priority support'],
+        highlight: true, badge: 'Recommended',
       },
     ],
-    launchLabel: 'Expected Launch Date',
-    launchDate: 'Q2 2026',
-    ctaTitle: 'Meanwhile, try Neo',
-    ctaDescription: 'Neo is our text-based AI assistant for websites - available today.',
+    launchLabel: 'Expected Launch',
+    launchDate: 'Q3 2026',
+    ctaHeadline: 'Meanwhile, deploy Neo today.',
+    ctaSub: 'Neo handles text-based conversations across chat, WhatsApp, and messaging — available now.',
     ctaButton: 'Explore Neo',
   },
-}
-
-const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0 },
-}
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
+  bg: {
+    badge: 'Скоро',
+    label: 'Гласов AI',
+    headline: 'Aria отговаря на обажданията ви с AI.',
+    sub: 'Гласов AI асистент, който обработва входящи обаждания с естествен разговор. Разбира контекст, говори 12+ езика и се интегрира с вашите системи — 24/7.',
+    waitlistTitle: 'Запишете се за ранен достъп',
+    waitlistSub: 'Бъдете първите, които ще внедрят Aria при стартиране.',
+    emailPlaceholder: 'вашият@имейл.com',
+    submitButton: 'Запиши ме',
+    submitting: 'Изпращане...',
+    successMessage: 'Вие сте в списъка. Ще ви уведомим при стартиране.',
+    errorMessage: 'Възникна грешка. Моля, опитайте отново.',
+    howTitle: 'Как работи Aria',
+    howHeadline: 'От позвъняване до решение за секунди.',
+    steps: [
+      { num: '01', title: 'Клиентът се обажда', desc: 'Входящо обаждане достига бизнес номера ви. Aria отговаря мигновено — без чакане, без гласова поща.' },
+      { num: '02', title: 'Aria разбира', desc: 'Обработка на естествен език идентифицира намерение, разпознава език и извлича контекст от базата ви знания.' },
+      { num: '03', title: 'Говори естествено', desc: 'Aria отговаря с естествен глас на езика на обаждащия. Обработва въпроси, приема резервации, насочва обаждания.' },
+      { num: '04', title: 'Системите се актуализират', desc: 'CRM е актуализиран. Календарът е синхронизиран. Транскрипцията е записана. Пълна видимост за екипа ви.' },
+    ],
+    capLabel: 'Възможности',
+    capHeadline: 'Какво прави Aria при всяко обаждане.',
+    capabilities: [
+      { title: 'Естествен глас', desc: 'Говори български, английски, немски и 12+ езика с естествена интонация и темпо.' },
+      { title: 'Контекстна осъзнатост', desc: 'Разбира намерението зад въпросите. Поддържа контекст през целия разговор.' },
+      { title: 'Запис на обаждания', desc: 'Всяко обаждане се записва и транскрибира автоматично. Пълна история за екипа ви.' },
+      { title: 'Резервиране в календар', desc: 'Букира часове директно в Google Calendar или Outlook. Управлява пренасрочване и напомняния.' },
+      { title: 'Умно насочване', desc: 'Насочва обаждания към правилния отдел или човек. Ескалира спешни случаи мигновено.' },
+      { title: 'Неограничени линии', desc: 'Скалирайте до колкото едновременни обаждания ви трябват. Без заето, без пропуснати обаждания.' },
+    ],
+    useCasesLabel: 'Приложения',
+    useCasesHeadline: 'Създадена за бизнеси, които пропускат обаждания.',
+    useCases: [
+      { title: 'Резервации', desc: 'Хотели и ресторанти: приемайте и потвърждавайте резервации автоматично, дори в 2 сутринта.' },
+      { title: 'Записване за часове', desc: 'Клиники, салони и услуги: букирайте директно в календара без участие на персонал.' },
+      { title: 'Често задавани въпроси', desc: 'Отговаряйте на повтарящи се въпроси за работно време, цени, наличност — без да натоварвате екипа.' },
+      { title: 'Улавяне на лийдове', desc: 'Събирайте информация от обаждащите, квалифицирайте лийдове и изпращайте структурирани данни към CRM.' },
+    ],
+    pricingLabel: 'Предварителни цени',
+    pricingHeadline: 'Просто ценообразуване за гласов AI.',
+    pricingSub: 'Окончателните цени може да се променят при стартиране.',
+    plans: [
+      {
+        name: 'Voice Starter', price: '€99', period: '/месец',
+        desc: 'За малки бизнеси с базова автоматизация на обаждания.',
+        features: ['200 минути/месец', '1 телефонна линия', 'Български + английски', 'Базово насочване', 'Транскрипция на обаждания'],
+      },
+      {
+        name: 'Voice Pro', price: '€249', period: '/месец',
+        desc: 'За бизнеси с нужда от напреднала гласова автоматизация.',
+        features: ['1,000 минути/месец', '5 телефонни линии', 'Всички 12+ езика', 'Напреднало насочване', 'CRM интеграция', 'Резервиране в календар', 'Приоритетна поддръжка'],
+        highlight: true, badge: 'Препоръчан',
+      },
+    ],
+    launchLabel: 'Очаквано стартиране',
+    launchDate: 'Q3 2026',
+    ctaHeadline: 'Междувременно, внедрете Neo днес.',
+    ctaSub: 'Neo обработва текстови разговори чрез чат, WhatsApp и месинджър — наличен сега.',
+    ctaButton: 'Разгледайте Neo',
   },
+}
+
+function AriaPricingCard({ plan }: { plan: typeof copy.en.plans[number] }) {
+  const cardRef = useRef<HTMLDivElement>(null)
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const card = cardRef.current
+    if (!card) return
+    const rect = card.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    card.style.setProperty('--glow-x', `${x}px`)
+    card.style.setProperty('--glow-y', `${y}px`)
+  }, [])
+
+  return (
+    <div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      className="relative bg-[#09090b] p-8 sm:p-10 h-full flex flex-col min-w-[280px] snap-center rounded-2xl md:rounded-none border border-white/[0.06] md:border-0 group/card overflow-hidden"
+    >
+      {/* Mouse-following glow */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"
+        style={{
+          background: 'radial-gradient(400px circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(168,85,247,0.08), transparent 60%)',
+        }}
+      />
+      {/* Border glow */}
+      <div
+        className="pointer-events-none absolute inset-0 rounded-2xl md:rounded-none opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"
+        style={{
+          background: 'radial-gradient(400px circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(168,85,247,0.15), transparent 60%)',
+          mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+          maskComposite: 'exclude',
+          WebkitMaskComposite: 'xor',
+          padding: '1px',
+        }}
+      />
+
+      <div className="relative z-10 flex flex-col h-full">
+        <div className="flex items-center gap-2 mb-1">
+          <h3 className="text-[1rem] font-medium text-white">{plan.name}</h3>
+          {'badge' in plan && plan.badge && (
+            <span className="text-[0.58rem] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-400/80">{plan.badge}</span>
+          )}
+        </div>
+        <div className="mt-4 mb-2">
+          <span className="text-[2.25rem] font-semibold text-white tracking-tight">{plan.price}</span>
+          <span className="text-sm text-zinc-600 ml-1">{plan.period}</span>
+        </div>
+        <p className="text-sm text-zinc-600 mb-8">{plan.desc}</p>
+        <ul className="space-y-3 flex-1">
+          {plan.features.map((f, j) => (
+            <li key={j} className="flex items-start gap-2.5 text-[0.82rem] text-zinc-400">
+              <svg className="w-3.5 h-3.5 mt-0.5 text-zinc-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+              {f}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  )
 }
 
 export function AriaComingSoon() {
   const { lang } = useLanguage()
-  const t = content[lang] || content.bg
+  const t = copy[lang]
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
 
@@ -169,308 +221,169 @@ export function AriaComingSoon() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-950 via-purple-950/20 to-gray-950">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden pt-32 pb-20 px-4">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-purple-600/10 blur-[120px]" />
-          <div className="absolute top-1/3 left-1/3 w-[400px] h-[400px] rounded-full bg-pink-600/10 blur-[100px]" />
+    <>
+      {/* Hero */}
+      <section className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(251,191,36,0.04),transparent_60%)]" />
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
         </div>
 
-        <div className="relative max-w-4xl mx-auto text-center">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeInUp}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="inline-block px-4 py-1.5 mb-6 text-sm font-semibold rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
-              {t.badge}
-            </span>
-          </motion.div>
+        <div className="relative z-10 max-w-[1100px] mx-auto px-5 sm:px-8 pt-36 pb-24 sm:pt-44 sm:pb-32">
+          <AnimateIn>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-amber-500/20 bg-amber-500/[0.06] shadow-[0_0_20px_rgba(251,191,36,0.1)] mb-8">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+              <span className="text-[0.75rem] text-amber-400/90 font-medium tracking-wide">{t.badge}</span>
+            </div>
+          </AnimateIn>
 
-          <motion.h1
-            className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent"
-            initial="hidden"
-            animate="visible"
-            variants={fadeInUp}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            {t.title}
-          </motion.h1>
+          <AnimateIn delay={100}>
+            <h1 className="text-[2.5rem] sm:text-[3.5rem] lg:text-[4.25rem] font-semibold leading-[1.08] tracking-[-0.035em] text-white max-w-3xl text-balance">
+              {t.headline}
+            </h1>
+          </AnimateIn>
 
-          <motion.p
-            className="text-xl md:text-2xl text-gray-400 mb-12 max-w-2xl mx-auto"
-            initial="hidden"
-            animate="visible"
-            variants={fadeInUp}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            {t.subtitle}
-          </motion.p>
+          <AnimateIn delay={200}>
+            <p className="mt-7 text-[1.1rem] sm:text-[1.2rem] text-zinc-400 max-w-xl leading-[1.7] font-light">
+              {t.sub}
+            </p>
+          </AnimateIn>
 
-          {/* Waitlist Form */}
-          <motion.div
-            className="max-w-lg mx-auto"
-            initial="hidden"
-            animate="visible"
-            variants={fadeInUp}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <h3 className="text-lg font-semibold text-white mb-2">{t.waitlistTitle}</h3>
-            <p className="text-gray-400 text-sm mb-4">{t.waitlistDescription}</p>
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder={t.emailPlaceholder}
-                className="flex-1 px-4 py-3 rounded-xl bg-white/5 border border-purple-500/30 text-white placeholder-gray-500 focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400 transition-colors"
-              />
-              <button
-                type="submit"
-                disabled={status === 'loading'}
-                className="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold hover:from-purple-500 hover:to-pink-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
-              >
-                {status === 'loading' ? t.submitting : t.submitButton}
-              </button>
-            </form>
-            {status === 'success' && (
-              <p className="mt-3 text-sm text-green-400">{t.successMessage}</p>
-            )}
-            {status === 'error' && (
-              <p className="mt-3 text-sm text-red-400">{t.errorMessage}</p>
-            )}
-          </motion.div>
+          {/* Waitlist */}
+          <AnimateIn delay={300}>
+            <div className="mt-12 max-w-md">
+              <p className="text-sm text-zinc-500 mb-4">{t.waitlistSub}</p>
+              <form onSubmit={handleSubmit} className="flex gap-3">
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder={t.emailPlaceholder}
+                  className="flex-1 px-4 py-3 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white text-sm placeholder-zinc-600 focus:outline-none focus:border-purple-500/30 transition-colors"
+                />
+                <button
+                  type="submit"
+                  disabled={status === 'loading'}
+                  className="px-6 py-3 rounded-lg bg-white text-zinc-950 text-sm font-medium hover:bg-zinc-100 transition-colors disabled:opacity-50 whitespace-nowrap"
+                >
+                  {status === 'loading' ? t.submitting : t.submitButton}
+                </button>
+              </form>
+              {status === 'success' && <p className="mt-3 text-sm text-emerald-400/70">{t.successMessage}</p>}
+              {status === 'error' && <p className="mt-3 text-sm text-red-400/70">{t.errorMessage}</p>}
+            </div>
+          </AnimateIn>
         </div>
       </section>
 
-      {/* Demo Visualization */}
-      <section className="py-20 px-4">
-        <div className="max-w-5xl mx-auto">
-          <motion.h2
-            className="text-3xl md:text-4xl font-bold text-center mb-16 text-white"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-          >
-            {t.demoTitle}
-          </motion.h2>
+      {/* How It Works */}
+      <section className="py-28 sm:py-36">
+        <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
+          <AnimateIn>
+            <p className="text-[0.7rem] text-zinc-600 uppercase tracking-[0.2em] font-medium mb-5">{t.howTitle}</p>
+            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white max-w-2xl">{t.howHeadline}</h2>
+          </AnimateIn>
 
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            {t.demoSteps.map((step, i) => (
-              <motion.div
-                key={i}
-                variants={fadeInUp}
-                transition={{ duration: 0.5 }}
-                className="relative flex flex-col items-center text-center p-6 rounded-2xl bg-white/5 border border-purple-500/20 backdrop-blur-sm"
-              >
-                {i < t.demoSteps.length - 1 && (
-                  <div className="hidden lg:block absolute top-1/2 -right-3 w-6 h-0.5 bg-gradient-to-r from-purple-500 to-pink-500" />
-                )}
-                <div className="text-4xl mb-4">{step.icon}</div>
-                <div className="text-xs font-semibold text-purple-400 mb-1">
-                  {String(i + 1).padStart(2, '0')}
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.04] rounded-2xl overflow-hidden">
+            {t.steps.map((step, i) => (
+              <AnimateIn key={i} delay={i * 100}>
+                <div className="bg-[#09090b] p-8 h-full flex flex-col">
+                  <span className="text-sm font-mono text-zinc-700 mb-6">{step.num}</span>
+                  <h3 className="text-[1.05rem] font-medium text-white mb-3">{step.title}</h3>
+                  <p className="text-sm text-zinc-600 leading-[1.7] flex-1">{step.desc}</p>
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-1">{step.label}</h3>
-                <p className="text-sm text-gray-400">{step.description}</p>
-              </motion.div>
+              </AnimateIn>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Features Grid */}
-      <section className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <motion.h2
-            className="text-3xl md:text-4xl font-bold text-center mb-16 text-white"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-          >
-            {t.featuresTitle}
-          </motion.h2>
+      {/* Capabilities */}
+      <section className="py-28 sm:py-36 border-y border-white/[0.04]">
+        <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
+          <AnimateIn>
+            <p className="text-[0.7rem] text-purple-400/60 uppercase tracking-[0.2em] font-medium mb-5">{t.capLabel}</p>
+            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white max-w-2xl">{t.capHeadline}</h2>
+          </AnimateIn>
 
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            {t.features.map((feature, i) => (
-              <motion.div
-                key={i}
-                variants={fadeInUp}
-                transition={{ duration: 0.5 }}
-                className="p-6 rounded-2xl bg-white/5 border border-purple-500/15 hover:border-purple-500/40 transition-colors group"
-              >
-                <div className="text-3xl mb-4 group-hover:scale-110 transition-transform">
-                  {feature.icon}
+          <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/[0.04] rounded-2xl overflow-hidden">
+            {t.capabilities.map((cap, i) => (
+              <AnimateIn key={i} delay={i * 60}>
+                <div className="bg-[#09090b] p-8 h-full">
+                  <h3 className="text-[0.95rem] font-medium text-white mb-3">{cap.title}</h3>
+                  <p className="text-sm text-zinc-600 leading-[1.7]">{cap.desc}</p>
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">{feature.title}</h3>
-                <p className="text-sm text-gray-400 leading-relaxed">{feature.description}</p>
-              </motion.div>
+              </AnimateIn>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Use Cases */}
-      <section className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <motion.h2
-            className="text-3xl md:text-4xl font-bold text-center mb-16 text-white"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-          >
-            {t.useCasesTitle}
-          </motion.h2>
+      <section className="py-28 sm:py-36">
+        <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
+          <AnimateIn>
+            <p className="text-[0.7rem] text-zinc-600 uppercase tracking-[0.2em] font-medium mb-5">{t.useCasesLabel}</p>
+            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white max-w-2xl">{t.useCasesHeadline}</h2>
+          </AnimateIn>
 
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            {t.useCases.map((useCase, i) => (
-              <motion.div
-                key={i}
-                variants={fadeInUp}
-                transition={{ duration: 0.5 }}
-                className="p-6 rounded-2xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/15 hover:border-pink-500/40 transition-colors"
-              >
-                <div className="text-3xl mb-4">{useCase.icon}</div>
-                <h3 className="text-lg font-semibold text-white mb-2">{useCase.title}</h3>
-                <p className="text-sm text-gray-400 leading-relaxed">{useCase.description}</p>
-              </motion.div>
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-px bg-white/[0.04] rounded-2xl overflow-hidden">
+            {t.useCases.map((uc, i) => (
+              <AnimateIn key={i} delay={i * 80}>
+                <div className="bg-[#09090b] p-8 sm:p-10 h-full">
+                  <h3 className="text-[1.05rem] font-medium text-white mb-3">{uc.title}</h3>
+                  <p className="text-sm text-zinc-500 leading-[1.7]">{uc.desc}</p>
+                </div>
+              </AnimateIn>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Pricing */}
-      <section className="py-20 px-4">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            className="text-center mb-16"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              {t.pricingTitle}
-            </h2>
-            <p className="text-gray-400">{t.pricingSubtitle}</p>
-          </motion.div>
+      <section className="py-28 sm:py-36 border-t border-white/[0.04]">
+        <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
+          <AnimateIn>
+            <div className="text-center max-w-2xl mx-auto mb-16">
+              <p className="text-[0.7rem] text-purple-400/60 uppercase tracking-[0.2em] font-medium mb-5">{t.pricingLabel}</p>
+              <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white">{t.pricingHeadline}</h2>
+              <p className="mt-4 text-[1.05rem] text-zinc-500 leading-[1.7]">{t.pricingSub}</p>
+            </div>
+          </AnimateIn>
 
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 gap-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
+          <div className="flex md:grid md:grid-cols-2 gap-4 md:gap-px md:bg-white/[0.04] md:rounded-2xl md:overflow-hidden overflow-x-auto snap-x snap-mandatory -mx-5 px-5 sm:-mx-8 sm:px-8 md:mx-0 md:px-0 pb-4 md:pb-0 max-w-3xl md:mx-auto scrollbar-hide">
             {t.plans.map((plan, i) => (
-              <motion.div
-                key={i}
-                variants={fadeInUp}
-                transition={{ duration: 0.5 }}
-                className={`relative p-8 rounded-2xl border ${
-                  plan.highlighted
-                    ? 'bg-gradient-to-br from-purple-600/20 to-pink-600/20 border-purple-500/50'
-                    : 'bg-white/5 border-purple-500/20'
-                }`}
-              >
-                {plan.highlighted && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 text-xs font-semibold rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white">
-                    Popular
-                  </div>
-                )}
-                <h3 className="text-xl font-bold text-white mb-2">{plan.name}</h3>
-                <div className="flex items-baseline mb-6">
-                  <span className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                    {plan.price}
-                  </span>
-                  <span className="text-gray-400 ml-1">{plan.period}</span>
-                </div>
-                <ul className="space-y-3">
-                  {plan.features.map((feature, j) => (
-                    <li key={j} className="flex items-center text-sm text-gray-300">
-                      <svg
-                        className="w-4 h-4 mr-3 text-purple-400 flex-shrink-0"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
+              <AnimateIn key={i} delay={i * 100}>
+                <AriaPricingCard plan={plan} />
+              </AnimateIn>
             ))}
-          </motion.div>
+          </div>
+
+          {/* Launch Date */}
+          <AnimateIn delay={200}>
+            <div className="mt-20 text-center">
+              <p className="text-[0.7rem] text-zinc-600 uppercase tracking-[0.2em] font-medium mb-3">{t.launchLabel}</p>
+              <p className="text-[2.5rem] sm:text-[3.5rem] font-semibold tracking-tight text-white">{t.launchDate}</p>
+            </div>
+          </AnimateIn>
         </div>
       </section>
 
-      {/* Launch Date */}
-      <section className="py-16 px-4">
-        <motion.div
-          className="max-w-2xl mx-auto text-center"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-        >
-          <p className="text-gray-400 text-sm uppercase tracking-widest mb-3">
-            {t.launchLabel}
-          </p>
-          <p className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-            {t.launchDate}
-          </p>
-        </motion.div>
+      {/* CTA */}
+      <section className="py-28 sm:py-36 border-t border-white/[0.04]">
+        <div className="max-w-[1100px] mx-auto px-5 sm:px-8 text-center">
+          <AnimateIn>
+            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white">{t.ctaHeadline}</h2>
+            <p className="mt-5 text-[1.05rem] text-zinc-500 max-w-lg mx-auto leading-[1.7]">{t.ctaSub}</p>
+            <div className="mt-10">
+              <Link href="/neo" className="inline-flex items-center gap-2 px-7 py-3.5 bg-white text-zinc-950 text-[0.9rem] font-medium rounded-lg hover:bg-zinc-100 transition-colors">
+                {t.ctaButton}
+              </Link>
+            </div>
+          </AnimateIn>
+        </div>
       </section>
-
-      {/* CTA - Try Neo */}
-      <section className="py-20 px-4">
-        <motion.div
-          className="max-w-2xl mx-auto text-center p-10 rounded-3xl bg-gradient-to-br from-purple-600/20 to-pink-600/20 border border-purple-500/30"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-        >
-          <h2 className="text-3xl font-bold text-white mb-4">{t.ctaTitle}</h2>
-          <p className="text-gray-400 mb-8">{t.ctaDescription}</p>
-          <Link
-            href="/neo"
-            className="inline-block px-8 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold hover:from-purple-500 hover:to-pink-500 transition-all hover:scale-105"
-          >
-            {t.ctaButton}
-          </Link>
-        </motion.div>
-      </section>
-    </div>
+    </>
   )
 }

@@ -6,7 +6,7 @@ import { Footer } from "@/components/layout/footer";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: ["300", "400", "500", "600", "700"],
   variable: "--font-inter",
   display: "swap",
 });
@@ -16,41 +16,44 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   userScalable: true,
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
-  ],
+  themeColor: "#09090b",
 };
 
 export const metadata: Metadata = {
-  title: "Nextbot - AI Chatbot & Voice Assistant | Neo & Aria",
-  description: "Neo AI chatbot отговаря на съобщения. Aria voice assistant отговаря на обаждания. 24/7 автоматизация на customer service.",
+  title: "NextBot — AI Systems That Generate Revenue | Enterprise AI Automation",
+  description:
+    "NextBot builds AI infrastructure that captures, qualifies, and converts leads automatically. Increase lead conversion by 30%+ with intelligent automation. Enterprise-grade AI systems for sales, customer communication, and operations.",
+  keywords:
+    "AI automation, enterprise AI, lead generation AI, AI sales system, revenue automation, AI infrastructure, lead conversion, business AI, AI customer communication",
   icons: {
     icon: "/favicon.png",
     shortcut: "/favicon.png",
     apple: "/favicon.png",
   },
   openGraph: {
-    title: "Nextbot - AI Chatbot & Voice Assistant",
-    description: "Neo AI chatbot отговаря на съобщения. Aria voice assistant отговаря на обаждания. 24/7 автоматизация.",
+    title: "NextBot — AI Systems That Generate Revenue",
+    description:
+      "Enterprise AI infrastructure for lead capture, qualification, and conversion automation. Book a strategy call.",
     url: "https://nextbot.me",
-    siteName: "Nextbot",
+    siteName: "NextBot",
     images: [
       {
         url: "https://nextbot.me/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Nextbot - AI Communication Platform",
+        alt: "NextBot — Enterprise AI Infrastructure",
       },
     ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nextbot - AI Chatbot & Voice Assistant",
-    description: "Neo AI chatbot отговаря на съобщения. Aria voice assistant отговаря на обаждания. 24/7 автоматизация.",
+    title: "NextBot — AI Systems That Generate Revenue",
+    description:
+      "Enterprise AI infrastructure for lead capture, qualification, and conversion automation.",
     images: ["https://nextbot.me/og-image.png"],
   },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
@@ -58,76 +61,59 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Structured data for SEO
-  const organizationSchema = {
+  const orgSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "Nextbot EOOD",
+    name: "NextBot",
+    legalName: "Nextbot EOOD",
     description:
-      "AI автоматизация за хотели и е-търговия в България",
+      "Enterprise AI automation partner. We build AI systems that generate revenue and automate business operations.",
     url: "https://nextbot.me",
     logo: "https://nextbot.me/logo.png",
+    foundingDate: "2024",
+    founder: { "@type": "Person", name: "Valentin Antov" },
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Sofia",
+      addressCountry: "BG",
+    },
     contactPoint: {
       "@type": "ContactPoint",
       telephone: "+359-894-288-119",
+      email: "info@nextbot.me",
       contactType: "Sales",
       availableLanguage: ["Bulgarian", "English"],
     },
   };
 
-  const productSchema = {
+  const serviceSchema = {
     "@context": "https://schema.org",
-    "@type": "Product",
-    name: "Nextbot AI Assistant",
+    "@type": "Service",
+    name: "AI Revenue Automation",
+    provider: { "@type": "Organization", name: "NextBot" },
     description:
-      "24/7 AI асистент за хотели и бизнес",
-    brand: {
-      "@type": "Brand",
-      name: "Nextbot",
-    },
-    offers: {
-      "@type": "Offer",
-      price: "59",
-      priceCurrency: "EUR",
-      priceSpecification: {
-        "@type": "UnitPriceSpecification",
-        price: "59",
-        priceCurrency: "EUR",
-        unitText: "месец",
-      },
-      availability: "https://schema.org/InStock",
-    },
+      "Custom AI systems for lead capture, qualification, and conversion automation. Enterprise-grade infrastructure.",
+    areaServed: "EU",
+    serviceType: "AI Automation",
   };
 
   return (
-    <html lang="bg" className={inter.variable}>
+    <html lang="en" className={inter.variable}>
       <head>
-        {/* Structured Data - Organization */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationSchema),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
         />
-        {/* Structured Data - Product */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(productSchema),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
         />
       </head>
-
-      <body className={inter.className}>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{Object.keys(localStorage).forEach(function(k){if(k.indexOf('voiceflow')>-1||k.indexOf('vf_')>-1)localStorage.removeItem(k)});Object.keys(sessionStorage).forEach(function(k){if(k.indexOf('voiceflow')>-1||k.indexOf('vf_')>-1)sessionStorage.removeItem(k)})}catch(e){}})(window.scrollTo(0,0));if('scrollRestoration' in history)history.scrollRestoration='manual';`,
-          }}
-        />
+      <body className={`${inter.className} bg-[#09090b] text-zinc-50 antialiased`}>
         <Header />
         <main>{children}</main>
         <Footer />
       </body>
-              </html>
-                     );
-                       }
+    </html>
+  );
+}

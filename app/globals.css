@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ========================================================================
-   Base — resets, defaults, accessibility
-   ======================================================================== */
-
 @layer base {
   *,
   *::before,
@@ -22,74 +18,47 @@
     text-rendering: optimizeLegibility;
     -webkit-text-size-adjust: 100%;
     overflow-x: clip;
-    max-width: 100vw;
   }
 
   * {
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* will-change only where actually needed — not blanket on all sections */
-
   body {
-    @apply font-text text-nextbot-silver;
-    background: #0a0a0a;
+    background: #09090b;
+    color: #fafafa;
+    font-feature-settings: "kern" 1, "liga" 1;
     overflow-x: clip;
-    max-width: 100vw;
-    font-feature-settings: "kern" 1;
   }
 
-  /* Prevent text inflation on mobile */
   h1, h2, h3, h4, h5, h6 {
     text-size-adjust: none;
     -webkit-text-size-adjust: none;
+    letter-spacing: -0.025em;
   }
 
   h1, h2, h3, h4, h5, h6, p {
     overflow-wrap: break-word;
-    word-wrap: break-word;
   }
 
-  /* Cyan selection highlight */
   ::selection {
-    @apply bg-nextbot-cyan/30 text-white;
+    background: rgba(59, 130, 246, 0.2);
+    color: #fff;
   }
 
-  /* Focus-visible ring (accessibility) */
   :focus-visible {
-    @apply outline-none ring-2 ring-nextbot-cyan/50 ring-offset-2 ring-offset-nextbot-midnight;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
   }
 
-  /* ---- Scrollbar — thin, rounded, auto-fade ---- */
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
+  * { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.08) transparent; }
 
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply rounded-full bg-nextbot-cloud/20;
-    transition: background 0.2s ease;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-nextbot-cloud/40;
-  }
-
-  /* Firefox */
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(226, 232, 240, 0.2) transparent;
-  }
-
-  /* Reduced motion: disable all custom animations */
   @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
+    *, *::before, *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
@@ -97,173 +66,30 @@
     }
   }
 
-  /* Scroll margin for anchor navigation (accounts for fixed header) */
   section[id] {
     scroll-margin-top: 80px;
   }
 }
 
-/* ========================================================================
-   Components — reusable patterns
-   ======================================================================== */
-
-@layer components {
-  /* Gradient text (cyan → ocean) */
-  .gradient-text {
-    @apply bg-gradient-to-r from-nextbot-cyan to-nextbot-ocean bg-clip-text text-transparent;
-  }
-
-  /* Text gradient (white → cyan, 135deg) */
-  .text-gradient {
-    background: linear-gradient(135deg, #ffffff 0%, #06b6d4 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  /* Gradient-border wrapper — put content inside a child div */
-  .gradient-border {
-    @apply relative rounded-2xl;
-    background: linear-gradient(
-      135deg,
-      rgba(6, 182, 212, 0.2),
-      rgba(30, 64, 175, 0.2)
-    );
-    padding: 1px;
-  }
-
-  .gradient-border > * {
-    @apply rounded-2xl bg-nextbot-midnight;
-  }
-
-  /* Glass morphism card */
-  .glass {
-    @apply border border-white/10 bg-white/5 backdrop-blur-xl;
-  }
-
-  /* Full glass effect with stronger blur */
-  .glass-effect {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
-}
-
-/* ========================================================================
-   Utilities
-   ======================================================================== */
-
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-
-  /* Better touch targets for mobile */
-  .touch-target {
-    min-height: 44px;
-    min-width: 44px;
-  }
-
-  /* Touch manipulation for better mobile performance */
-  .touch-manipulation {
-    touch-action: manipulation;
-  }
+  .text-balance { text-wrap: balance; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
 }
 
-/* ========================================================================
-   Voiceflow — hide branding, keep chat functional
-   ======================================================================== */
-
-.vfrc-footer,
-.vfrc-powered-by,
-.vfrc-assistant-info,
-.vfrc-launcher,
-.vfrc-widget-launcher {
+/* Voiceflow */
+.vfrc-footer, .vfrc-powered-by, .vfrc-assistant-info, .vfrc-launcher, .vfrc-widget-launcher {
   display: none !important;
 }
 
-/* Kill anything injected after footer */
-footer ~ *:not(script):not(style):not(link) {
-  display: none !important;
-  height: 0 !important;
-  overflow: hidden !important;
-}
-
-/* ========================================================================
-   Print — hide chrome, optimize for paper
-   ======================================================================== */
-
-
-/* ========================================================================
-   Mobile Performance — reduce GPU-heavy effects
-   ======================================================================== */
-
+/* Mobile perf */
 @media (max-width: 1024px) {
-  /* Cap large blur effects on mobile */
-  .blur-\[80px\],
-  .blur-\[100px\],
-  .blur-\[120px\],
-  .blur-\[150px\],
-  .blur-\[180px\],
-  .blur-\[200px\] {
+  .blur-\[80px\], .blur-\[100px\], .blur-\[120px\], .blur-\[150px\] {
     filter: blur(30px) !important;
   }
-
-  .blur-3xl {
-    filter: blur(20px) !important;
-  }
-
-  /* Kill expensive infinite animations on mobile */
-  .animate-pulse {
-    animation: none !important;
-  }
 }
-
-/* ========================================================================
-   CSS Transition Utilities — lighter than Framer Motion
-   ======================================================================== */
-
-.fade-in {
-  opacity: 0;
-  transition: opacity 0.4s ease-out;
-}
-
-.fade-in.visible {
-  opacity: 1;
-}
-
-.slide-up {
-  transform: translateY(20px);
-  opacity: 0;
-  transition: transform 0.4s ease-out, opacity 0.4s ease-out;
-}
-
-.slide-up.visible {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-/* ========================================================================
-   Print — hide chrome, optimize for paper
-   ======================================================================== */
 
 @media print {
-  header,
-  footer,
-  nav,
-  .no-print {
-    display: none !important;
-  }
-
-  body {
-    background: #fff !important;
-    color: #000 !important;
-  }
-
-  a[href]::after {
-    content: " (" attr(href) ")";
-    font-size: 0.8em;
-    color: #666;
-  }
+  header, footer, nav, .no-print { display: none !important; }
+  body { background: #fff !important; color: #000 !important; }
 }
