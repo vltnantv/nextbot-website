@@ -7,7 +7,7 @@ import { useState, useRef, useCallback } from 'react'
 
 const copy = {
   en: {
-    badge: 'Coming Soon',
+    badge: 'In Beta',
     label: 'Voice AI',
     headline: 'Aria answers your phone calls with AI.',
     sub: 'A voice AI assistant that handles inbound calls with natural conversation. Understands context, speaks 12+ languages, and integrates with your systems — 24/7.',
@@ -49,14 +49,14 @@ const copy = {
     pricingSub: 'Final pricing may adjust at launch.',
     plans: [
       {
-        name: 'Voice Starter', price: '€99', period: '/month',
+        name: 'Voice Starter', price: '€199', period: '/month',
         desc: 'For small businesses handling basic call automation.',
-        features: ['200 minutes/month', '1 phone line', 'Bulgarian + English', 'Basic call routing', 'Call transcription'],
+        features: ['Unlimited minutes', '1 phone line', 'Bulgarian + English', 'Basic call routing', 'Call transcription', 'Email support'],
       },
       {
-        name: 'Voice Pro', price: '€249', period: '/month',
+        name: 'Voice Pro', price: '€399', period: '/month',
         desc: 'For businesses that need advanced voice automation.',
-        features: ['1,000 minutes/month', '5 phone lines', 'All 12+ languages', 'Advanced routing', 'CRM integration', 'Calendar booking', 'Priority support'],
+        features: ['Unlimited minutes', '5 phone lines', 'All 12+ languages', 'Advanced routing', 'CRM integration', 'Calendar booking', 'Priority support', 'Monthly analysis'],
         highlight: true, badge: 'Recommended',
       },
     ],
@@ -67,7 +67,7 @@ const copy = {
     ctaButton: 'Explore Neo',
   },
   bg: {
-    badge: 'Скоро',
+    badge: 'В Бета',
     label: 'Гласов AI',
     headline: 'Aria отговаря на обажданията ви с AI.',
     sub: 'Гласов AI асистент, който обработва входящи обаждания с естествен разговор. Разбира контекст, говори 12+ езика и се интегрира с вашите системи — 24/7.',
@@ -109,14 +109,14 @@ const copy = {
     pricingSub: 'Окончателните цени може да се променят при стартиране.',
     plans: [
       {
-        name: 'Voice Starter', price: '€99', period: '/месец',
+        name: 'Voice Starter', price: '€199', period: '/месец',
         desc: 'За малки бизнеси с базова автоматизация на обаждания.',
-        features: ['200 минути/месец', '1 телефонна линия', 'Български + английски', 'Базово насочване', 'Транскрипция на обаждания'],
+        features: ['Неограничени минути', '1 телефонна линия', 'Български + английски', 'Базово насочване', 'Транскрипция на обаждания', 'Email поддръжка'],
       },
       {
-        name: 'Voice Pro', price: '€249', period: '/месец',
+        name: 'Voice Pro', price: '€399', period: '/месец',
         desc: 'За бизнеси с нужда от напреднала гласова автоматизация.',
-        features: ['1,000 минути/месец', '5 телефонни линии', 'Всички 12+ езика', 'Напреднало насочване', 'CRM интеграция', 'Резервиране в календар', 'Приоритетна поддръжка'],
+        features: ['Неограничени минути', '5 телефонни линии', 'Всички 12+ езика', 'Напреднало насочване', 'CRM интеграция', 'Резервиране в календар', 'Приоритетна поддръжка', 'Месечен анализ'],
         highlight: true, badge: 'Препоръчан',
       },
     ],
@@ -145,20 +145,20 @@ function AriaPricingCard({ plan }: { plan: typeof copy.en.plans[number] }) {
     <div
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      className="relative bg-[#09090b] p-8 sm:p-10 h-full flex flex-col min-w-[280px] snap-center rounded-2xl md:rounded-none border border-white/[0.06] md:border-0 group/card overflow-hidden"
+      className="relative bg-nb-cream p-8 sm:p-10 h-full flex flex-col min-w-[280px] snap-center rounded-2xl md:rounded-none border border-nb-border md:border-0 group/card overflow-hidden"
     >
       {/* Mouse-following glow */}
       <div
         className="pointer-events-none absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"
         style={{
-          background: 'radial-gradient(400px circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(168,85,247,0.08), transparent 60%)',
+          background: 'radial-gradient(400px circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(201,168,76,0.08), transparent 60%)',
         }}
       />
       {/* Border glow */}
       <div
         className="pointer-events-none absolute inset-0 rounded-2xl md:rounded-none opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"
         style={{
-          background: 'radial-gradient(400px circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(168,85,247,0.15), transparent 60%)',
+          background: 'radial-gradient(400px circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(201,168,76,0.15), transparent 60%)',
           mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
           maskComposite: 'exclude',
           WebkitMaskComposite: 'xor',
@@ -168,20 +168,20 @@ function AriaPricingCard({ plan }: { plan: typeof copy.en.plans[number] }) {
 
       <div className="relative z-10 flex flex-col h-full">
         <div className="flex items-center gap-2 mb-1">
-          <h3 className="text-[1rem] font-medium text-white">{plan.name}</h3>
+          <h3 className="text-[1rem] font-medium text-nb-navy">{plan.name}</h3>
           {'badge' in plan && plan.badge && (
-            <span className="text-[0.58rem] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-400/80">{plan.badge}</span>
+            <span className="text-[0.58rem] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded bg-nb-gold/10 text-nb-gold-dark">{plan.badge}</span>
           )}
         </div>
         <div className="mt-4 mb-2">
-          <span className="text-[2.25rem] font-semibold text-white tracking-tight">{plan.price}</span>
-          <span className="text-sm text-zinc-600 ml-1">{plan.period}</span>
+          <span className="text-[2.25rem] font-semibold text-nb-navy tracking-tight">{plan.price}</span>
+          <span className="text-sm text-nb-text-muted ml-1">{plan.period}</span>
         </div>
-        <p className="text-sm text-zinc-600 mb-8">{plan.desc}</p>
+        <p className="text-sm text-nb-text-muted mb-8">{plan.desc}</p>
         <ul className="space-y-3 flex-1">
           {plan.features.map((f, j) => (
-            <li key={j} className="flex items-start gap-2.5 text-[0.82rem] text-zinc-400">
-              <svg className="w-3.5 h-3.5 mt-0.5 text-zinc-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <li key={j} className="flex items-start gap-2.5 text-[0.82rem] text-nb-text-secondary">
+              <svg className="w-3.5 h-3.5 mt-0.5 text-nb-text-muted shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
               </svg>
               {f}
@@ -223,17 +223,17 @@ export function AriaComingSoon() {
   return (
     <>
       {/* Hero */}
-      <section className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden">
+      <section className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden bg-nb-navy">
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(251,191,36,0.04),transparent_60%)]" />
-          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(201,168,76,0.04),transparent_60%)]" />
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-nb-border to-transparent" />
         </div>
 
         <div className="relative z-10 max-w-[1100px] mx-auto px-5 sm:px-8 pt-36 pb-24 sm:pt-44 sm:pb-32">
           <AnimateIn>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-amber-500/20 bg-amber-500/[0.06] shadow-[0_0_20px_rgba(251,191,36,0.1)] mb-8">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-              <span className="text-[0.75rem] text-amber-400/90 font-medium tracking-wide">{t.badge}</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-nb-gold/20 bg-nb-gold/[0.06] shadow-[0_0_20px_rgba(201,168,76,0.15)] mb-8">
+              <span className="w-1.5 h-1.5 rounded-full bg-nb-gold animate-pulse" />
+              <span className="text-[0.75rem] text-nb-gold font-medium tracking-wide">{t.badge}</span>
             </div>
           </AnimateIn>
 
@@ -244,7 +244,7 @@ export function AriaComingSoon() {
           </AnimateIn>
 
           <AnimateIn delay={200}>
-            <p className="mt-7 text-[1.1rem] sm:text-[1.2rem] text-zinc-400 max-w-xl leading-[1.7] font-light">
+            <p className="mt-7 text-[1.1rem] sm:text-[1.2rem] text-[#B8C5D0] max-w-xl leading-[1.7] font-light">
               {t.sub}
             </p>
           </AnimateIn>
@@ -252,7 +252,7 @@ export function AriaComingSoon() {
           {/* Waitlist */}
           <AnimateIn delay={300}>
             <div className="mt-12 max-w-md">
-              <p className="text-sm text-zinc-500 mb-4">{t.waitlistSub}</p>
+              <p className="text-sm text-[#B8C5D0] mb-4">{t.waitlistSub}</p>
               <form onSubmit={handleSubmit} className="flex gap-3">
                 <input
                   type="email"
@@ -260,18 +260,18 @@ export function AriaComingSoon() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={t.emailPlaceholder}
-                  className="flex-1 px-4 py-3 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white text-sm placeholder-zinc-600 focus:outline-none focus:border-purple-500/30 transition-colors"
+                  className="flex-1 px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white text-sm placeholder-white/40 focus:outline-none focus:border-nb-gold/30 transition-colors"
                 />
                 <button
                   type="submit"
                   disabled={status === 'loading'}
-                  className="px-6 py-3 rounded-lg bg-white text-zinc-950 text-sm font-medium hover:bg-zinc-100 transition-colors disabled:opacity-50 whitespace-nowrap"
+                  className="px-6 py-3 rounded-lg bg-nb-gold text-nb-navy text-sm font-medium hover:bg-nb-gold-hover transition-colors disabled:opacity-50 whitespace-nowrap"
                 >
                   {status === 'loading' ? t.submitting : t.submitButton}
                 </button>
               </form>
-              {status === 'success' && <p className="mt-3 text-sm text-emerald-400/70">{t.successMessage}</p>}
-              {status === 'error' && <p className="mt-3 text-sm text-red-400/70">{t.errorMessage}</p>}
+              {status === 'success' && <p className="mt-3 text-sm text-emerald-600">{t.successMessage}</p>}
+              {status === 'error' && <p className="mt-3 text-sm text-red-600">{t.errorMessage}</p>}
             </div>
           </AnimateIn>
         </div>
@@ -281,17 +281,17 @@ export function AriaComingSoon() {
       <section className="py-28 sm:py-36">
         <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
           <AnimateIn>
-            <p className="text-[0.7rem] text-zinc-600 uppercase tracking-[0.2em] font-medium mb-5">{t.howTitle}</p>
-            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white max-w-2xl">{t.howHeadline}</h2>
+            <p className="text-[0.7rem] text-nb-text-muted uppercase tracking-[0.2em] font-medium mb-5">{t.howTitle}</p>
+            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-nb-navy max-w-2xl">{t.howHeadline}</h2>
           </AnimateIn>
 
-          <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.04] rounded-2xl overflow-hidden">
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-nb-border rounded-2xl overflow-hidden">
             {t.steps.map((step, i) => (
               <AnimateIn key={i} delay={i * 100}>
-                <div className="bg-[#09090b] p-8 h-full flex flex-col">
-                  <span className="text-sm font-mono text-zinc-700 mb-6">{step.num}</span>
-                  <h3 className="text-[1.05rem] font-medium text-white mb-3">{step.title}</h3>
-                  <p className="text-sm text-zinc-600 leading-[1.7] flex-1">{step.desc}</p>
+                <div className="bg-nb-cream p-8 h-full flex flex-col">
+                  <span className="text-sm font-mono text-nb-text-muted mb-6">{step.num}</span>
+                  <h3 className="text-[1.05rem] font-medium text-nb-navy mb-3">{step.title}</h3>
+                  <p className="text-sm text-nb-text-muted leading-[1.7] flex-1">{step.desc}</p>
                 </div>
               </AnimateIn>
             ))}
@@ -300,19 +300,19 @@ export function AriaComingSoon() {
       </section>
 
       {/* Capabilities */}
-      <section className="py-28 sm:py-36 border-y border-white/[0.04]">
+      <section className="py-28 sm:py-36 border-y border-nb-border">
         <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
           <AnimateIn>
-            <p className="text-[0.7rem] text-purple-400/60 uppercase tracking-[0.2em] font-medium mb-5">{t.capLabel}</p>
-            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white max-w-2xl">{t.capHeadline}</h2>
+            <p className="text-[0.7rem] text-nb-gold uppercase tracking-[0.2em] font-medium mb-5">{t.capLabel}</p>
+            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-nb-navy max-w-2xl">{t.capHeadline}</h2>
           </AnimateIn>
 
-          <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/[0.04] rounded-2xl overflow-hidden">
+          <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-nb-border rounded-2xl overflow-hidden">
             {t.capabilities.map((cap, i) => (
               <AnimateIn key={i} delay={i * 60}>
-                <div className="bg-[#09090b] p-8 h-full">
-                  <h3 className="text-[0.95rem] font-medium text-white mb-3">{cap.title}</h3>
-                  <p className="text-sm text-zinc-600 leading-[1.7]">{cap.desc}</p>
+                <div className="bg-nb-cream p-8 h-full">
+                  <h3 className="text-[0.95rem] font-medium text-nb-navy mb-3">{cap.title}</h3>
+                  <p className="text-sm text-nb-text-muted leading-[1.7]">{cap.desc}</p>
                 </div>
               </AnimateIn>
             ))}
@@ -324,16 +324,16 @@ export function AriaComingSoon() {
       <section className="py-28 sm:py-36">
         <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
           <AnimateIn>
-            <p className="text-[0.7rem] text-zinc-600 uppercase tracking-[0.2em] font-medium mb-5">{t.useCasesLabel}</p>
-            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white max-w-2xl">{t.useCasesHeadline}</h2>
+            <p className="text-[0.7rem] text-nb-text-muted uppercase tracking-[0.2em] font-medium mb-5">{t.useCasesLabel}</p>
+            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-nb-navy max-w-2xl">{t.useCasesHeadline}</h2>
           </AnimateIn>
 
-          <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-px bg-white/[0.04] rounded-2xl overflow-hidden">
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-px bg-nb-border rounded-2xl overflow-hidden">
             {t.useCases.map((uc, i) => (
               <AnimateIn key={i} delay={i * 80}>
-                <div className="bg-[#09090b] p-8 sm:p-10 h-full">
-                  <h3 className="text-[1.05rem] font-medium text-white mb-3">{uc.title}</h3>
-                  <p className="text-sm text-zinc-500 leading-[1.7]">{uc.desc}</p>
+                <div className="bg-nb-cream p-8 sm:p-10 h-full">
+                  <h3 className="text-[1.05rem] font-medium text-nb-navy mb-3">{uc.title}</h3>
+                  <p className="text-sm text-nb-text-secondary leading-[1.7]">{uc.desc}</p>
                 </div>
               </AnimateIn>
             ))}
@@ -342,17 +342,17 @@ export function AriaComingSoon() {
       </section>
 
       {/* Pricing */}
-      <section className="py-28 sm:py-36 border-t border-white/[0.04]">
+      <section className="py-28 sm:py-36 border-t border-nb-border">
         <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
           <AnimateIn>
             <div className="text-center max-w-2xl mx-auto mb-16">
-              <p className="text-[0.7rem] text-purple-400/60 uppercase tracking-[0.2em] font-medium mb-5">{t.pricingLabel}</p>
-              <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white">{t.pricingHeadline}</h2>
-              <p className="mt-4 text-[1.05rem] text-zinc-500 leading-[1.7]">{t.pricingSub}</p>
+              <p className="text-[0.7rem] text-nb-gold uppercase tracking-[0.2em] font-medium mb-5">{t.pricingLabel}</p>
+              <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-nb-navy">{t.pricingHeadline}</h2>
+              <p className="mt-4 text-[1.05rem] text-nb-text-secondary leading-[1.7]">{t.pricingSub}</p>
             </div>
           </AnimateIn>
 
-          <div className="flex md:grid md:grid-cols-2 gap-4 md:gap-px md:bg-white/[0.04] md:rounded-2xl md:overflow-hidden overflow-x-auto snap-x snap-mandatory -mx-5 px-5 sm:-mx-8 sm:px-8 md:mx-0 md:px-0 pb-4 md:pb-0 max-w-3xl md:mx-auto scrollbar-hide">
+          <div className="flex md:grid md:grid-cols-2 gap-4 md:gap-px md:bg-nb-border md:rounded-2xl md:overflow-hidden overflow-x-auto snap-x snap-mandatory -mx-5 px-5 sm:-mx-8 sm:px-8 md:mx-0 md:px-0 pb-4 md:pb-0 max-w-3xl md:mx-auto scrollbar-hide">
             {t.plans.map((plan, i) => (
               <AnimateIn key={i} delay={i * 100}>
                 <AriaPricingCard plan={plan} />
@@ -363,21 +363,21 @@ export function AriaComingSoon() {
           {/* Launch Date */}
           <AnimateIn delay={200}>
             <div className="mt-20 text-center">
-              <p className="text-[0.7rem] text-zinc-600 uppercase tracking-[0.2em] font-medium mb-3">{t.launchLabel}</p>
-              <p className="text-[2.5rem] sm:text-[3.5rem] font-semibold tracking-tight text-white">{t.launchDate}</p>
+              <p className="text-[0.7rem] text-nb-text-muted uppercase tracking-[0.2em] font-medium mb-3">{t.launchLabel}</p>
+              <p className="text-[2.5rem] sm:text-[3.5rem] font-semibold tracking-tight text-nb-navy">{t.launchDate}</p>
             </div>
           </AnimateIn>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-28 sm:py-36 border-t border-white/[0.04]">
+      <section className="py-28 sm:py-36 border-t border-nb-border">
         <div className="max-w-[1100px] mx-auto px-5 sm:px-8 text-center">
           <AnimateIn>
-            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white">{t.ctaHeadline}</h2>
-            <p className="mt-5 text-[1.05rem] text-zinc-500 max-w-lg mx-auto leading-[1.7]">{t.ctaSub}</p>
+            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-nb-navy">{t.ctaHeadline}</h2>
+            <p className="mt-5 text-[1.05rem] text-nb-text-secondary max-w-lg mx-auto leading-[1.7]">{t.ctaSub}</p>
             <div className="mt-10">
-              <Link href="/neo" className="inline-flex items-center gap-2 px-7 py-3.5 bg-white text-zinc-950 text-[0.9rem] font-medium rounded-lg hover:bg-zinc-100 transition-colors">
+              <Link href="/neo" className="inline-flex items-center gap-2 px-7 py-3.5 bg-nb-navy text-nb-cream text-[0.9rem] font-medium rounded-lg hover:bg-nb-navy-mid transition-colors">
                 {t.ctaButton}
               </Link>
             </div>

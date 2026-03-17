@@ -1,21 +1,17 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button-legacy";
 
 export default function NotFound() {
   return (
     <div
-      className="flex min-h-screen items-center justify-center px-4"
-      style={{
-        background:
-          "linear-gradient(135deg, #0A0E27 0%, #1E40AF 60%, #06B6D4 100%)",
-      }}
+      className="flex min-h-screen items-center justify-center px-4 bg-nb-cream"
     >
       <div className="text-center">
         {/* 404 */}
         <h1
           className="mb-4 text-[clamp(6rem,15vw,12rem)] font-bold leading-none"
           style={{
-            background: "linear-gradient(135deg, #FFFFFF 0%, #06B6D4 100%)",
+            background: "linear-gradient(135deg, #0A1628 0%, #C9A84C 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
@@ -25,10 +21,10 @@ export default function NotFound() {
         </h1>
 
         {/* Message */}
-        <h2 className="mb-3 text-2xl font-bold text-white max-md:text-xl">
+        <h2 className="mb-3 text-2xl font-bold text-nb-navy max-md:text-xl">
           Страницата не е намерена
         </h2>
-        <p className="mb-8 text-lg text-white/70">
+        <p className="mb-8 text-lg text-nb-text-secondary">
           Изглежда тази страница не съществува или е преместена.
         </p>
 
@@ -36,7 +32,7 @@ export default function NotFound() {
         <Link href="/">
           <Button
             size="lg"
-            className="rounded-full bg-white text-nextbot-midnight hover:bg-nextbot-silver"
+            className="rounded-full bg-nb-navy text-nb-cream hover:bg-nb-navy-mid"
           >
             Обратно към началото
           </Button>

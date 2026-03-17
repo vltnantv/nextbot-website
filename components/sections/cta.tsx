@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Container } from "@/components/ui/container";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button-legacy";
 
 export function CTA() {
   return (

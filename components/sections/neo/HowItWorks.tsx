@@ -34,17 +34,17 @@ export function NeoHowItWorks() {
     <section className="py-28 sm:py-36">
       <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
         <AnimateIn>
-          <p className="text-[0.7rem] text-zinc-600 uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
-          <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white max-w-2xl">{t.headline}</h2>
+          <p className="text-[0.7rem] text-nb-text-muted uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
+          <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-nb-navy max-w-2xl">{t.headline}</h2>
         </AnimateIn>
 
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.04] rounded-2xl overflow-hidden">
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-nb-border rounded-2xl overflow-hidden">
           {t.steps.map((step, i) => (
             <AnimateIn key={i} delay={i * 100}>
-              <div className="bg-[#09090b] p-8 h-full flex flex-col">
-                <span className="text-sm font-mono text-zinc-700 mb-6">{step.num}</span>
-                <h3 className="text-[1.05rem] font-medium text-white mb-3">{step.title}</h3>
-                <p className="text-sm text-zinc-600 leading-[1.7] flex-1">{step.desc}</p>
+              <div className="bg-nb-cream p-8 h-full flex flex-col">
+                <span className="text-sm font-mono text-nb-text-muted mb-6">{step.num}</span>
+                <h3 className="text-[1.05rem] font-medium text-nb-navy mb-3">{step.title}</h3>
+                <p className="text-sm text-nb-text-muted leading-[1.7] flex-1">{step.desc}</p>
               </div>
             </AnimateIn>
           ))}

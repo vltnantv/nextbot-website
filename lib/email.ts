@@ -499,6 +499,205 @@ const painPointContent: Record<string, { hook: string; stat: string }> = {
   },
 }
 
+// ─── Lead Capture Notification ──────────────────────────────────────────────
+
+interface LeadCaptureData {
+  name: string
+  email?: string | null
+  phone?: string | null
+  source?: string
+  notes?: string | null
+  companyName?: string
+}
+
+export async function sendLeadNotification(data: LeadCaptureData) {
+  const contactLines: string[] = []
+  if (data.email) contactLines.push(`<a href="mailto:${data.email}" style="color: #6366f1; text-decoration: none;">${data.email}</a>`)
+  if (data.phone) contactLines.push(`<a href="tel:${data.phone}" style="color: #6366f1; text-decoration: none;">${data.phone}</a>`)
+
+  await getResend().emails.send({
+    from: 'Nextbot <noreply@nextbot.me>',
+    to: notificationEmail,
+    subject: `New Lead — ${data.name}${data.companyName ? ` (via ${data.companyName})` : ''}`,
+    html: darkEmailWrapper(`
+      <!-- Badge -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td style="padding: 0 0 28px;">
+            <div style="display: inline-block; padding: 5px 14px; border: 1px solid rgba(52,211,153,0.25); background-color: rgba(52,211,153,0.08); border-radius: 20px;">
+              <span style="font-family: ${font}; font-size: 11px; font-weight: 600; color: #34d399; letter-spacing: 0.08em;">NEW LEAD CAPTURED</span>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Lead info card -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; margin-bottom: 28px;">
+        <tr>
+          <td style="padding: 24px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+              <tr>
+                <td style="padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.04);">
+                  <p style="margin: 0 0 4px; font-family: ${font}; font-size: 11px; color: #52525b; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;">Name</p>
+                  <p style="margin: 0; font-family: ${font}; font-size: 18px; color: #ffffff; font-weight: 600; letter-spacing: -0.02em;">${data.name}</p>
+                </td>
+              </tr>
+              ${contactLines.length > 0 ? `
+              <tr>
+                <td style="padding-top: 16px;${data.notes ? ' padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.04);' : ''}">
+                  <p style="margin: 0 0 4px; font-family: ${font}; font-size: 11px; color: #52525b; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;">Contact</p>
+                  <p style="margin: 0; font-family: ${font}; font-size: 14px; color: #a1a1aa; line-height: 1.6;">${contactLines.join(' &middot; ')}</p>
+                </td>
+              </tr>` : ''}
+              ${data.notes ? `
+              <tr>
+                <td style="padding-top: 16px;">
+                  <p style="margin: 0 0 4px; font-family: ${font}; font-size: 11px; color: #52525b; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;">Interest</p>
+                  <p style="margin: 0; font-family: ${font}; font-size: 14px; color: #a1a1aa; line-height: 1.6;">${data.notes}</p>
+                </td>
+              </tr>` : ''}
+            </table>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Source -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 28px;">
+        <tr>
+          <td>
+            <p style="margin: 0; font-family: ${font}; font-size: 13px; color: #52525b;">
+              Source: <span style="color: #a1a1aa;">${data.source || 'Web Chat'}</span>${data.companyName ? ` &middot; Company: <span style="color: #a1a1aa;">${data.companyName}</span>` : ''}
+            </p>
+          </td>
+        </tr>
+      </table>
+
+      ${data.email ? `
+      <!-- CTA -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td align="center">
+            <a href="mailto:${data.email}" style="display: inline-block; padding: 12px 32px; background-color: #ffffff; color: #09090b; font-family: ${font}; font-size: 14px; font-weight: 600; text-decoration: none; border-radius: 8px;">Reply to ${data.name.split(' ')[0]}</a>
+          </td>
+        </tr>
+      </table>` : ''}
+    `)
+  })
+}
+
+// ─── Sales Outreach ─────────────────────────────────────────────────────────
+
+// ─── Bulgarian Hotel Outreach ───────────────────────────────────────────────
+
+interface HotelOutreachData {
+  recipientEmail: string
+}
+
+function hotelFeatureBg(title: string, desc: string) {
+  return `
+    <tr>
+      <td style="padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.04);">
+        <p style="margin: 0; font-family: ${font}; font-size: 14px; font-weight: 500; color: #e4e4e7;">${title}</p>
+        <p style="margin: 4px 0 0; font-family: ${font}; font-size: 13px; color: #52525b; line-height: 1.5;">${desc}</p>
+      </td>
+    </tr>`
+}
+
+export async function sendHotelOutreachBg(data: HotelOutreachData) {
+  await getResend().emails.send({
+    from: 'Valentin from NextBot <valentin@nextbot.me>',
+    to: data.recipientEmail,
+    subject: 'AI асистент за Вашия хотел — повече резервации, по-малко пропуснати запитвания',
+    html: darkEmailWrapper(`
+      <!-- Greeting -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td style="padding: 0 0 28px;">
+            <p style="margin: 0 0 20px; font-family: ${font}; font-size: 15px; color: #a1a1aa; line-height: 1.8;">
+              Здравейте,
+            </p>
+            <p style="margin: 0; font-family: ${font}; font-size: 15px; color: #a1a1aa; line-height: 1.8;">
+              Попаднах на Вашия хотел и реших да се свържа с Вас с една идея, която може да бъде полезна.
+            </p>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Main pitch -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 28px;">
+        <tr>
+          <td>
+            <p style="margin: 0; font-family: ${font}; font-size: 15px; color: #a1a1aa; line-height: 1.8;">Разработихме <strong style="color: #e4e4e7;">AI асистент за хотели</strong>, който:</p>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Features -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; margin-bottom: 28px;">
+        <tr>
+          <td style="padding: 20px 24px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+              ${hotelFeatureBg('Отговаря вместо Вас — мигновено, 24/7', 'Гост пита за свободна стая в 23:00? AI-ът отговаря веднага с точна информация — от сайта, Messenger, Instagram или имейл. Без изчакване, без пропуснати запитвания.')}
+              ${hotelFeatureBg('Познава хотела Ви в детайли', 'Стаи, цени, удобства, spa, ресторант, паркинг — AI-ът знае всичко и отговаря точно, на езика на госта. Поддържа 12+ езика автоматично.')}
+              ${hotelFeatureBg('Превръща запитвания в резервации', 'Когато гостът е готов да резервира, AI-ът събира данните му и Ви изпраща готова заявка. Вие само потвърждавате.')}
+            </table>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Value prop -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 32px;">
+        <tr>
+          <td>
+            <p style="margin: 0; font-family: ${font}; font-size: 15px; color: #a1a1aa; line-height: 1.8;">Така хотелите реагират по-бързо на потенциалните гости и <strong style="color: #e4e4e7;">не губят резервации</strong>, когато няма кой да отговори веднага.</p>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Stats row -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; margin-bottom: 32px;">
+        <tr>
+          ${outreachStat('&lt;5сек', 'Отговор')}
+          ${outreachStat('24/7', 'Наличност')}
+          ${outreachStat('12+', 'Езика')}
+        </tr>
+      </table>
+
+      <!-- CTA -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 32px;">
+        <tr>
+          <td>
+            <p style="margin: 0 0 20px; font-family: ${font}; font-size: 15px; color: #a1a1aa; line-height: 1.8;">Ако имате интерес, ще се радвам да Ви покажа <strong style="color: #e4e4e7;">кратко 15-минутно демо</strong> как би работило конкретно за Вашия хотел.</p>
+          </td>
+        </tr>
+        <tr>
+          <td align="center">
+            <a href="https://www.nextbot.me/book-demo" style="display: inline-block; padding: 14px 36px; background-color: #ffffff; color: #09090b; font-family: ${font}; font-size: 14px; font-weight: 600; text-decoration: none; border-radius: 8px;">Запазете 15-мин демо</a>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Sign-off -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top: 1px solid rgba(255,255,255,0.06);">
+        <tr>
+          <td style="padding-top: 24px;">
+            <p style="margin: 0; font-family: ${font}; font-size: 14px; color: #a1a1aa; line-height: 1.7;">
+              Поздрави,<br />
+              <strong style="color: #e4e4e7;">Валентин</strong>
+            </p>
+            <p style="margin: 8px 0 0; font-family: ${font}; font-size: 12px; color: #52525b; line-height: 1.5;">
+              NextBot<br />
+              <a href="https://www.nextbot.me" style="color: #6366f1; text-decoration: none;">nextbot.me</a> &middot; +359 894 288 119
+            </p>
+          </td>
+        </tr>
+      </table>
+    `)
+  })
+}
+
+// ─── Sales Outreach (EN) ────────────────────────────────────────────────────
+
 export async function sendSalesOutreach(data: SalesOutreachData) {
   const firstName = data.recipientName.split(' ')[0]
   const pain = painPointContent[data.painPoint || 'general']

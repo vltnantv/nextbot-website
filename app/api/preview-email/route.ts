@@ -208,6 +208,112 @@ export async function GET(req: NextRequest) {
   const name = searchParams.get('name') || 'Ivan Petrov'
   const company = searchParams.get('company') || 'Acme Hotel'
 
+  // Bulgarian hotel outreach preview
+  if (template === 'hotel-bg') {
+    const hotelName = searchParams.get('hotel') || company
+
+    function hotelFeatureBg(title: string, desc: string) {
+      return `
+        <tr>
+          <td style="padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.04);">
+            <p style="margin: 0; font-family: ${font}; font-size: 14px; font-weight: 500; color: #e4e4e7;">${title}</p>
+            <p style="margin: 4px 0 0; font-family: ${font}; font-size: 13px; color: #52525b; line-height: 1.5;">${desc}</p>
+          </td>
+        </tr>`
+    }
+
+    const html = darkEmailWrapper(`
+      <!-- Greeting -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td style="padding: 0 0 28px;">
+            <p style="margin: 0 0 20px; font-family: ${font}; font-size: 15px; color: #a1a1aa; line-height: 1.8;">
+              Здравейте,
+            </p>
+            <p style="margin: 0; font-family: ${font}; font-size: 15px; color: #a1a1aa; line-height: 1.8;">
+              Попаднах на Вашия хотел и реших да се свържа с Вас с една идея, която може да бъде полезна.
+            </p>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Main pitch -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 28px;">
+        <tr>
+          <td>
+            <p style="margin: 0; font-family: ${font}; font-size: 15px; color: #a1a1aa; line-height: 1.8;">Разработихме <strong style="color: #e4e4e7;">AI асистент за хотели</strong>, който:</p>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Features -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; margin-bottom: 28px;">
+        <tr>
+          <td style="padding: 20px 24px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+              ${hotelFeatureBg('Отговаря вместо Вас — мигновено, 24/7', 'Гост пита за свободна стая в 23:00? AI-ът отговаря веднага с точна информация — от сайта, Messenger, Instagram или имейл. Без изчакване, без пропуснати запитвания.')}
+              ${hotelFeatureBg('Познава хотела Ви в детайли', 'Стаи, цени, удобства, spa, ресторант, паркинг — AI-ът знае всичко и отговаря точно, на езика на госта. Поддържа 12+ езика автоматично.')}
+              ${hotelFeatureBg('Превръща запитвания в резервации', 'Когато гостът е готов да резервира, AI-ът събира данните му и Ви изпраща готова заявка. Вие само потвърждавате.')}
+            </table>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Value prop -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 32px;">
+        <tr>
+          <td>
+            <p style="margin: 0; font-family: ${font}; font-size: 15px; color: #a1a1aa; line-height: 1.8;">Така хотелите реагират по-бързо на потенциалните гости и <strong style="color: #e4e4e7;">не губят резервации</strong>, когато няма кой да отговори веднага.</p>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Stats row -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; margin-bottom: 32px;">
+        <tr>
+          ${outreachStat('&lt;5сек', 'Отговор')}
+          ${outreachStat('24/7', 'Наличност')}
+          ${outreachStat('12+', 'Езика')}
+        </tr>
+      </table>
+
+      <!-- CTA -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 32px;">
+        <tr>
+          <td>
+            <p style="margin: 0 0 20px; font-family: ${font}; font-size: 15px; color: #a1a1aa; line-height: 1.8;">Ако имате интерес, ще се радвам да Ви покажа <strong style="color: #e4e4e7;">кратко 15-минутно демо</strong> как би работило конкретно за Вашия хотел.</p>
+
+          </td>
+        </tr>
+        <tr>
+          <td align="center">
+            <a href="https://www.nextbot.me/book-demo" style="display: inline-block; padding: 14px 36px; background-color: #ffffff; color: #09090b; font-family: ${font}; font-size: 14px; font-weight: 600; text-decoration: none; border-radius: 8px;">Запазете 15-мин демо</a>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Sign-off -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top: 1px solid rgba(255,255,255,0.06);">
+        <tr>
+          <td style="padding-top: 24px;">
+            <p style="margin: 0; font-family: ${font}; font-size: 14px; color: #a1a1aa; line-height: 1.7;">
+              Поздрави,<br />
+              <strong style="color: #e4e4e7;">Валентин</strong>
+            </p>
+            <p style="margin: 8px 0 0; font-family: ${font}; font-size: 12px; color: #52525b; line-height: 1.5;">
+              NextBot<br />
+              <a href="https://www.nextbot.me" style="color: #6366f1; text-decoration: none;">nextbot.me</a> &middot; +359 894 288 119
+            </p>
+          </td>
+        </tr>
+      </table>
+    `)
+
+    return new NextResponse(html, {
+      headers: { 'Content-Type': 'text/html; charset=utf-8' },
+    })
+  }
+
   // Demo confirmation preview
   if (template === 'demo') {
     const date = searchParams.get('date') || 'February 20, 2026'

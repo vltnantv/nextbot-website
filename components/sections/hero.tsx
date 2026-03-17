@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button-legacy";
 import { HERO, HERO_STATS } from "@/lib/constants";
 import { scrollToSection } from "@/lib/utils";
 

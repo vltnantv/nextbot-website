@@ -12,19 +12,19 @@ export function LanguageToggle() {
         onClick={() => setLanguage('bg')}
         className={`px-2 py-1 rounded transition-colors ${
           lang === 'bg'
-            ? 'bg-black/10 dark:bg-white/10 font-medium'
-            : 'text-gray-500 hover:text-black dark:hover:text-white'
+            ? 'bg-nb-navy/10 font-medium text-nb-navy'
+            : 'text-nb-text-muted hover:text-nb-navy'
         }`}
       >
         БГ
       </button>
-      <span className="text-gray-300">|</span>
+      <span className="text-nb-border">|</span>
       <button
         onClick={() => setLanguage('en')}
         className={`px-2 py-1 rounded transition-colors ${
           lang === 'en'
-            ? 'bg-black/10 dark:bg-white/10 font-medium'
-            : 'text-gray-500 hover:text-black dark:hover:text-white'
+            ? 'bg-nb-navy/10 font-medium text-nb-navy'
+            : 'text-nb-text-muted hover:text-nb-navy'
         }`}
       >
         EN

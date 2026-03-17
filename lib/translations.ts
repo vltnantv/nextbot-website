@@ -37,7 +37,7 @@ export const translations = {
       aria: {
         name: 'Aria',
         tagline: 'Гласов AI асистент за обаждания',
-        comingSoon: 'Скоро'
+        comingSoon: 'В Бета'
       },
       nova: {
         name: 'Nova',
@@ -80,16 +80,18 @@ export const translations = {
     pricing: {
       currency: '€',
       base: {
-        name: 'Neo Base',
-        price: 59,
+        name: 'Neo Starter',
+        price: 297,
         period: '/месец',
-        description: 'Всичко необходимо за да започнеш',
+        description: 'За малки бизнеси, започващи с AI автоматизация',
         features: [
-          'AI чат на твоя сайт',
-          'До 500 разговора/месец',
-          'Български + Английски',
-          'Email поддръжка (48h)',
-          'Базова аналитика'
+          'AI чат на сайта ви',
+          'WhatsApp + Messenger',
+          'Неограничени разговори',
+          'Български + английски',
+          'Записване на часове',
+          'FAQ автоматизация',
+          'Email поддръжка (48ч)'
         ]
       },
       addons: {
@@ -148,59 +150,57 @@ export const translations = {
         ]
       },
       packages: {
-        title: 'Бизнес пакети',
-        subtitle: 'Популярни комбинации за различни бизнеси',
+        title: 'Пакети',
+        subtitle: 'Изберете плана, който подхожда на бизнеса ви',
         items: [
           {
             id: 'starter',
-            name: 'Starter Pack',
-            description: 'За малкия бизнес',
-            price: 59,
+            name: 'Starter',
+            description: 'За малки бизнеси, 1 локация',
+            price: 297,
             savings: 0,
             features: [
-              'Neo Base',
-              'До 500 разговора',
-              'БГ + EN',
-              'Email поддръжка'
+              'AI чат на сайта',
+              'WhatsApp интеграция',
+              'Записване на часове',
+              'FAQ автоматизация',
+              'Неограничени разговори',
+              'Базова аналитика'
             ],
             badge: null
           },
           {
-            id: 'business',
-            name: 'Business Pack',
-            description: 'Най-популярен избор',
-            price: 119,
-            originalPrice: 149,
-            savings: 30,
+            id: 'growth',
+            name: 'Growth',
+            description: 'Растящи бизнеси, до 3 локации',
+            price: 497,
+            savings: 0,
             features: [
-              'Neo Base',
-              'WhatsApp Business',
-              '1,000 разговора',
+              'Всичко от Starter',
+              'Гласов AI (Aria Бета)',
               'CRM интеграция',
-              'БГ + EN + DE',
-              'Priority поддръжка'
+              'Автоматични follow-ups',
+              'Приоритетна поддръжка',
+              'Месечен преглед на резултатите'
             ],
-            badge: 'Популярен',
+            badge: 'НАЙ-ПОПУЛЯРЕН',
             highlighted: true
           },
           {
             id: 'enterprise',
-            name: 'Enterprise Pack',
-            description: 'За сериозния бизнес',
-            price: 299,
-            originalPrice: 399,
-            savings: 100,
+            name: 'Enterprise',
+            description: 'Вериги, франчайзи, големи операции',
+            price: 0,
+            savings: 0,
             features: [
-              'Neo Base',
-              'Всички канали',
-              'Неограничени разговора',
-              'Всички интеграции',
-              'Всички езици',
-              'Voice AI',
-              'Priority поддръжка',
-              'Custom обучение'
+              'Всичко от Growth',
+              'Custom AI обучение',
+              'Персонален акаунт мениджър',
+              'Custom интеграции',
+              'SLA гаранция',
+              'White-label опция'
             ],
-            badge: 'Най-добра стойност'
+            badge: null
           }
         ]
       },
@@ -310,15 +310,18 @@ export const translations = {
       pricing: {
         title: 'Прозрачно ценообразуване',
         base: {
-          name: 'Neo Base',
-          price: 59,
+          name: 'Neo Starter',
+          price: 297,
           period: '/месец',
           currency: '€',
           features: [
-            'AI чат на твоя сайт',
-            'До 500 разговора/месец',
-            'Български + Английски',
-            'Email поддръжка (48h)'
+            'AI чат на сайта ви',
+            'WhatsApp + Messenger',
+            'Неограничени разговори',
+            'Български + английски',
+            'Записване на часове',
+            'FAQ автоматизация',
+            'Email поддръжка (48ч)'
           ]
         },
         addons: 'Добави функции по нужда',
@@ -358,7 +361,7 @@ export const translations = {
           { name: 'Neo', href: '/neo', description: 'AI Chatbot за съобщения' },
           { name: 'Aria', href: '/aria', description: 'Гласов AI асистент (скоро)' },
           { name: 'Демо', href: '/demo', description: 'Виж в действие' },
-          { name: 'Ценообразуване', href: '/neo#pricing', description: 'От €59/месец' }
+          { name: 'Ценообразуване', href: '/neo#pricing', description: 'От €297/месец' }
         ]
       },
 
@@ -477,7 +480,7 @@ export const translations = {
       aria: {
         name: 'Aria',
         tagline: 'Voice AI assistant for calls',
-        comingSoon: 'Soon'
+        comingSoon: 'In Beta'
       },
       nova: {
         name: 'Nova',
@@ -518,16 +521,18 @@ export const translations = {
     pricing: {
       currency: '€',
       base: {
-        name: 'Neo Base',
-        price: 59,
+        name: 'Neo Starter',
+        price: 297,
         period: '/month',
-        description: 'Everything you need to get started',
+        description: 'For small businesses getting started with AI automation',
         features: [
           'AI chat on your website',
-          'Up to 500 conversations/month',
+          'WhatsApp + Messenger',
+          'Unlimited conversations',
           'Bulgarian + English',
-          'Email support (48h)',
-          'Basic analytics'
+          'Appointment booking',
+          'FAQ automation',
+          'Email support (48h)'
         ]
       },
       addons: {
@@ -586,59 +591,57 @@ export const translations = {
         ]
       },
       packages: {
-        title: 'Business Packages',
-        subtitle: 'Popular combinations for different businesses',
+        title: 'Packages',
+        subtitle: 'Choose the plan that fits your business',
         items: [
           {
             id: 'starter',
-            name: 'Starter Pack',
-            description: 'For small businesses',
-            price: 59,
+            name: 'Starter',
+            description: 'Small businesses, 1 location',
+            price: 297,
             savings: 0,
             features: [
-              'Neo Base',
-              'Up to 500 conversations',
-              'BG + EN',
-              'Email support'
+              'AI chat on website',
+              'WhatsApp integration',
+              'Appointment booking',
+              'FAQ automation',
+              'Unlimited conversations',
+              'Basic analytics'
             ],
             badge: null
           },
           {
-            id: 'business',
-            name: 'Business Pack',
-            description: 'Most popular choice',
-            price: 119,
-            originalPrice: 149,
-            savings: 30,
+            id: 'growth',
+            name: 'Growth',
+            description: 'Growing businesses, up to 3 locations',
+            price: 497,
+            savings: 0,
             features: [
-              'Neo Base',
-              'WhatsApp Business',
-              '1,000 conversations',
+              'Everything in Starter',
+              'Voice AI (Aria Beta)',
               'CRM integration',
-              'BG + EN + DE',
-              'Priority support'
+              'Automated follow-ups',
+              'Priority support',
+              'Monthly performance review'
             ],
-            badge: 'Popular',
+            badge: 'Most Popular',
             highlighted: true
           },
           {
             id: 'enterprise',
-            name: 'Enterprise Pack',
-            description: 'For serious business',
-            price: 299,
-            originalPrice: 399,
-            savings: 100,
+            name: 'Enterprise',
+            description: 'Chains, franchises, large operations',
+            price: 0,
+            savings: 0,
             features: [
-              'Neo Base',
-              'All channels',
-              'Unlimited conversations',
-              'All integrations',
-              'All languages',
-              'Voice AI',
-              'Priority support',
-              'Custom training'
+              'Everything in Growth',
+              'Custom AI training',
+              'Dedicated account manager',
+              'Custom integrations',
+              'SLA guarantee',
+              'White-label option'
             ],
-            badge: 'Best value'
+            badge: null
           }
         ]
       },
@@ -748,14 +751,17 @@ export const translations = {
       pricing: {
         title: 'Transparent pricing',
         base: {
-          name: 'Neo Base',
-          price: 59,
+          name: 'Neo Starter',
+          price: 297,
           period: '/month',
           currency: '€',
           features: [
             'AI chat on your website',
-            'Up to 500 conversations/month',
+            'WhatsApp + Messenger',
+            'Unlimited conversations',
             'Bulgarian + English',
+            'Appointment booking',
+            'FAQ automation',
             'Email support (48h)'
           ]
         },
@@ -796,7 +802,7 @@ export const translations = {
           { name: 'Neo', href: '/neo', description: 'AI Chatbot for messages' },
           { name: 'Aria', href: '/aria', description: 'Voice AI Assistant (coming soon)' },
           { name: 'Demo', href: '/demo', description: 'See it in action' },
-          { name: 'Pricing', href: '/neo#pricing', description: 'From €59/mo' }
+          { name: 'Pricing', href: '/neo#pricing', description: 'From €297/mo' }
         ]
       },
 

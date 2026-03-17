@@ -22,7 +22,7 @@ const copy = {
         tag: 'Aria',
         desc: 'Handles inbound phone calls with natural voice AI. Answers questions, qualifies callers, routes to the right team, and logs every interaction automatically.',
         features: ['Natural voice AI', 'Call qualification', 'Smart routing', 'Call transcription', '12+ languages'],
-        status: 'Coming Soon',
+        status: 'In Beta',
         href: '/aria',
       },
       {
@@ -60,7 +60,7 @@ const copy = {
         tag: 'Aria',
         desc: 'Управлява входящи телефонни обаждания с естествен гласов AI. Отговаря на въпроси, квалифицира обаждащите се и ги насочва към правилния екип.',
         features: ['Естествен гласов AI', 'Квалификация на обаждания', 'Интелигентно маршрутизиране', 'Транскрипция', '12+ езика'],
-        status: 'Скоро',
+        status: 'В Бета',
         href: '/aria',
       },
       {
@@ -84,11 +84,13 @@ const copy = {
 }
 
 const statusStyles: Record<string, string> = {
-  'Live': 'bg-emerald-500/10 text-emerald-400/80',
-  'Coming Soon': 'bg-zinc-800 text-zinc-500',
-  'Скоро': 'bg-zinc-800 text-zinc-500',
-  'In Development': 'bg-amber-500/10 text-amber-400/70',
-  'В разработка': 'bg-amber-500/10 text-amber-400/70',
+  'Live': 'bg-emerald-500/10 text-emerald-600',
+  'Coming Soon': 'bg-nb-text-muted/10 text-nb-text-muted',
+  'Скоро': 'bg-nb-text-muted/10 text-nb-text-muted',
+  'In Beta': 'bg-nb-gold/10 text-nb-gold-dark',
+  'В Бета': 'bg-nb-gold/10 text-nb-gold-dark',
+  'In Development': 'bg-amber-500/10 text-amber-600',
+  'В разработка': 'bg-amber-500/10 text-amber-600',
 }
 
 export function Products() {
@@ -99,27 +101,27 @@ export function Products() {
     <section className="py-28 sm:py-36">
       <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
         <AnimateIn>
-          <p className="text-[0.7rem] text-zinc-600 uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
-          <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white max-w-2xl">
+          <p className="text-[0.7rem] text-nb-text-muted uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
+          <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-nb-navy max-w-2xl">
             {t.headline}
           </h2>
         </AnimateIn>
 
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-px bg-white/[0.04] rounded-2xl overflow-hidden">
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-px bg-nb-border rounded-2xl overflow-hidden">
           {t.products.map((product, i) => (
             <AnimateIn key={i} delay={i * 80}>
-              <Link href={product.href} className="block bg-[#09090b] p-8 sm:p-10 h-full group hover:bg-white/[0.015] transition-colors duration-300">
+              <Link href={product.href} className="block bg-nb-cream p-8 sm:p-10 h-full group hover:bg-nb-warm transition-colors duration-300">
                 <div className="flex items-center gap-3 mb-5">
-                  <span className="text-[0.65rem] text-zinc-600 font-mono uppercase tracking-widest">{product.tag}</span>
-                  <span className={`text-[0.6rem] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded ${statusStyles[product.status] || 'bg-zinc-800 text-zinc-500'}`}>
+                  <span className="text-[0.65rem] text-nb-text-muted font-mono uppercase tracking-widest">{product.tag}</span>
+                  <span className={`text-[0.6rem] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded ${statusStyles[product.status] || 'bg-nb-text-muted/10 text-nb-text-muted'}`}>
                     {product.status}
                   </span>
                 </div>
-                <h3 className="text-[1.15rem] font-medium text-white mb-3 group-hover:text-blue-50 transition-colors">{product.name}</h3>
-                <p className="text-sm text-zinc-600 leading-[1.7] mb-6">{product.desc}</p>
+                <h3 className="text-[1.15rem] font-medium text-nb-navy mb-3 group-hover:text-nb-gold-dark transition-colors">{product.name}</h3>
+                <p className="text-sm text-nb-text-muted leading-[1.7] mb-6">{product.desc}</p>
                 <div className="flex flex-wrap gap-2">
                   {product.features.map((f, j) => (
-                    <span key={j} className="text-[0.68rem] text-zinc-700 border border-white/[0.04] rounded px-2 py-0.5">{f}</span>
+                    <span key={j} className="text-[0.68rem] text-nb-text-muted border border-nb-border rounded px-2 py-0.5">{f}</span>
                   ))}
                 </div>
               </Link>

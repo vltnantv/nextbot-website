@@ -2,26 +2,27 @@
 
 import { useState, useEffect } from 'react'
 
-const STORAGE_KEY = 'nextbot-language'
-
 export type Language = 'bg' | 'en'
 
-export function detectLanguage(): Language {
-  // Check localStorage first
-  const stored = localStorage.getItem(STORAGE_KEY)
-  if (stored === 'bg' || stored === 'en') return stored
+// Session-level override (set when user manually switches)
+let manualOverride: Language | null = null
 
-  // Check browser language
-  const browserLang = navigator.language.toLowerCase()
+export function detectLanguage(): Language {
+  // Manual override takes priority (user clicked БГ/EN toggle this session)
+  if (manualOverride) return manualOverride
+
+  // Detect from browser language
+  const browserLang = (
+    navigator.languages?.[0] || navigator.language || 'en'
+  ).toLowerCase()
+
   if (browserLang.startsWith('bg')) return 'bg'
 
-  // Default to English
   return 'en'
 }
 
 export function setLanguage(lang: Language): void {
-  localStorage.setItem(STORAGE_KEY, lang)
-  window.location.reload()
+  manualOverride = lang
 }
 
 export function getLanguage(): Language {
@@ -40,8 +41,8 @@ export function useLanguage() {
   return {
     lang,
     setLanguage: (newLang: Language) => {
-      setLang(newLang)
       setLanguage(newLang)
+      setLang(newLang)
     }
   }
 }

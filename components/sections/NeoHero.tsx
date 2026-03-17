@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Container } from "@/components/ui/container";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button-legacy";
 
 const FLOATING_ICONS = ["💬", "📧", "📱", "📊", "⚡"];
 

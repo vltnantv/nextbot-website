@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button-legacy";
 import { cn } from "@/lib/utils";
 
 // ---------------------------------------------------------------------------

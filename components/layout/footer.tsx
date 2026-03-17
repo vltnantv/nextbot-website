@@ -96,31 +96,31 @@ export function Footer() {
   const t = copy[lang]
 
   return (
-    <footer className="border-t border-white/[0.04] bg-[#09090b]">
+    <footer className="border-t border-nb-navy-mid bg-nb-navy">
       <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
         {/* Main */}
         <div className="py-14 sm:py-20 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-10 lg:gap-8">
           {/* Brand */}
           <div className="col-span-2">
             <Link href="/" className="inline-flex items-center gap-2 mb-4">
-              <Image src="/logo-icon.png" alt="NextBot" width={22} height={22} className="invert brightness-0" />
+              <Image src="/logo-icon.png" alt="NextBot" width={22} height={22} className="invert brightness-100" />
               <span className="text-[0.85rem] font-semibold text-white tracking-tight">NextBot</span>
             </Link>
-            <p className="text-[0.8rem] text-zinc-600 leading-relaxed max-w-[240px] mb-5">{t.tagline}</p>
+            <p className="text-[0.8rem] text-[#B8C5D0] leading-relaxed max-w-[240px] mb-5">{t.tagline}</p>
             <div className="space-y-1">
-              <a href={`mailto:${t.contact.email}`} className="block text-[0.78rem] text-zinc-700 hover:text-zinc-400 transition-colors">{t.contact.email}</a>
-              <a href={`tel:${t.contact.phone.replace(/\s/g, '')}`} className="block text-[0.78rem] text-zinc-700 hover:text-zinc-400 transition-colors">{t.contact.phone}</a>
+              <a href={`mailto:${t.contact.email}`} className="block text-[0.78rem] text-[#7A8A9A] hover:text-nb-gold transition-colors">{t.contact.email}</a>
+              <a href={`tel:${t.contact.phone.replace(/\s/g, '')}`} className="block text-[0.78rem] text-[#7A8A9A] hover:text-nb-gold transition-colors">{t.contact.phone}</a>
             </div>
           </div>
 
           {/* Columns */}
           {t.cols.map((col) => (
             <div key={col.title}>
-              <h4 className="text-[0.65rem] text-zinc-600 uppercase tracking-[0.15em] font-medium mb-4">{col.title}</h4>
+              <h4 className="text-[0.65rem] text-[#7A8A9A] uppercase tracking-[0.15em] font-medium mb-4">{col.title}</h4>
               <ul className="space-y-2.5">
                 {col.links.map((link) => (
                   <li key={link.name}>
-                    <Link href={link.href} className="text-[0.78rem] text-zinc-700 hover:text-zinc-400 transition-colors">
+                    <Link href={link.href} className="text-[0.78rem] text-[#7A8A9A] hover:text-nb-gold transition-colors">
                       {link.name}
                     </Link>
                   </li>
@@ -131,8 +131,8 @@ export function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="border-t border-white/[0.03] py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[0.68rem] text-zinc-700">
+        <div className="border-t border-[#1A2E4A] py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[0.68rem] text-[#7A8A9A]">
             <span>{t.copyright}</span>
             <span>{t.reg}</span>
             <span>{t.vat}</span>
@@ -140,7 +140,7 @@ export function Footer() {
           </div>
           <div className="flex items-center gap-4">
             {t.compliance.map((c) => (
-              <span key={c} className="text-[0.62rem] text-zinc-800 font-medium uppercase tracking-wider">{c}</span>
+              <span key={c} className="text-[0.62rem] text-[#7A8A9A] font-medium uppercase tracking-wider">{c}</span>
             ))}
           </div>
         </div>

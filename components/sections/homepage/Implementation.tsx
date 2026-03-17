@@ -40,21 +40,21 @@ export function Implementation() {
       <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
         <AnimateIn>
           <div className="max-w-3xl">
-            <p className="text-[0.7rem] text-zinc-600 uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
-            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[2.75rem] font-semibold leading-[1.15] tracking-[-0.03em] text-white text-balance">
+            <p className="text-[0.7rem] text-nb-text-muted uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
+            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[2.75rem] font-semibold leading-[1.15] tracking-[-0.03em] text-nb-navy text-balance">
               {t.headline}
             </h2>
-            <p className="mt-5 text-[1.05rem] text-zinc-500 leading-[1.7] max-w-2xl">{t.sub}</p>
+            <p className="mt-5 text-[1.05rem] text-nb-text-secondary leading-[1.7] max-w-2xl">{t.sub}</p>
           </div>
         </AnimateIn>
 
-        <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/[0.04] rounded-2xl overflow-hidden">
+        <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 gap-px bg-nb-border rounded-2xl overflow-hidden">
           {t.services.map((svc, i) => (
             <AnimateIn key={i} delay={i * 80}>
-              <div className="bg-[#09090b] p-8 sm:p-10 h-full">
-                <span className="text-[0.65rem] text-zinc-700 font-mono">{String(i + 1).padStart(2, '0')}</span>
-                <h3 className="text-[1.05rem] font-medium text-white mt-3 mb-3">{svc.title}</h3>
-                <p className="text-sm text-zinc-600 leading-[1.7]">{svc.desc}</p>
+              <div className="bg-nb-cream p-8 sm:p-10 h-full">
+                <span className="text-[0.65rem] text-nb-text-muted font-mono">{String(i + 1).padStart(2, '0')}</span>
+                <h3 className="text-[1.05rem] font-medium text-nb-navy mt-3 mb-3">{svc.title}</h3>
+                <p className="text-sm text-nb-text-muted leading-[1.7]">{svc.desc}</p>
               </div>
             </AnimateIn>
           ))}
@@ -64,7 +64,7 @@ export function Implementation() {
           <div className="mt-12">
             <Link
               href="/book-demo"
-              className="group inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-white border border-white/[0.08] hover:border-white/[0.14] rounded-lg px-6 py-3 transition-all"
+              className="group inline-flex items-center gap-2 text-sm text-nb-text-secondary hover:text-nb-navy border border-nb-border hover:border-nb-gold rounded-lg px-6 py-3 transition-all"
             >
               {t.cta}
               <svg className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

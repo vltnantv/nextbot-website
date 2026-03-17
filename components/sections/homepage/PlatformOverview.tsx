@@ -65,15 +65,15 @@ export function PlatformOverview() {
   const t = copy[lang]
 
   return (
-    <section id="platform" className="py-28 sm:py-36 border-b border-white/[0.04]">
+    <section id="platform" className="py-28 sm:py-36 border-b border-nb-border">
       <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
         <AnimateIn>
           <div className="max-w-3xl">
-            <p className="text-[0.7rem] text-blue-400/60 uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
-            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white text-balance">
+            <p className="text-[0.7rem] text-nb-gold uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
+            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-nb-navy text-balance">
               {t.headline}
             </h2>
-            <p className="mt-5 text-[1.05rem] text-zinc-500 leading-[1.7] max-w-2xl">{t.sub}</p>
+            <p className="mt-5 text-[1.05rem] text-nb-text-secondary leading-[1.7] max-w-2xl">{t.sub}</p>
           </div>
         </AnimateIn>
 
@@ -81,14 +81,14 @@ export function PlatformOverview() {
         <div className="mt-16 space-y-0">
           {t.layers.map((layer, i) => (
             <AnimateIn key={i} delay={i * 80}>
-              <div className="group grid grid-cols-1 lg:grid-cols-[200px_1fr] border-t border-white/[0.04] first:border-t-0">
+              <div className="group grid grid-cols-1 lg:grid-cols-[200px_1fr] border-t border-nb-border first:border-t-0">
                 <div className="py-8 lg:py-10">
-                  <span className="text-[0.65rem] text-zinc-700 uppercase tracking-[0.2em] font-mono">{String(i + 1).padStart(2, '0')}</span>
-                  <h3 className="text-[1.05rem] font-medium text-white mt-1">{layer.title}</h3>
+                  <span className="text-[0.65rem] text-nb-text-muted uppercase tracking-[0.2em] font-mono">{String(i + 1).padStart(2, '0')}</span>
+                  <h3 className="text-[1.05rem] font-medium text-nb-navy mt-1">{layer.title}</h3>
                 </div>
-                <div className="pb-8 lg:py-10 lg:pl-10 lg:border-l lg:border-white/[0.04]">
-                  <p className="text-sm text-zinc-400 font-medium font-mono tracking-wide">{layer.desc}</p>
-                  <p className="mt-3 text-sm text-zinc-600 leading-relaxed max-w-lg">{layer.detail}</p>
+                <div className="pb-8 lg:py-10 lg:pl-10 lg:border-l lg:border-nb-border">
+                  <p className="text-sm text-nb-text-secondary font-medium font-mono tracking-wide">{layer.desc}</p>
+                  <p className="mt-3 text-sm text-nb-text-muted leading-relaxed max-w-lg">{layer.detail}</p>
                 </div>
               </div>
             </AnimateIn>

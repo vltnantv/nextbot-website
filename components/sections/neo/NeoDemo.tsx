@@ -63,25 +63,25 @@ export function NeoDemo() {
   const t = copy[lang]
 
   return (
-    <section className="py-28 sm:py-36 border-y border-white/[0.04]">
+    <section className="py-28 sm:py-36 border-y border-nb-border">
       <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
         <AnimateIn>
-          <p className="text-[0.7rem] text-indigo-400/60 uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
-          <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white max-w-2xl">{t.headline}</h2>
+          <p className="text-[0.7rem] text-nb-gold uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
+          <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-nb-navy max-w-2xl">{t.headline}</h2>
         </AnimateIn>
 
         <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8">
           {t.scenarios.map((scenario, i) => (
             <AnimateIn key={i} delay={i * 120}>
-              <div className="rounded-2xl border border-white/[0.05] overflow-hidden h-full">
-                <div className="px-6 py-4 border-b border-white/[0.04] bg-white/[0.015]">
-                  <h3 className="text-sm font-medium text-white">{scenario.title}</h3>
+              <div className="rounded-2xl border border-nb-border overflow-hidden h-full">
+                <div className="px-6 py-4 border-b border-nb-border bg-nb-warm">
+                  <h3 className="text-sm font-medium text-nb-navy">{scenario.title}</h3>
                 </div>
                 <div className="p-6 space-y-4">
                   {scenario.messages.map((msg, j) => (
                     <div key={j} className={`flex ${msg.role === 'neo' ? 'justify-start' : 'justify-end'}`}>
-                      <div className={`max-w-[85%] rounded-xl px-4 py-2.5 ${msg.role === 'neo' ? 'bg-white/[0.04] border border-white/[0.04]' : 'bg-indigo-500/10 border border-indigo-500/10'}`}>
-                        <p className={`text-[0.82rem] leading-relaxed ${msg.role === 'neo' ? 'text-zinc-300' : 'text-indigo-200/80'}`}>{msg.text}</p>
+                      <div className={`max-w-[85%] rounded-xl px-4 py-2.5 ${msg.role === 'neo' ? 'bg-nb-border border border-nb-border' : 'bg-nb-gold/10 border border-nb-gold/10'}`}>
+                        <p className={`text-[0.82rem] leading-relaxed ${msg.role === 'neo' ? 'text-nb-navy' : 'text-nb-text-secondary'}`}>{msg.text}</p>
                       </div>
                     </div>
                   ))}

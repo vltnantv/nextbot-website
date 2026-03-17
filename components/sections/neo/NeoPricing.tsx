@@ -12,22 +12,22 @@ const copy = {
     sub: 'Start with what you need. Scale as you grow. No hidden fees.',
     plans: [
       {
-        name: 'Starter', price: '€59', period: '/month',
+        name: 'Starter', price: 'from €297', period: '/month',
         desc: 'For small businesses getting started with AI automation.',
-        features: ['AI chat on your website', 'Up to 500 conversations/month', 'Bulgarian + English', 'Basic lead qualification', 'Email support (48h)'],
-        cta: 'Get Started', href: '/book-demo', highlight: false,
+        features: ['AI chat on your website', 'WhatsApp + Messenger', 'Unlimited conversations', 'Bulgarian + English', 'Appointment booking', 'FAQ automation', 'Email support (48h)'],
+        cta: 'Book a Call', href: '/book-demo', highlight: false,
       },
       {
-        name: 'Professional', price: '€149', period: '/month',
+        name: 'Professional', price: 'from €497', period: '/month',
         desc: 'For growing businesses that need multi-channel automation.',
-        features: ['Everything in Starter', 'WhatsApp + Messenger + Instagram', '2,500 conversations/month', '5 languages', 'CRM integration', 'Calendar booking', 'Priority support (<4h)'],
-        cta: 'Get Started', href: '/book-demo', highlight: true, badge: 'Most Popular',
+        features: ['Everything in Starter', 'Instagram + Telegram', 'All 12+ languages', 'CRM integration', 'Calendar booking', 'Automated follow-ups', 'Priority support (<4h)', 'Monthly performance review'],
+        cta: 'Book a Call', href: '/book-demo', highlight: true, badge: 'Most Popular',
       },
       {
         name: 'Enterprise', price: 'Custom', period: '',
         desc: 'Full AI infrastructure with custom requirements.',
-        features: ['Everything in Professional', 'Unlimited conversations', 'All channels + voice', '12+ languages', 'Custom AI training', 'Custom integrations', 'Dedicated account manager', '99.9% uptime SLA'],
-        cta: 'Contact Sales', href: '/book-demo', highlight: false,
+        features: ['Everything in Professional', 'Unlimited channels + voice', 'Custom AI training', 'Custom integrations', 'Dedicated account manager', '99.9% uptime SLA', 'White-label option'],
+        cta: 'Contact Us', href: '/book-demo', highlight: false,
       },
     ],
   },
@@ -37,21 +37,21 @@ const copy = {
     sub: 'Започнете с каквото ви трябва. Скалирайте докато растете.',
     plans: [
       {
-        name: 'Starter', price: '€59', period: '/месец',
+        name: 'Starter', price: 'от €297', period: '/месец',
         desc: 'За малки бизнеси, започващи с AI автоматизация.',
-        features: ['AI чат на сайта ви', 'До 500 разговора/месец', 'Български + английски', 'Базова квалификация', 'Email поддръжка (48ч)'],
-        cta: 'Започни', href: '/book-demo', highlight: false,
+        features: ['AI чат на сайта ви', 'WhatsApp + Messenger', 'Неограничени разговори', 'Български + английски', 'Записване на часове', 'FAQ автоматизация', 'Email поддръжка (48ч)'],
+        cta: 'Запази обаждане', href: '/book-demo', highlight: false,
       },
       {
-        name: 'Professional', price: '€149', period: '/месец',
+        name: 'Professional', price: 'от €497', period: '/месец',
         desc: 'За растящи бизнеси с мулти-канална автоматизация.',
-        features: ['Всичко от Starter', 'WhatsApp + Messenger + Instagram', '2,500 разговора/месец', '5 езика', 'CRM интеграция', 'Резервиране в календар', 'Приоритетна поддръжка (<4ч)'],
-        cta: 'Започни', href: '/book-demo', highlight: true, badge: 'Най-популярен',
+        features: ['Всичко от Starter', 'Instagram + Telegram', 'Всички 12+ езика', 'CRM интеграция', 'Резервиране в календар', 'Автоматични follow-ups', 'Приоритетна поддръжка (<4ч)', 'Месечен преглед на резултатите'],
+        cta: 'Запази обаждане', href: '/book-demo', highlight: true, badge: 'НАЙ-ПОПУЛЯРЕН',
       },
       {
         name: 'Enterprise', price: 'Custom', period: '',
         desc: 'Пълна AI инфраструктура с персонализирани изисквания.',
-        features: ['Всичко от Professional', 'Неограничени разговори', 'Всички канали + глас', '12+ езика', 'Персонализирано AI обучение', 'Custom интеграции', 'Персонален мениджър', '99.9% uptime SLA'],
+        features: ['Всичко от Professional', 'Неограничени канали + глас', 'Персонализирано AI обучение', 'Custom интеграции', 'Персонален мениджър', '99.9% uptime SLA', 'White-label опция'],
         cta: 'Свържи се', href: '/book-demo', highlight: false,
       },
     ],
@@ -75,20 +75,20 @@ function PricingCard({ plan }: { plan: typeof copy.en.plans[number] }) {
     <div
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      className="relative bg-[#09090b] p-8 sm:p-10 h-full flex flex-col min-w-[280px] snap-center rounded-2xl md:rounded-none border border-white/[0.06] md:border-0 group/card overflow-hidden"
+      className="relative bg-nb-cream p-8 sm:p-10 h-full flex flex-col min-w-[280px] snap-center rounded-2xl md:rounded-none border border-nb-border md:border-0 group/card overflow-hidden"
     >
       {/* Mouse-following glow */}
       <div
         className="pointer-events-none absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"
         style={{
-          background: 'radial-gradient(400px circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(99,102,241,0.08), transparent 60%)',
+          background: 'radial-gradient(400px circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(201,168,76,0.08), transparent 60%)',
         }}
       />
       {/* Border glow */}
       <div
         className="pointer-events-none absolute inset-0 rounded-2xl md:rounded-none opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"
         style={{
-          background: 'radial-gradient(400px circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(99,102,241,0.15), transparent 60%)',
+          background: 'radial-gradient(400px circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(201,168,76,0.15), transparent 60%)',
           mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
           maskComposite: 'exclude',
           WebkitMaskComposite: 'xor',
@@ -98,27 +98,27 @@ function PricingCard({ plan }: { plan: typeof copy.en.plans[number] }) {
 
       <div className="relative z-10 flex flex-col h-full">
         <div className="flex items-center gap-2 mb-1">
-          <h3 className="text-[1rem] font-medium text-white">{plan.name}</h3>
+          <h3 className="text-[1rem] font-medium text-nb-navy">{plan.name}</h3>
           {'badge' in plan && plan.badge && (
-            <span className="text-[0.58rem] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded bg-indigo-500/10 text-indigo-400/80">{plan.badge}</span>
+            <span className="text-[0.58rem] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded bg-nb-gold text-nb-navy">{plan.badge}</span>
           )}
         </div>
         <div className="mt-4 mb-2">
-          <span className="text-[2.25rem] font-semibold text-white tracking-tight">{plan.price}</span>
-          {plan.period && <span className="text-sm text-zinc-600 ml-1">{plan.period}</span>}
+          <span className="text-[2.25rem] font-semibold text-nb-navy tracking-tight">{plan.price}</span>
+          {plan.period && <span className="text-sm text-nb-text-muted ml-1">{plan.period}</span>}
         </div>
-        <p className="text-sm text-zinc-600 mb-8">{plan.desc}</p>
+        <p className="text-sm text-nb-text-muted mb-8">{plan.desc}</p>
         <ul className="space-y-3 mb-10 flex-1">
           {plan.features.map((f, j) => (
-            <li key={j} className="flex items-start gap-2.5 text-[0.82rem] text-zinc-400">
-              <svg className="w-3.5 h-3.5 mt-0.5 text-zinc-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <li key={j} className="flex items-start gap-2.5 text-[0.82rem] text-nb-text-secondary">
+              <svg className="w-3.5 h-3.5 mt-0.5 text-nb-text-muted shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
               </svg>
               {f}
             </li>
           ))}
         </ul>
-        <Link href={plan.href} className={`inline-flex items-center justify-center px-6 py-3 text-[0.85rem] font-medium rounded-lg transition-colors ${plan.highlight ? 'bg-white text-zinc-950 hover:bg-zinc-100' : 'border border-white/[0.08] text-zinc-400 hover:border-white/[0.14] hover:text-zinc-300'}`}>
+        <Link href={plan.href} className={`inline-flex items-center justify-center px-6 py-3 text-[0.85rem] font-medium rounded-lg transition-colors ${plan.highlight ? 'bg-nb-navy text-nb-cream hover:bg-nb-navy-mid' : 'border border-nb-border text-nb-text-secondary hover:border-nb-gold hover:text-nb-navy'}`}>
           {plan.cta}
         </Link>
       </div>
@@ -131,17 +131,17 @@ export function NeoPricing() {
   const t = copy[lang]
 
   return (
-    <section id="pricing" className="py-28 sm:py-36 border-t border-white/[0.04]">
+    <section id="pricing" className="py-28 sm:py-36 border-t border-nb-border">
       <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
         <AnimateIn>
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <p className="text-[0.7rem] text-indigo-400/60 uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
-            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white">{t.headline}</h2>
-            <p className="mt-4 text-[1.05rem] text-zinc-500 leading-[1.7]">{t.sub}</p>
+            <p className="text-[0.7rem] text-nb-gold uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
+            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-nb-navy">{t.headline}</h2>
+            <p className="mt-4 text-[1.05rem] text-nb-text-secondary leading-[1.7]">{t.sub}</p>
           </div>
         </AnimateIn>
 
-        <div className="flex md:grid md:grid-cols-3 gap-4 md:gap-px md:bg-white/[0.04] md:rounded-2xl md:overflow-hidden overflow-x-auto snap-x snap-mandatory -mx-5 px-5 sm:-mx-8 sm:px-8 md:mx-0 md:px-0 pb-4 md:pb-0 scrollbar-hide">
+        <div className="flex md:grid md:grid-cols-3 gap-4 md:gap-px md:bg-nb-border md:rounded-2xl md:overflow-hidden overflow-x-auto snap-x snap-mandatory -mx-5 px-5 sm:-mx-8 sm:px-8 md:mx-0 md:px-0 pb-4 md:pb-0 scrollbar-hide">
           {t.plans.map((plan, i) => (
             <AnimateIn key={i} delay={i * 100}>
               <PricingCard plan={plan} />

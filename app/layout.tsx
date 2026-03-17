@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -16,103 +15,106 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   userScalable: true,
-  themeColor: "#09090b",
+  themeColor: "#FAFAF8",
 };
 
 export const metadata: Metadata = {
-  title: "NextBot — AI Systems That Generate Revenue | Enterprise AI Automation",
+  title: {
+    default: "NextBot — AI Platform for Business Automation",
+    template: "%s | NextBot",
+  },
   description:
-    "NextBot builds AI infrastructure that captures, qualifies, and converts leads automatically. Increase lead conversion by 30%+ with intelligent automation. Enterprise-grade AI systems for sales, customer communication, and operations.",
-  keywords:
-    "AI automation, enterprise AI, lead generation AI, AI sales system, revenue automation, AI infrastructure, lead conversion, business AI, AI customer communication",
+    "NextBot builds AI infrastructure that captures, qualifies, and converts leads automatically. Enterprise-grade AI systems for sales, customer communication, and operations.",
   icons: {
-    icon: "/favicon.png",
-    shortcut: "/favicon.png",
-    apple: "/favicon.png",
+    icon: [
+      { url: "/favicon.ico", sizes: "48x48" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
   },
   openGraph: {
     title: "NextBot — AI Systems That Generate Revenue",
     description:
-      "Enterprise AI infrastructure for lead capture, qualification, and conversion automation. Book a strategy call.",
-    url: "https://nextbot.me",
+      "AI platform that automates customer communication, lead qualification, and business operations.",
+    url: "https://www.nextbot.me",
     siteName: "NextBot",
     images: [
       {
-        url: "https://nextbot.me/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "NextBot — Enterprise AI Infrastructure",
+        url: "https://www.nextbot.me/logo-icon.png",
+        width: 512,
+        height: 512,
+        alt: "NextBot Logo",
       },
     ],
     type: "website",
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "NextBot — AI Systems That Generate Revenue",
     description:
-      "Enterprise AI infrastructure for lead capture, qualification, and conversion automation.",
-    images: ["https://nextbot.me/og-image.png"],
+      "AI platform that automates customer communication, lead qualification, and business operations.",
+    images: ["https://www.nextbot.me/logo-icon.png"],
   },
   robots: { index: true, follow: true },
 };
+
+// Inline script that runs before paint to prevent flash
+const themeScript = `
+(function(){
+  var d=document.documentElement;
+  var m=window.matchMedia('(prefers-color-scheme: dark)');
+  function apply(e){d.className=d.className.replace(/\\b(dark|light)\\b/g,'').trim()+' '+(e.matches?'dark':'light')}
+  apply(m);
+  m.addEventListener('change',apply);
+})();
+`;
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const orgSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "NextBot",
-    legalName: "Nextbot EOOD",
-    description:
-      "Enterprise AI automation partner. We build AI systems that generate revenue and automate business operations.",
-    url: "https://nextbot.me",
-    logo: "https://nextbot.me/logo.png",
-    foundingDate: "2024",
-    founder: { "@type": "Person", name: "Valentin Antov" },
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Sofia",
-      addressCountry: "BG",
-    },
-    contactPoint: {
-      "@type": "ContactPoint",
-      telephone: "+359-894-288-119",
-      email: "info@nextbot.me",
-      contactType: "Sales",
-      availableLanguage: ["Bulgarian", "English"],
-    },
-  };
-
-  const serviceSchema = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    name: "AI Revenue Automation",
-    provider: { "@type": "Organization", name: "NextBot" },
-    description:
-      "Custom AI systems for lead capture, qualification, and conversion automation. Enterprise-grade infrastructure.",
-    areaServed: "EU",
-    serviceType: "AI Automation",
-  };
-
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
+        <meta name="color-scheme" content="light dark" />
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "NextBot",
+              legalName: "Nextbot EOOD",
+              url: "https://www.nextbot.me",
+              logo: "https://www.nextbot.me/logo-icon.png",
+              description: "AI platform that automates customer communication and business operations.",
+              foundingDate: "2024",
+              founder: { "@type": "Person", name: "Valentin Antov" },
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: "Sofia",
+                addressCountry: "BG",
+              },
+              contactPoint: {
+                "@type": "ContactPoint",
+                telephone: "+359-894-288-119",
+                email: "info@nextbot.me",
+                contactType: "Sales",
+                availableLanguage: ["Bulgarian", "English"],
+              },
+            }),
+          }}
         />
       </head>
-      <body className={`${inter.className} bg-[#09090b] text-zinc-50 antialiased`}>
-        <Header />
-        <main>{children}</main>
-        <Footer />
+      <body
+        className={`${inter.className} bg-background text-foreground antialiased`}
+      >
+        {children}
+        <Toaster />
       </body>
     </html>
   );

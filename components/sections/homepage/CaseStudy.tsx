@@ -5,7 +5,7 @@ import { AnimateIn } from '@/components/AnimateIn'
 
 const copy = {
   en: {
-    label: 'Case Study',
+    label: 'Case Studies',
     headline: 'Regional solar provider increases qualified pipeline 3.2x in 90 days.',
     context: {
       industry: 'Solar & Renewable Energy',
@@ -30,9 +30,21 @@ const copy = {
     ],
     quote: 'NextBot transformed how we handle inbound leads. The ROI was obvious within the first month — we\'re capturing opportunities that would have been lost entirely.',
     attribution: 'Head of Sales — Regional Solar Provider',
+    // Dental case study
+    dental: {
+      badge: 'Coming Soon',
+      industry: 'Dental Clinics',
+      headline: 'Dental practice reduces missed appointments by 40% in the first 30 days.',
+      metrics: [
+        { value: '40%', label: 'Fewer missed appointments' },
+        { value: '24/7', label: 'Automatic responses' },
+        { value: '0', label: 'Additional staff' },
+      ],
+      note: 'Case study will be published after the pilot program is completed.',
+    },
   },
   bg: {
-    label: 'Казус',
+    label: 'Казуси',
     headline: 'Регионален соларен доставчик увеличава квалифицирания pipeline 3.2 пъти за 90 дни.',
     context: {
       industry: 'Соларна & възобновяема енергия',
@@ -57,6 +69,18 @@ const copy = {
     ],
     quote: 'NextBot трансформира начина, по който управляваме входящите лийдове. ROI-то беше очевидно още в първия месец — улавяме възможности, които иначе щяха да бъдат загубени изцяло.',
     attribution: 'Директор продажби — Регионален соларен доставчик',
+    // Dental case study
+    dental: {
+      badge: 'Coming Soon',
+      industry: 'Дентални клиники',
+      headline: 'Дентална практика намалява пропуснатите часове с 40% за първите 30 дни.',
+      metrics: [
+        { value: '40%', label: 'По-малко пропуснати часове' },
+        { value: '24/7', label: 'Автоматични отговори' },
+        { value: '0', label: 'Допълнителни служители' },
+      ],
+      note: 'Case study публикуваме след завършване на пилотната програма.',
+    },
   },
 }
 
@@ -65,22 +89,22 @@ export function CaseStudy() {
   const t = copy[lang]
 
   return (
-    <section className="py-28 sm:py-36 border-t border-white/[0.04]">
+    <section className="py-28 sm:py-36 border-t border-nb-border">
       <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
         <AnimateIn>
-          <p className="text-[0.7rem] text-zinc-600 uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
-          <h2 className="text-[1.75rem] sm:text-[2.25rem] lg:text-[2.75rem] font-semibold leading-[1.15] tracking-[-0.03em] text-white max-w-3xl text-balance">
+          <p className="text-[0.7rem] text-nb-text-muted uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
+          <h2 className="text-[1.75rem] sm:text-[2.25rem] lg:text-[2.75rem] font-semibold leading-[1.15] tracking-[-0.03em] text-nb-navy max-w-3xl text-balance">
             {t.headline}
           </h2>
         </AnimateIn>
 
         {/* Context bar */}
         <AnimateIn delay={100}>
-          <div className="mt-10 flex flex-wrap gap-6 text-sm text-zinc-600">
+          <div className="mt-10 flex flex-wrap gap-6 text-sm text-nb-text-muted">
             <span>{t.context.industry}</span>
-            <span className="text-zinc-800">|</span>
+            <span className="text-nb-text-muted">|</span>
             <span>{t.context.size}</span>
-            <span className="text-zinc-800">|</span>
+            <span className="text-nb-text-muted">|</span>
             <span>{t.context.timeline}</span>
           </div>
         </AnimateIn>
@@ -89,9 +113,9 @@ export function CaseStudy() {
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
           {t.sections.map((section, i) => (
             <AnimateIn key={i} delay={150 + i * 80}>
-              <div className="p-8 rounded-2xl border border-white/[0.05] h-full">
-                <p className="text-[0.7rem] text-zinc-600 uppercase tracking-[0.15em] font-medium mb-4">{section.tag}</p>
-                <p className="text-[0.95rem] text-zinc-400 leading-[1.7]">{section.text}</p>
+              <div className="p-8 rounded-2xl border border-nb-border h-full">
+                <p className="text-[0.7rem] text-nb-text-muted uppercase tracking-[0.15em] font-medium mb-4">{section.tag}</p>
+                <p className="text-[0.95rem] text-nb-text-secondary leading-[1.7]">{section.text}</p>
               </div>
             </AnimateIn>
           ))}
@@ -99,14 +123,14 @@ export function CaseStudy() {
 
         {/* Results */}
         <AnimateIn delay={300}>
-          <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.04] rounded-2xl overflow-hidden">
+          <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-px bg-nb-border rounded-2xl overflow-hidden">
             {t.results.map((r, i) => (
-              <div key={i} className="bg-[#09090b] p-8">
-                <div className="text-[1.75rem] sm:text-[2rem] font-semibold tracking-tight text-white leading-none">
+              <div key={i} className="bg-nb-cream p-8">
+                <div className="text-[1.75rem] sm:text-[2rem] font-semibold tracking-tight text-nb-navy leading-none">
                   {r.value}
                 </div>
-                <div className="mt-2 text-sm text-zinc-400 font-medium">{r.label}</div>
-                <div className="mt-1 text-xs text-zinc-700">{r.detail}</div>
+                <div className="mt-2 text-sm text-nb-text-secondary font-medium">{r.label}</div>
+                <div className="mt-1 text-xs text-nb-text-muted">{r.detail}</div>
               </div>
             ))}
           </div>
@@ -115,10 +139,34 @@ export function CaseStudy() {
         {/* Quote */}
         <AnimateIn delay={400}>
           <div className="mt-16 max-w-2xl">
-            <blockquote className="text-[1.15rem] sm:text-[1.3rem] text-zinc-300 leading-[1.6] font-light">
+            <blockquote className="text-[1.15rem] sm:text-[1.3rem] text-nb-navy leading-[1.6] font-light">
               &ldquo;{t.quote}&rdquo;
             </blockquote>
-            <p className="mt-4 text-sm text-zinc-600">{t.attribution}</p>
+            <p className="mt-4 text-sm text-nb-text-muted">{t.attribution}</p>
+          </div>
+        </AnimateIn>
+
+        {/* Dental case study placeholder */}
+        <AnimateIn delay={500}>
+          <div className="mt-16 p-8 sm:p-10 rounded-2xl border border-nb-border relative">
+            <div className="flex items-center gap-3 mb-5">
+              <span className="text-sm text-nb-text-secondary font-medium">{t.dental.industry}</span>
+              <span className="text-[0.6rem] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded bg-nb-text-muted/10 text-nb-text-muted">
+                {t.dental.badge}
+              </span>
+            </div>
+            <h3 className="text-[1.15rem] sm:text-[1.35rem] font-medium text-nb-navy mb-8 max-w-2xl leading-[1.4]">
+              {t.dental.headline}
+            </h3>
+            <div className="grid grid-cols-3 gap-px bg-nb-border rounded-xl overflow-hidden mb-6">
+              {t.dental.metrics.map((m, i) => (
+                <div key={i} className="bg-nb-cream p-6 text-center">
+                  <div className="text-[1.5rem] sm:text-[1.75rem] font-semibold tracking-tight text-nb-navy leading-none">{m.value}</div>
+                  <div className="mt-2 text-xs text-nb-text-muted">{m.label}</div>
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-nb-text-muted italic">{t.dental.note}</p>
           </div>
         </AnimateIn>
       </div>

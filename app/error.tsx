@@ -8,9 +8,9 @@ export default function Error({
   reset: () => void
 }) {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black">
+    <div className="min-h-screen flex items-center justify-center bg-nb-cream">
       <div className="text-center px-4">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+        <h2 className="text-2xl font-bold text-nb-navy mb-4">
           Something went wrong
         </h2>
         <button

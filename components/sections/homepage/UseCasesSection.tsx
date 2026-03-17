@@ -63,29 +63,29 @@ export function UseCasesSection() {
   const t = copy[lang]
 
   return (
-    <section className="py-28 sm:py-36 border-t border-white/[0.04]">
+    <section className="py-28 sm:py-36 border-t border-nb-border">
       <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
         <AnimateIn>
-          <p className="text-[0.7rem] text-zinc-600 uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
-          <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[2.75rem] font-semibold leading-[1.15] tracking-[-0.03em] text-white max-w-3xl text-balance">
+          <p className="text-[0.7rem] text-nb-text-muted uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
+          <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[2.75rem] font-semibold leading-[1.15] tracking-[-0.03em] text-nb-navy max-w-3xl text-balance">
             {t.headline}
           </h2>
         </AnimateIn>
 
-        <div className="mt-16 space-y-0 divide-y divide-white/[0.04]">
+        <div className="mt-16 space-y-0 divide-y divide-nb-border">
           {t.cases.map((c, i) => (
             <AnimateIn key={i} delay={i * 80}>
               <div className="py-10 first:pt-0 last:pb-0 grid grid-cols-1 lg:grid-cols-[180px_1fr_1fr] gap-6 lg:gap-12">
                 <div>
-                  <h3 className="text-[0.95rem] font-medium text-white">{c.industry}</h3>
+                  <h3 className="text-[0.95rem] font-medium text-nb-navy">{c.industry}</h3>
                 </div>
                 <div>
-                  <p className="text-[0.7rem] text-zinc-700 uppercase tracking-[0.15em] font-medium mb-2">Problem</p>
-                  <p className="text-sm text-zinc-500 leading-relaxed">{c.problem}</p>
+                  <p className="text-[0.7rem] text-nb-text-muted uppercase tracking-[0.15em] font-medium mb-2">Problem</p>
+                  <p className="text-sm text-nb-text-secondary leading-relaxed">{c.problem}</p>
                 </div>
                 <div>
-                  <p className="text-[0.7rem] text-blue-400/50 uppercase tracking-[0.15em] font-medium mb-2">Solution</p>
-                  <p className="text-sm text-zinc-400 leading-relaxed">{c.solution}</p>
+                  <p className="text-[0.7rem] text-nb-gold uppercase tracking-[0.15em] font-medium mb-2">Solution</p>
+                  <p className="text-sm text-nb-text-secondary leading-relaxed">{c.solution}</p>
                 </div>
               </div>
             </AnimateIn>

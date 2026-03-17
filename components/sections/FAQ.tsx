@@ -281,7 +281,7 @@ export function FAQ() {
 
           <div className="flex flex-wrap items-center justify-center gap-3 max-md:flex-col">
             <Button
-              variant="primary"
+              variant="default"
               size="lg"
               className="rounded-full"
               onClick={() => {

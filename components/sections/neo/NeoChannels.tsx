@@ -41,21 +41,21 @@ export function NeoChannels() {
       <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
         <AnimateIn>
           <div className="max-w-3xl">
-            <p className="text-[0.7rem] text-zinc-600 uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
-            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white text-balance">{t.headline}</h2>
-            <p className="mt-5 text-[1.05rem] text-zinc-500 leading-[1.7] max-w-2xl">{t.sub}</p>
+            <p className="text-[0.7rem] text-nb-text-muted uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
+            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-nb-navy text-balance">{t.headline}</h2>
+            <p className="mt-5 text-[1.05rem] text-nb-text-secondary leading-[1.7] max-w-2xl">{t.sub}</p>
           </div>
         </AnimateIn>
 
-        <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/[0.04] rounded-2xl overflow-hidden">
+        <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-nb-border rounded-2xl overflow-hidden">
           {t.channels.map((ch, i) => (
             <AnimateIn key={i} delay={i * 60}>
-              <div className="bg-[#09090b] p-8 h-full">
+              <div className="bg-nb-cream p-8 h-full">
                 <div className="flex items-center gap-2.5 mb-4">
-                  <h3 className="text-[0.95rem] font-medium text-white">{ch.name}</h3>
-                  <span className={`text-[0.58rem] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded ${ch.status === 'Live' ? 'bg-emerald-500/10 text-emerald-400/70' : 'bg-zinc-800 text-zinc-500'}`}>{ch.status}</span>
+                  <h3 className="text-[0.95rem] font-medium text-nb-navy">{ch.name}</h3>
+                  <span className={`text-[0.58rem] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded ${ch.status === 'Live' ? 'bg-emerald-500/10 text-emerald-600' : 'bg-nb-text-muted text-nb-text-secondary'}`}>{ch.status}</span>
                 </div>
-                <p className="text-sm text-zinc-600 leading-[1.7]">{ch.desc}</p>
+                <p className="text-sm text-nb-text-muted leading-[1.7]">{ch.desc}</p>
               </div>
             </AnimateIn>
           ))}
