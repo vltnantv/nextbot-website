@@ -212,7 +212,7 @@ export async function GET(req: NextRequest) {
   if (template === 'hotel-bg') {
     const hotelName = searchParams.get('hotel') || company
 
-    function hotelFeatureBg(title: string, desc: string) {
+    const hotelFeatureBg = (title: string, desc: string) => {
       return `
         <tr>
           <td style="padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.04);">
