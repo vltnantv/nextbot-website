@@ -6,88 +6,36 @@ import Image from 'next/image'
 
 const copy = {
   en: {
-    tagline: 'AI infrastructure that generates revenue and automates operations.',
-    cols: [
-      {
-        title: 'Products',
-        links: [
-          { name: 'Neo', href: '/neo' },
-          { name: 'Aria', href: '/aria' },
-          { name: 'Custom Solutions', href: '/book-demo' },
-        ],
-      },
-      {
-        title: 'Company',
-        links: [
-          { name: 'About', href: '/about' },
-          { name: 'Contact', href: 'mailto:info@nextbot.me' },
-          { name: 'Book a Call', href: '/book-demo' },
-        ],
-      },
-      {
-        title: 'Resources',
-        links: [
-          { name: 'Documentation', href: '/documentation' },
-          { name: 'API Reference', href: '/api-docs' },
-        ],
-      },
-      {
-        title: 'Legal',
-        links: [
-          { name: 'Privacy Policy', href: '/legal' },
-          { name: 'Terms of Service', href: '/legal?tab=terms' },
-          { name: 'GDPR', href: '/legal?tab=gdpr' },
-        ],
-      },
+    tagline: 'AI products that replace repetitive work.',
+    links: [
+      { name: 'NEO', href: '/neo' },
+      { name: 'About', href: '/about' },
+      { name: 'Book a Call', href: '/book-demo' },
+      { name: 'Privacy Policy', href: '/legal' },
+      { name: 'Terms', href: '/legal?tab=terms' },
     ],
     contact: { email: 'info@nextbot.me', phone: '+359 894 288 119' },
     copyright: '2026 Nextbot EOOD. All rights reserved.',
     reg: 'UIC: 207218192',
     vat: 'VAT: BG207218192',
     location: 'Sofia, Bulgaria',
-    compliance: ['GDPR', 'SOC 2', 'ISO 27001'],
+    compliance: ['GDPR Ready'],
   },
   bg: {
-    tagline: 'AI инфраструктура, която генерира приходи и автоматизира операции.',
-    cols: [
-      {
-        title: 'Продукти',
-        links: [
-          { name: 'Neo', href: '/neo' },
-          { name: 'Aria', href: '/aria' },
-          { name: 'Персонализирани решения', href: '/book-demo' },
-        ],
-      },
-      {
-        title: 'Компания',
-        links: [
-          { name: 'За нас', href: '/about' },
-          { name: 'Контакт', href: 'mailto:info@nextbot.me' },
-          { name: 'Запази обаждане', href: '/book-demo' },
-        ],
-      },
-      {
-        title: 'Ресурси',
-        links: [
-          { name: 'Документация', href: '/documentation' },
-          { name: 'API', href: '/api-docs' },
-        ],
-      },
-      {
-        title: 'Правна информация',
-        links: [
-          { name: 'Поверителност', href: '/legal' },
-          { name: 'Условия', href: '/legal?tab=terms' },
-          { name: 'GDPR', href: '/legal?tab=gdpr' },
-        ],
-      },
+    tagline: 'AI продукти, които заместват повтарящата се работа.',
+    links: [
+      { name: 'NEO', href: '/neo' },
+      { name: 'За нас', href: '/about' },
+      { name: 'Запази обаждане', href: '/book-demo' },
+      { name: 'Поверителност', href: '/legal' },
+      { name: 'Условия', href: '/legal?tab=terms' },
     ],
     contact: { email: 'info@nextbot.me', phone: '+359 894 288 119' },
     copyright: '2026 Nextbot EOOD. Всички права запазени.',
     reg: 'ЕИК: 207218192',
     vat: 'ДДС: BG207218192',
     location: 'София, България',
-    compliance: ['GDPR', 'SOC 2', 'ISO 27001'],
+    compliance: ['GDPR Ready'],
   },
 }
 
@@ -96,43 +44,40 @@ export function Footer() {
   const t = copy[lang]
 
   return (
-    <footer className="border-t border-nb-navy-mid bg-nb-navy">
+    <footer className="border-t border-nb-border bg-nb-bg">
       <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
         {/* Main */}
-        <div className="py-14 sm:py-20 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-10 lg:gap-8">
+        <div className="py-14 sm:py-20 grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-10">
           {/* Brand */}
-          <div className="col-span-2">
+          <div>
             <Link href="/" className="inline-flex items-center gap-2 mb-4">
               <Image src="/logo-icon.png" alt="NextBot" width={22} height={22} className="invert brightness-100" />
               <span className="text-[0.85rem] font-semibold text-white tracking-tight">NextBot</span>
             </Link>
-            <p className="text-[0.8rem] text-[#B8C5D0] leading-relaxed max-w-[240px] mb-5">{t.tagline}</p>
+            <p className="text-[0.8rem] text-nb-text-secondary leading-relaxed max-w-[280px] mb-5">{t.tagline}</p>
             <div className="space-y-1">
-              <a href={`mailto:${t.contact.email}`} className="block text-[0.78rem] text-[#7A8A9A] hover:text-nb-gold transition-colors">{t.contact.email}</a>
-              <a href={`tel:${t.contact.phone.replace(/\s/g, '')}`} className="block text-[0.78rem] text-[#7A8A9A] hover:text-nb-gold transition-colors">{t.contact.phone}</a>
+              <a href={`mailto:${t.contact.email}`} className="block text-[0.78rem] text-nb-text-muted hover:text-nb-accent transition-colors">{t.contact.email}</a>
+              <a href={`tel:${t.contact.phone.replace(/\s/g, '')}`} className="block text-[0.78rem] text-nb-text-muted hover:text-nb-accent transition-colors">{t.contact.phone}</a>
             </div>
           </div>
 
-          {/* Columns */}
-          {t.cols.map((col) => (
-            <div key={col.title}>
-              <h4 className="text-[0.65rem] text-[#7A8A9A] uppercase tracking-[0.15em] font-medium mb-4">{col.title}</h4>
-              <ul className="space-y-2.5">
-                {col.links.map((link) => (
-                  <li key={link.name}>
-                    <Link href={link.href} className="text-[0.78rem] text-[#7A8A9A] hover:text-nb-gold transition-colors">
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {/* Links */}
+          <div>
+            <ul className="space-y-2.5">
+              {t.links.map((link) => (
+                <li key={link.name}>
+                  <Link href={link.href} className="text-[0.78rem] text-nb-text-muted hover:text-nb-accent transition-colors">
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         {/* Bottom */}
-        <div className="border-t border-[#1A2E4A] py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[0.68rem] text-[#7A8A9A]">
+        <div className="border-t border-nb-border py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[0.68rem] text-nb-text-muted">
             <span>{t.copyright}</span>
             <span>{t.reg}</span>
             <span>{t.vat}</span>
@@ -140,7 +85,7 @@ export function Footer() {
           </div>
           <div className="flex items-center gap-4">
             {t.compliance.map((c) => (
-              <span key={c} className="text-[0.62rem] text-[#7A8A9A] font-medium uppercase tracking-wider">{c}</span>
+              <span key={c} className="text-[0.62rem] text-nb-text-muted font-medium uppercase tracking-wider">{c}</span>
             ))}
           </div>
         </div>

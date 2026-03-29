@@ -9,23 +9,23 @@ const copy = {
     headline: 'See how Neo handles a real conversation.',
     scenarios: [
       {
-        title: 'Lead Qualification',
+        title: 'Dental Clinic',
         messages: [
-          { role: 'customer', text: 'Hi, I\'m interested in solar panels for my house.' },
-          { role: 'neo', text: 'Hello! I\'d be happy to help. Could you tell me the approximate size of your roof in square meters?' },
-          { role: 'customer', text: 'Around 80 sqm, south-facing.' },
-          { role: 'neo', text: 'Excellent orientation for solar. Based on 80m\u00B2, you could generate approximately 12,000 kWh annually. Would you like to schedule a free on-site assessment? I have Thursday at 10:00 or Friday at 14:00.' },
-          { role: 'customer', text: 'Thursday works.' },
-          { role: 'neo', text: 'Done. Assessment booked for Thursday at 10:00. You\'ll receive a confirmation email shortly.' },
+          { role: 'customer', text: 'Zdraveyte, iskam da zapisha chas za pregled.' },
+          { role: 'neo', text: 'Zdraveyte! Za koy den Vi e udobno — srqda ili chetvurtuk?' },
+          { role: 'customer', text: 'Srqda sled 17:00.' },
+          { role: 'neo', text: 'Imame svoboden chas v srqda v 17:30 s d-r Petrova. Da go zapisha li?' },
+          { role: 'customer', text: 'Da, blagodarya.' },
+          { role: 'neo', text: 'Chasut e zapisan. Shte poluchite potvrzhdenie na telefona si.' },
         ],
       },
       {
-        title: 'Multilingual Support',
+        title: 'Fitness Center',
         messages: [
-          { role: 'customer', text: 'Haben Sie freie Zimmer f\u00FCr n\u00E4chstes Wochenende?' },
-          { role: 'neo', text: 'Ja, wir haben noch Verf\u00FCgbarkeiten. F\u00FCr wie viele G\u00E4ste und N\u00E4chte m\u00F6chten Sie buchen?' },
-          { role: 'customer', text: '2 G\u00E4ste, 2 N\u00E4chte.' },
-          { role: 'neo', text: 'Perfekt. Deluxe-Doppelzimmer mit Bergblick \u2014 \u20AC90 pro Nacht. Soll ich die Reservierung vornehmen?' },
+          { role: 'customer', text: 'Kolko struva mesеchen abonament?' },
+          { role: 'neo', text: 'Imame tri varianta — Basic (49лв), Standard (79лв) i Premium (99лв). Iskate li da zapishem bezplatna probna trenirovka?' },
+          { role: 'customer', text: 'Da, mozhe.' },
+          { role: 'neo', text: 'Za koy den Vi e udobno? Imame svobodni chasove utre ot 10:00 do 12:00.' },
         ],
       },
     ],
@@ -35,23 +35,23 @@ const copy = {
     headline: 'Вижте как Neo управлява реален разговор.',
     scenarios: [
       {
-        title: 'Квалификация на лийд',
+        title: 'Дентална клиника',
         messages: [
-          { role: 'customer', text: 'Здравейте, интересувам се от соларни панели за къщата ми.' },
-          { role: 'neo', text: 'Здравейте! С удоволствие ще помогна. Каква е приблизителната площ на покрива в квадратни метри?' },
-          { role: 'customer', text: 'Около 80 кв.м., южно изложение.' },
-          { role: 'neo', text: 'Отлично изложение. При 80м\u00B2 южен покрив, бихте генерирали около 12,000 kWh годишно. Желаете ли безплатна оценка на място? Имам четвъртък в 10:00 или петък в 14:00.' },
-          { role: 'customer', text: 'Четвъртък ми е удобно.' },
-          { role: 'neo', text: 'Готово. Оценката е резервирана за четвъртък в 10:00. Ще получите потвърждение по имейл.' },
+          { role: 'customer', text: 'Здравейте, искам да запиша час за преглед.' },
+          { role: 'neo', text: 'Здравейте! За кой ден Ви е удобно — сряда или четвъртък?' },
+          { role: 'customer', text: 'Сряда след 17:00.' },
+          { role: 'neo', text: 'Имаме свободен час в сряда в 17:30 с д-р Петрова. Да го запиша ли?' },
+          { role: 'customer', text: 'Да, благодаря.' },
+          { role: 'neo', text: 'Часът е записан. Ще получите потвърждение на телефона си.' },
         ],
       },
       {
-        title: 'Многоезична поддръжка',
+        title: 'Фитнес център',
         messages: [
-          { role: 'customer', text: 'Haben Sie freie Zimmer f\u00FCr n\u00E4chstes Wochenende?' },
-          { role: 'neo', text: 'Ja, wir haben Verf\u00FCgbarkeiten. F\u00FCr wie viele G\u00E4ste und N\u00E4chte?' },
-          { role: 'customer', text: '2 G\u00E4ste, 2 N\u00E4chte.' },
-          { role: 'neo', text: 'Perfekt. Deluxe-Doppelzimmer mit Bergblick \u2014 \u20AC90 pro Nacht. Reservierung vornehmen?' },
+          { role: 'customer', text: 'Колко струва месечен абонамент?' },
+          { role: 'neo', text: 'Имаме три варианта — Basic (49лв), Standard (79лв) и Premium (99лв). Искате ли да запишем безплатна пробна тренировка?' },
+          { role: 'customer', text: 'Да, може.' },
+          { role: 'neo', text: 'За кой ден Ви е удобно? Имаме свободни часове утре от 10:00 до 12:00.' },
         ],
       },
     ],
@@ -66,22 +66,22 @@ export function NeoDemo() {
     <section className="py-28 sm:py-36 border-y border-nb-border">
       <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
         <AnimateIn>
-          <p className="text-[0.7rem] text-nb-gold uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
-          <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-nb-navy max-w-2xl">{t.headline}</h2>
+          <p className="text-[0.7rem] text-nb-accent uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
+          <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white max-w-2xl">{t.headline}</h2>
         </AnimateIn>
 
         <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8">
           {t.scenarios.map((scenario, i) => (
             <AnimateIn key={i} delay={i * 120}>
               <div className="rounded-2xl border border-nb-border overflow-hidden h-full">
-                <div className="px-6 py-4 border-b border-nb-border bg-nb-warm">
-                  <h3 className="text-sm font-medium text-nb-navy">{scenario.title}</h3>
+                <div className="px-6 py-4 border-b border-nb-border bg-nb-surface-el">
+                  <h3 className="text-sm font-medium text-white">{scenario.title}</h3>
                 </div>
-                <div className="p-6 space-y-4">
+                <div className="p-6 space-y-4 bg-nb-surface">
                   {scenario.messages.map((msg, j) => (
                     <div key={j} className={`flex ${msg.role === 'neo' ? 'justify-start' : 'justify-end'}`}>
-                      <div className={`max-w-[85%] rounded-xl px-4 py-2.5 ${msg.role === 'neo' ? 'bg-nb-border border border-nb-border' : 'bg-nb-gold/10 border border-nb-gold/10'}`}>
-                        <p className={`text-[0.82rem] leading-relaxed ${msg.role === 'neo' ? 'text-nb-navy' : 'text-nb-text-secondary'}`}>{msg.text}</p>
+                      <div className={`max-w-[85%] rounded-xl px-4 py-2.5 ${msg.role === 'neo' ? 'bg-nb-surface-el border border-nb-border' : 'bg-nb-accent/10 border border-nb-accent/10'}`}>
+                        <p className={`text-[0.82rem] leading-relaxed ${msg.role === 'neo' ? 'text-white' : 'text-nb-text-secondary'}`}>{msg.text}</p>
                       </div>
                     </div>
                   ))}

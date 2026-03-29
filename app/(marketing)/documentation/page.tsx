@@ -117,8 +117,8 @@ export default function DocumentationPage() {
       <section className="pt-36 pb-0 sm:pt-44">
         <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
           <AnimateIn>
-            <p className="text-[0.7rem] text-nb-gold-dark/60 uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
-            <h1 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-nb-navy max-w-2xl">{t.headline}</h1>
+            <p className="text-[0.7rem] text-nb-accent/60 uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
+            <h1 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white max-w-2xl">{t.headline}</h1>
           </AnimateIn>
         </div>
       </section>
@@ -135,7 +135,7 @@ export default function DocumentationPage() {
                     onClick={() => setActiveSection(section.id)}
                     className={`text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
                       activeSection === section.id
-                        ? 'text-nb-navy bg-nb-border'
+                        ? 'text-white bg-nb-border'
                         : 'text-nb-text-muted hover:text-nb-text-secondary'
                     }`}
                   >
@@ -154,7 +154,7 @@ export default function DocumentationPage() {
                     {section.items.map((item, i) => (
                       <AnimateIn key={i} delay={i * 60}>
                         <div className="rounded-2xl border border-nb-border p-6 sm:p-8">
-                          <h2 className="text-[1.05rem] font-medium text-nb-navy mb-4">{item.title}</h2>
+                          <h2 className="text-[1.05rem] font-medium text-white mb-4">{item.title}</h2>
                           <p className="text-sm text-nb-text-secondary leading-[1.8] whitespace-pre-line">{item.content}</p>
                         </div>
                       </AnimateIn>

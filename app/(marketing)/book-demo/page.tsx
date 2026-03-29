@@ -100,14 +100,14 @@ export default function BookDemoPage() {
       <section className="min-h-[80svh] flex items-center justify-center">
         <div className="max-w-md mx-auto px-5 text-center">
           <AnimateIn>
-            <div className="w-14 h-14 mx-auto mb-6 rounded-full bg-emerald-500/10 flex items-center justify-center">
-              <svg className="w-7 h-7 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-14 h-14 mx-auto mb-6 rounded-full bg-nb-accent/20 flex items-center justify-center">
+              <svg className="w-7 h-7 text-nb-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <h1 className="text-[1.75rem] font-semibold text-nb-navy mb-3">{t.success.title}</h1>
+            <h1 className="text-[1.75rem] font-semibold text-white mb-3">{t.success.title}</h1>
             <p className="text-nb-text-secondary mb-8">{t.success.message}</p>
-            <Link href="/" className="inline-flex items-center px-7 py-3.5 bg-nb-navy text-nb-cream text-[0.9rem] font-medium rounded-lg hover:bg-nb-navy-mid transition-colors">
+            <Link href="/" className="inline-flex items-center px-7 py-3.5 bg-nb-accent text-white text-[0.9rem] font-medium rounded-lg hover:bg-nb-accent-hover transition-colors">
               {t.success.cta}
             </Link>
           </AnimateIn>
@@ -124,8 +124,8 @@ export default function BookDemoPage() {
             {/* Left — Info */}
             <div>
               <AnimateIn>
-                <p className="text-[0.7rem] text-nb-gold uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
-                <h1 className="text-[2rem] sm:text-[3rem] font-semibold leading-[1.08] tracking-[-0.035em] text-nb-navy">{t.headline}</h1>
+                <p className="text-[0.7rem] text-nb-accent uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
+                <h1 className="text-[2rem] sm:text-[3rem] font-semibold leading-[1.08] tracking-[-0.035em] text-white">{t.headline}</h1>
                 <p className="mt-5 text-[1.05rem] text-nb-text-secondary leading-[1.7]">{t.sub}</p>
               </AnimateIn>
 
@@ -151,7 +151,7 @@ export default function BookDemoPage() {
                   <input
                     type="text" required value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg bg-nb-warm border border-nb-border text-nb-navy text-sm placeholder-nb-text-muted focus:outline-none focus:border-nb-gold/30 transition-colors"
+                    className="w-full px-4 py-3 rounded-lg bg-nb-surface border border-nb-border text-white text-sm placeholder-nb-text-muted focus:outline-none focus:border-nb-accent/30 transition-colors"
                   />
                 </div>
 
@@ -161,7 +161,7 @@ export default function BookDemoPage() {
                     <input
                       type="email" required value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-3 rounded-lg bg-nb-warm border border-nb-border text-nb-navy text-sm placeholder-nb-text-muted focus:outline-none focus:border-nb-gold/30 transition-colors"
+                      className="w-full px-4 py-3 rounded-lg bg-nb-surface border border-nb-border text-white text-sm placeholder-nb-text-muted focus:outline-none focus:border-nb-accent/30 transition-colors"
                     />
                   </div>
                   <div>
@@ -169,7 +169,7 @@ export default function BookDemoPage() {
                     <input
                       type="tel" value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full px-4 py-3 rounded-lg bg-nb-warm border border-nb-border text-nb-navy text-sm placeholder-nb-text-muted focus:outline-none focus:border-nb-gold/30 transition-colors"
+                      className="w-full px-4 py-3 rounded-lg bg-nb-surface border border-nb-border text-white text-sm placeholder-nb-text-muted focus:outline-none focus:border-nb-accent/30 transition-colors"
                     />
                   </div>
                 </div>
@@ -179,7 +179,7 @@ export default function BookDemoPage() {
                   <input
                     type="text" value={formData.company}
                     onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg bg-nb-warm border border-nb-border text-nb-navy text-sm placeholder-nb-text-muted focus:outline-none focus:border-nb-gold/30 transition-colors"
+                    className="w-full px-4 py-3 rounded-lg bg-nb-surface border border-nb-border text-white text-sm placeholder-nb-text-muted focus:outline-none focus:border-nb-accent/30 transition-colors"
                   />
                 </div>
 
@@ -192,8 +192,8 @@ export default function BookDemoPage() {
                         onClick={() => setFormData({ ...formData, businessType: type })}
                         className={`px-3.5 py-1.5 rounded-lg text-[0.82rem] font-medium transition-all ${
                           formData.businessType === type
-                            ? 'bg-nb-navy text-nb-cream'
-                            : 'bg-nb-warm text-nb-text-secondary border border-nb-border hover:border-nb-gold'
+                            ? 'bg-nb-accent text-white'
+                            : 'bg-nb-surface text-nb-text-secondary border border-nb-border hover:border-nb-accent'
                         }`}
                       >
                         {type}
@@ -209,7 +209,7 @@ export default function BookDemoPage() {
                       type="date" value={formData.preferredDate}
                       onChange={(e) => setFormData({ ...formData, preferredDate: e.target.value })}
                       min={new Date().toISOString().split('T')[0]}
-                      className="w-full px-4 py-3 rounded-lg bg-nb-warm border border-nb-border text-nb-navy text-sm focus:outline-none focus:border-nb-gold/30 transition-colors"
+                      className="w-full px-4 py-3 rounded-lg bg-nb-surface border border-nb-border text-white text-sm focus:outline-none focus:border-nb-accent/30 transition-colors"
                     />
                   </div>
                   <div>
@@ -221,8 +221,8 @@ export default function BookDemoPage() {
                           onClick={() => setFormData({ ...formData, preferredTime: slot })}
                           className={`px-2 py-2 rounded-lg text-[0.78rem] font-mono transition-all ${
                             formData.preferredTime === slot
-                              ? 'bg-nb-navy text-nb-cream'
-                              : 'bg-nb-warm text-nb-text-muted border border-nb-border hover:border-nb-gold'
+                              ? 'bg-nb-accent text-white'
+                              : 'bg-nb-surface text-nb-text-muted border border-nb-border hover:border-nb-accent'
                           }`}
                         >
                           {slot}
@@ -237,13 +237,13 @@ export default function BookDemoPage() {
                   <textarea
                     rows={3} value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg bg-nb-warm border border-nb-border text-nb-navy text-sm placeholder-nb-text-muted focus:outline-none focus:border-nb-gold/30 transition-colors resize-none"
+                    className="w-full px-4 py-3 rounded-lg bg-nb-surface border border-nb-border text-white text-sm placeholder-nb-text-muted focus:outline-none focus:border-nb-accent/30 transition-colors resize-none"
                   />
                 </div>
 
                 <button
                   type="submit" disabled={loading || !formData.name || !formData.email}
-                  className="w-full px-7 py-3.5 bg-nb-navy text-nb-cream text-[0.9rem] font-medium rounded-lg hover:bg-nb-navy-mid transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="w-full px-7 py-3.5 bg-nb-accent text-white text-[0.9rem] font-medium rounded-lg hover:bg-nb-accent-hover transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   {loading ? t.form.submitting : t.form.submit}
                 </button>

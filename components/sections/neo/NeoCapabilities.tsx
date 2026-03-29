@@ -38,8 +38,8 @@ export function NeoCapabilities() {
     <section className="py-28 sm:py-36 border-b border-nb-border">
       <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
         <AnimateIn>
-          <p className="text-[0.7rem] text-nb-gold uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
-          <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-nb-navy max-w-2xl">{t.headline}</h2>
+          <p className="text-[0.7rem] text-nb-accent uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
+          <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white max-w-2xl">{t.headline}</h2>
         </AnimateIn>
 
         <div className="mt-16 space-y-0 divide-y divide-nb-border">
@@ -47,8 +47,8 @@ export function NeoCapabilities() {
             <AnimateIn key={i} delay={i * 60}>
               <div className="py-10 first:pt-0 last:pb-0 grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-6 lg:gap-16">
                 <div>
-                  <span className="text-[0.65rem] text-nb-text-muted font-mono mb-2 block">{String(i + 1).padStart(2, '0')}</span>
-                  <h3 className="text-[1.15rem] font-medium text-nb-navy mb-3">{cap.title}</h3>
+                  <span className="text-[0.65rem] text-nb-accent font-mono mb-2 block">{String(i + 1).padStart(2, '0')}</span>
+                  <h3 className="text-[1.15rem] font-medium text-white mb-3">{cap.title}</h3>
                   <p className="text-[0.95rem] text-nb-text-secondary leading-[1.7]">{cap.desc}</p>
                 </div>
                 <div className="flex items-center">

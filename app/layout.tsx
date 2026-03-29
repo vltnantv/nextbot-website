@@ -15,7 +15,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   userScalable: true,
-  themeColor: "#FAFAF8",
+  themeColor: "#0a0a0a",
 };
 
 export const metadata: Metadata = {
@@ -60,16 +60,6 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-// Inline script that runs before paint to prevent flash
-const themeScript = `
-(function(){
-  var d=document.documentElement;
-  var m=window.matchMedia('(prefers-color-scheme: dark)');
-  function apply(e){d.className=d.className.replace(/\\b(dark|light)\\b/g,'').trim()+' '+(e.matches?'dark':'light')}
-  apply(m);
-  m.addEventListener('change',apply);
-})();
-`;
 
 export default function RootLayout({
   children,
@@ -79,8 +69,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
-        <meta name="color-scheme" content="light dark" />
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <meta name="color-scheme" content="dark" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

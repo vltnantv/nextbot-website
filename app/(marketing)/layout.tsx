@@ -19,7 +19,7 @@ export default function MarketingLayout({
         botName="Neo"
         welcomeMessage="Hi! I'm Neo, the NextBot AI assistant. Ask me anything about our platform, or try me out as a hotel concierge, restaurant assistant, or any business type!"
         quickActions={["How does NextBot work?", "Try hotel demo", "See pricing", "Book a demo"]}
-        accentColor="#C9A84C"
+        accentColor="#f97316"
       />
     </>
   );

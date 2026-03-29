@@ -15,7 +15,7 @@ function CodeBlock({ children }: { children: string }) {
 
   return (
     <div className="relative group mt-4">
-      <pre className="bg-nb-warm border border-nb-border rounded-xl p-5 overflow-x-auto text-[0.78rem] leading-[1.7] font-mono">
+      <pre className="bg-nb-surface-el border border-nb-border rounded-xl p-5 overflow-x-auto text-[0.78rem] leading-[1.7] font-mono">
         <code className="text-nb-text-secondary">{children}</code>
       </pre>
       <button
@@ -240,8 +240,8 @@ export default function APIPage() {
       <section className="pt-36 pb-0 sm:pt-44">
         <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
           <AnimateIn>
-            <p className="text-[0.7rem] text-nb-gold-dark/60 uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
-            <h1 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-nb-navy max-w-2xl">{t.headline}</h1>
+            <p className="text-[0.7rem] text-nb-accent/60 uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
+            <h1 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white max-w-2xl">{t.headline}</h1>
             <p className="mt-5 text-[1.05rem] text-nb-text-secondary max-w-xl leading-[1.7]">{t.sub}</p>
           </AnimateIn>
         </div>
@@ -253,7 +253,7 @@ export default function APIPage() {
             {t.sections.map((section, i) => (
               <AnimateIn key={i} delay={i * 40}>
                 <div className="rounded-2xl border border-nb-border p-6 sm:p-8">
-                  <h2 className="text-[1.05rem] font-medium text-nb-navy mb-3">{section.title}</h2>
+                  <h2 className="text-[1.05rem] font-medium text-white mb-3">{section.title}</h2>
                   <p className="text-sm text-nb-text-secondary leading-[1.7] whitespace-pre-line">{section.desc}</p>
                   <CodeBlock>{section.code}</CodeBlock>
                 </div>
@@ -267,8 +267,8 @@ export default function APIPage() {
       <section className="py-28 sm:py-36 border-t border-nb-border">
         <div className="max-w-[1100px] mx-auto px-5 sm:px-8 text-center">
           <AnimateIn>
-            <h2 className="text-[1.75rem] sm:text-[2rem] font-semibold text-nb-navy mb-6">{t.ctaTitle}</h2>
-            <a href={`mailto:${t.ctaEmail}`} className="inline-flex items-center px-7 py-3.5 bg-nb-navy text-nb-cream text-[0.9rem] font-medium rounded-lg hover:bg-nb-navy-mid transition-colors">
+            <h2 className="text-[1.75rem] sm:text-[2rem] font-semibold text-white mb-6">{t.ctaTitle}</h2>
+            <a href={`mailto:${t.ctaEmail}`} className="inline-flex items-center px-7 py-3.5 bg-nb-accent text-white text-[0.9rem] font-medium rounded-lg hover:bg-nb-accent-hover transition-colors">
               {t.ctaEmail}
             </a>
           </AnimateIn>

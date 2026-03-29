@@ -12,8 +12,8 @@ export function LanguageToggle() {
         onClick={() => setLanguage('bg')}
         className={`px-2 py-1 rounded transition-colors ${
           lang === 'bg'
-            ? 'bg-nb-navy/10 font-medium text-nb-navy'
-            : 'text-nb-text-muted hover:text-nb-navy'
+            ? 'bg-white/10 font-medium text-white'
+            : 'text-nb-text-muted hover:text-white'
         }`}
       >
         БГ
@@ -23,8 +23,8 @@ export function LanguageToggle() {
         onClick={() => setLanguage('en')}
         className={`px-2 py-1 rounded transition-colors ${
           lang === 'en'
-            ? 'bg-nb-navy/10 font-medium text-nb-navy'
-            : 'text-nb-text-muted hover:text-nb-navy'
+            ? 'bg-white/10 font-medium text-white'
+            : 'text-nb-text-muted hover:text-white'
         }`}
       >
         EN

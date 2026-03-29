@@ -3,7 +3,6 @@ import { NeoCapabilities } from '@/components/sections/neo/NeoCapabilities'
 import { NeoChannels } from '@/components/sections/neo/NeoChannels'
 import { NeoDemo } from '@/components/sections/neo/NeoDemo'
 import { NeoHowItWorks } from '@/components/sections/neo/HowItWorks'
-import { NeoPricing } from '@/components/sections/neo/NeoPricing'
 import { NeoCTA } from '@/components/sections/neo/NeoCTA'
 
 export const metadata = {
@@ -20,7 +19,6 @@ export default function NeoPage() {
       <NeoChannels />
       <NeoDemo />
       <NeoHowItWorks />
-      <NeoPricing />
       <NeoCTA />
     </>
   )

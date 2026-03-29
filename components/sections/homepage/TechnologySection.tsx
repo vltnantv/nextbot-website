@@ -23,7 +23,7 @@ const copy = {
       },
       {
         category: 'Security & Compliance',
-        items: ['GDPR compliant — data in EU', 'SOC 2 Type II certified', 'End-to-end encryption', '99.9% uptime SLA'],
+        items: ['GDPR compliant — data in EU', 'End-to-end encryption'],
       },
     ],
   },
@@ -46,7 +46,7 @@ const copy = {
       },
       {
         category: 'Сигурност & съответствие',
-        items: ['GDPR съответствие — данни в ЕС', 'SOC 2 Type II сертификат', 'End-to-end криптиране', '99.9% uptime SLA'],
+        items: ['GDPR съответствие — данни в ЕС', 'End-to-end криптиране'],
       },
     ],
   },

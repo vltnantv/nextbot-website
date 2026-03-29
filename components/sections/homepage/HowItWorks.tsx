@@ -4,7 +4,7 @@ import { useLanguage } from '@/lib/i18n'
 import { AnimateIn } from '@/components/AnimateIn'
 import { useEffect, useRef, useState } from 'react'
 
-function TimelineStep({ step, index, total }: { step: { num: string; phase: string; title: string; desc: string }; index: number; total: number }) {
+function TimelineStep({ step, index, total }: { step: { num: string; title: string; desc: string }; index: number; total: number }) {
   const ref = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(false)
 
@@ -29,9 +29,9 @@ function TimelineStep({ step, index, total }: { step: { num: string; phase: stri
       {/* Timeline node + line */}
       <div className="flex flex-col items-center">
         <div
-          className={`w-10 h-10 rounded-full border bg-nb-cream flex items-center justify-center text-[0.7rem] font-mono transition-all duration-700 ease-out ${
+          className={`w-10 h-10 rounded-full border bg-nb-bg flex items-center justify-center text-[0.7rem] font-mono transition-all duration-700 ease-out ${
             visible
-              ? 'border-nb-gold/30 text-nb-gold scale-100 shadow-[0_0_12px_rgba(201,168,76,0.15)]'
+              ? 'border-nb-accent/30 text-nb-accent scale-100 shadow-[0_0_12px_rgba(249,115,22,0.15)]'
               : 'border-nb-border text-nb-text-muted scale-75 opacity-0'
           }`}
         >
@@ -40,7 +40,7 @@ function TimelineStep({ step, index, total }: { step: { num: string; phase: stri
         {index < total - 1 && (
           <div className="w-px flex-1 my-2 overflow-hidden">
             <div
-              className={`w-full h-full bg-gradient-to-b from-nb-gold/10 to-nb-border transition-all duration-1000 ease-out origin-top ${
+              className={`w-full h-full bg-gradient-to-b from-nb-accent/10 to-nb-border transition-all duration-1000 ease-out origin-top ${
                 visible ? 'scale-y-100' : 'scale-y-0'
               }`}
               style={{ transitionDelay: `${200}ms` }}
@@ -55,8 +55,7 @@ function TimelineStep({ step, index, total }: { step: { num: string; phase: stri
           visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
         }`}
       >
-        <span className="text-[0.65rem] text-nb-text-muted uppercase tracking-[0.2em] font-medium">{step.phase}</span>
-        <h3 className="text-[1.1rem] font-medium text-nb-navy mt-2 mb-3">{step.title}</h3>
+        <h3 className="text-[1.1rem] font-medium text-white mt-2 mb-3">{step.title}</h3>
         <p className="text-sm text-nb-text-secondary leading-[1.7] max-w-lg">{step.desc}</p>
       </div>
     </div>
@@ -66,87 +65,45 @@ function TimelineStep({ step, index, total }: { step: { num: string; phase: stri
 const copy = {
   en: {
     label: 'Process',
-    headline: 'How we work.',
-    sub: 'A clear, repeatable process — from first conversation to live AI systems running across your business.',
+    headline: 'How it works.',
     steps: [
       {
         num: '01',
-        phase: 'Day 1',
-        title: 'Discovery Call',
-        desc: 'We learn how your business operates — where leads come from, how you handle inquiries, what tools you use. No pitch, just understanding.',
+        title: 'We learn your business',
+        desc: 'One call. We understand your workflows, tools, and customers.',
       },
       {
         num: '02',
-        phase: 'Days 2 — 4',
-        title: 'Audit & Roadmap',
-        desc: 'We map your customer journey, identify automation opportunities across chat, messaging, and voice, and deliver a prioritized implementation plan with projected impact.',
+        title: 'We build and train NEO',
+        desc: 'Configured for your business. Connected to your calendar, CRM, and messaging.',
       },
       {
         num: '03',
-        phase: 'Weeks 1 — 2',
-        title: 'Build & Train',
-        desc: 'We configure Neo for your text channels or Aria for voice — trained on your products, pricing, FAQs, and tone. Connected to your CRM, calendar, and workflows.',
-      },
-      {
-        num: '04',
-        phase: 'Week 3',
-        title: 'Test & Launch',
-        desc: 'Controlled rollout with real conversations. We fine-tune responses, test edge cases, and validate integrations before going fully live.',
-      },
-      {
-        num: '05',
-        phase: 'Ongoing',
-        title: 'Optimize & Scale',
-        desc: 'Weekly performance reviews. We analyze conversations, improve conversion rates, expand to new channels, and ensure your AI keeps getting smarter.',
+        title: 'NEO goes live',
+        desc: 'Handles customer communication autonomously. You get weekly reports.',
       },
     ],
-    products: {
-      title: 'What gets deployed',
-      neo: { name: 'Neo', desc: 'Handles website chat, WhatsApp, Messenger, and Instagram. Qualifies leads, answers questions, books meetings — 24/7 in text.', tag: 'Text AI' },
-      aria: { name: 'Aria', desc: 'Answers inbound phone calls with natural voice. Routes, books, qualifies, and resolves — without putting anyone on hold.', tag: 'Voice AI' },
-    },
   },
   bg: {
     label: 'Процес',
-    headline: 'Как работим.',
-    sub: 'Ясен, повторяем процес — от първия разговор до работещи AI системи в целия ви бизнес.',
+    headline: 'Как работи.',
     steps: [
       {
         num: '01',
-        phase: 'Ден 1',
-        title: 'Първоначален разговор',
-        desc: 'Научаваме как работи вашият бизнес — откъде идват клиентите, как обработвате запитвания, какви инструменти ползвате. Без продажби, само разбиране.',
+        title: 'Опознаваме бизнеса ви',
+        desc: 'Едно обаждане. Разбираме работните ви процеси, инструменти и клиенти.',
       },
       {
         num: '02',
-        phase: 'Дни 2 — 4',
-        title: 'Одит & Пътна карта',
-        desc: 'Картографираме клиентския път, идентифицираме възможности за автоматизация в чат, месинджър и глас, и доставяме приоритизиран план с прогнозирано въздействие.',
+        title: 'Изграждаме и обучаваме NEO',
+        desc: 'Конфигуриран за вашия бизнес. Свързан с календара, CRM-а и комуникационните ви канали.',
       },
       {
         num: '03',
-        phase: 'Седмици 1 — 2',
-        title: 'Изграждане & Обучение',
-        desc: 'Конфигурираме Neo за текстовите ви канали или Aria за глас — обучени на вашите продукти, цени, ЧЗВ и тон. Свързани с CRM, календар и работни процеси.',
-      },
-      {
-        num: '04',
-        phase: 'Седмица 3',
-        title: 'Тест & Пускане',
-        desc: 'Контролирано стартиране с реални разговори. Фино настройваме отговорите, тестваме крайни случаи и валидираме интеграциите преди пълно пускане.',
-      },
-      {
-        num: '05',
-        phase: 'Постоянно',
-        title: 'Оптимизация & Мащабиране',
-        desc: 'Седмични прегледи на производителността. Анализираме разговори, подобряваме конверсията, разширяваме към нови канали и гарантираме, че AI-ят ви става все по-умен.',
+        title: 'NEO стартира',
+        desc: 'Управлява комуникацията с клиенти автономно. Получавате седмични отчети.',
       },
     ],
-    products: {
-      title: 'Какво се внедрява',
-      neo: { name: 'Neo', desc: 'Обработва чат на сайта, WhatsApp, Messenger и Instagram. Квалифицира лийдове, отговаря на въпроси, букира срещи — 24/7 в текст.', tag: 'Текстов AI' },
-      aria: { name: 'Aria', desc: 'Отговаря на входящи обаждания с естествен глас. Насочва, букира, квалифицира и решава — без да кара никого да чака.', tag: 'Гласов AI' },
-    },
   },
 }
 
@@ -159,11 +116,10 @@ export function HowItWorks() {
       <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
         <AnimateIn>
           <div className="max-w-3xl">
-            <p className="text-[0.7rem] text-nb-gold uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
-            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-nb-navy">
+            <p className="text-[0.7rem] text-nb-accent uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
+            <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white">
               {t.headline}
             </h2>
-            <p className="mt-5 text-[1.05rem] text-nb-text-secondary leading-[1.7] max-w-2xl">{t.sub}</p>
           </div>
         </AnimateIn>
 
@@ -173,29 +129,6 @@ export function HowItWorks() {
             <TimelineStep key={i} step={step} index={i} total={t.steps.length} />
           ))}
         </div>
-
-        {/* What gets deployed */}
-        <AnimateIn delay={200}>
-          <div className="mt-8">
-            <p className="text-[0.7rem] text-nb-text-muted uppercase tracking-[0.2em] font-medium mb-8">{t.products.title}</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-nb-border rounded-2xl overflow-hidden">
-              <div className="bg-nb-cream p-8 sm:p-10">
-                <div className="flex items-center gap-2.5 mb-4">
-                  <span className="text-[1.05rem] font-medium text-nb-navy">{t.products.neo.name}</span>
-                  <span className="text-[0.6rem] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded bg-nb-gold/10 text-nb-gold-dark">{t.products.neo.tag}</span>
-                </div>
-                <p className="text-sm text-nb-text-secondary leading-[1.7]">{t.products.neo.desc}</p>
-              </div>
-              <div className="bg-nb-cream p-8 sm:p-10">
-                <div className="flex items-center gap-2.5 mb-4">
-                  <span className="text-[1.05rem] font-medium text-nb-navy">{t.products.aria.name}</span>
-                  <span className="text-[0.6rem] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-600">{t.products.aria.tag}</span>
-                </div>
-                <p className="text-sm text-nb-text-secondary leading-[1.7]">{t.products.aria.desc}</p>
-              </div>
-            </div>
-          </div>
-        </AnimateIn>
       </div>
     </section>
   )

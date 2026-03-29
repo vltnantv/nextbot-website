@@ -8,14 +8,14 @@ export default function Error({
   reset: () => void
 }) {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-nb-cream">
+    <div className="min-h-screen flex items-center justify-center bg-nb-bg">
       <div className="text-center px-4">
-        <h2 className="text-2xl font-bold text-nb-navy mb-4">
+        <h2 className="text-2xl font-bold text-white mb-4">
           Something went wrong
         </h2>
         <button
           onClick={() => reset()}
-          className="px-6 py-3 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors"
+          className="px-6 py-3 rounded-full bg-nb-accent text-white font-semibold hover:bg-nb-accent-hover transition-colors"
         >
           Try again
         </button>

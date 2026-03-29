@@ -81,8 +81,8 @@ export default function DemoPage() {
       <section className="pt-36 pb-8 sm:pt-44">
         <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
           <AnimateIn>
-            <p className="text-[0.7rem] text-nb-gold uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
-            <h1 className="text-[2rem] sm:text-[3rem] font-semibold leading-[1.08] tracking-[-0.035em] text-nb-navy max-w-2xl">{t.headline}</h1>
+            <p className="text-[0.7rem] text-nb-accent uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
+            <h1 className="text-[2rem] sm:text-[3rem] font-semibold leading-[1.08] tracking-[-0.035em] text-white max-w-2xl">{t.headline}</h1>
             <p className="mt-5 text-[1rem] text-nb-text-secondary max-w-xl leading-[1.7]">{t.sub}</p>
           </AnimateIn>
         </div>
@@ -95,14 +95,14 @@ export default function DemoPage() {
             <AnimateIn>
               <div className="rounded-2xl border border-nb-border overflow-hidden relative" style={{ height: 680 }}>
                 {/* Custom header */}
-                <div className="absolute top-0 left-0 right-0 z-10 px-5 py-3 bg-nb-cream border-b border-nb-border flex items-center gap-3">
-                  <div className="w-7 h-7 rounded-full bg-nb-gold/10 flex items-center justify-center">
-                    <span className="w-2 h-2 rounded-full bg-nb-gold" />
+                <div className="absolute top-0 left-0 right-0 z-10 px-5 py-3 bg-nb-surface border-b border-nb-border flex items-center gap-3">
+                  <div className="w-7 h-7 rounded-full bg-nb-accent/10 flex items-center justify-center">
+                    <span className="w-2 h-2 rounded-full bg-nb-accent" />
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-nb-navy">Neo</div>
+                    <div className="text-sm font-medium text-white">Neo</div>
                     <div className="text-[0.65rem] text-nb-text-muted flex items-center gap-1.5">
-                      <span className="w-1 h-1 bg-emerald-600 rounded-full" />
+                      <span className="w-1 h-1 bg-nb-accent rounded-full" />
                       {lang === 'bg' ? 'Онлайн' : 'Online'}
                     </div>
                   </div>
@@ -111,12 +111,12 @@ export default function DemoPage() {
                 <div id="voiceflow-chat-embed" style={{ width: '100%', height: '100%' }} />
 
                 {/* Custom footer */}
-                <div className="absolute bottom-0 left-0 right-0 z-10 bg-nb-cream border-t border-nb-border py-1.5 text-center">
+                <div className="absolute bottom-0 left-0 right-0 z-10 bg-nb-surface border-t border-nb-border py-1.5 text-center">
                   <span className="text-[0.6rem] text-nb-text-muted">Powered by NextBot</span>
                 </div>
 
                 {!chatReady && (
-                  <div className="absolute inset-0 bg-nb-cream flex items-center justify-center z-20">
+                  <div className="absolute inset-0 bg-nb-surface flex items-center justify-center z-20">
                     <div className="w-5 h-5 border-2 border-nb-text-muted border-t-nb-text-secondary rounded-full animate-spin" />
                   </div>
                 )}
@@ -127,14 +127,14 @@ export default function DemoPage() {
             <div className="space-y-6">
               <AnimateIn delay={100}>
                 <div className="rounded-2xl border border-nb-border p-6">
-                  <h3 className="text-sm font-medium text-nb-navy mb-4">{t.suggestionsTitle}</h3>
+                  <h3 className="text-sm font-medium text-white mb-4">{t.suggestionsTitle}</h3>
                   <div className="space-y-2">
                     {suggestions.map((item, i) => (
                       <button
                         key={i}
                         onClick={() => sendMessage(item)}
                         disabled={!chatReady}
-                        className="w-full text-left px-4 py-2.5 rounded-lg text-[0.82rem] text-nb-text-secondary bg-nb-warm border border-nb-border hover:border-nb-gold hover:text-nb-gold-dark transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                        className="w-full text-left px-4 py-2.5 rounded-lg text-[0.82rem] text-nb-text-secondary bg-nb-surface-el border border-nb-border hover:border-nb-accent hover:text-nb-accent transition-all disabled:opacity-30 disabled:cursor-not-allowed"
                       >
                         {item}
                       </button>
@@ -161,7 +161,7 @@ export default function DemoPage() {
               <AnimateIn delay={300}>
                 <Link
                   href="/book-demo"
-                  className="block w-full text-center px-6 py-3.5 bg-nb-navy text-nb-cream text-[0.85rem] font-medium rounded-lg hover:bg-nb-navy-mid transition-colors"
+                  className="block w-full text-center px-6 py-3.5 bg-nb-accent text-white text-[0.85rem] font-medium rounded-lg hover:bg-nb-accent-hover transition-colors"
                 >
                   {t.cta}
                 </Link>

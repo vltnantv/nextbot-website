@@ -11,20 +11,16 @@ const config: Config = {
   theme: {
   	extend: {
   		colors: {
-  			'nb-navy': '#0A1628',
-  			'nb-navy-mid': '#1A2E4A',
-  			'nb-navy-light': '#2A4A6B',
-  			'nb-gold': '#C9A84C',
-  			'nb-gold-hover': '#B8923E',
-  			'nb-gold-dark': '#7A5C1A',
-  			'nb-cream': '#FAFAF8',
-  			'nb-warm': '#F0EDE8',
-  			'nb-warm-dark': '#E8E4DC',
-  			'nb-text': '#0A1628',
-  			'nb-text-secondary': '#3D4F63',
-  			'nb-text-muted': '#7A8A9A',
-  			'nb-border': '#DDD9D0',
-  			'nb-border-light': '#ECEAE3',
+  			'nb-bg': '#0a0a0a',
+  			'nb-surface': '#141414',
+  			'nb-surface-el': '#1e1e1e',
+  			'nb-border': '#2a2a2a',
+  			'nb-text': '#ffffff',
+  			'nb-text-secondary': '#a3a3a3',
+  			'nb-text-muted': '#525252',
+  			'nb-accent': '#f97316',
+  			'nb-accent-hover': '#ea6c0a',
+  			'nb-accent-fg': '#ffffff',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -239,22 +235,22 @@ const config: Config = {
           "text-wrap": "balance",
         },
         ".text-gradient": {
-          background: "linear-gradient(135deg, #0A1628 0%, #C9A84C 100%)",
+          background: "linear-gradient(135deg, #ffffff 0%, #f97316 100%)",
           "-webkit-background-clip": "text",
           "-webkit-text-fill-color": "transparent",
           "background-clip": "text",
         },
         ".text-neo-gradient": {
-          background: "linear-gradient(135deg, #0A1628 0%, #C9A84C 100%)",
+          background: "linear-gradient(135deg, #ffffff 0%, #f97316 100%)",
           "-webkit-background-clip": "text",
           "-webkit-text-fill-color": "transparent",
           "background-clip": "text",
         },
         ".bg-neo-gradient": {
-          background: "linear-gradient(135deg, #0A1628 0%, #1A2E4A 100%)",
+          background: "linear-gradient(135deg, #0a0a0a 0%, #1e1e1e 100%)",
         },
         ".neo-glow": {
-          "box-shadow": "0 0 40px rgba(201, 168, 76, 0.2)",
+          "box-shadow": "0 0 40px rgba(249, 115, 22, 0.2)",
         },
         // Mobile-specific touch action utilities
         ".touch-pan-x": {

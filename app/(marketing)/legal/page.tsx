@@ -157,12 +157,12 @@ export default function LegalPage() {
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`relative pb-4 px-4 text-sm font-medium transition-colors whitespace-nowrap ${
-                  activeTab === tab ? 'text-nb-navy' : 'text-nb-text-muted hover:text-nb-text-secondary'
+                  activeTab === tab ? 'text-white' : 'text-nb-text-muted hover:text-nb-text-secondary'
                 }`}
               >
                 {t.tabs[tab]}
                 {activeTab === tab && (
-                  <div className="absolute bottom-0 left-0 right-0 h-px bg-nb-navy" />
+                  <div className="absolute bottom-0 left-0 right-0 h-px bg-nb-accent" />
                 )}
               </button>
             ))}
@@ -171,7 +171,7 @@ export default function LegalPage() {
           {/* Content */}
           <AnimateIn key={activeTab}>
             <div className="max-w-3xl">
-              <h1 className="text-[1.75rem] sm:text-[2.5rem] font-semibold leading-[1.12] tracking-[-0.03em] text-nb-navy mb-3">{tabData.title}</h1>
+              <h1 className="text-[1.75rem] sm:text-[2.5rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white mb-3">{tabData.title}</h1>
               <p className="text-sm text-nb-text-muted mb-4">{tabData.lastUpdated}</p>
               {'intro' in tabData && tabData.intro && (
                 <p className="text-[1rem] text-nb-text-secondary leading-[1.7] mb-12">{tabData.intro}</p>
@@ -180,20 +180,20 @@ export default function LegalPage() {
               <div className="space-y-10 mt-12">
                 {tabData.sections.map((section, i) => (
                   <div key={i}>
-                    <h2 className="text-[1.05rem] font-medium text-nb-navy mb-3">{section.title}</h2>
+                    <h2 className="text-[1.05rem] font-medium text-white mb-3">{section.title}</h2>
                     <p className="text-sm text-nb-text-secondary leading-[1.8] whitespace-pre-line">{section.content}</p>
                   </div>
                 ))}
               </div>
 
               {(activeTab === 'privacy' || activeTab === 'gdpr') && (
-                <div className="mt-16 p-6 rounded-2xl border border-nb-border bg-nb-warm">
-                  <h3 className="text-sm font-medium text-nb-navy mb-2">
+                <div className="mt-16 p-6 rounded-2xl border border-nb-border bg-nb-surface">
+                  <h3 className="text-sm font-medium text-white mb-2">
                     {lang === 'bg' ? 'Свържете се с нас' : 'Contact Us'}
                   </h3>
                   <p className="text-sm text-nb-text-secondary">
                     {lang === 'bg' ? 'За GDPR запитвания: ' : 'For GDPR inquiries: '}
-                    <a href="mailto:privacy@nextbot.me" className="text-nb-text-secondary hover:text-nb-navy transition-colors">privacy@nextbot.me</a>
+                    <a href="mailto:privacy@nextbot.me" className="text-nb-text-secondary hover:text-white transition-colors">privacy@nextbot.me</a>
                   </p>
                 </div>
               )}
