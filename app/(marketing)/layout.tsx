@@ -15,11 +15,11 @@ export default function MarketingLayout({
       <ChatWidget
         industry="hotel"
         tone="professional"
-        language="en"
-        botName="Neo"
-        welcomeMessage="Hi! I'm Neo, the NextBot AI assistant. Ask me anything about our platform, or try me out as a hotel concierge, restaurant assistant, or any business type!"
-        quickActions={["How does NextBot work?", "Try hotel demo", "See pricing", "Book a demo"]}
-        accentColor="#f97316"
+        language="bg"
+        botName="NEO"
+        welcomeMessage="Здравейте! Аз съм NEO, асистентът на NextBot. Питайте ме как работим или ме пробвайте така, както би ви писал клиент."
+        quickActions={["Как работи NextBot?", "Пробвай като хотел", "Запазете разговор"]}
+        accentColor="#2E5BFF"
       />
     </>
   );

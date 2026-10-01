@@ -26,7 +26,7 @@ type ChatWidgetProps = {
 export function ChatWidget({
   industry = 'hotel',
   tone = 'professional',
-  language = 'en',
+  language = 'bg',
   botName = 'Neo',
   welcomeMessage,
   quickActions = [],
@@ -42,15 +42,9 @@ export function ChatWidget({
   const inputRef = useRef<HTMLInputElement>(null)
   const abortControllerRef = useRef<AbortController | null>(null)
 
-  const defaultWelcome = welcomeMessage || (language === 'bg'
-    ? `Здравейте! Аз съм ${botName}, вашият AI асистент. Как мога да ви помогна? 😊`
-    : `Hi! I'm ${botName}, your AI assistant. How can I help you today? 😊`)
+  const defaultWelcome = welcomeMessage || `Здравейте! Аз съм ${botName}. С какво мога да помогна?`
 
-  const defaultQuickActions = quickActions.length > 0 ? quickActions : (
-    language === 'bg'
-      ? ['Цени и наличност', 'Направи резервация', 'Говори с човек']
-      : ['Check pricing', 'Book appointment', 'Talk to a human']
-  )
+  const defaultQuickActions = quickActions.length > 0 ? quickActions : ['Цени и наличност', 'Записване на час', 'Връзка с човек']
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -152,7 +146,7 @@ export function ChatWidget({
       if (error instanceof Error && error.name === 'AbortError') return
       setMessages(prev => prev.map(m =>
         m.id === assistantId
-          ? { ...m, content: language === 'bg' ? 'Съжалявам, възникна грешка. Моля, опитайте отново.' : 'Sorry, something went wrong. Please try again.' }
+          ? { ...m, content: 'Съжалявам, възникна грешка. Моля, опитайте отново.' }
           : m
       ))
     } finally {
@@ -213,7 +207,7 @@ export function ChatWidget({
                 <div className="text-sm font-semibold text-white">{botName}</div>
                 <div className="text-xs text-white/70 flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
-                  {language === 'bg' ? 'Онлайн' : 'Online'}
+                  На линия
                 </div>
               </div>
               <button
@@ -277,7 +271,7 @@ export function ChatWidget({
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder={language === 'bg' ? 'Напишете съобщение...' : 'Type a message...'}
+                  placeholder="Напишете съобщение…"
                   disabled={isStreaming}
                   className="flex-1 bg-muted rounded-full px-4 py-2.5 text-sm outline-none placeholder:text-muted-foreground disabled:opacity-50"
                 />

@@ -1,92 +1,81 @@
-'use client'
-
-import { useLanguage } from '@/lib/i18n'
 import Link from 'next/link'
-import { Logo } from "@/components/brand/Logo";
+import { Logo } from '@/components/brand/Logo'
+import { COMPANY, telHref } from '@/lib/company'
+import { CTA, LEGAL, MAIN_LINKS, PRODUCTS, SOLUTIONS, type NavItem } from '@/lib/site-nav'
 
-const copy = {
-  en: {
-    tagline: 'AI products that replace repetitive work.',
-    links: [
-      { name: 'NEO', href: '/neo' },
-      { name: 'About', href: '/about' },
-      { name: 'Book a Call', href: '/book-demo' },
-      { name: 'Privacy Policy', href: '/legal' },
-      { name: 'Terms', href: '/legal?tab=terms' },
-    ],
-    contact: { email: 'info@nextbot.me', phone: '+359 894 288 119' },
-    copyright: '2026 Nextbot EOOD. All rights reserved.',
-    reg: 'UIC: 207218192',
-    vat: 'VAT: BG207218192',
-    location: 'Sofia, Bulgaria',
-    compliance: ['GDPR Ready'],
-  },
-  bg: {
-    tagline: 'AI продукти, които заместват повтарящата се работа.',
-    links: [
-      { name: 'NEO', href: '/neo' },
-      { name: 'За нас', href: '/about' },
-      { name: 'Запази обаждане', href: '/book-demo' },
-      { name: 'Поверителност', href: '/legal' },
-      { name: 'Условия', href: '/legal?tab=terms' },
-    ],
-    contact: { email: 'info@nextbot.me', phone: '+359 894 288 119' },
-    copyright: '2026 Nextbot EOOD. Всички права запазени.',
-    reg: 'ЕИК: 207218192',
-    vat: 'ДДС: BG207218192',
-    location: 'София, България',
-    compliance: ['GDPR Ready'],
-  },
+function Column({ title, items }: { title: string; items: NavItem[] }) {
+  return (
+    <div>
+      <p className="mb-3 text-[13px] font-medium uppercase tracking-wide text-ash">{title}</p>
+      <ul className="space-y-2">
+        {items.map((item) => (
+          <li key={item.href}>
+            <Link href={item.href} className="text-[15px] text-ink/80 transition-colors hover:text-ink">
+              {item.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
 }
 
 export function Footer() {
-  const { lang } = useLanguage()
-  const t = copy[lang]
-
+  const year = new Date().getFullYear()
   return (
-    <footer className="border-t border-nb-border bg-nb-bg">
-      <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
-        {/* Main */}
-        <div className="py-14 sm:py-20 grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-10">
-          {/* Brand */}
+    <footer className="border-t border-ink/10 bg-sheet">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <div className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
-            <Link href="/" className="inline-flex items-center gap-2 mb-4" aria-label="nextbot — начало">
-              <Logo className="text-white" size={18} />
+            <Link href="/" aria-label="nextbot — начало" className="inline-block">
+              <Logo size={20} />
             </Link>
-            <p className="text-[0.8rem] text-nb-text-secondary leading-relaxed max-w-[280px] mb-5">{t.tagline}</p>
-            <div className="space-y-1">
-              <a href={`mailto:${t.contact.email}`} className="block text-[0.78rem] text-nb-text-muted hover:text-nb-accent transition-colors">{t.contact.email}</a>
-              <a href={`tel:${t.contact.phone.replace(/\s/g, '')}`} className="block text-[0.78rem] text-nb-text-muted hover:text-nb-accent transition-colors">{t.contact.phone}</a>
+            <p className="mt-4 max-w-xs text-[15px] leading-relaxed text-ash">
+              Всеки клиент получава отговор. Веднага.
+            </p>
+            <div className="mt-5 space-y-1.5 text-[15px]">
+              <a href={`mailto:${COMPANY.email}`} className="block text-ink/80 hover:text-ink">
+                {COMPANY.email}
+              </a>
+              <a href={telHref(COMPANY.phone)} className="block text-ink/80 hover:text-ink">
+                {COMPANY.phone}
+              </a>
+              {COMPANY.viber && (
+                <a href={`viber://chat?number=${COMPANY.viber.replace(/[\s+]/g, '')}`} className="block text-ink/80 hover:text-ink">
+                  Viber
+                </a>
+              )}
             </div>
+            <Link
+              href={CTA.href}
+              className="mt-6 inline-flex rounded-[10px] bg-signal px-4 py-2.5 text-[15px] font-medium text-white hover:opacity-90 dark:text-paper"
+            >
+              {CTA.label}
+            </Link>
           </div>
-
-          {/* Links */}
-          <div>
-            <ul className="space-y-2.5">
-              {t.links.map((link) => (
-                <li key={link.name}>
-                  <Link href={link.href} className="text-[0.78rem] text-nb-text-muted hover:text-nb-accent transition-colors">
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <Column title="Продукти" items={PRODUCTS} />
+          <Column title="Решения" items={SOLUTIONS} />
+          <Column title="Компания" items={MAIN_LINKS} />
         </div>
 
-        {/* Bottom */}
-        <div className="border-t border-nb-border py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[0.68rem] text-nb-text-muted">
-            <span>{t.copyright}</span>
-            <span>{t.reg}</span>
-            <span>{t.vat}</span>
-            <span>{t.location}</span>
-          </div>
-          <div className="flex items-center gap-4">
-            {t.compliance.map((c) => (
-              <span key={c} className="text-[0.62rem] text-nb-text-muted font-medium uppercase tracking-wider">{c}</span>
+        <div className="flex flex-col gap-4 border-t border-ink/10 py-6 text-[13px] text-ash sm:flex-row sm:items-center sm:justify-between">
+          <p className="flex flex-wrap gap-x-4 gap-y-1">
+            <span>
+              © {year} {COMPANY.name}
+            </span>
+            <span>ЕИК {COMPANY.eik}</span>
+            <span>ДДС {COMPANY.vat}</span>
+            <span>{COMPANY.address ? `${COMPANY.address}, ${COMPANY.city}` : COMPANY.city}</span>
+          </p>
+          <ul className="flex flex-wrap gap-x-4 gap-y-1">
+            {LEGAL.map((item) => (
+              <li key={item.href}>
+                <Link href={item.href} className="hover:text-ink">
+                  {item.label}
+                </Link>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </div>
     </footer>
