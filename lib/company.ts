@@ -10,8 +10,11 @@ export const COMPANY = {
   email: "info@nextbot.me",
   /** TO CONFIRM (BRAND.md open question) */
   phone: "+359 894 288 119",
-  /** Viber uses the same number only once confirmed; null hides the Viber link. */
-  viber: null as string | null,
+  /** Viber on the same number (confirmed by Valentin). null would hide the Viber links. */
+  viber: "+359 894 288 119" as string | null,
 };
 
 export const telHref = (phone: string) => `tel:${phone.replace(/\s/g, "")}`;
+
+/** Opens a Viber chat. The number must keep its "+", encoded as %2B. */
+export const viberHref = (phone: string) => `viber://chat?number=${encodeURIComponent(phone.replace(/\s/g, ""))}`;

@@ -29,36 +29,40 @@ interface SignupData {
 
 // ─── Shared template wrappers ───────────────────────────────────────────────
 
+const font = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+
+
+// Brand template (BRAND.md): cream background, white card, ink text, Bulgarian.
+// Email clients do not load web fonts reliably, so system fonts are used.
 function emailWrapper(content: string) {
   return `
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bg">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
-<body style="margin: 0; padding: 0; background-color: #f4f4f5; -webkit-font-smoothing: antialiased;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f5; padding: 40px 16px;">
+<body style="margin: 0; padding: 0; background-color: #FAF7F2; -webkit-font-smoothing: antialiased;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #FAF7F2; padding: 40px 16px;">
     <tr>
       <td align="center">
         <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width: 560px; width: 100%;">
-          <!-- Logo -->
+          <!-- Word mark: nextbot + green "online" dot -->
           <tr>
-            <td align="center" style="padding-bottom: 32px;">
-              <img src="https://www.nextbot.me/logo-icon.png" alt="Nextbot" width="48" height="48" style="display: block; border-radius: 12px;" />
+            <td align="left" style="padding: 0 4px 24px;">
+              <a href="https://www.nextbot.me" style="text-decoration: none; font-family: ${font}; font-size: 21px; font-weight: 600; color: #1F1D1A; letter-spacing: -0.02em;">nextbot<span style="color: #1F9D63;">&nbsp;&#9679;</span></a>
             </td>
           </tr>
           <!-- Card -->
           <tr>
-            <td style="background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 24px rgba(0,0,0,0.04);">
-              ${content}
+            <td style="background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 16px; overflow: hidden;">
+              <!-- content is one or more table cells (<td>…</td></tr><tr><td>…</td>), so it gets its own row -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>${content}</tr></table>
             </td>
           </tr>
           <!-- Footer -->
           <tr>
-            <td align="center" style="padding-top: 32px;">
-              <p style="margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 13px; color: #a1a1aa; line-height: 1.5;">
-                Nextbot &middot; AI Communication Platform
-              </p>
-              <p style="margin: 4px 0 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 12px; color: #d4d4d8;">
-                <a href="https://www.nextbot.me" style="color: #a1a1aa; text-decoration: none;">nextbot.me</a>
+            <td style="padding: 24px 4px 0;">
+              <p style="margin: 0; font-family: ${font}; font-size: 13px; color: #6F6A62; line-height: 1.6;">
+                NextBot · Всеки клиент получава отговор. Веднага.<br />
+                <a href="https://www.nextbot.me" style="color: #6F6A62;">nextbot.me</a> · <a href="mailto:info@nextbot.me" style="color: #6F6A62;">info@nextbot.me</a> · +359 894 288 119
               </p>
             </td>
           </tr>
@@ -69,8 +73,6 @@ function emailWrapper(content: string) {
 </body>
 </html>`
 }
-
-const font = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
 
 function darkEmailWrapper(content: string) {
   return `
@@ -130,28 +132,28 @@ function darkEmailWrapper(content: string) {
 function infoRow(label: string, value: string) {
   return `
     <tr>
-      <td style="padding: 12px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 13px; color: #71717a; letter-spacing: 0.02em; width: 130px; vertical-align: top;">${label}</td>
-      <td style="padding: 12px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 14px; color: #18181b; font-weight: 500;">${value}</td>
+      <td style="padding: 12px 0; font-family: ${font}; font-size: 13px; color: #6F6A62; width: 130px; vertical-align: top;">${label}</td>
+      <td style="padding: 12px 0; font-family: ${font}; font-size: 14px; color: #1F1D1A; font-weight: 500;">${value}</td>
     </tr>`
 }
 
 function divider() {
-  return '<tr><td colspan="2" style="border-bottom: 1px solid #f4f4f5;"></td></tr>'
+  return '<tr><td colspan="2" style="border-bottom: 1px solid #F0EAE0;"></td></tr>'
 }
 
-// ─── Demo Confirmation (dark) ────────────────────────────────────────────────
+// ─── Confirmation to the customer ───────────────────────────────────────────
 
-function demoStep(num: string, title: string, desc: string) {
+function nextStep(num: string, title: string, desc: string) {
   return `
     <tr>
-      <td style="padding-bottom: 20px;">
+      <td style="padding-bottom: 18px;">
         <table role="presentation" cellpadding="0" cellspacing="0" width="100%"><tr>
           <td style="width: 40px; vertical-align: top;">
-            <div style="width: 28px; height: 28px; border: 1px solid rgba(99,102,241,0.3); border-radius: 50%; text-align: center; line-height: 28px; font-family: ${font}; font-size: 12px; font-weight: 600; color: #6366f1;">${num}</div>
+            <div style="width: 28px; height: 28px; background-color: #F3EEE6; border-radius: 50%; text-align: center; line-height: 28px; font-family: ${font}; font-size: 13px; font-weight: 600; color: #1F1D1A;">${num}</div>
           </td>
           <td style="vertical-align: top;">
-            <p style="margin: 0; font-family: ${font}; font-size: 14px; font-weight: 500; color: #e4e4e7;">${title}</p>
-            <p style="margin: 4px 0 0; font-family: ${font}; font-size: 13px; color: #52525b; line-height: 1.5;">${desc}</p>
+            <p style="margin: 0; font-family: ${font}; font-size: 15px; font-weight: 600; color: #1F1D1A;">${title}</p>
+            <p style="margin: 4px 0 0; font-family: ${font}; font-size: 14px; color: #6F6A62; line-height: 1.55;">${desc}</p>
           </td>
         </tr></table>
       </td>
@@ -160,94 +162,38 @@ function demoStep(num: string, title: string, desc: string) {
 
 function demoConfirmationContent(data: DemoBooking) {
   const firstName = data.name.split(' ')[0]
+  const when = data.preferredDate
+    ? `${data.preferredDate}${data.preferredTime ? `, ${data.preferredTime}` : ''}`
+    : 'ще го уточним заедно'
   return `
-    <!-- Confirmed badge -->
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-      <tr>
-        <td align="center" style="padding: 0 0 32px;">
-          <div style="display: inline-block; padding: 6px 16px; border: 1px solid rgba(34,197,94,0.2); background-color: rgba(34,197,94,0.06); border-radius: 20px;">
-            <span style="font-family: ${font}; font-size: 12px; font-weight: 600; color: #4ade80; letter-spacing: 0.06em;">CONFIRMED</span>
-          </div>
-        </td>
-      </tr>
-    </table>
+    <td style="padding: 36px;">
+      <p style="margin: 0 0 18px; font-family: ${font}; font-size: 13px; color: #1F9D63; font-weight: 600;">&#9679;&nbsp; Получихме заявката ви</p>
+      <h1 style="margin: 0 0 10px; font-family: ${font}; font-size: 24px; font-weight: 600; color: #1F1D1A; letter-spacing: -0.02em; line-height: 1.25;">Благодарим, ${firstName}!</h1>
+      <p style="margin: 0 0 28px; font-family: ${font}; font-size: 16px; color: #6F6A62; line-height: 1.6;">
+        Ще ви се обадим, за да потвърдим часа за 15-минутния разговор.
+      </p>
 
-    <!-- Headline -->
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-      <tr>
-        <td align="center" style="padding: 0 0 36px;">
-          <h1 style="margin: 0 0 12px; font-family: ${font}; font-size: 26px; font-weight: 600; color: #ffffff; letter-spacing: -0.03em;">Your demo is booked.</h1>
-          <p style="margin: 0; font-family: ${font}; font-size: 15px; color: #71717a; line-height: 1.6;">
-            Hi ${firstName}, we've received your request and will be in touch shortly.
-          </p>
-        </td>
-      </tr>
-    </table>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #FAF7F2; border-radius: 12px; margin-bottom: 28px;">
+        <tr><td style="padding: 18px 20px;">
+          <p style="margin: 0 0 4px; font-family: ${font}; font-size: 13px; color: #6F6A62;">Предпочитан час</p>
+          <p style="margin: 0; font-family: ${font}; font-size: 17px; color: #1F1D1A; font-weight: 600;">${when}</p>
+          ${data.company ? `<p style="margin: 12px 0 0; font-family: ${font}; font-size: 14px; color: #6F6A62;">${data.company}</p>` : ''}
+        </td></tr>
+      </table>
 
-    <!-- Booking details card -->
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; margin-bottom: 36px;">
-      <tr>
-        <td style="padding: 24px;">
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-            <tr>
-              <td style="padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.04);">
-                <p style="margin: 0 0 4px; font-family: ${font}; font-size: 11px; color: #52525b; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;">Preferred Date</p>
-                <p style="margin: 0; font-family: ${font}; font-size: 18px; color: #ffffff; font-weight: 600; letter-spacing: -0.02em;">${data.preferredDate || 'To be confirmed'}${data.preferredTime ? ` &middot; ${data.preferredTime}` : ''}</p>
-              </td>
-            </tr>
-            ${data.company ? `
-            <tr>
-              <td style="padding-top: 16px;">
-                <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-                  <tr>
-                    <td style="width: 50%;">
-                      <p style="margin: 0 0 4px; font-family: ${font}; font-size: 11px; color: #52525b; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;">Name</p>
-                      <p style="margin: 0; font-family: ${font}; font-size: 14px; color: #a1a1aa;">${data.name}</p>
-                    </td>
-                    <td>
-                      <p style="margin: 0 0 4px; font-family: ${font}; font-size: 11px; color: #52525b; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;">Company</p>
-                      <p style="margin: 0; font-family: ${font}; font-size: 14px; color: #a1a1aa;">${data.company}</p>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>` : ''}
-          </table>
-        </td>
-      </tr>
-    </table>
+      <p style="margin: 0 0 16px; font-family: ${font}; font-size: 14px; font-weight: 600; color: #1F1D1A;">Какво следва</p>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 20px;">
+        ${nextStep('1', 'Разговор, 15 минути', 'Разказвате как работите и къде се губят клиенти.')}
+        ${nextStep('2', 'Настройка до 7 дни', 'Учим асистента от сайта и документите ви и го свързваме с каналите ви.')}
+        ${nextStep('3', 'Работи и отчита', 'Всяка седмица получавате отчет: колко запитвания и колко записани часове.')}
+      </table>
 
-    <!-- What happens next -->
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 36px;">
-      <tr>
-        <td>
-          <p style="margin: 0 0 20px; font-family: ${font}; font-size: 12px; color: #6366f1; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600;">What happens next</p>
-        </td>
-      </tr>
-      ${demoStep('1', 'We confirm the exact time', 'Our team will reach out within 24 hours to finalize the schedule.')}
-      ${demoStep('2', '20-min personalized demo', 'We\'ll show you how Neo works for your specific business and channels.')}
-      ${demoStep('3', 'Custom implementation plan', 'You\'ll receive a tailored roadmap with timeline and projected ROI.')}
-    </table>
+      <a href="https://www.nextbot.me/#demo" style="display: inline-block; padding: 13px 26px; background-color: #1F1D1A; color: #FAF7F2; font-family: ${font}; font-size: 15px; font-weight: 500; text-decoration: none; border-radius: 999px;">Пробвайте NEO междувременно</a>
 
-    <!-- CTA -->
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 36px;">
-      <tr>
-        <td align="center">
-          <a href="https://www.nextbot.me/neo" style="display: inline-block; padding: 14px 36px; background-color: #ffffff; color: #09090b; font-family: ${font}; font-size: 14px; font-weight: 600; text-decoration: none; border-radius: 8px;">Explore Neo While You Wait</a>
-        </td>
-      </tr>
-    </table>
-
-    <!-- Contact -->
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top: 1px solid rgba(255,255,255,0.06);">
-      <tr>
-        <td align="center" style="padding-top: 24px;">
-          <p style="margin: 0; font-family: ${font}; font-size: 13px; color: #52525b; line-height: 1.6;">
-            Questions? Reply to this email or call <span style="color: #a1a1aa;">+359 894 288 119</span>
-          </p>
-        </td>
-      </tr>
-    </table>
+      <p style="margin: 28px 0 0; font-family: ${font}; font-size: 14px; color: #6F6A62; line-height: 1.6;">
+        Въпроси? Отговорете на този имейл или се обадете на +359 894 288 119 (и във Viber).
+      </p>
+    </td>
   `
 }
 
@@ -258,37 +204,37 @@ export async function sendDemoNotification(data: DemoBooking) {
   await getResend().emails.send({
     from: 'Nextbot <noreply@nextbot.me>',
     to: notificationEmail,
-    subject: `Demo Request — ${data.name}${data.company ? ` / ${data.company}` : ''}`,
+    subject: `Нова заявка за разговор — ${data.name}${data.company ? ` / ${data.company}` : ''}`,
     html: emailWrapper(`
       <!-- Header -->
       <td style="padding: 36px 36px 0;">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
           <tr>
             <td>
-              <span style="display: inline-block; padding: 4px 12px; background-color: #dbeafe; color: #1d4ed8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 12px; font-weight: 600; border-radius: 20px; letter-spacing: 0.04em;">NEW REQUEST</span>
-              <h1 style="margin: 16px 0 4px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 22px; font-weight: 700; color: #18181b; letter-spacing: -0.02em;">Demo Request</h1>
-              <p style="margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 14px; color: #71717a;">Received just now</p>
+              <span style="display: inline-block; padding: 4px 12px; background-color: #F3EEE6; color: #1F1D1A; font-family: ${font}; font-size: 12px; font-weight: 600; border-radius: 999px;">Нова заявка</span>
+              <h1 style="margin: 16px 0 4px; font-family: ${font}; font-size: 22px; font-weight: 600; color: #1F1D1A; letter-spacing: -0.02em;">Заявка за разговор</h1>
+              <p style="margin: 0; font-family: ${font}; font-size: 14px; color: #6F6A62;">Току-що от сайта</p>
             </td>
           </tr>
         </table>
       </td></tr><tr>
       <!-- Details -->
       <td style="padding: 28px 36px 36px;">
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border: 1px solid #f4f4f5; border-radius: 12px; overflow: hidden;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border: 1px solid #E8E1D6; border-radius: 12px; overflow: hidden;">
           <tr><td style="padding: 4px 20px 0;">
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-              ${infoRow('Name', data.name)}
+              ${infoRow('Име', data.name)}
               ${divider()}
-              ${infoRow('Email', `<a href="mailto:${data.email}" style="color: #2563eb; text-decoration: none;">${data.email}</a>`)}
+              ${infoRow('Имейл', `<a href="mailto:${data.email}" style="color: #1F1D1A;">${data.email}</a>`)}
               ${divider()}
-              ${infoRow('Phone', data.phone || '—')}
+              ${infoRow('Телефон', data.phone || '—')}
               ${divider()}
-              ${infoRow('Company', data.company || '—')}
+              ${infoRow('Фирма', data.company || '—')}
               ${divider()}
-              ${infoRow('Date', data.preferredDate || '—')}
+              ${infoRow('Дата', data.preferredDate || '—')}
               ${divider()}
-              ${infoRow('Time', data.preferredTime || '—')}
-              ${data.message ? `${divider()}${infoRow('Message', data.message)}` : ''}
+              ${infoRow('Час', data.preferredTime || '—')}
+              ${data.message ? `${divider()}${infoRow('Съобщение', data.message)}` : ''}
             </table>
           </td></tr>
         </table>
@@ -297,7 +243,7 @@ export async function sendDemoNotification(data: DemoBooking) {
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top: 24px;">
           <tr>
             <td align="center">
-              <a href="mailto:${data.email}" style="display: inline-block; padding: 12px 28px; background-color: #18181b; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; border-radius: 10px;">Reply to ${data.name.split(' ')[0]}</a>
+              <a href="mailto:${data.email}" style="display: inline-block; padding: 12px 26px; background-color: #1F1D1A; color: #FAF7F2; font-family: ${font}; font-size: 14px; font-weight: 500; text-decoration: none; border-radius: 999px;">Отговорете на ${data.name.split(' ')[0]}</a>
             </td>
           </tr>
         </table>
@@ -305,12 +251,13 @@ export async function sendDemoNotification(data: DemoBooking) {
     `)
   })
 
-  // Confirmation to customer (dark template)
+  // Confirmation to the customer
   await getResend().emails.send({
-    from: 'Nextbot <noreply@nextbot.me>',
+    from: 'NextBot <noreply@nextbot.me>',
     to: data.email,
-    subject: 'Your demo is confirmed',
-    html: darkEmailWrapper(demoConfirmationContent(data))
+    replyTo: 'info@nextbot.me',
+    subject: 'Получихме заявката ви за разговор',
+    html: emailWrapper(demoConfirmationContent(data))
   })
 }
 
@@ -511,76 +458,34 @@ interface LeadCaptureData {
 }
 
 export async function sendLeadNotification(data: LeadCaptureData) {
-  const contactLines: string[] = []
-  if (data.email) contactLines.push(`<a href="mailto:${data.email}" style="color: #6366f1; text-decoration: none;">${data.email}</a>`)
-  if (data.phone) contactLines.push(`<a href="tel:${data.phone}" style="color: #6366f1; text-decoration: none;">${data.phone}</a>`)
+  const contact: string[] = []
+  if (data.email) contact.push(`<a href="mailto:${data.email}" style="color: #1F1D1A;">${data.email}</a>`)
+  if (data.phone) contact.push(`<a href="tel:${data.phone}" style="color: #1F1D1A;">${data.phone}</a>`)
 
   await getResend().emails.send({
-    from: 'Nextbot <noreply@nextbot.me>',
+    from: 'NextBot <noreply@nextbot.me>',
     to: notificationEmail,
-    subject: `New Lead — ${data.name}${data.companyName ? ` (via ${data.companyName})` : ''}`,
-    html: darkEmailWrapper(`
-      <!-- Badge -->
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-        <tr>
-          <td style="padding: 0 0 28px;">
-            <div style="display: inline-block; padding: 5px 14px; border: 1px solid rgba(52,211,153,0.25); background-color: rgba(52,211,153,0.08); border-radius: 20px;">
-              <span style="font-family: ${font}; font-size: 11px; font-weight: 600; color: #34d399; letter-spacing: 0.08em;">NEW LEAD CAPTURED</span>
-            </div>
-          </td>
-        </tr>
-      </table>
-
-      <!-- Lead info card -->
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; margin-bottom: 28px;">
-        <tr>
-          <td style="padding: 24px;">
+    subject: `Нов клиент от чата — ${data.name}${data.companyName ? ` (${data.companyName})` : ''}`,
+    html: emailWrapper(`
+      <td style="padding: 36px;">
+        <p style="margin: 0 0 14px; font-family: ${font}; font-size: 13px; color: #1F9D63; font-weight: 600;">&#9679;&nbsp; Нов клиент</p>
+        <h1 style="margin: 0 0 22px; font-family: ${font}; font-size: 22px; font-weight: 600; color: #1F1D1A; letter-spacing: -0.02em;">${data.name}</h1>
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border: 1px solid #E8E1D6; border-radius: 12px;">
+          <tr><td style="padding: 4px 20px 0;">
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-              <tr>
-                <td style="padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.04);">
-                  <p style="margin: 0 0 4px; font-family: ${font}; font-size: 11px; color: #52525b; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;">Name</p>
-                  <p style="margin: 0; font-family: ${font}; font-size: 18px; color: #ffffff; font-weight: 600; letter-spacing: -0.02em;">${data.name}</p>
-                </td>
-              </tr>
-              ${contactLines.length > 0 ? `
-              <tr>
-                <td style="padding-top: 16px;${data.notes ? ' padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.04);' : ''}">
-                  <p style="margin: 0 0 4px; font-family: ${font}; font-size: 11px; color: #52525b; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;">Contact</p>
-                  <p style="margin: 0; font-family: ${font}; font-size: 14px; color: #a1a1aa; line-height: 1.6;">${contactLines.join(' &middot; ')}</p>
-                </td>
-              </tr>` : ''}
-              ${data.notes ? `
-              <tr>
-                <td style="padding-top: 16px;">
-                  <p style="margin: 0 0 4px; font-family: ${font}; font-size: 11px; color: #52525b; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;">Interest</p>
-                  <p style="margin: 0; font-family: ${font}; font-size: 14px; color: #a1a1aa; line-height: 1.6;">${data.notes}</p>
-                </td>
-              </tr>` : ''}
+              ${infoRow('Контакт', contact.length ? contact.join(' · ') : '—')}
+              ${data.notes ? `${divider()}${infoRow('Интерес', data.notes)}` : ''}
+              ${divider()}
+              ${infoRow('Източник', data.source || 'Чат в сайта')}
+              ${data.companyName ? `${divider()}${infoRow('Бизнес', data.companyName)}` : ''}
             </table>
-          </td>
-        </tr>
-      </table>
-
-      <!-- Source -->
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 28px;">
-        <tr>
-          <td>
-            <p style="margin: 0; font-family: ${font}; font-size: 13px; color: #52525b;">
-              Source: <span style="color: #a1a1aa;">${data.source || 'Web Chat'}</span>${data.companyName ? ` &middot; Company: <span style="color: #a1a1aa;">${data.companyName}</span>` : ''}
-            </p>
-          </td>
-        </tr>
-      </table>
-
-      ${data.email ? `
-      <!-- CTA -->
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-        <tr>
-          <td align="center">
-            <a href="mailto:${data.email}" style="display: inline-block; padding: 12px 32px; background-color: #ffffff; color: #09090b; font-family: ${font}; font-size: 14px; font-weight: 600; text-decoration: none; border-radius: 8px;">Reply to ${data.name.split(' ')[0]}</a>
-          </td>
-        </tr>
-      </table>` : ''}
+          </td></tr>
+        </table>
+        ${data.email ? `
+        <p style="margin: 24px 0 0;">
+          <a href="mailto:${data.email}" style="display: inline-block; padding: 12px 26px; background-color: #1F1D1A; color: #FAF7F2; font-family: ${font}; font-size: 14px; font-weight: 500; text-decoration: none; border-radius: 999px;">Отговорете на ${data.name.split(' ')[0]}</a>
+        </p>` : ''}
+      </td>
     `)
   })
 }

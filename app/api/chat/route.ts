@@ -93,7 +93,7 @@ export async function POST(req: NextRequest) {
           systemPrompt = `You are ${bot.name || 'Neo'}, an AI assistant.\n`
           systemPrompt += toneInstructions[bot.tone] || toneInstructions.professional
           systemPrompt += '\n' + (industryContexts[bot.industry] || industryContexts.custom)
-          systemPrompt += '\n' + (languageInstructions[bot.language] || languageInstructions.en)
+          systemPrompt += '\n' + (languageInstructions[bot.language] || languageInstructions.bg)
 
           if (bot.welcome_message) {
             systemPrompt += `\n\nWhen greeting users for the first time, use something similar to: "${bot.welcome_message}"`
@@ -119,12 +119,12 @@ export async function POST(req: NextRequest) {
       // Demo mode — use passed params
       const t = tone || 'professional'
       const ind = industry || 'hotel'
-      const lang = language || 'en'
+      const lang = language || 'bg' // the site is Bulgarian only (BRAND.md)
 
       systemPrompt = `You are Neo, an AI assistant.\n`
       systemPrompt += toneInstructions[t] || toneInstructions.professional
       systemPrompt += '\n' + (industryContexts[ind] || industryContexts.custom)
-      systemPrompt += '\n' + (languageInstructions[lang] || languageInstructions.en)
+      systemPrompt += '\n' + (languageInstructions[lang] || languageInstructions.bg)
     }
 
     systemPrompt += '\n\nIMPORTANT RULES:\n'

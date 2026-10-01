@@ -34,11 +34,12 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "NextBot — AI Platform for Business Automation",
+    default: "NextBot — Всеки клиент получава отговор. Веднага.",
     template: "%s | NextBot",
   },
   description:
-    "NextBot builds AI infrastructure that captures, qualifies, and converts leads automatically. Enterprise-grade AI systems for sales, customer communication, and operations.",
+    "NextBot отговаря на клиентите ви в сайта, Viber, Messenger и по телефона, записва ги в една система и ви напомня кога да се обадите. Денем и нощем, на български.",
+  metadataBase: new URL("https://www.nextbot.me"),
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "48x48" },
@@ -49,26 +50,27 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png",
   },
   openGraph: {
-    title: "NextBot — AI Systems That Generate Revenue",
+    title: "NextBot — Всеки клиент получава отговор. Веднага.",
     description:
-      "AI platform that automates customer communication, lead qualification, and business operations.",
+      "Чат и гласов асистент на български, система за клиенти и напомняния. Настройваме всичко за 7 дни.",
     url: "https://www.nextbot.me",
     siteName: "NextBot",
+    locale: "bg_BG",
     images: [
       {
         url: "https://www.nextbot.me/logo-icon.png",
         width: 512,
         height: 512,
-        alt: "NextBot Logo",
+        alt: "NextBot",
       },
     ],
     type: "website",
   },
   twitter: {
     card: "summary",
-    title: "NextBot — AI Systems That Generate Revenue",
+    title: "NextBot — Всеки клиент получава отговор. Веднага.",
     description:
-      "AI platform that automates customer communication, lead qualification, and business operations.",
+      "Чат и гласов асистент на български, система за клиенти и напомняния. Настройваме всичко за 7 дни.",
     images: ["https://www.nextbot.me/logo-icon.png"],
   },
   robots: { index: true, follow: true },
@@ -104,20 +106,20 @@ export default function RootLayout({
               legalName: "Nextbot EOOD",
               url: "https://www.nextbot.me",
               logo: "https://www.nextbot.me/logo-icon.png",
-              description: "AI platform that automates customer communication and business operations.",
+              description: "NextBot отговаря на клиентите ви в сайта, Viber, Messenger и по телефона, денем и нощем, на български.",
               foundingDate: "2024",
               founder: { "@type": "Person", name: "Valentin Antov" },
               address: {
                 "@type": "PostalAddress",
-                addressLocality: "Sofia",
+                addressLocality: "София",
                 addressCountry: "BG",
               },
               contactPoint: {
                 "@type": "ContactPoint",
                 telephone: "+359-894-288-119",
                 email: "info@nextbot.me",
-                contactType: "Sales",
-                availableLanguage: ["Bulgarian", "English"],
+                contactType: "sales",
+                availableLanguage: ["bg"],
               },
             }),
           }}

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ZoomIn } from '@/components/motion/ZoomIn'
-import { COMPANY, telHref } from '@/lib/company'
+import { COMPANY, telHref, viberHref } from '@/lib/company'
 import { CTA } from '@/lib/site-nav'
 import { Arrow } from './Arrow'
 import { H, WRAP } from './ui'
@@ -24,10 +24,9 @@ export function FinalCta() {
             >
               {CTA.label} <Arrow />
             </Link>
-            {/* Shown only once the Viber number is confirmed (lib/company.ts) */}
             {COMPANY.viber && (
               <a
-                href={`viber://chat?number=${COMPANY.viber.replace(/[\s+]/g, '')}`}
+                href={viberHref(COMPANY.viber)}
                 className="inline-flex items-center rounded-full border border-[#4A443C] px-6 py-3.5 font-medium text-cream no-underline transition-transform duration-200 hover:-translate-y-px hover:text-cream motion-reduce:transition-none"
               >
                 Пишете ни във Viber

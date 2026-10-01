@@ -1,28 +1,22 @@
 'use client'
 
-export default function GlobalError({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string }
-  reset: () => void
-}) {
+// Replaces the whole page (including the root layout) when the layout itself fails,
+// so it carries its own <html> and inline styles in the brand colours.
+export default function GlobalError({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
-    <html>
-      <body>
-        <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ textAlign: 'center' }}>
-            <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>
-              Something went wrong
-            </h2>
-            <button
-              onClick={() => reset()}
-              style={{ padding: '0.75rem 1.5rem', backgroundColor: '#2563eb', color: 'white', borderRadius: '9999px', border: 'none', cursor: 'pointer', fontWeight: 600 }}
-            >
-              Try again
-            </button>
-          </div>
-        </div>
+    <html lang="bg">
+      <body style={{ margin: 0, background: '#FAF7F2', color: '#1F1D1A', fontFamily: 'system-ui, sans-serif' }}>
+        <main style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20, padding: 24, textAlign: 'center' }}>
+          <h1 style={{ fontSize: 32, fontWeight: 600, margin: 0 }}>Нещо се обърка.</h1>
+          <p style={{ margin: 0, color: '#6F6A62', fontSize: 17 }}>Опитайте отново. Ако проблемът остане, пишете ни на info@nextbot.me.</p>
+          <button
+            type="button"
+            onClick={() => reset()}
+            style={{ padding: '14px 24px', background: '#1F1D1A', color: '#FAF7F2', borderRadius: 999, border: 'none', cursor: 'pointer', fontWeight: 500, fontSize: 16 }}
+          >
+            Опитайте отново
+          </button>
+        </main>
       </body>
     </html>
   )

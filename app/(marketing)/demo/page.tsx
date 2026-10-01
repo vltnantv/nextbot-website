@@ -112,7 +112,7 @@ export default function DemoPage() {
 
                 {/* Custom footer */}
                 <div className="absolute bottom-0 left-0 right-0 z-10 bg-nb-surface border-t border-nb-border py-1.5 text-center">
-                  <span className="text-[0.6rem] text-nb-text-muted">Powered by NextBot</span>
+                  <span className="text-[0.6rem] text-nb-text-muted">NEO · NextBot</span>
                 </div>
 
                 {!chatReady && (

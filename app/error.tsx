@@ -1,25 +1,28 @@
 'use client'
 
-export default function Error({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string }
-  reset: () => void
-}) {
+import Link from 'next/link'
+
+export default function Error({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-nb-bg">
-      <div className="text-center px-4">
-        <h2 className="text-2xl font-bold text-white mb-4">
-          Something went wrong
-        </h2>
+    <main className="flex min-h-[70vh] flex-col items-center justify-center gap-6 bg-cream px-6 text-center text-ink">
+      <h1 className="font-display text-[clamp(28px,4vw,40px)] font-semibold leading-[1.12] tracking-[-0.02em]">
+        Нещо се обърка.
+      </h1>
+      <p className="m-0 max-w-[480px] text-[17px] text-stone">
+        Опитайте отново. Ако проблемът остане, пишете ни на info@nextbot.me.
+      </p>
+      <div className="flex flex-wrap justify-center gap-3">
         <button
+          type="button"
           onClick={() => reset()}
-          className="px-6 py-3 rounded-full bg-nb-accent text-white font-semibold hover:bg-nb-accent-hover transition-colors"
+          className="rounded-full bg-ink px-6 py-3.5 font-medium text-cream transition-transform hover:-translate-y-px"
         >
-          Try again
+          Опитайте отново
         </button>
+        <Link href="/" className="rounded-full border border-[#D9D0C2] px-6 py-3.5 font-medium text-ink">
+          Към началото
+        </Link>
       </div>
-    </div>
+    </main>
   )
 }
