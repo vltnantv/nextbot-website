@@ -48,13 +48,16 @@ export async function POST(req: NextRequest) {
     }
 
     const openai = getOpenAI()
-    const supabase = getSupabase()
+    // Supabase is only needed for saved conversations and dashboard bots (saveToDb / botId). The site demo
+    // chat uses neither, so connect lazily: without Supabase keys the chat still answers.
+    let supabaseClient: ReturnType<typeof getSupabase> | null = null
+    const db = () => (supabaseClient ??= getSupabase())
 
     // Optionally create or use existing conversation
     let convId = conversationId
     if (saveToDb && !convId) {
       try {
-        const { data: conv } = await supabase
+        const { data: conv } = await db()
           .from('conversations')
           .insert({
             channel: channel || 'web',
@@ -74,7 +77,7 @@ export async function POST(req: NextRequest) {
     const lastUserMessage = messages[messages.length - 1]
     if (saveToDb && convId && lastUserMessage?.role === 'user') {
       try {
-        await supabase.from('messages').insert({
+        await db().from('messages').insert({
           conversation_id: convId,
           role: 'user',
           content: lastUserMessage.content,
@@ -88,7 +91,7 @@ export async function POST(req: NextRequest) {
     // If botId provided, fetch bot config and knowledge from DB
     if (botId) {
       try {
-        const { data: bot } = await supabase.from('bots').select('*').eq('id', botId).single()
+        const { data: bot } = await db().from('bots').select('*').eq('id', botId).single()
         if (bot) {
           systemPrompt = `You are ${bot.name || 'Neo'}, an AI assistant.\n`
           systemPrompt += toneInstructions[bot.tone] || toneInstructions.professional
@@ -99,7 +102,7 @@ export async function POST(req: NextRequest) {
             systemPrompt += `\n\nWhen greeting users for the first time, use something similar to: "${bot.welcome_message}"`
           }
 
-          const { data: knowledge } = await supabase
+          const { data: knowledge } = await db()
             .from('knowledge')
             .select('title, content, type')
             .eq('bot_id', botId)
@@ -173,7 +176,7 @@ export async function POST(req: NextRequest) {
         // Save assistant response to DB after stream completes
         if (saveToDb && convId && fullResponse) {
           try {
-            await supabase.from('messages').insert({
+            await db().from('messages').insert({
               conversation_id: convId,
               role: 'assistant',
               content: fullResponse,
