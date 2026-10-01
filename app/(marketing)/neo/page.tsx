@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import { Float } from '@/components/motion/Float'
 import { Reveal } from '@/components/motion/Reveal'
 import { Typing } from '@/components/motion/Typing'
+import { NightShift } from '@/components/signature/NightShift'
 import { CARD, H } from '@/components/home/ui'
-import { Cards, EndBlock, FaqList, ProductHero, Section, Steps, TextLink } from '@/components/page/blocks'
+import { Cards, EndBlock, FaqList, ProductHero, Section, TextLink } from '@/components/page/blocks'
 import { CTA } from '@/lib/site-nav'
 
 // Text: copy/neo.md - word for word. Do not add numbers, reviews or features.
@@ -29,7 +30,10 @@ export default function NeoPage() {
     <>
       <ProductHero
         eyebrow="NEO · Чат асистент"
-        title="Клиентът пише в 22:47. NEO му отговаря веднага."
+        // h1 and subtitle: copy/UNIQUE.md („Нощната смяна“); the text: copy/neo.md
+        // (copy/neo.md h1 was: Клиентът пише в 22:47. NEO му отговаря веднага.)
+        title="Докато спите, NEO е на смяна."
+        lead="Клиентите ви пишат вечер и в неделя. Някой трябва да им отговаря."
         text="NEO отговаря на въпросите на клиентите в сайта ви, записва им час и запазва данните им, за да ги потърсите. Денем и нощем, на български."
         primary={CTA}
         secondary={TRY}
@@ -86,14 +90,11 @@ export default function NeoPage() {
         </Reveal>
       </Section>
 
-      <Section title="Как започваме">
-        <Steps
-          items={[
-            { title: 'Разговор, 15 минути.', text: 'Разказвате как работите и какво питат клиентите ви най-често.' },
-            { title: 'Настройка, до 7 дни.', text: 'Учим бота от сайта и документите ви и го слагаме на сайта.' },
-            { title: 'Работи.', text: 'Всяка седмица получавате отчет: колко запитвания са дошли и колко часове са записани.' },
-          ]}
-        />
+      {/* Signature (copy/UNIQUE.md „Нощна лента“) in place of the shared „Как започваме“ block */}
+      <Section title="Нощната смяна">
+        <Reveal>
+          <NightShift />
+        </Reveal>
       </Section>
 
       <Section title="Въпроси" deep narrow>

@@ -3,9 +3,10 @@ import Link from 'next/link'
 import { DrawLine } from '@/components/motion/DrawLine'
 import { Reveal } from '@/components/motion/Reveal'
 import { Stagger } from '@/components/motion/Stagger'
+import { TodayScreen } from '@/components/signature/TodayScreen'
 import { Arrow } from '@/components/home/Arrow'
 import { CARD, H } from '@/components/home/ui'
-import { Cards, EndBlock, FaqList, ProductHero, Section, TextLink } from '@/components/page/blocks'
+import { EndBlock, FaqList, ProductHero, Section, TextLink } from '@/components/page/blocks'
 import { CTA } from '@/lib/site-nav'
 
 // Text: copy/core.md - word for word. Status: built on the existing dashboard, so the page talks about
@@ -32,10 +33,13 @@ export default function CorePage() {
     <>
       <ProductHero
         eyebrow="CORE · Система за клиенти"
-        title="Всички клиенти на едно място. И кога да се обадите на всеки."
+        // h1 and subtitle: copy/UNIQUE.md („Вашето утро“); the text: copy/core.md
+        // (copy/core.md h1 was: Всички клиенти на едно място. И кога да се обадите на всеки.)
+        title="Отваряте и знаете на кого да се обадите."
+        lead="Без тетрадки. Без „къде го записах?“"
         text="CORE замества тетрадките, таблиците и бележките. Записва всяко запитване, пази историята и ви напомня кого да потърсите днес."
         primary={CTA}
-        secondary={{ label: 'Вижте как изглежда', href: '#kakvo-pravi' }}
+        secondary={{ label: 'Вижте как изглежда', href: '#vasheto-utro' }}
         note="В момента го въвеждаме при първите бизнеси от пилотната програма."
       />
 
@@ -53,16 +57,11 @@ export default function CorePage() {
         </Stagger>
       </Section>
 
-      <Section id="kakvo-pravi" title="Какво прави">
-        <Cards
-          cols={4}
-          items={[
-            { title: 'Етапи.', text: 'Всеки клиент е на ясен етап: ново запитване, разговор, оферта, затворено. Виждате къде са загубите.' },
-            { title: 'Напомняния.', text: 'Всяка сутрин виждате списък: на кого да се обадите днес и защо.' },
-            { title: 'История.', text: 'Всичко за клиента на едно място: разговори, бележки, оферти. Всеки в екипа знае докъде е стигнало.' },
-            { title: 'Отчет.', text: 'Колко запитвания са дошли, колко са станали клиенти и колко са останали без отговор.' },
-          ]}
-        />
+      {/* Signature (copy/UNIQUE.md „Екранът Днес“) in place of the shared „Какво прави“ block */}
+      <Section id="vasheto-utro" title="Вашето утро">
+        <Reveal>
+          <TodayScreen />
+        </Reveal>
       </Section>
 
       <Section title="Свързан е с останалото" deep>

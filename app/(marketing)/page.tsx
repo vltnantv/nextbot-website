@@ -1,7 +1,7 @@
+import { DayStrip } from '@/components/home/DayStrip'
 import { Faq } from '@/components/home/Faq'
 import { FinalCta } from '@/components/home/FinalCta'
 import { Hero } from '@/components/home/Hero'
-import { HowWeStart } from '@/components/home/HowWeStart'
 import { Marquee } from '@/components/home/Marquee'
 import { Pilot } from '@/components/home/Pilot'
 import { Pricing } from '@/components/home/Pricing'
@@ -17,7 +17,7 @@ export default function HomePage() {
       <Marquee />
       <Problem />
       <Products />
-      <HowWeStart />
+      <DayStrip />
       <TryIt />
       <Pricing />
       <Pilot />

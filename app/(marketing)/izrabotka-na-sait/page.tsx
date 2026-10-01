@@ -2,10 +2,12 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Reveal } from '@/components/motion/Reveal'
 import { Stagger } from '@/components/motion/Stagger'
+import { BeforeAfter } from '@/components/signature/BeforeAfter'
+import { WebCalc } from '@/components/signature/WebCalc'
 import { Tilt } from '@/components/motion/Tilt'
 import { Arrow } from '@/components/home/Arrow'
 import { BTN_PRIMARY, BTN_SECONDARY, CARD, H } from '@/components/home/ui'
-import { Cards, EndBlock, FaqList, ProductHero, Section, Steps } from '@/components/page/blocks'
+import { Cards, EndBlock, FaqList, ProductHero, Section } from '@/components/page/blocks'
 import { CTA } from '@/lib/site-nav'
 import { WEB_OFFERS, WEB_RULES, eur } from '@/lib/prices'
 
@@ -41,7 +43,10 @@ export default function WebPage() {
     <>
       <ProductHero
         eyebrow="WEB · Изработка на уебсайт"
-        title="Сайт, който отговаря на клиентите ви."
+        // h1 and subtitle: copy/UNIQUE.md („Преди и след“); the text: copy/web.md
+        // (copy/web.md h1 was: Сайт, който отговаря на клиентите ви.)
+        title="От сайт, който стои, към сайт, който отговаря."
+        lead="Същият бизнес. Друго впечатление."
         text="Правим бърз и модерен сайт на български за вашия бизнес. С чат асистент NEO от първия ден, хостинг и домейн, и човек, на когото можете да се обадите."
         primary={CTA}
         secondary={{ label: 'Вижте цените', href: '#ceni' }}
@@ -94,20 +99,20 @@ export default function WebPage() {
             <span className="text-stone">Хостинг, сигурност, резервни копия и до 1 час промени на месец.</span>
           </div>
         </Reveal>
+        {/* second element (copy/UNIQUE.md „Калкулатор на сайт“) */}
+        <Reveal>
+          <WebCalc />
+        </Reveal>
         <p className="m-0 text-[14px] text-stone">
           Цените са без ДДС. Точната цена зависи от това, какво ви трябва. На разговора ще ви кажем, преди да започнем.
         </p>
       </Section>
 
-      <Section title="Как работим" deep>
-        <Steps
-          items={[
-            { title: 'Разговор, 15 минути.', text: 'Разказвате какво правите и какво искате от сайта.' },
-            { title: 'Чернова.', text: 'Показваме ви как ще изглежда, преди да я довършим.' },
-            { title: 'Поправки.', text: 'Казвате какво да се промени и го променяме.' },
-            { title: 'Пускане.', text: 'Сайтът е в интернет с вашия домейн, а NEO вече отговаря.' },
-          ]}
-        />
+      {/* Signature (copy/UNIQUE.md „Плъзгач преди/след“) in place of the shared „Как работим“ block */}
+      <Section title="Преди и след" deep>
+        <Reveal>
+          <BeforeAfter />
+        </Reveal>
       </Section>
 
       <Section title="Сайт + пакет Растеж">
