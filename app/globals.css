@@ -71,7 +71,7 @@
   }
 
   /* NextBot brand tokens (BRAND.md). Stored as RGB channels so Tailwind opacity works: bg-signal/10.
-     "muted" (Пепел) is called `ash` here because shadcn already uses `muted` for the dashboard. */
+     "muted" (Пепел) is called `ash` here because shadcn already uses `muted` (ui components, dashboard). */
   :root {
     --ink: 16 24 40;        /* #101828 Мастило */
     --paper: 245 246 248;   /* #F5F6F8 Хартия */
@@ -89,7 +89,7 @@
     --ash: 152 162 179;     /* #98A2B3 */
   }
 
-  /* shadcn variables below stay dark in both themes: the dashboard and login are always dark. */
+  /* shadcn variables (ui components and the hidden dashboard) - unchanged dark values. */
   :root {
     --background: 0 0% 4%;
     --foreground: 0 0% 100%;
