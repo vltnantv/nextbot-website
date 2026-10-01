@@ -28,7 +28,10 @@ const nextConfig = {
       "/channels",
       "/settings",
     ];
-    return hidden.flatMap((source) => [
+    // Old pages with outdated prices and dashboard references (not in BRAND.md). Temporary until
+    // step 5 adds the final redirects of all old addresses.
+    const outdated = ["/documentation", "/api-docs"];
+    return [...hidden, ...outdated].flatMap((source) => [
       { source, destination: "/", permanent: false },
       { source: `${source}/:path*`, destination: "/", permanent: false },
     ]);
