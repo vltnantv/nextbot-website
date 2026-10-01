@@ -396,14 +396,7 @@ export async function sendSignupNotification(data: SignupData) {
   })
 }
 
-// ─── Sales Outreach ─────────────────────────────────────────────────────────
-
-interface SalesOutreachData {
-  recipientEmail: string
-  recipientName: string
-  companyName: string
-  painPoint?: 'missed-leads' | 'slow-response' | 'scaling' | 'multilingual' | 'general'
-}
+// ─── Outreach helpers (hotel outreach) ─────────────────────────────────────
 
 function outreachStat(value: string, label: string) {
   return `
@@ -411,39 +404,6 @@ function outreachStat(value: string, label: string) {
       <p style="margin: 0; font-family: ${font}; font-size: 24px; font-weight: 600; color: #ffffff; letter-spacing: -0.02em;">${value}</p>
       <p style="margin: 4px 0 0; font-family: ${font}; font-size: 11px; color: #52525b; text-transform: uppercase; letter-spacing: 0.08em;">${label}</p>
     </td>`
-}
-
-function outreachFeature(title: string, desc: string) {
-  return `
-    <tr>
-      <td style="padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.04);">
-        <p style="margin: 0; font-family: ${font}; font-size: 14px; font-weight: 500; color: #e4e4e7;">${title}</p>
-        <p style="margin: 4px 0 0; font-family: ${font}; font-size: 13px; color: #52525b; line-height: 1.5;">${desc}</p>
-      </td>
-    </tr>`
-}
-
-const painPointContent: Record<string, { hook: string; stat: string }> = {
-  'missed-leads': {
-    hook: 'Most businesses lose 60% of inbound leads because they reply too late. What if every inquiry got an instant, qualified response?',
-    stat: 'Companies using AI for lead response see 3x higher conversion rates.',
-  },
-  'slow-response': {
-    hook: 'Your customers expect a reply in minutes, not hours. We help businesses respond instantly across every channel — 24/7.',
-    stat: 'Average response time drops from 4 hours to under 5 seconds.',
-  },
-  'scaling': {
-    hook: 'Growing your support team is expensive. Growing your AI is not. Handle 10x the conversations without hiring.',
-    stat: 'Businesses scale from 500 to 5,000 conversations/month without adding headcount.',
-  },
-  'multilingual': {
-    hook: 'Your customers speak different languages. Your AI should too. Instant support in 12+ languages, no translation delays.',
-    stat: 'Multilingual AI increases international conversion by 40%.',
-  },
-  'general': {
-    hook: 'Your competitors are automating their sales and support with AI. The question is not if, but when — and the advantage goes to those who move first.',
-    stat: 'Businesses deploying AI communication see 35% more qualified leads in the first month.',
-  },
 }
 
 // ─── Lead Capture Notification ──────────────────────────────────────────────
@@ -489,8 +449,6 @@ export async function sendLeadNotification(data: LeadCaptureData) {
     `)
   })
 }
-
-// ─── Sales Outreach ─────────────────────────────────────────────────────────
 
 // ─── Bulgarian Hotel Outreach ───────────────────────────────────────────────
 
@@ -592,98 +550,6 @@ export async function sendHotelOutreachBg(data: HotelOutreachData) {
             </p>
             <p style="margin: 8px 0 0; font-family: ${font}; font-size: 12px; color: #52525b; line-height: 1.5;">
               NextBot<br />
-              <a href="https://www.nextbot.me" style="color: #6366f1; text-decoration: none;">nextbot.me</a> &middot; +359 894 288 119
-            </p>
-          </td>
-        </tr>
-      </table>
-    `)
-  })
-}
-
-// ─── Sales Outreach (EN) ────────────────────────────────────────────────────
-
-export async function sendSalesOutreach(data: SalesOutreachData) {
-  const firstName = data.recipientName.split(' ')[0]
-  const pain = painPointContent[data.painPoint || 'general']
-
-  await getResend().emails.send({
-    from: 'Valentin from NextBot <valentin@nextbot.me>',
-    to: data.recipientEmail,
-    subject: `${firstName}, a quick idea for ${data.companyName}`,
-    html: darkEmailWrapper(`
-      <!-- Greeting -->
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-        <tr>
-          <td style="padding: 0 0 32px;">
-            <p style="margin: 0 0 24px; font-family: ${font}; font-size: 15px; color: #a1a1aa; line-height: 1.7;">
-              Hi ${firstName},
-            </p>
-            <p style="margin: 0; font-family: ${font}; font-size: 15px; color: #a1a1aa; line-height: 1.7;">
-              ${pain.hook}
-            </p>
-          </td>
-        </tr>
-      </table>
-
-      <!-- Stat highlight -->
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; margin-bottom: 32px;">
-        <tr>
-          <td style="padding: 20px 24px;">
-            <p style="margin: 0; font-family: ${font}; font-size: 13px; color: #71717a; line-height: 1.6; font-style: italic;">
-              &ldquo;${pain.stat}&rdquo;
-            </p>
-          </td>
-        </tr>
-      </table>
-
-      <!-- What we do -->
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 32px;">
-        <tr>
-          <td>
-            <p style="margin: 0 0 16px; font-family: ${font}; font-size: 12px; color: #6366f1; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600;">What NextBot does</p>
-          </td>
-        </tr>
-        ${outreachFeature('AI Chat & Messaging', 'Instant responses on your website, WhatsApp, Messenger, and Instagram. Qualifies leads and books meetings automatically.')}
-        ${outreachFeature('Voice AI (Coming Q3)', 'Answers inbound phone calls with natural conversation. No hold times, no missed calls.')}
-        ${outreachFeature('CRM & Calendar Sync', 'Every conversation, lead, and booking flows directly into your existing systems.')}
-      </table>
-
-      <!-- Stats row -->
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; margin-bottom: 40px;">
-        <tr>
-          ${outreachStat('&lt;5s', 'Response')}
-          ${outreachStat('24/7', 'Availability')}
-          ${outreachStat('12+', 'Languages')}
-        </tr>
-      </table>
-
-      <!-- CTA -->
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 32px;">
-        <tr>
-          <td>
-            <p style="margin: 0 0 20px; font-family: ${font}; font-size: 15px; color: #a1a1aa; line-height: 1.7;">
-              I'd love to show you what this could look like for ${data.companyName}. Would a 15-minute call this week work?
-            </p>
-          </td>
-        </tr>
-        <tr>
-          <td align="center">
-            <a href="https://www.nextbot.me/book-demo" style="display: inline-block; padding: 14px 36px; background-color: #ffffff; color: #09090b; font-family: ${font}; font-size: 14px; font-weight: 600; text-decoration: none; border-radius: 8px;">Book a 15-min Call</a>
-          </td>
-        </tr>
-      </table>
-
-      <!-- Sign-off -->
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top: 1px solid rgba(255,255,255,0.06);">
-        <tr>
-          <td style="padding-top: 24px;">
-            <p style="margin: 0; font-family: ${font}; font-size: 14px; color: #a1a1aa; line-height: 1.7;">
-              Best,<br />
-              <strong style="color: #e4e4e7;">Valentin</strong>
-            </p>
-            <p style="margin: 8px 0 0; font-family: ${font}; font-size: 12px; color: #52525b; line-height: 1.5;">
-              Co-founder, NextBot<br />
               <a href="https://www.nextbot.me" style="color: #6366f1; text-decoration: none;">nextbot.me</a> &middot; +359 894 288 119
             </p>
           </td>

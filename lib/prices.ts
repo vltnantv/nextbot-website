@@ -54,7 +54,7 @@ export const SETUP_DAYS = 7
  * Pilot programme: first 10 businesses get the setup at half price for an honest review.
  * Set the REAL number of free spots by hand. null hides the counter (BRAND.md: never a made-up number).
  */
-export const PILOT = { total: 10, spotsLeft: null as number | null }
+export const PILOT = { total: 10, spotsLeft: 5 as number | null } // updated by hand: 5 free spots (01.10.2026)
 
 /** 1900 -> "1 900 €" with non-breaking spaces (bg-BG locale leaves 4-digit numbers ungrouped). */
 export const eur = (n: number) => `${String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00A0')}\u00A0€`
