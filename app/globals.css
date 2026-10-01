@@ -25,7 +25,7 @@
   }
 
   body {
-    background: rgb(var(--paper));
+    background: rgb(var(--cream));
     color: rgb(var(--ink));
     font-feature-settings: "kern" 1, "liga" 1;
     overflow-x: clip;
@@ -42,13 +42,13 @@
   }
 
   ::selection {
-    background: rgb(var(--signal) / 0.25);
+    background: rgb(var(--ink) / 0.12);
     color: rgb(var(--ink));
   }
 
   :focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px rgb(var(--signal) / 0.5);
+    box-shadow: 0 0 0 2px rgb(var(--cream)), 0 0 0 4px rgb(var(--ink) / 0.6);
   }
 
   ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -70,26 +70,19 @@
     scroll-margin-top: 80px;
   }
 
-  /* NextBot brand tokens (BRAND.md). Stored as RGB channels so Tailwind opacity works: bg-signal/10.
-     "muted" (Пепел) is called `ash` here because shadcn already uses `muted` (ui components, dashboard). */
+  /* NextBot brand tokens (BRAND.md, "Визуална идентичност"). Light theme only.
+     Stored as RGB channels so Tailwind opacity works: bg-ink/5, border-line. */
   :root {
-    --ink: 16 24 40;        /* #101828 Мастило */
-    --paper: 245 246 248;   /* #F5F6F8 Хартия */
-    --sheet: 255 255 255;   /* #FFFFFF Лист */
-    --signal: 46 91 255;    /* #2E5BFF Сигнал */
-    --online: 18 183 106;   /* #12B76A На линия: only the "online" dot and "answered" */
-    --ash: 102 112 133;     /* #667085 Пепел */
-  }
-  .dark {
-    --ink: 238 240 244;     /* #EEF0F4 */
-    --paper: 12 17 27;      /* #0C111B */
-    --sheet: 20 27 39;      /* #141B27 */
-    --signal: 125 155 255;  /* #7D9BFF */
-    --online: 60 203 134;   /* #3CCB86 */
-    --ash: 152 162 179;     /* #98A2B3 */
+    --cream: 250 247 242;      /* #FAF7F2 page background */
+    --cream-deep: 243 238 230; /* #F3EEE6 alternating sections, form fields */
+    --white: 255 255 255;      /* #FFFFFF cards, chat windows */
+    --ink: 31 29 26;           /* #1F1D1A headings, text, primary buttons */
+    --stone: 111 106 98;       /* #6F6A62 secondary text */
+    --line: 232 225 214;       /* #E8E1D6 borders, dividers */
+    --online: 31 157 99;       /* #1F9D63 ONLY the "online" dot and "answered" */
   }
 
-  /* shadcn variables (ui components and the hidden dashboard) - unchanged dark values. */
+  /* shadcn variables (ui components and the hidden dashboard) - unchanged. */
   :root {
     --background: 0 0% 4%;
     --foreground: 0 0% 100%;
@@ -148,4 +141,20 @@
 @media print {
   header, footer, nav, .no-print { display: none !important; }
   body { background: #fff !important; color: #000 !important; }
+}
+
+/* Reveal on scroll (components/motion/Reveal.tsx).
+   Hidden only when JavaScript runs (html.js is set by an inline script in <head>),
+   so without JS - and for search engines - every section is simply visible. */
+.js [data-reveal],
+.js [data-appear] {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal],
+  .js [data-appear] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

@@ -11,13 +11,16 @@ const config: Config = {
   theme: {
   	extend: {
   		colors: {
-  			// NextBot brand tokens (BRAND.md), light/dark via CSS variables in app/globals.css
+  			// NextBot brand tokens (BRAND.md), light theme only - CSS variables in app/globals.css
+  			cream: {
+  				DEFAULT: 'rgb(var(--cream) / <alpha-value>)',
+  				deep: 'rgb(var(--cream-deep) / <alpha-value>)'
+  			},
+  			white: 'rgb(var(--white) / <alpha-value>)',
   			ink: 'rgb(var(--ink) / <alpha-value>)',
-  			paper: 'rgb(var(--paper) / <alpha-value>)',
-  			sheet: 'rgb(var(--sheet) / <alpha-value>)',
-  			signal: 'rgb(var(--signal) / <alpha-value>)',
+  			stone: 'rgb(var(--stone) / <alpha-value>)',
+  			line: 'rgb(var(--line) / <alpha-value>)',
   			online: 'rgb(var(--online) / <alpha-value>)',
-  			ash: 'rgb(var(--ash) / <alpha-value>)',
   			'nb-bg': '#0a0a0a',
   			'nb-surface': '#141414',
   			'nb-surface-el': '#1e1e1e',
@@ -113,6 +116,7 @@ const config: Config = {
   			'safe-right': 'env(safe-area-inset-right)'
   		},
   		borderRadius: {
+  			card: '16px', // BRAND.md: cards 16 px, buttons and tags fully rounded (rounded-full)
   			xl: '1rem',
   			'2xl': '1.5rem',
   			'3xl': '2rem',
@@ -121,6 +125,9 @@ const config: Config = {
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		boxShadow: {
+  			// BRAND.md: very soft, warm shadows; `soft-hover` for lifted cards
+  			soft: '0 1px 2px rgba(31,29,26,.04), 0 12px 32px rgba(31,29,26,.06)',
+  			'soft-hover': '0 2px 4px rgba(31,29,26,.05), 0 18px 40px rgba(31,29,26,.09)',
   			glass: '0 8px 32px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.06)',
   			apple: '0 1px 3px rgba(0, 0, 0, 0.08), 0 8px 24px rgba(0, 0, 0, 0.04)'
   		},

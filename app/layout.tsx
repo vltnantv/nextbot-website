@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geologica, Onest } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { ScrollObserver } from "@/components/ScrollObserver";
-import { ThemeProvider } from "@/components/theme-provider";
+import { HydrationMark } from "@/components/motion/HydrationMark";
 import "@/styles/tokens.css";
 import "./globals.css";
 
@@ -29,10 +29,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   userScalable: true,
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#F5F6F8" },
-    { media: "(prefers-color-scheme: dark)", color: "#0C111B" },
-  ],
+  themeColor: "#FAF7F2",
 };
 
 export const metadata: Metadata = {
@@ -87,7 +84,16 @@ export default function RootLayout({
     <html lang="bg" className={`${geologica.variable} ${onest.variable}`} suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
-        <meta name="color-scheme" content="light dark" />
+        <meta name="color-scheme" content="light" />
+        {/* Marks that JavaScript runs, so sections may start hidden and float in (see globals.css).
+            Without JS nothing is hidden. Safety net: if React has not started within 4 s
+            (slow network, blocked or failed bundle), drop the class so nothing stays invisible. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "document.documentElement.classList.add('js');setTimeout(function(){if(!window.__nbReady)document.documentElement.classList.remove('js')},4000)",
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -118,13 +124,12 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${onest.className} bg-paper text-ink antialiased`}
+        className={`${onest.className} bg-cream text-ink antialiased`}
       >
-        <ThemeProvider>
-          <ScrollObserver />
-          {children}
-          <Toaster />
-        </ThemeProvider>
+        <HydrationMark />
+        <ScrollObserver />
+        {children}
+        <Toaster />
       </body>
     </html>
   );

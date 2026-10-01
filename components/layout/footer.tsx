@@ -6,7 +6,7 @@ import { CTA, LEGAL, MAIN_LINKS, PRODUCTS, SOLUTIONS, type NavItem } from '@/lib
 function Column({ title, items }: { title: string; items: NavItem[] }) {
   return (
     <div>
-      <p className="mb-3 text-[13px] font-medium uppercase tracking-wide text-ash">{title}</p>
+      <p className="mb-3 text-[13px] font-medium uppercase tracking-wide text-stone">{title}</p>
       <ul className="space-y-2">
         {items.map((item) => (
           <li key={item.href}>
@@ -23,14 +23,14 @@ function Column({ title, items }: { title: string; items: NavItem[] }) {
 export function Footer() {
   const year = new Date().getFullYear()
   return (
-    <footer className="border-t border-ink/10 bg-sheet">
+    <footer className="border-t border-line bg-white">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
             <Link href="/" aria-label="nextbot — начало" className="inline-block">
               <Logo size={20} />
             </Link>
-            <p className="mt-4 max-w-xs text-[15px] leading-relaxed text-ash">
+            <p className="mt-4 max-w-xs text-[15px] leading-relaxed text-stone">
               Всеки клиент получава отговор. Веднага.
             </p>
             <div className="mt-5 space-y-1.5 text-[15px]">
@@ -48,7 +48,7 @@ export function Footer() {
             </div>
             <Link
               href={CTA.href}
-              className="mt-6 inline-flex rounded-[10px] bg-signal px-4 py-2.5 text-[15px] font-medium text-white hover:opacity-90 dark:text-paper"
+              className="mt-6 inline-flex rounded-full bg-ink px-4 py-2.5 text-[15px] font-medium text-cream hover:opacity-90"
             >
               {CTA.label}
             </Link>
@@ -58,7 +58,7 @@ export function Footer() {
           <Column title="Компания" items={MAIN_LINKS} />
         </div>
 
-        <div className="flex flex-col gap-4 border-t border-ink/10 py-6 text-[13px] text-ash sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 border-t border-line py-6 text-[13px] text-stone sm:flex-row sm:items-center sm:justify-between">
           <p className="flex flex-wrap gap-x-4 gap-y-1">
             <span>
               © {year} {COMPANY.name}

@@ -1,6 +1,7 @@
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/layout/footer";
 import { ChatWidget } from "@/components/demo/ChatWidget";
+import { Blobs } from "@/components/motion/Blobs";
 
 export default function MarketingLayout({
   children,
@@ -9,6 +10,7 @@ export default function MarketingLayout({
 }) {
   return (
     <>
+      <Blobs />
       <Nav />
       <main>{children}</main>
       <Footer />
@@ -19,7 +21,7 @@ export default function MarketingLayout({
         botName="NEO"
         welcomeMessage="Здравейте! Аз съм NEO, асистентът на NextBot. Питайте ме как работим или ме пробвайте така, както би ви писал клиент."
         quickActions={["Как работи NextBot?", "Пробвай като хотел", "Запазете разговор"]}
-        accentColor="#2E5BFF"
+        accentColor="#1F1D1A"
       />
     </>
   );

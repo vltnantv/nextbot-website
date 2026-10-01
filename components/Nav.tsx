@@ -50,19 +50,19 @@ function Dropdown({
           open ? 'visible opacity-100' : 'invisible opacity-0',
         )}
       >
-        <ul className="w-72 rounded-[10px] border border-ink/10 bg-sheet p-2 shadow-lg shadow-ink/5">
+        <ul className="w-72 rounded-card border border-line bg-white p-2 shadow-soft">
           {items.map((item) => (
             <li key={item.href}>
               <Link
                 href={item.href}
-                className="flex items-start justify-between gap-3 rounded-md px-3 py-2.5 hover:bg-paper focus-visible:bg-paper"
+                className="flex items-start justify-between gap-3 rounded-md px-3 py-2.5 hover:bg-cream-deep focus-visible:bg-cream-deep"
               >
                 <span>
                   <span className="block text-[15px] font-medium text-ink">{item.label}</span>
-                  {item.description && <span className="mt-0.5 block text-[13px] text-ash">{item.description}</span>}
+                  {item.description && <span className="mt-0.5 block text-[13px] text-stone">{item.description}</span>}
                 </span>
                 {item.badge && (
-                  <span className="mt-0.5 shrink-0 rounded-full border border-ink/10 px-2 py-0.5 text-[11px] text-ash">
+                  <span className="mt-0.5 shrink-0 rounded-full border border-line px-2 py-0.5 text-[11px] text-stone">
                     {item.badge}
                   </span>
                 )}
@@ -113,7 +113,7 @@ export function Nav() {
     <header
       className={cn(
         'fixed inset-x-0 top-0 z-50 h-16 border-b transition-colors',
-        scrolled || mobileOpen ? 'border-ink/10 bg-paper/90 backdrop-blur' : 'border-transparent bg-paper/70 backdrop-blur',
+        scrolled || mobileOpen ? 'border-line bg-cream/90 backdrop-blur' : 'border-transparent bg-cream/70 backdrop-blur',
       )}
     >
       <nav className="mx-auto flex h-full max-w-6xl items-center justify-between px-4 sm:px-6" aria-label="Основно меню">
@@ -156,7 +156,7 @@ export function Nav() {
         <div className="flex items-center gap-2">
           <Link
             href={CTA.href}
-            className="hidden rounded-[10px] bg-signal px-4 py-2.5 text-[15px] font-medium text-white transition-opacity hover:opacity-90 sm:inline-flex dark:text-paper"
+            className="hidden rounded-full bg-ink px-4 py-2.5 text-[15px] font-medium text-cream transition-opacity hover:opacity-90 sm:inline-flex"
           >
             {CTA.label}
           </Link>
@@ -175,26 +175,26 @@ export function Nav() {
 
       {/* Mobile */}
       {mobileOpen && (
-        <div id="nav-mobile" className="fixed inset-x-0 bottom-0 top-16 overflow-y-auto bg-paper px-4 pb-10 pt-4 lg:hidden">
+        <div id="nav-mobile" className="fixed inset-x-0 bottom-0 top-16 overflow-y-auto bg-cream px-4 pb-10 pt-4 lg:hidden">
           {[
             { title: 'Продукти', items: PRODUCTS },
             { title: 'Решения', items: SOLUTIONS },
           ].map((group) => (
             <div key={group.title} className="mb-6">
-              <p className="mb-2 text-[13px] font-medium uppercase tracking-wide text-ash">{group.title}</p>
-              <ul className="divide-y divide-ink/10 rounded-[10px] border border-ink/10 bg-sheet">
+              <p className="mb-2 text-[13px] font-medium uppercase tracking-wide text-stone">{group.title}</p>
+              <ul className="divide-y divide-line rounded-card border border-line bg-white">
                 {group.items.map((item) => (
                   <li key={item.href}>
                     <Link href={item.href} className="flex items-center justify-between px-4 py-3 text-[16px] text-ink">
                       {item.label}
-                      {item.badge && <span className="text-[12px] text-ash">{item.badge}</span>}
+                      {item.badge && <span className="text-[12px] text-stone">{item.badge}</span>}
                     </Link>
                   </li>
                 ))}
               </ul>
             </div>
           ))}
-          <ul className="mb-6 divide-y divide-ink/10 rounded-[10px] border border-ink/10 bg-sheet">
+          <ul className="mb-6 divide-y divide-line rounded-card border border-line bg-white">
             {MAIN_LINKS.map((item) => (
               <li key={item.href}>
                 <Link href={item.href} className="block px-4 py-3 text-[16px] text-ink">
@@ -205,7 +205,7 @@ export function Nav() {
           </ul>
           <Link
             href={CTA.href}
-            className="flex w-full justify-center rounded-[10px] bg-signal px-4 py-3 text-[16px] font-medium text-white dark:text-paper"
+            className="flex w-full justify-center rounded-full bg-ink px-4 py-3 text-[16px] font-medium text-cream"
           >
             {CTA.label}
           </Link>

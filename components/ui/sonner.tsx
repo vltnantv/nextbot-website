@@ -1,20 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
 import { Toaster as Sonner } from "sonner"
 
 type ToasterProps = React.ComponentProps<typeof Sonner>
 
 const Toaster = ({ ...props }: ToasterProps) => {
-  const [theme, setTheme] = useState<"light" | "dark">("light")
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-color-scheme: dark)")
-    setTheme(mq.matches ? "dark" : "light")
-    const handler = (e: MediaQueryListEvent) => setTheme(e.matches ? "dark" : "light")
-    mq.addEventListener("change", handler)
-    return () => mq.removeEventListener("change", handler)
-  }, [])
+  // Light theme only (BRAND.md)
+  const theme = "light"
 
   return (
     <Sonner
@@ -23,12 +15,12 @@ const Toaster = ({ ...props }: ToasterProps) => {
       toastOptions={{
         classNames: {
           toast:
-            "group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg",
-          description: "group-[.toast]:text-muted-foreground",
+            "group toast group-[.toaster]:bg-white group-[.toaster]:text-ink group-[.toaster]:border-line group-[.toaster]:shadow-soft",
+          description: "group-[.toast]:text-stone",
           actionButton:
-            "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground",
+            "group-[.toast]:bg-ink group-[.toast]:text-cream",
           cancelButton:
-            "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground",
+            "group-[.toast]:bg-muted group-[.toast]:text-stone",
         },
       }}
       {...props}

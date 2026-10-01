@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { LiveDot } from "@/components/brand/LiveDot";
 
 type LogoProps = {
   /** Text colour. Defaults to the ink token, which flips automatically in dark theme. */
@@ -9,7 +10,7 @@ type LogoProps = {
 
 /**
  * Word mark: "nextbot" in lower case (Geologica 600) followed by the green "online" dot.
- * The dot uses the `online` token, which is reserved for exactly this meaning.
+ * The dot uses the `online` token, which is reserved for exactly this meaning, and breathes every 3 s.
  */
 export function Logo({ className, size = 20 }: LogoProps) {
   return (
@@ -19,11 +20,7 @@ export function Logo({ className, size = 20 }: LogoProps) {
       aria-label="nextbot"
     >
       <span aria-hidden="true">nextbot</span>
-      <span
-        aria-hidden="true"
-        className="ml-[0.12em] inline-block rounded-full bg-online"
-        style={{ width: "0.3em", height: "0.3em" }}
-      />
+      <LiveDot className="ml-[0.12em]" style={{ width: "0.3em", height: "0.3em" }} />
     </span>
   );
 }
