@@ -143,7 +143,7 @@
   body { background: #fff !important; color: #000 !important; }
 }
 
-/* Reveal on scroll (components/motion/Reveal.tsx).
+/* Reveal on scroll and bubble entrances (components/motion).
    Hidden only when JavaScript runs (html.js is set by an inline script in <head>),
    so without JS - and for search engines - every section is simply visible. */
 .js [data-reveal],
