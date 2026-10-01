@@ -32,7 +32,7 @@ export function NeoCTA() {
             <p className="mt-5 text-[1.05rem] text-nb-text-secondary leading-[1.7]">{t.sub}</p>
 
             <div className="mt-10">
-              <Link href="/book-demo" className="group inline-flex items-center gap-2 px-8 py-4 bg-nb-accent text-white text-[0.95rem] font-medium rounded-lg hover:bg-nb-accent-hover transition-colors">
+              <Link href="/book-demo" className="btn-primary group">
                 {t.cta}
                 <svg className="w-4 h-4 text-white group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />

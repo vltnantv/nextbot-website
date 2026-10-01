@@ -16,27 +16,36 @@ export function AnimateIn({ children, className = '', delay = 0 }: AnimateInProp
     const el = ref.current
     if (!el) return
 
+    const show = () => setTimeout(() => setIsVisible(true), delay)
+
+    // Primary: IntersectionObserver with sensitive threshold
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setTimeout(() => setIsVisible(true), delay)
+          show()
           observer.unobserve(el)
         }
       },
-      { threshold: 0.08, rootMargin: '0px 0px -60px 0px' }
+      { threshold: 0.05, rootMargin: '0px 0px -50px 0px' }
     )
-
     observer.observe(el)
-    return () => observer.disconnect()
+
+    // Fallback: force visible after 2s to prevent permanently hidden elements
+    const fallback = setTimeout(() => setIsVisible(true), 2000 + delay)
+
+    return () => {
+      observer.disconnect()
+      clearTimeout(fallback)
+    }
   }, [delay])
 
   return (
     <div
       ref={ref}
-      className={`transition-all duration-[900ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] ${
+      className={`transition-all duration-[800ms] ease-out ${
         isVisible
           ? 'opacity-100 translate-y-0'
-          : 'opacity-0 translate-y-5'
+          : 'opacity-0 translate-y-6'
       } ${className}`}
     >
       {children}

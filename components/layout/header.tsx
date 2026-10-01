@@ -58,7 +58,7 @@ export function Header() {
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled || menuOpen
-            ? 'bg-nb-bg/90 backdrop-blur-xl border-b border-nb-border'
+            ? 'bg-[rgba(10,10,10,0.8)] backdrop-blur-[12px] border-b border-nb-border'
             : 'bg-transparent'
         }`}
       >
@@ -99,7 +99,7 @@ export function Header() {
           <div className="flex items-center gap-3 relative z-50">
             <Link
               href="/book-demo"
-              className="hidden sm:inline-flex items-center px-4 py-2 bg-nb-accent text-white text-[0.78rem] font-medium rounded-md hover:bg-nb-accent-hover transition-colors"
+              className="hidden sm:inline-flex items-center px-5 py-2.5 bg-nb-accent text-white text-[0.8rem] font-semibold rounded-lg hover:bg-nb-accent-hover hover:-translate-y-px hover:shadow-[0_4px_20px_rgba(249,115,22,0.4)] transition-all duration-200"
             >
               {t.cta}
             </Link>

@@ -1,66 +1,6 @@
 'use client'
 
 import { useLanguage } from '@/lib/i18n'
-import { AnimateIn } from '@/components/AnimateIn'
-import { useEffect, useRef, useState } from 'react'
-
-function TimelineStep({ step, index, total }: { step: { num: string; title: string; desc: string }; index: number; total: number }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => setVisible(true), index * 150)
-          observer.unobserve(el)
-        }
-      },
-      { threshold: 0.2, rootMargin: '0px 0px -40px 0px' }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [index])
-
-  return (
-    <div ref={ref} className="group relative grid grid-cols-[auto_1fr] gap-6 sm:gap-10">
-      {/* Timeline node + line */}
-      <div className="flex flex-col items-center">
-        <div
-          className={`w-10 h-10 rounded-full border bg-nb-bg flex items-center justify-center text-[0.7rem] font-mono transition-all duration-700 ease-out ${
-            visible
-              ? 'border-nb-accent/30 text-nb-accent scale-100 shadow-[0_0_12px_rgba(249,115,22,0.15)]'
-              : 'border-nb-border text-nb-text-muted scale-75 opacity-0'
-          }`}
-        >
-          {step.num}
-        </div>
-        {index < total - 1 && (
-          <div className="w-px flex-1 my-2 overflow-hidden">
-            <div
-              className={`w-full h-full bg-gradient-to-b from-nb-accent/10 to-nb-border transition-all duration-1000 ease-out origin-top ${
-                visible ? 'scale-y-100' : 'scale-y-0'
-              }`}
-              style={{ transitionDelay: `${200}ms` }}
-            />
-          </div>
-        )}
-      </div>
-
-      {/* Content */}
-      <div
-        className={`pb-10 sm:pb-14 transition-all duration-700 ease-out ${
-          visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-        }`}
-      >
-        <h3 className="text-[1.1rem] font-medium text-white mt-2 mb-3">{step.title}</h3>
-        <p className="text-sm text-nb-text-secondary leading-[1.7] max-w-lg">{step.desc}</p>
-      </div>
-    </div>
-  )
-}
 
 const copy = {
   en: {
@@ -100,12 +40,14 @@ const copy = {
       },
       {
         num: '03',
-        title: 'NEO стартира',
+        title: 'NEO тръгва на живо',
         desc: 'Управлява комуникацията с клиенти автономно. Получавате седмични отчети.',
       },
     ],
   },
 }
+
+const stepDelays = ['0s', '0.15s', '0.3s']
 
 export function HowItWorks() {
   const { lang } = useLanguage()
@@ -114,19 +56,38 @@ export function HowItWorks() {
   return (
     <section id="how-it-works" className="py-28 sm:py-36">
       <div className="max-w-[1100px] mx-auto px-5 sm:px-8">
-        <AnimateIn>
+        <div className="animate-on-scroll">
           <div className="max-w-3xl">
             <p className="text-[0.7rem] text-nb-accent uppercase tracking-[0.2em] font-medium mb-5">{t.label}</p>
             <h2 className="text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem] font-semibold leading-[1.12] tracking-[-0.03em] text-white">
               {t.headline}
             </h2>
           </div>
-        </AnimateIn>
+        </div>
 
-        {/* Steps — timeline */}
-        <div className="mt-16 space-y-0">
+        <div className="mt-16 flex flex-col gap-16 sm:gap-20">
           {t.steps.map((step, i) => (
-            <TimelineStep key={i} step={step} index={i} total={t.steps.length} />
+            <div
+              key={i}
+              className="animate-on-scroll relative grid grid-cols-[auto_1fr] gap-8 sm:gap-12"
+              style={{ transitionDelay: stepDelays[i] }}
+            >
+              {/* Number + connecting line */}
+              <div className="flex flex-col items-center">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-nb-accent bg-nb-bg flex items-center justify-center shadow-[0_0_24px_rgba(249,115,22,0.2)]">
+                  <span className="text-[1.5rem] sm:text-[2rem] font-bold font-mono text-nb-accent">{step.num}</span>
+                </div>
+                {i < t.steps.length - 1 && (
+                  <div className="w-0.5 flex-1 mt-4 min-h-[60px] bg-nb-accent/30" />
+                )}
+              </div>
+
+              {/* Content */}
+              <div className="pt-3 sm:pt-5">
+                <h3 className="text-[1.25rem] sm:text-[1.5rem] font-semibold text-white mb-3">{step.title}</h3>
+                <p className="text-[0.95rem] text-nb-text-secondary leading-[1.7] max-w-lg">{step.desc}</p>
+              </div>
+            </div>
           ))}
         </div>
       </div>

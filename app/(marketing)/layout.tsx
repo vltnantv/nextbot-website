@@ -1,4 +1,4 @@
-import { Header } from "@/components/layout/header";
+import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/layout/footer";
 import { ChatWidget } from "@/components/demo/ChatWidget";
 
@@ -9,7 +9,7 @@ export default function MarketingLayout({
 }) {
   return (
     <>
-      <Header />
+      <Nav />
       <main>{children}</main>
       <Footer />
       <ChatWidget

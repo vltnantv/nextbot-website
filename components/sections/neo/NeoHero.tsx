@@ -52,13 +52,13 @@ export function NeoHero() {
         </p>
 
         <div className={`mt-10 flex flex-col sm:flex-row items-start gap-4 transition-all duration-[1200ms] ease-out delay-[400ms] ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          <Link href="/book-demo" className="group inline-flex items-center gap-2 px-7 py-3.5 bg-nb-accent text-white text-[0.9rem] font-medium rounded-lg hover:bg-nb-accent-hover transition-colors">
+          <Link href="/book-demo" className="btn-primary group">
             {t.cta}
             <svg className="w-4 h-4 text-white group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
             </svg>
           </Link>
-          <Link href="/demo" className="inline-flex items-center gap-2 px-7 py-3.5 text-nb-text-secondary text-[0.9rem] font-medium rounded-lg border border-nb-border hover:border-nb-text-muted hover:text-white transition-all">
+          <Link href="/demo" className="btn-secondary">
             {t.cta2}
           </Link>
         </div>

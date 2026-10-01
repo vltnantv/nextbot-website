@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
+import { ScrollObserver } from "@/components/ScrollObserver";
 import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700", "800"],
   variable: "--font-inter",
   display: "swap",
 });
@@ -15,7 +16,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   userScalable: true,
-  themeColor: "#0a0a0a",
+  themeColor: "#080808",
 };
 
 export const metadata: Metadata = {
@@ -69,6 +70,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
+        <meta charSet="utf-8" />
         <meta name="color-scheme" content="dark" />
         <script
           type="application/ld+json"
@@ -102,6 +104,7 @@ export default function RootLayout({
       <body
         className={`${inter.className} bg-background text-foreground antialiased`}
       >
+        <ScrollObserver />
         {children}
         <Toaster />
       </body>
