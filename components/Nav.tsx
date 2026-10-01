@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { Logo } from "@/components/brand/Logo";
 
 export function Nav() {
   const pathname = usePathname()
@@ -42,8 +43,9 @@ export function Nav() {
       >
         <div className="nav-inner">
           {/* Left: Logo */}
-          <Link href="/" className="nav-logo" onClick={() => setMenuOpen(false)}>
-            Nextbot
+          <Link href="/" className="nav-logo" aria-label="nextbot — начало" onClick={() => setMenuOpen(false)}>
+            {/* light variant until the menu itself is reworked in step 2 */}
+            <Logo className="text-white" size={20} />
           </Link>
 
           {/* Center: Links (desktop) */}

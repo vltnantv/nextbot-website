@@ -2,7 +2,7 @@
 
 import { useLanguage } from '@/lib/i18n'
 import Link from 'next/link'
-import Image from 'next/image'
+import { Logo } from "@/components/brand/Logo";
 
 const copy = {
   en: {
@@ -50,9 +50,8 @@ export function Footer() {
         <div className="py-14 sm:py-20 grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-10">
           {/* Brand */}
           <div>
-            <Link href="/" className="inline-flex items-center gap-2 mb-4">
-              <Image src="/logo-icon.png" alt="NextBot" width={22} height={22} className="invert brightness-100" />
-              <span className="text-[0.85rem] font-semibold text-white tracking-tight">NextBot</span>
+            <Link href="/" className="inline-flex items-center gap-2 mb-4" aria-label="nextbot — начало">
+              <Logo className="text-white" size={18} />
             </Link>
             <p className="text-[0.8rem] text-nb-text-secondary leading-relaxed max-w-[280px] mb-5">{t.tagline}</p>
             <div className="space-y-1">

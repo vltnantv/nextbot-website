@@ -1,13 +1,26 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Geologica, Onest } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { ScrollObserver } from "@/components/ScrollObserver";
+import { ThemeProvider } from "@/components/theme-provider";
+import "@/styles/tokens.css";
 import "./globals.css";
 
-const inter = Inter({
-  subsets: ["latin", "cyrillic"],
-  weight: ["300", "400", "500", "600", "700", "800"],
-  variable: "--font-inter",
+// BRAND.md: Geologica 600 for headings, Onest 400/500 for text, Cyrillic subset.
+const geologica = Geologica({
+  subsets: ["cyrillic", "latin"],
+  weight: ["600"],
+  variable: "--font-geologica",
+  display: "swap",
+  // Next has no fallback metrics for Geologica; use a plain system fallback instead of a warning
+  adjustFontFallback: false,
+  fallback: ["system-ui", "sans-serif"],
+});
+
+const onest = Onest({
+  subsets: ["cyrillic", "latin"],
+  weight: ["400", "500"],
+  variable: "--font-onest",
   display: "swap",
 });
 
@@ -16,7 +29,10 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   userScalable: true,
-  themeColor: "#080808",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F5F6F8" },
+    { media: "(prefers-color-scheme: dark)", color: "#0C111B" },
+  ],
 };
 
 export const metadata: Metadata = {
@@ -68,10 +84,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html lang="bg" className={`${geologica.variable} ${onest.variable}`} suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
-        <meta name="color-scheme" content="dark" />
+        <meta name="color-scheme" content="light dark" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -102,11 +118,13 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${inter.className} bg-background text-foreground antialiased`}
+        className={`${onest.className} bg-paper text-ink antialiased`}
       >
-        <ScrollObserver />
-        {children}
-        <Toaster />
+        <ThemeProvider>
+          <ScrollObserver />
+          {children}
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );

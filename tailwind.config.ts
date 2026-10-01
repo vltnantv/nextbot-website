@@ -11,6 +11,13 @@ const config: Config = {
   theme: {
   	extend: {
   		colors: {
+  			// NextBot brand tokens (BRAND.md), light/dark via CSS variables in app/globals.css
+  			ink: 'rgb(var(--ink) / <alpha-value>)',
+  			paper: 'rgb(var(--paper) / <alpha-value>)',
+  			sheet: 'rgb(var(--sheet) / <alpha-value>)',
+  			signal: 'rgb(var(--signal) / <alpha-value>)',
+  			online: 'rgb(var(--online) / <alpha-value>)',
+  			ash: 'rgb(var(--ash) / <alpha-value>)',
   			'nb-bg': '#0a0a0a',
   			'nb-surface': '#141414',
   			'nb-surface-el': '#1e1e1e',
@@ -73,13 +80,19 @@ const config: Config = {
   			}
   		},
   		fontFamily: {
+  			// Geologica 600 for headings, Onest 400/500 for text (loaded with next/font in app/layout.tsx)
   			display: [
-  				'Inter',
+  				'var(--font-geologica)',
   				'system-ui',
   				'sans-serif'
   			],
   			text: [
-  				'Inter',
+  				'var(--font-onest)',
+  				'system-ui',
+  				'sans-serif'
+  			],
+  			sans: [
+  				'var(--font-onest)',
   				'system-ui',
   				'sans-serif'
   			],

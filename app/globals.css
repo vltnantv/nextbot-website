@@ -25,8 +25,8 @@
   }
 
   body {
-    background: #0a0a0a;
-    color: #ffffff;
+    background: rgb(var(--paper));
+    color: rgb(var(--ink));
     font-feature-settings: "kern" 1, "liga" 1;
     overflow-x: clip;
   }
@@ -42,13 +42,13 @@
   }
 
   ::selection {
-    background: rgba(249, 115, 22, 0.3);
-    color: #ffffff;
+    background: rgb(var(--signal) / 0.25);
+    color: rgb(var(--ink));
   }
 
   :focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.4);
+    box-shadow: 0 0 0 2px rgb(var(--signal) / 0.5);
   }
 
   ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -70,6 +70,26 @@
     scroll-margin-top: 80px;
   }
 
+  /* NextBot brand tokens (BRAND.md). Stored as RGB channels so Tailwind opacity works: bg-signal/10.
+     "muted" (Пепел) is called `ash` here because shadcn already uses `muted` for the dashboard. */
+  :root {
+    --ink: 16 24 40;        /* #101828 Мастило */
+    --paper: 245 246 248;   /* #F5F6F8 Хартия */
+    --sheet: 255 255 255;   /* #FFFFFF Лист */
+    --signal: 46 91 255;    /* #2E5BFF Сигнал */
+    --online: 18 183 106;   /* #12B76A На линия: only the "online" dot and "answered" */
+    --ash: 102 112 133;     /* #667085 Пепел */
+  }
+  .dark {
+    --ink: 238 240 244;     /* #EEF0F4 */
+    --paper: 12 17 27;      /* #0C111B */
+    --sheet: 20 27 39;      /* #141B27 */
+    --signal: 125 155 255;  /* #7D9BFF */
+    --online: 60 203 134;   /* #3CCB86 */
+    --ash: 152 162 179;     /* #98A2B3 */
+  }
+
+  /* shadcn variables below stay dark in both themes: the dashboard and login are always dark. */
   :root {
     --background: 0 0% 4%;
     --foreground: 0 0% 100%;
