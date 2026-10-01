@@ -33,11 +33,11 @@ export const PLANS: Plan[] = [
 
 export const STUDIO_FROM = 1500 // € per project
 
-export type WebOffer = { name: string; from: number | null; monthly?: number; includes: string }
+export type WebOffer = { name: string; from: number | null; monthly?: number; includes: string; popular?: boolean }
 
 export const WEB_OFFERS: WebOffer[] = [
   { name: 'Визитка', from: 490, includes: '1 страница, контакти, карта, форма, мобилна версия, до 7 дни' },
-  { name: 'Бизнес сайт', from: 990, includes: 'До 6 страници, услуги, цени, галерия, основно SEO, до 14 дни' },
+  { name: 'Бизнес сайт', from: 990, popular: true, includes: 'До 6 страници, услуги, цени, галерия, основно SEO, до 14 дни' },
   { name: 'Онлайн магазин', from: 1900, includes: 'Продукти, количка, плащане и доставка, до 30 дни' },
   { name: 'Поддръжка', from: null, monthly: 29, includes: 'Хостинг, сигурност, резервни копия, до 1 час промени месечно' },
 ]
