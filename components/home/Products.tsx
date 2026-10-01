@@ -1,5 +1,6 @@
 import { Tilt } from '@/components/motion/Tilt'
 import { Reveal } from '@/components/motion/Reveal'
+import { Stagger } from '@/components/motion/Stagger'
 import { Arrow } from './Arrow'
 import { CARD, EYEBROW, H, H2, WRAP } from './ui'
 
@@ -56,14 +57,14 @@ export function Products() {
 
         <Reveal className="flex flex-col gap-3.5">
           <Step n="01" label="Приема клиента" />
-          <div className="grid gap-5 min-[900px]:grid-cols-3">
+          <Stagger className="grid gap-5 min-[900px]:grid-cols-3">
             {RECEIVE.map((p) => (
               <ProductCard key={p.name} p={p} />
             ))}
-          </div>
+          </Stagger>
         </Reveal>
 
-        <Reveal className="grid gap-5 min-[900px]:grid-cols-2">
+        <Stagger className="grid gap-5 min-[900px]:grid-cols-2">
           <div className="flex flex-col gap-3.5">
             <Step n="02" label="Записва и напомня" />
             <ProductCard p={CORE} grow />
@@ -72,7 +73,7 @@ export function Products() {
             <Step n="03" label="Връща го отново" />
             <ProductCard p={ECHO} grow />
           </div>
-        </Reveal>
+        </Stagger>
 
         <Reveal>
           <Tilt

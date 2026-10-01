@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { DrawLine } from '@/components/motion/DrawLine'
 import { Reveal } from '@/components/motion/Reveal'
+import { Stagger } from '@/components/motion/Stagger'
 import { Arrow } from '@/components/home/Arrow'
 import { CARD, H } from '@/components/home/ui'
 import { Cards, EndBlock, FaqList, ProductHero, Section, TextLink } from '@/components/page/blocks'
@@ -38,8 +40,7 @@ export default function CorePage() {
       />
 
       <Section title="Проблемът" deep>
-        <Reveal>
-          <ul className="m-0 flex list-none flex-col gap-4 p-0">
+        <Stagger as="ul" className="m-0 flex list-none flex-col gap-4 p-0">
             {[
               'Клиент каза „ще помисля“ и никой не му се обади.',
               'Данните са в три тетрадки, две таблици и един телефон.',
@@ -49,8 +50,7 @@ export default function CorePage() {
                 {line}
               </li>
             ))}
-          </ul>
-        </Reveal>
+        </Stagger>
       </Section>
 
       <Section id="kakvo-pravi" title="Какво прави">
@@ -68,14 +68,13 @@ export default function CorePage() {
       <Section title="Свързан е с останалото" deep>
         <Reveal className="flex flex-col gap-8">
           <p className="m-0 max-w-[640px] text-[19px]">Запитванията от NEO и сайта влизат в CORE автоматично. Не ги преписвате.</p>
+          {/* Сайт и NEO → CORE → ECHO: the arrows draw themselves one after another */}
           <ol className="m-0 flex list-none flex-wrap items-center gap-3 p-0" aria-label="Схема">
             {FLOW.map((step, i) => (
               <li key={step} className="flex items-center gap-3">
                 <span className={`${CARD} rounded-full px-5 py-2.5 ${step === 'CORE' ? `${H} border-ink text-[17px]` : 'text-[16px]'}`}>{step}</span>
                 {i < FLOW.length - 1 && (
-                  <span aria-hidden="true" className="text-[20px] text-stone">
-                    →
-                  </span>
+                  <DrawLine arrow className="h-3 w-12" delay={0.3 + i * 1.2} />
                 )}
               </li>
             ))}
@@ -84,8 +83,7 @@ export default function CorePage() {
       </Section>
 
       <Section title="За кого е">
-        <Reveal>
-          <ul className="m-0 flex list-none flex-col gap-3 p-0">
+        <Stagger as="ul" className="m-0 flex list-none flex-col gap-3 p-0">
             {AUDIENCE.map((a) => (
               <li key={a.href}>
                 <Link href={a.href} className={`group ${H} inline-flex items-center gap-2 text-[22px] text-ink no-underline`}>
@@ -93,8 +91,7 @@ export default function CorePage() {
                 </Link>
               </li>
             ))}
-          </ul>
-        </Reveal>
+        </Stagger>
       </Section>
 
       <Section title="Въпроси" deep narrow>

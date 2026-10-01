@@ -147,13 +147,22 @@
    Hidden only when JavaScript runs (html.js is set by an inline script in <head>),
    so without JS - and for search engines - every section is simply visible. */
 .js [data-reveal],
-.js [data-appear] {
+.js [data-stagger] > * {
   opacity: 0;
+}
+.js [data-word] {
+  transform: translateY(100%);
+}
+/* Hero text is the LCP element: it is painted on the first frame and only slides into place */
+.js [data-stagger="lift"] > * {
+  opacity: 1;
+  transform: translateY(24px);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .js [data-reveal],
-  .js [data-appear] {
+  .js [data-stagger] > *,
+  .js [data-word] {
     opacity: 1 !important;
     transform: none !important;
   }
@@ -164,15 +173,9 @@
    (no waiting for JavaScript, so they never delay LCP) and run the same in Safari/iOS.
    Scroll-, pointer- and state-driven motion is Framer Motion (components/motion). */
 
-/* Headline word by word behind a mask */
+/* Headline mask (components/motion/WordReveal.tsx) */
 .mask-word { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .08em; margin-bottom: -.08em; }
-.word-in { display: inline-block; animation: nb-word .9s cubic-bezier(.2,.8,.2,1) both; }
-@keyframes nb-word { from { transform: translateY(105%); opacity: 0; } to { transform: none; opacity: 1; } }
 
-/* Text sliding in after the headline. Transform only - no opacity - so the text is painted on the
-   first frame and counts for LCP at once (an opacity fade delayed LCP to 3.3 s on a throttled phone). */
-.fade-in { animation: nb-fade .9s cubic-bezier(.2,.8,.2,1) both; }
-@keyframes nb-fade { from { transform: translateY(12px); } to { transform: none; } }
 
 /* "пише…" dots */
 .typing { display: inline-flex; gap: 4px; align-items: center; }
@@ -182,27 +185,49 @@
 @keyframes nb-typing { 0%, 60%, 100% { transform: translateY(0); opacity: .5; } 30% { transform: translateY(-4px); opacity: 1; } }
 
 /* Industries marquee, pauses on hover */
-.marquee { display: flex; width: max-content; animation: nb-marquee 38s linear infinite; }
+.marquee { display: flex; width: max-content; animation: nb-marquee 60s linear infinite; will-change: transform; }
 .marquee-wrap:hover .marquee { animation-play-state: paused; }
 @keyframes nb-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-/* Shine passing over the primary button every 5 s */
+/* Shine passing over the primary button on hover (600 ms) - transform only */
 .btn-shine { position: relative; overflow: hidden; isolation: isolate; }
 .btn-shine::after {
-  content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%; pointer-events: none;
+  content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 40%; pointer-events: none;
   background: linear-gradient(100deg, rgba(255,255,255,0), rgba(255,255,255,.28), rgba(255,255,255,0));
-  transform: skewX(-18deg); animation: nb-shine 5s ease-in-out infinite;
+  transform: translateX(-160%) skewX(-18deg);
 }
-@keyframes nb-shine { 0%, 70% { left: -60%; } 100% { left: 130%; } }
+.btn-shine:hover::after { transform: translateX(360%) skewX(-18deg); transition: transform .6s cubic-bezier(.22,1,.36,1); }
+
+/* Thin light edge slowly running around the „Растеж“ card (8 s) - a rotating conic gradient
+   behind a 2 px frame, so only transform is animated */
+.edge-glow { position: relative; overflow: hidden; isolation: isolate; }
+.edge-glow::before {
+  content: ""; position: absolute; inset: -60%; z-index: -1;
+  background: conic-gradient(from 0deg, #1F1D1A 0deg 290deg, #E9DCC8 320deg, #1F1D1A 350deg);
+  animation: nb-spin 8s linear infinite;
+}
+/* white face over the spinning gradient, leaving a 2px glowing edge */
+.edge-glow::after { content: ""; position: absolute; inset: 2px; z-index: -1; border-radius: 14px; background: #fff; }
+@keyframes nb-spin { to { transform: rotate(360deg); } }
 
 /* Background blobs drifting (parallax on scroll is Framer Motion) */
 .blob-drift-1 { animation: nb-drift-1 26s ease-in-out infinite; }
 .blob-drift-2 { animation: nb-drift-2 30s ease-in-out infinite; }
-.blob-drift-3 { animation: nb-drift-1 34s ease-in-out infinite reverse; }
+.blob-drift-3 { animation: nb-drift-1 24s ease-in-out infinite reverse; }
 @keyframes nb-drift-1 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(60px, 40px) scale(1.08); } }
 @keyframes nb-drift-2 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-70px, 30px) scale(.94); } }
 
 @media (prefers-reduced-motion: reduce) {
-  .word-in, .fade-in, .typing span, .marquee, .btn-shine::after,
+  .typing span, .marquee, .edge-glow::before,
   .blob-drift-1, .blob-drift-2, .blob-drift-3 { animation: none !important; }
+  .btn-shine::after { display: none; }
 }
+
+/* Menu links: an underline that crawls in from left to right (200 ms) */
+.nav-link { position: relative; }
+.nav-link::after {
+  content: ""; position: absolute; left: 10px; right: 10px; bottom: 4px; height: 1px; background: currentColor;
+  transform: scaleX(0); transform-origin: left; transition: transform .2s cubic-bezier(.22,1,.36,1);
+}
+.nav-link:hover::after, .nav-link:focus-visible::after, .nav-link[aria-expanded="true"]::after { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) { .nav-link::after { transition: none; } }

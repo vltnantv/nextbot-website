@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Reveal } from '@/components/motion/Reveal'
+import { Stagger } from '@/components/motion/Stagger'
 import { Tilt } from '@/components/motion/Tilt'
 import { CTA } from '@/lib/site-nav'
 import { GUARANTEE_DAYS, PLANS, WEB_OFFERS, WEB_RULES, eur } from '@/lib/prices'
@@ -19,11 +20,11 @@ export function Pricing() {
           <h2 className={H2}>Ясни цени, месечно, без годишен договор.</h2>
         </Reveal>
 
-        <Reveal className="grid items-stretch gap-5 min-[900px]:grid-cols-3">
+        <Stagger className="grid items-stretch gap-5 min-[900px]:grid-cols-3">
           {PLANS.map((plan) => (
             <Tilt
               key={plan.id}
-              className={`flex flex-col gap-[18px] bg-white p-[30px] ${plan.popular ? 'border-2 border-ink' : 'border border-line'}`}
+              className={`flex flex-col gap-[18px] bg-white p-[30px] ${plan.popular ? 'edge-glow border-2 border-transparent' : 'border border-line'}`}
             >
               <span className="flex items-center justify-between gap-2">
                 <span className={`${H} text-[20px]`}>{plan.name}</span>
@@ -50,7 +51,7 @@ export function Pricing() {
               </Link>
             </Tilt>
           ))}
-        </Reveal>
+        </Stagger>
 
         <Reveal>
           <Tilt className={`${CARD} flex flex-wrap items-center justify-between gap-4 px-7 py-6`}>

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Float } from '@/components/motion/Float'
 import { Reveal } from '@/components/motion/Reveal'
-import { HeroChat } from '@/components/home/HeroChat'
+import { Typing } from '@/components/motion/Typing'
 import { CARD, H } from '@/components/home/ui'
 import { Cards, EndBlock, FaqList, ProductHero, Section, Steps, TextLink } from '@/components/page/blocks'
 import { CTA } from '@/lib/site-nav'
@@ -50,9 +50,7 @@ export default function NeoPage() {
         <Reveal className="flex flex-col items-center gap-4">
           <Float className="w-full max-w-[420px]" duration={6}>
             <div className="overflow-hidden rounded-[28px] border border-line bg-white shadow-[0_1px_2px_rgba(31,29,26,.04),0_24px_60px_rgba(31,29,26,.10)]">
-              <HeroChat
-                timeLabel={null}
-                doneLabel={null}
+              <Typing
                 lines={[
                   { who: 'u', text: 'Здравейте, колко струва почистване на зъби?' },
                   { who: 'b', text: 'Здравейте! Почистването е 80 €. Искате ли да запазя час?' },

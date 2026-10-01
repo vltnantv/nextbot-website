@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ChevronDown, Menu, X } from 'lucide-react'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { DROPDOWN, EASE, HEADER_MATTE_AFTER } from '@/lib/motion'
 import { Logo } from '@/components/brand/Logo'
 import { cn } from '@/lib/utils'
 import { CTA, MAIN_LINKS, PRODUCTS, SOLUTIONS, type NavItem } from '@/lib/site-nav'
@@ -26,6 +28,7 @@ function Dropdown({
   onClose: () => void
 }) {
   const panelId = `nav-${id}`
+  const reduce = useReducedMotion()
   return (
     <div
       className="relative"
@@ -35,7 +38,7 @@ function Dropdown({
     >
       <button
         type="button"
-        className="flex items-center gap-1 rounded-md px-2.5 py-2 text-[15px] text-ink/80 transition-colors hover:text-ink"
+        className="nav-link flex items-center gap-1 rounded-md px-2.5 py-2 text-[15px] text-ink/80 transition-colors hover:text-ink"
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => (open ? onClose() : onOpen())}
@@ -43,34 +46,37 @@ function Dropdown({
         {label}
         <ChevronDown className={cn('h-3.5 w-3.5 transition-transform', open && 'rotate-180')} aria-hidden="true" />
       </button>
-      <div
-        id={panelId}
-        className={cn(
-          'absolute left-0 top-full pt-2 transition-opacity',
-          open ? 'visible opacity-100' : 'invisible opacity-0',
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            id={panelId}
+            className="absolute left-0 top-full pt-2"
+            initial={reduce ? false : { opacity: 0, y: DROPDOWN.y }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduce ? { opacity: 0, transition: { duration: 0 } } : { opacity: 0, y: DROPDOWN.y }}
+            transition={{ duration: DROPDOWN.duration, ease: EASE }}
+          >
+            <ul className="w-72 rounded-card border border-line bg-white p-2 shadow-soft">
+              {items.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="flex items-start justify-between gap-3 rounded-md px-3 py-2.5 hover:bg-cream-deep focus-visible:bg-cream-deep"
+                  >
+                    <span>
+                      <span className="block text-[15px] font-medium text-ink">{item.label}</span>
+                      {item.description && <span className="mt-0.5 block text-[13px] text-stone">{item.description}</span>}
+                    </span>
+                    {item.badge && (
+                      <span className="mt-0.5 shrink-0 rounded-full border border-line px-2 py-0.5 text-[11px] text-stone">{item.badge}</span>
+                    )}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
         )}
-      >
-        <ul className="w-72 rounded-card border border-line bg-white p-2 shadow-soft">
-          {items.map((item) => (
-            <li key={item.href}>
-              <Link
-                href={item.href}
-                className="flex items-start justify-between gap-3 rounded-md px-3 py-2.5 hover:bg-cream-deep focus-visible:bg-cream-deep"
-              >
-                <span>
-                  <span className="block text-[15px] font-medium text-ink">{item.label}</span>
-                  {item.description && <span className="mt-0.5 block text-[13px] text-stone">{item.description}</span>}
-                </span>
-                {item.badge && (
-                  <span className="mt-0.5 shrink-0 rounded-full border border-line px-2 py-0.5 text-[11px] text-stone">
-                    {item.badge}
-                  </span>
-                )}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
+      </AnimatePresence>
     </div>
   )
 }
@@ -78,8 +84,16 @@ function Dropdown({
 export function Nav() {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [matte, setMatte] = useState(false)
   const [open, setOpen] = useState<MenuKey | null>(null)
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    const onScroll = () => setMatte(window.scrollY > HEADER_MATTE_AFTER)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? 'hidden' : ''
@@ -102,8 +116,16 @@ export function Nav() {
   }
 
   return (
-    // Sticky with a frosted background (mockup .nb-head). -webkit- prefix is added by autoprefixer for Safari.
-    <header className="sticky top-0 z-30 border-b border-line/70 bg-cream/[.72] backdrop-blur-[14px] backdrop-saturate-[1.4]">
+    // MOTION.md: transparent at the top, matte (blur 12 px + thin line) after 24 px of scroll.
+    <header className="sticky top-0 z-30">
+      {/* matte layer: only its opacity changes */}
+      <div
+        aria-hidden="true"
+        className={cn(
+          'pointer-events-none absolute inset-0 -z-10 border-b border-line/80 bg-cream/[.72] backdrop-blur-[12px] backdrop-saturate-[1.4] transition-opacity duration-200 motion-reduce:transition-none',
+          matte || mobileOpen ? 'opacity-100' : 'opacity-0',
+        )}
+      />
       <nav className="mx-auto flex max-w-[1200px] items-center justify-between gap-6 px-6 py-[22px]" aria-label="Основно меню">
         <Link href="/" aria-label="nextbot — начало" className="rounded-md">
           <Logo size={23} />
@@ -132,7 +154,7 @@ export function Nav() {
               key={item.href}
               href={item.href}
               className={cn(
-                'rounded-md px-2.5 py-2 text-[15px] transition-colors hover:text-ink',
+                'nav-link rounded-md px-2.5 py-2 text-[15px] transition-colors hover:text-ink',
                 pathname === item.href ? 'text-ink' : 'text-ink/80',
               )}
             >

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Reveal } from '@/components/motion/Reveal'
+import { Stagger } from '@/components/motion/Stagger'
 import { Tilt } from '@/components/motion/Tilt'
 import { Arrow } from '@/components/home/Arrow'
 import { BTN_PRIMARY, BTN_SECONDARY, CARD, H } from '@/components/home/ui'
@@ -60,11 +61,11 @@ export default function WebPage() {
       </Section>
 
       <Section id="ceni" title="Цени">
-        <Reveal className="grid items-stretch gap-5 min-[900px]:grid-cols-3">
+        <Stagger className="grid items-stretch gap-5 min-[900px]:grid-cols-3">
           {OFFERS.map(({ o, points }) => (
             <Tilt
               key={o.name}
-              className={`flex flex-col gap-[18px] bg-white p-[30px] ${o.popular ? 'border-2 border-ink' : 'border border-line'}`}
+              className={`flex flex-col gap-[18px] bg-white p-[30px] ${o.popular ? 'edge-glow border-2 border-transparent' : 'border border-line'}`}
             >
               <span className="flex items-center justify-between gap-2">
                 <span className={`${H} text-[20px]`}>{o.name}</span>
@@ -84,7 +85,7 @@ export default function WebPage() {
               </Link>
             </Tilt>
           ))}
-        </Reveal>
+        </Stagger>
         <Reveal>
           <div className={`${CARD} rounded-card px-7 py-6`}>
             <span className="font-semibold">

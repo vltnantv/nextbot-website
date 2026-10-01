@@ -1,5 +1,6 @@
 import { DrawLine } from '@/components/motion/DrawLine'
 import { Reveal } from '@/components/motion/Reveal'
+import { Stagger } from '@/components/motion/Stagger'
 import { SETUP_DAYS } from '@/lib/prices'
 import { EYEBROW, H, H2, WRAP } from './ui'
 
@@ -17,18 +18,17 @@ export function HowWeStart() {
           <span className={EYEBROW}>Как започваме</span>
           <h2 className={H2}>От разговор до работещ асистент за {SETUP_DAYS} дни.</h2>
         </Reveal>
-        <Reveal as="div">
-          <ol className="m-0 grid list-none gap-5 p-0 min-[900px]:grid-cols-3">
-            {STEPS.map((s) => (
+        {/* numbers appear in order, each line draws after the previous one */}
+        <Stagger as="ol" className="m-0 grid list-none gap-5 p-0 min-[900px]:grid-cols-3">
+            {STEPS.map((s, i) => (
               <li key={s.when} className="flex flex-col gap-2.5">
-                <DrawLine />
+                <DrawLine className="h-3 w-full" delay={i * 0.35} />
                 <span className={`${H} text-[15px] text-online-text`}>{s.when}</span>
                 <span className={`${H} text-[22px]`}>{s.title}</span>
                 <span className="text-stone">{s.text}</span>
               </li>
             ))}
-          </ol>
-        </Reveal>
+        </Stagger>
       </div>
     </section>
   )

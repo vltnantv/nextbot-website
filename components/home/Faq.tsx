@@ -1,3 +1,4 @@
+import { Accordion } from '@/components/motion/Accordion'
 import { Reveal } from '@/components/motion/Reveal'
 import { SETUP_DAYS } from '@/lib/prices'
 import { H2 } from './ui'
@@ -28,21 +29,14 @@ export function Faq() {
   return (
     <section id="za-nas" className="relative z-[1] pb-[104px] pt-[72px]">
       <div className="mx-auto flex w-full max-w-[860px] flex-col gap-8 px-6">
-        <h2 className={H2}>Често задавани въпроси</h2>
+        <Reveal>
+          <h2 className={H2}>Често задавани въпроси</h2>
+        </Reveal>
         <Reveal className="flex flex-col border-t border-line">
           {QUESTIONS.map(({ q, a }) => (
-            <details key={q} className="group border-b border-line py-5">
-              <summary className="flex cursor-pointer list-none justify-between gap-4 text-[18px] font-medium [&::-webkit-details-marker]:hidden">
-                {q}
-                <span
-                  aria-hidden="true"
-                  className="text-[22px] leading-none transition-transform duration-200 group-open:rotate-45 motion-reduce:transition-none"
-                >
-                  +
-                </span>
-              </summary>
-              <p className="mb-0 mt-3 text-stone">{a}</p>
-            </details>
+            <Accordion key={q} q={q}>
+              {a}
+            </Accordion>
           ))}
         </Reveal>
       </div>
