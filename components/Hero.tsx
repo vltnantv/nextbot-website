@@ -200,7 +200,7 @@ export function Hero() {
           </h1>
 
           <p className="animate-on-scroll delay-2 hero-sub">
-            NEO is our first product — an AI assistant that handles your customer communication 24/7, so your team doesn't have to.
+            NEO is our first product — an AI assistant that handles your customer communication 24/7, so your team doesn&apos;t have to.
           </p>
 
           <div className="animate-on-scroll delay-3 hero-buttons">
