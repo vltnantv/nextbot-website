@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Reveal } from '@/components/motion/Reveal'
 import { EchoTimeline } from '@/components/signature/EchoTimeline'
-import { ChatCard, EndBlock, FaqList, ProductHero, Section, TextLink } from '@/components/page/blocks'
+import { EndBlock, FaqList, ProductHero, Section, TextLink } from '@/components/page/blocks'
 import { CTA } from '@/lib/site-nav'
 
 // Text: copy/echo.md - word for word; h1 and subtitle from copy/UNIQUE.md („Пътят на един клиент“).
@@ -31,23 +31,15 @@ export default function EchoPage() {
         <EchoTimeline />
       </Section>
 
-      <Section title="Пример за съобщение">
-        <ChatCard
-          note="Примерът е илюстрация, текстът се настройва за вас."
-          lines={[
-            { who: 'b', text: 'Здравейте, Мария! Напомняме Ви за утре в 10:30 ч. Ако не можете да дойдете, отговорете тук и ще преместим часа.' },
-            { who: 'b', text: 'Здравейте! Как мина посещението? Ако сте доволна, ще ни помогне отзив тук: [връзка към Google].' },
-          ]}
-        />
-      </Section>
+      {/* „Пример за съобщение“ removed (Valentin, 01.10.2026): the same two messages are in the timeline above. */}
 
-      <Section title="Връзка с останалото" deep>
+      <Section title="Връзка с останалото">
         <Reveal>
           <p className="m-0 max-w-[640px] text-[19px]">ECHO работи със списъка на клиентите в CORE. Знае кой кога е идвал и кому да пише.</p>
         </Reveal>
       </Section>
 
-      <Section title="Въпроси" narrow>
+      <Section title="Въпроси" deep narrow>
         <FaqList
           items={[
             // [ПРОВЕРИ с юрист] - not shown until checked (copy/echo.md):

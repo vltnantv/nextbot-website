@@ -68,8 +68,8 @@ export default function PricesPage() {
             </Tilt>
           ))}
         </Stagger>
-        {/* [ПОТВЪРДИ кои работят, преди да остане този ред] - not shown until confirmed:
-            „Сега NEO работи в сайта. Viber, Messenger, WhatsApp и Instagram са „скоро“.“ */}
+        {/* Channels line: confirmed by Valentin, 01.10.2026 */}
+        <p className="m-0 text-[15px] text-stone">Сега NEO работи в сайта. Viber, Messenger, WhatsApp и Instagram са „скоро“.</p>
       </Section>
 
       <Section deep>

@@ -17,7 +17,8 @@ export const metadata: Metadata = {
 export default function HotelsPage() {
   return (
     <IndustryPage
-      eyebrow="Хотели и къщи за гости"
+      // label as in the menu (Valentin, 01.10.2026); copy/branshove.md had „Хотели и къщи за гости“
+      eyebrow="Хотели и ресторанти"
       // (copy/branshove.md h1 was: Гостът пита за стая в полунощ. Получава отговор веднага.)
       title="Гостите питат едно и също. Всеки ден."
       lead="Нека NEO им отговаря, а вие посрещате."

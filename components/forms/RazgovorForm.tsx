@@ -6,11 +6,12 @@ import { useEffect, useState } from 'react'
 import { BTN_PRIMARY } from '@/components/home/ui'
 import { EASE } from '@/lib/motion'
 import { CALL_DAYS, CALL_TIMES } from '@/lib/booking'
+import { COMPANY, telHref } from '@/lib/company'
 import { INPUT, LABEL } from './fields'
 import { clearNote, takeNote } from './note'
 
 // /razgovor signature + form (copy/UNIQUE.md „Часове“, copy/ceni-zanas-razgovor.md „Форма“).
-// With CALL_TIMES set: a row of the next working days with their times; picking a chip slides the form in.
+// With CALL_TIMES set: the next working days, then the times of the chosen day; picking a time slides the form in.
 // Without them: the form is shown at once with a free „Удобен час“ field.
 // Fields: име, телефон, имейл (по желание), бизнес и бранш, удобен час, consent (not pre-ticked).
 
@@ -32,12 +33,17 @@ export function RazgovorForm() {
   const reduce = useReducedMotion()
   const withSlots = CALL_TIMES.length > 0
   const [days, setDays] = useState<Date[]>([]) // after mount: dates depend on the visitor's clock
+  const [activeDay, setActiveDay] = useState<string | null>(null)
   const [slot, setSlot] = useState<{ day: string; time: string } | null>(null)
   const [note, setNote] = useState('')
   const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle')
 
   useEffect(() => {
-    if (withSlots) setDays(workingDays(CALL_DAYS))
+    if (withSlots) {
+      const list = workingDays(CALL_DAYS)
+      setDays(list)
+      setActiveDay(label(list[0]))
+    }
     setNote(takeNote())
   }, [withSlots])
 
@@ -73,41 +79,64 @@ export function RazgovorForm() {
   if (state === 'done') {
     return (
       <p role="status" className="m-0 rounded-[24px] border border-line bg-white p-8 font-display text-[24px] font-semibold leading-snug">
-        Благодарим! Ще се обадим до един работен ден.
-        {/* [ПОТВЪРДИ телефона] - not shown until confirmed (copy/ceni-zanas-razgovor.md):
-            „Ако е спешно, наберете +359 894 288 119.“ */}
+        Благодарим! Ще се обадим до един работен ден. Ако е спешно, наберете{' '}
+        <a href={telHref(COMPANY.phone)} className="whitespace-nowrap text-ink underline decoration-line decoration-2 underline-offset-4">
+          {COMPANY.phone}
+        </a>
+        .
       </p>
     )
   }
 
   return (
     <div className="flex flex-col gap-6">
-      {withSlots && (
-        <div className="grid gap-3 min-[700px]:grid-cols-5">
-          {days.map((d) => {
-            const day = label(d)
-            return (
-              <div key={day} className="flex flex-col gap-2 rounded-card border border-line bg-white p-3">
-                <span className="text-center text-[14px] font-medium">{day}</span>
-                {CALL_TIMES.map((t) => {
-                  const on = slot?.day === day && slot.time === t
-                  return (
-                    <button
-                      key={t}
-                      type="button"
-                      aria-pressed={on}
-                      onClick={() => setSlot({ day, time: t })}
-                      className={`min-h-11 rounded-full border text-[15px] font-medium tabular-nums transition-colors ${
-                        on ? 'border-ink bg-ink text-cream' : 'border-line text-ink hover:border-ink'
-                      }`}
-                    >
-                      {t}
-                    </button>
-                  )
-                })}
-              </div>
-            )
-          })}
+      {/* days depend on the visitor's clock, so the picker appears after hydration; without JavaScript the
+          page still offers „Друг начин“ (phone and Viber) */}
+      {withSlots && days.length > 0 && (
+        <div className="flex flex-col gap-4 rounded-[24px] border border-line bg-white p-5 shadow-soft sm:p-7">
+          {/* 1. day */}
+          <div className="grid grid-cols-5 gap-2" role="radiogroup" aria-label="Ден">
+            {days.map((d) => {
+              const day = label(d)
+              const on = activeDay === day
+              return (
+                <button
+                  key={day}
+                  type="button"
+                  role="radio"
+                  aria-checked={on}
+                  onClick={() => setActiveDay(day)}
+                  className={`flex min-h-14 flex-col items-center justify-center rounded-[14px] border px-1 py-2 text-[14px] leading-tight transition-colors ${
+                    on ? 'border-ink bg-ink text-cream' : 'border-line text-ink hover:border-ink'
+                  }`}
+                >
+                  <span className="font-medium">{WEEKDAY.format(d)}</span>
+                  <span className={on ? 'text-cream/80' : 'text-stone'}>{DAY.format(d)}</span>
+                </button>
+              )
+            })}
+          </div>
+          {/* 2. time on that day */}
+          <div className="grid grid-cols-4 gap-2 min-[500px]:grid-cols-8" role="radiogroup" aria-label="Час">
+            {CALL_TIMES.map((time) => {
+              const on = slot?.day === activeDay && slot.time === time
+              return (
+                <button
+                  key={time}
+                  type="button"
+                  role="radio"
+                  aria-checked={on}
+                  disabled={!activeDay}
+                  onClick={() => activeDay && setSlot({ day: activeDay, time })}
+                  className={`min-h-11 rounded-full border text-[14px] font-medium tabular-nums transition-colors disabled:opacity-40 ${
+                    on ? 'border-ink bg-ink text-cream' : 'border-line text-ink hover:border-ink'
+                  }`}
+                >
+                  {time}
+                </button>
+              )
+            })}
+          </div>
         </div>
       )}
 

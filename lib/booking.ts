@@ -1,8 +1,13 @@
-// Times offered on /razgovor (copy/UNIQUE.md „Часове“): the next 5 working days, 3-4 times a day.
-// „Часовете са по ваш избор, не измисляйте ангажименти, които не можете да изпълните.“
-// [ПОТВЪРДИ] Valentin chooses the times. While this list is empty the page shows a free „Удобен час“ field
-// instead of the time chips. Example once confirmed: ['10:00', '13:00', '16:00'].
-export const CALL_TIMES: string[] = []
+// Times offered on /razgovor (copy/UNIQUE.md „Часове“). Set by Valentin, 01.10.2026:
+// Monday-Friday, 10:00-18:00, 30-minute slots (the last call starts at 17:30).
+const START = 10 * 60
+const END = 18 * 60
+const STEP = 30
 
-/** How many working days ahead are offered */
+export const CALL_TIMES: string[] = Array.from({ length: (END - START) / STEP }, (_, i) => {
+  const m = START + i * STEP
+  return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`
+})
+
+/** How many working days ahead are offered (Monday-Friday) */
 export const CALL_DAYS = 5

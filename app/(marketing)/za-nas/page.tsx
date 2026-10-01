@@ -8,9 +8,8 @@ import { CTA } from '@/lib/site-nav'
 // Text: copy/ceni-zanas-razgovor.md (/za-nas) - word for word; h1 and subtitle from copy/UNIQUE.md
 // („Какво обещаваме и какво не“). No company yet: only email and phone (Valentin, 01.10.2026).
 //
-// [ПОТВЪРДИ] „Кой стои зад NextBot“ - not shown until confirmed:
-//   Валентин, основател. София. (whether to mention the car-sales experience / former employer;
-//   safer: „Работил съм в продажби и знам как се губят клиенти.“) Photo: only a real one, no stock images.
+// „Кой стои зад NextBot“: only „Валентин, основател“ is shown (Valentin, 01.10.2026).
+//   Still not shown: „София“, the car-sales experience and the former employer. Photo: only a real one.
 // [ПОТВЪРДИ] „Фирмени данни“: наименование, ЕИК, адрес - not shown until there is a company.
 
 export const metadata: Metadata = {
@@ -35,7 +34,13 @@ export default function AboutPage() {
         <Promises />
       </Section>
 
-      <Section title="Как мислим">
+      <Section title="Кой стои зад NextBot">
+        <Reveal>
+          <p className="m-0 font-display text-[24px] font-semibold tracking-[-0.02em]">Валентин, основател</p>
+        </Reveal>
+      </Section>
+
+      <Section title="Как мислим" deep>
         <Cards
           items={[
             { title: 'Просто.', text: 'Без технически думи, без сложни програми.' },
@@ -45,7 +50,7 @@ export default function AboutPage() {
         />
       </Section>
 
-      <Section title="Контакти" deep>
+      <Section title="Контакти">
         <Reveal className="flex flex-col gap-3 text-[20px]">
           <a href={`mailto:${COMPANY.email}`} className={`${link} self-start`}>
             {COMPANY.email}

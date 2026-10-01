@@ -13,7 +13,7 @@ export const PRODUCTS: NavItem[] = [
 
 export const SOLUTIONS: NavItem[] = [
   { label: "Автокъщи и сервизи", href: "/za/avtokashti" },
-  { label: "Клиники", href: "/za/kliniki" },
+  { label: "Клиники и салони", href: "/za/kliniki" },
   { label: "Имоти", href: "/za/imoti" },
   { label: "Хотели и ресторанти", href: "/za/hoteli" },
 ];

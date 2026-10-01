@@ -30,7 +30,7 @@ const nextConfig = {
     ];
     // Old pages with outdated prices and dashboard references (not in BRAND.md). Temporary until
     // step 5 adds the final redirects of all old addresses.
-    const outdated = ["/documentation", "/api-docs"];
+    const outdated = ["/documentation", "/api-docs", "/learn-more", "/demo-live"];
     // Old addresses that now have a Bulgarian page (permanent: these are the final addresses).
     const moved = [
       ["/about", "/za-nas"],

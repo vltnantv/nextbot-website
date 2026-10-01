@@ -4,10 +4,12 @@ import { Stagger } from '@/components/motion/Stagger'
 import { WordReveal } from '@/components/motion/WordReveal'
 import { RazgovorForm } from '@/components/forms/RazgovorForm'
 import { H, WRAP } from '@/components/home/ui'
+import { COMPANY, telHref, viberHref } from '@/lib/company'
+
+const link = 'text-ink underline decoration-line decoration-2 underline-offset-4 hover:decoration-ink'
 
 // Text: copy/ceni-zanas-razgovor.md (/razgovor) - word for word; h1 and subtitle from copy/UNIQUE.md
-// („Изберете час“). [ПОТВЪРДИ дали Viber е на същия номер] - „Друг начин: Телефон и Viber“ is not shown
-// until confirmed.
+// („Изберете час“). „Друг начин: Телефон и Viber“ - confirmed by Valentin, 01.10.2026 (same number).
 
 export const metadata: Metadata = {
   title: { absolute: 'Запазете 15-минутен разговор | NextBot' },
@@ -40,6 +42,19 @@ export default function BookCallPage() {
                   </li>
                 ))}
               </ol>
+            </div>
+            <div className="flex flex-col gap-3">
+              <h2 className={`${H} text-[22px]`}>Друг начин</h2>
+              <p className="m-0 flex flex-wrap gap-x-5 gap-y-2 text-[17px]">
+                <a href={telHref(COMPANY.phone)} className={link}>
+                  Телефон: {COMPANY.phone}
+                </a>
+                {COMPANY.viber && (
+                  <a href={viberHref(COMPANY.viber)} className={link}>
+                    Viber
+                  </a>
+                )}
+              </p>
             </div>
           </Stagger>
         </div>
