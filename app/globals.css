@@ -47,8 +47,8 @@
   }
 
   :focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 2px rgb(var(--cream)), 0 0 0 4px rgb(var(--ink) / 0.6);
+    outline: 2px solid rgb(var(--ink));
+    outline-offset: 3px;
   }
 
   ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -157,4 +157,52 @@
     opacity: 1 !important;
     transform: none !important;
   }
+}
+
+/* ── Homepage motion from design/homepage-mockup.html ─────────────────────────────
+   Load-time and endless decorative animations are plain CSS: they start on first paint
+   (no waiting for JavaScript, so they never delay LCP) and run the same in Safari/iOS.
+   Scroll-, pointer- and state-driven motion is Framer Motion (components/motion). */
+
+/* Headline word by word behind a mask */
+.mask-word { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .08em; margin-bottom: -.08em; }
+.word-in { display: inline-block; animation: nb-word .9s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes nb-word { from { transform: translateY(105%); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* Text sliding in after the headline. Transform only - no opacity - so the text is painted on the
+   first frame and counts for LCP at once (an opacity fade delayed LCP to 3.3 s on a throttled phone). */
+.fade-in { animation: nb-fade .9s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes nb-fade { from { transform: translateY(12px); } to { transform: none; } }
+
+/* "пише…" dots */
+.typing { display: inline-flex; gap: 4px; align-items: center; }
+.typing span { width: 6px; height: 6px; border-radius: 50%; background-color: #B9B0A2; animation: nb-typing 1.2s ease-in-out infinite; }
+.typing span:nth-child(2) { animation-delay: .15s; }
+.typing span:nth-child(3) { animation-delay: .3s; }
+@keyframes nb-typing { 0%, 60%, 100% { transform: translateY(0); opacity: .5; } 30% { transform: translateY(-4px); opacity: 1; } }
+
+/* Industries marquee, pauses on hover */
+.marquee { display: flex; width: max-content; animation: nb-marquee 38s linear infinite; }
+.marquee-wrap:hover .marquee { animation-play-state: paused; }
+@keyframes nb-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* Shine passing over the primary button every 5 s */
+.btn-shine { position: relative; overflow: hidden; isolation: isolate; }
+.btn-shine::after {
+  content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%; pointer-events: none;
+  background: linear-gradient(100deg, rgba(255,255,255,0), rgba(255,255,255,.28), rgba(255,255,255,0));
+  transform: skewX(-18deg); animation: nb-shine 5s ease-in-out infinite;
+}
+@keyframes nb-shine { 0%, 70% { left: -60%; } 100% { left: 130%; } }
+
+/* Background blobs drifting (parallax on scroll is Framer Motion) */
+.blob-drift-1 { animation: nb-drift-1 26s ease-in-out infinite; }
+.blob-drift-2 { animation: nb-drift-2 30s ease-in-out infinite; }
+.blob-drift-3 { animation: nb-drift-1 34s ease-in-out infinite reverse; }
+@keyframes nb-drift-1 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(60px, 40px) scale(1.08); } }
+@keyframes nb-drift-2 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-70px, 30px) scale(.94); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .word-in, .fade-in, .typing span, .marquee, .btn-shine::after,
+  .blob-drift-1, .blob-drift-2, .blob-drift-3 { animation: none !important; }
 }

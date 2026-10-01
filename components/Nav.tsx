@@ -35,7 +35,7 @@ function Dropdown({
     >
       <button
         type="button"
-        className="flex items-center gap-1 rounded-md px-3 py-2 text-[15px] text-ink/80 transition-colors hover:text-ink"
+        className="flex items-center gap-1 rounded-md px-2.5 py-2 text-[15px] text-ink/80 transition-colors hover:text-ink"
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => (open ? onClose() : onOpen())}
@@ -77,17 +77,9 @@ function Dropdown({
 
 export function Nav() {
   const pathname = usePathname()
-  const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [open, setOpen] = useState<MenuKey | null>(null)
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? 'hidden' : ''
@@ -110,19 +102,15 @@ export function Nav() {
   }
 
   return (
-    <header
-      className={cn(
-        'fixed inset-x-0 top-0 z-50 h-16 border-b transition-colors',
-        scrolled || mobileOpen ? 'border-line bg-cream/90 backdrop-blur' : 'border-transparent bg-cream/70 backdrop-blur',
-      )}
-    >
-      <nav className="mx-auto flex h-full max-w-6xl items-center justify-between px-4 sm:px-6" aria-label="Основно меню">
+    // Sticky with a frosted background (mockup .nb-head). -webkit- prefix is added by autoprefixer for Safari.
+    <header className="sticky top-0 z-30 border-b border-line/70 bg-cream/[.72] backdrop-blur-[14px] backdrop-saturate-[1.4]">
+      <nav className="mx-auto flex max-w-[1200px] items-center justify-between gap-6 px-6 py-[22px]" aria-label="Основно меню">
         <Link href="/" aria-label="nextbot — начало" className="rounded-md">
-          <Logo size={20} />
+          <Logo size={23} />
         </Link>
 
         {/* Desktop */}
-        <div className="hidden items-center gap-1 lg:flex">
+        <div className="hidden items-center gap-2 min-[900px]:flex">
           <Dropdown
             id="products"
             label="Продукти"
@@ -144,7 +132,7 @@ export function Nav() {
               key={item.href}
               href={item.href}
               className={cn(
-                'rounded-md px-3 py-2 text-[15px] transition-colors hover:text-ink',
+                'rounded-md px-2.5 py-2 text-[15px] transition-colors hover:text-ink',
                 pathname === item.href ? 'text-ink' : 'text-ink/80',
               )}
             >
@@ -156,13 +144,13 @@ export function Nav() {
         <div className="flex items-center gap-2">
           <Link
             href={CTA.href}
-            className="hidden rounded-full bg-ink px-4 py-2.5 text-[15px] font-medium text-cream transition-opacity hover:opacity-90 sm:inline-flex"
+            className="hidden whitespace-nowrap rounded-full bg-ink px-5 py-[11px] text-[15px] font-medium text-cream transition-transform duration-200 hover:-translate-y-px sm:inline-flex"
           >
             {CTA.label}
           </Link>
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-md text-ink lg:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink min-[900px]:hidden"
             aria-label={mobileOpen ? 'Затвори менюто' : 'Отвори менюто'}
             aria-expanded={mobileOpen}
             aria-controls="nav-mobile"
@@ -175,7 +163,7 @@ export function Nav() {
 
       {/* Mobile */}
       {mobileOpen && (
-        <div id="nav-mobile" className="fixed inset-x-0 bottom-0 top-16 overflow-y-auto bg-cream px-4 pb-10 pt-4 lg:hidden">
+        <div id="nav-mobile" className="absolute inset-x-0 top-full h-[calc(100dvh-100%)] overflow-y-auto border-t border-line bg-cream px-6 pb-10 pt-4 min-[900px]:hidden">
           {[
             { title: 'Продукти', items: PRODUCTS },
             { title: 'Решения', items: SOLUTIONS },

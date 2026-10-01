@@ -1,39 +1,39 @@
 'use client'
 
-import { useAnimate, useInView, useReducedMotion } from 'framer-motion'
-import { useEffect } from 'react'
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
+import { useRef } from 'react'
+import { useMounted } from './useMounted'
 
 /**
- * Section floats in once when it scrolls into view: opacity 0→1, y 16→0, 600 ms ease-out (BRAND.md).
- * Always one plain element. The hidden start comes from CSS and applies only when JavaScript runs
- * (.js [data-reveal]), so without JS - and for search engines - the content is simply visible.
- * The animation uses explicit keyframes, so it never depends on reading the start value.
- * Reduced motion: no animation; CSS keeps the element visible.
+ * Scroll-linked float-in (mockup .nb-reveal: opacity 0→1, y 48→0, scale .98→1 while the block
+ * enters the viewport). Works in every browser via Framer Motion's useScroll - the CSS
+ * `animation-timeline: view()` in the mockup does not run in Safari or Firefox.
+ * Server / no JS: plain visible element (hidden start only via .js [data-reveal] in CSS).
+ * Reduced motion: plain element.
  */
 export function Reveal({
   children,
   className,
-  delay = 0,
-  as: Tag = 'div',
+  as = 'div',
 }: {
   children: React.ReactNode
   className?: string
-  delay?: number
   as?: 'div' | 'section' | 'li'
 }) {
-  const [scope, animate] = useAnimate<HTMLDivElement>()
-  const inView = useInView(scope, { once: true, margin: '0px 0px -10% 0px' })
+  const ref = useRef<HTMLDivElement>(null)
   const reduce = useReducedMotion()
+  const mounted = useMounted()
+  // entry 0% → cover 28%: from the top edge touching the viewport bottom until ~a third of the way up
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'start 0.62'] })
+  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1])
+  const y = useTransform(scrollYProgress, [0, 1], [48, 0])
+  const scale = useTransform(scrollYProgress, [0, 1], [0.98, 1])
 
-  useEffect(() => {
-    if (!inView || reduce || !scope.current) return
-    animate(scope.current, { opacity: [0, 1], y: [16, 0] }, { duration: 0.6, ease: 'easeOut', delay })
-  }, [inView, reduce, animate, scope, delay])
-
-  const El = Tag as 'div'
+  const Tag = motion[as] as typeof motion.div
+  const live = mounted && !reduce
   return (
-    <El ref={scope} data-reveal="" className={className}>
+    <Tag ref={ref} data-reveal={reduce ? undefined : ''} className={className} style={live ? { opacity, y, scale } : undefined}>
       {children}
-    </El>
+    </Tag>
   )
 }

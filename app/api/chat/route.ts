@@ -27,6 +27,7 @@ const industryContexts: Record<string, string> = {
   education: 'You work for an educational institution. Help students and parents with enrollment, courses, schedules, tuition, campus info, and admissions.',
   ecommerce: 'You work for an online store. Help customers with products, orders, shipping, returns, sizing, and recommendations.',
   services: 'You work for a services company. Help clients with service offerings, pricing, scheduling, and general inquiries. If the business offers on-site services (repairs, inspections, estimates, cleaning, installations), always ask for the client\'s address when they want to schedule a visit.',
+  autodealer: 'You work for a car dealership with a service centre. Help customers with cars in stock, leasing and financing options, test drives and viewings, trade-ins, and booking service appointments.',
   custom: 'Help users with their inquiries based on the provided knowledge base.',
 }
 

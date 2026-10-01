@@ -4,6 +4,7 @@
 export type NavItem = { label: string; href: string; description?: string; badge?: string };
 
 export const PRODUCTS: NavItem[] = [
+  { label: "WEB", href: "/izrabotka-na-sait", description: "Изработка на уебсайт" }, // TODO step 5
   { label: "NEO", href: "/neo", description: "Чат асистент в сайта и съобщенията" },
   { label: "ARIA", href: "/aria", description: "Гласов асистент, който вдига телефона", badge: "Скоро" },
   { label: "CORE", href: "/core", description: "Всички клиенти на едно място" }, // TODO step 5
@@ -29,6 +30,6 @@ export const CTA: NavItem = { label: "Запазете разговор", href: 
 
 export const LEGAL: NavItem[] = [
   { label: "Поверителност", href: "/poveritelnost" }, // TODO step 5
-  { label: "Условия", href: "/usloviya" }, // TODO step 5
+  { label: "Общи условия", href: "/usloviya" }, // TODO step 5
   { label: "Бисквитки", href: "/biskvitki" }, // TODO step 5
 ];

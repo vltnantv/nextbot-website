@@ -9,7 +9,7 @@ import "./globals.css";
 // BRAND.md: Geologica 600 for headings, Onest 400/500 for text, Cyrillic subset.
 const geologica = Geologica({
   subsets: ["cyrillic", "latin"],
-  weight: ["600"],
+  weight: ["500", "600"], // 500: industries strip in the homepage mockup
   variable: "--font-geologica",
   display: "swap",
   // Next has no fallback metrics for Geologica; use a plain system fallback instead of a warning

@@ -46,24 +46,60 @@ summary{cursor:pointer;list-style:none}
 summary::-webkit-details-marker{display:none}
 details[open] .nb-plus{transform:rotate(45deg)}
 .nb-plus{transition:transform .2s ease}
+.nb-head{position:sticky;top:0;z-index:20;background-color:rgba(250,247,242,.72);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid rgba(232,225,214,.7)}
+.nb-mask{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.08em;margin-bottom:-.08em}
+.nb-word{display:inline-block;animation:nbWord .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes nbWord{from{transform:translateY(105%);opacity:0}to{transform:none;opacity:1}}
+.nb-fade{animation:nbIn .9s cubic-bezier(.2,.8,.2,1) both}
+.nb-typing{display:inline-flex;gap:4px;align-items:center}
+.nb-typing span{width:6px;height:6px;border-radius:50%;background-color:#B9B0A2;animation:nbTyping 1.2s ease-in-out infinite}
+.nb-typing span:nth-child(2){animation-delay:.15s}.nb-typing span:nth-child(3){animation-delay:.3s}
+@keyframes nbTyping{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-4px);opacity:1}}
+.nb-pop{animation:nbPop .5s cubic-bezier(.2,.9,.3,1.2) both}
+@keyframes nbPop{from{opacity:0;transform:translateY(10px) scale(.96)}to{opacity:1;transform:none}}
+.nb-marquee{display:flex;width:max-content;animation:nbMarquee 38s linear infinite}
+.nb-marquee-wrap:hover .nb-marquee{animation-play-state:paused}
+@keyframes nbMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.nb-tilt{transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s ease;transform-style:preserve-3d}
+.nb-tilt:hover{transform:perspective(900px) rotateX(3deg) rotateY(-3deg) translateY(-4px);box-shadow:0 1px 2px rgba(31,29,26,.04),0 26px 50px rgba(31,29,26,.10)}
+.nb-arrow{display:inline-block;transition:transform .25s ease}
+a:hover .nb-arrow{transform:translateX(5px)}
+.nb-shine{position:relative;overflow:hidden}
+.nb-shine::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,255,255,.28),rgba(255,255,255,0));transform:skewX(-18deg);animation:nbShine 5s ease-in-out infinite}
+@keyframes nbShine{0%,70%{left:-60%}100%{left:130%}}
+.nb-line{height:2px;background-color:#1F1D1A;transform-origin:left;transform:scaleX(1)}
+@supports (animation-timeline: view()) {
+.nb-reveal{animation:nbReveal linear both;animation-timeline:view();animation-range:entry 0% cover 28%}
+@keyframes nbReveal{from{opacity:0;transform:translateY(48px) scale(.98)}to{opacity:1;transform:none}}
+.nb-line{animation:nbLine linear both;animation-timeline:view();animation-range:entry 20% cover 55%}
+@keyframes nbLine{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.nb-par{animation:nbPar linear both;animation-timeline:scroll(root)}
+@keyframes nbPar{from{translate:0 0}to{translate:0 -420px}}
+.nb-zoom{animation:nbZoom linear both;animation-timeline:view();animation-range:entry 0% cover 45%}
+@keyframes nbZoom{from{transform:scale(.92);border-radius:48px}to{transform:none;border-radius:28px}}
+}
 @media (max-width:900px){
 .nb-hero,.nb-demo{grid-template-columns:minmax(0,1fr);gap:40px}
 .nb-g3,.nb-g2{grid-template-columns:minmax(0,1fr)}
 .nb-nav-links{display:none}
 }
 @media (prefers-reduced-motion:reduce){
-.nb-b1,.nb-b2,.nb-b3,.nb-float,.nb-float2,.nb-float3,.nb-in,.nb-in2,.nb-in3,.nb-in4,.nb-dot{animation:none}
-.nb-card,.nb-btn,.nb-plus{transition:none}
+.nb-b1,.nb-b2,.nb-b3,.nb-float,.nb-float2,.nb-float3,.nb-in,.nb-in2,.nb-in3,.nb-in4,.nb-dot,.nb-word,.nb-fade,.nb-pop,.nb-typing span,.nb-marquee,.nb-shine::after,.nb-reveal,.nb-line,.nb-par,.nb-zoom{animation:none}
+.nb-card,.nb-btn,.nb-plus,.nb-tilt,.nb-arrow{transition:none}
+.nb-tilt:hover{transform:none}
 }
 </style>
 </helmet>
-<div style="position: relative; overflow: hidden; background-color: #FAF7F2; color: #1F1D1A; font-family: 'Onest', system-ui, sans-serif; font-size: 17px; line-height: 1.6">
+<div style="position: relative; overflow: clip; background-color: #FAF7F2; color: #1F1D1A; font-family: 'Onest', system-ui, sans-serif; font-size: 17px; line-height: 1.6">
 
-<div class="nb-blob nb-b1" style="width: 520px; height: 520px; top: -120px; right: -80px; background-color: #F1E4D3"></div>
-<div class="nb-blob nb-b2" style="width: 460px; height: 460px; top: 420px; left: -160px; background-color: #E9EFE6"></div>
-<div class="nb-blob nb-b3" style="width: 420px; height: 420px; top: 2300px; right: -120px; background-color: #F6E9E1"></div>
+<div class="nb-par" aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none">
+<div class="nb-blob nb-b1" style="width: 560px; height: 560px; top: -120px; right: -80px; background-color: #F1E4D3"></div>
+<div class="nb-blob nb-b2" style="width: 480px; height: 480px; top: 420px; left: -160px; background-color: #E9EFE6"></div>
+<div class="nb-blob nb-b3" style="width: 440px; height: 440px; top: 2300px; right: -120px; background-color: #F6E9E1"></div>
+<div class="nb-blob nb-b2" style="width: 400px; height: 400px; top: 3900px; left: -100px; background-color: #F1E4D3"></div>
+</div>
 
-<header style="position: relative; z-index: 2">
+<header class="nb-head">
 <div class="nb-wrap" style="display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-top: 22px; padding-bottom: 22px">
 <a href="#top" aria-label="NextBot, начало" style="display: flex; align-items: center; gap: 7px; text-decoration: none; color: #1F1D1A">
 <span class="nb-h" style="font-size: 23px">nextbot</span>
@@ -83,17 +119,17 @@ details[open] .nb-plus{transform:rotate(45deg)}
 <section id="top" style="position: relative; z-index: 1; padding-top: 56px; padding-bottom: 96px">
 <div class="nb-wrap nb-hero">
 <div style="display: flex; flex-direction: column; gap: 26px; min-width: 0">
-<div style="display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 999px; padding: 6px 14px; font-size: 14px; color: #6F6A62">
+<div class="nb-fade" style="display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 999px; padding: 6px 14px; font-size: 14px; color: #6F6A62">
 <span class="nb-dot" style="width: 8px; height: 8px; border-radius: 50%; background-color: #1F9D63"></span>
 На линия денем и нощем · на български
 </div>
-<h1 class="nb-h" style="font-size: clamp(40px, 5.4vw, 68px); line-height: 1.04">Всеки клиент получава отговор. Веднага.</h1>
-<p style="margin: 0; font-size: 19px; color: #6F6A62; max-width: 540px">NextBot отговаря на запитвания в сайта, Viber и Messenger, записва клиентите и ви напомня кога да се обадите. Денем и нощем, на български.</p>
-<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center">
-<a href="#razgovor" class="nb-btn" style="background-color: #1F1D1A; color: #FAF7F2; text-decoration: none; padding: 15px 26px; border-radius: 999px; font-weight: 500; font-size: 16px">Запазете 15-минутен разговор</a>
+<h1 class="nb-h" style="font-size: clamp(42px, 5.8vw, 76px); line-height: 1.02"><span class="nb-mask"><span class="nb-word" style="animation-delay: .1s">Всеки</span></span> <span class="nb-mask"><span class="nb-word" style="animation-delay: .18s">клиент</span></span> <span class="nb-mask"><span class="nb-word" style="animation-delay: .26s">получава</span></span> <span class="nb-mask"><span class="nb-word" style="animation-delay: .34s">отговор.</span></span> <span class="nb-mask"><span class="nb-word" style="animation-delay: .55s; color: #6F6A62">Веднага.</span></span></h1>
+<p class="nb-fade" style="margin: 0; font-size: 19px; color: #6F6A62; max-width: 540px; animation-delay: .7s">NextBot отговаря на запитвания в сайта, Viber и Messenger, записва клиентите и ви напомня кога да се обадите. Денем и нощем, на български.</p>
+<div class="nb-fade" style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; animation-delay: .85s">
+<a href="#razgovor" class="nb-btn nb-shine" style="background-color: #1F1D1A; color: #FAF7F2; text-decoration: none; padding: 15px 26px; border-radius: 999px; font-weight: 500; font-size: 16px">Запазете 15-минутен разговор <span class="nb-arrow">→</span></a>
 <a href="#demo" class="nb-btn" style="background-color: transparent; color: #1F1D1A; text-decoration: none; padding: 14px 24px; border-radius: 999px; font-weight: 500; font-size: 16px; border: 1px solid #D9D0C2">Пробвайте бота сега</a>
 </div>
-<p style="margin: 0; font-size: 14px; color: #6F6A62">Без годишен договор · Настройка до 7 дни · 14 дни гаранция</p>
+<p class="nb-fade" style="margin: 0; font-size: 14px; color: #6F6A62; animation-delay: 1s">Без годишен договор · Настройка до 7 дни · 14 дни гаранция</p>
 </div>
 
 <div style="position: relative; min-width: 0; display: flex; justify-content: center; padding-top: 20px; padding-bottom: 40px">
@@ -106,16 +142,22 @@ details[open] .nb-plus{transform:rotate(45deg)}
 </div>
 <span style="margin-left: auto; font-size: 12px; color: #6F6A62">Viber</span>
 </div>
-<div style="display: flex; flex-direction: column; gap: 10px; padding: 20px 18px 22px; background-color: #FCFAF7">
+<div aria-live="polite" style="display: flex; flex-direction: column; gap: 10px; padding: 20px 18px 22px; background-color: #FCFAF7; min-height: 330px; box-sizing: border-box">
 <div style="align-self: center; font-size: 12px; color: #6F6A62">Неделя, 22:47</div>
-<div class="nb-in" style="align-self: flex-end; max-width: 80%; background-color: #F3EEE6; padding: 10px 14px; border-radius: 18px 18px 4px 18px; font-size: 15px">Здравейте, има ли свободен час утре?</div>
-<div class="nb-in2" style="align-self: flex-start; max-width: 84%; background-color: #FFFFFF; border: 1px solid #E8E1D6; padding: 10px 14px; border-radius: 18px 18px 18px 4px; font-size: 15px">Здравейте! Утре има в 10:30 и 14:00. Кой час ви е удобен?</div>
-<div class="nb-in3" style="align-self: flex-end; max-width: 80%; background-color: #F3EEE6; padding: 10px 14px; border-radius: 18px 18px 4px 18px; font-size: 15px">10:30, благодаря.</div>
-<div class="nb-in4" style="align-self: flex-start; max-width: 84%; background-color: #FFFFFF; border: 1px solid #E8E1D6; padding: 10px 14px; border-radius: 18px 18px 18px 4px; font-size: 15px">Записах ви за понеделник в 10:30. Ще получите напомняне в неделя вечерта.</div>
-<div class="nb-in4" style="align-self: flex-start; display: flex; align-items: center; gap: 6px; font-size: 12px; color: #1F9D63; padding-left: 4px">
-<span style="width: 6px; height: 6px; border-radius: 50%; background-color: #1F9D63"></span>
-отговорено за 4 сек.
+<sc-for list="{{ hero.msgs }}" as="m" hint-placeholder-count="4">
+<div class="nb-pop" style="{{ m.style }}">{{ m.text }}</div>
+</sc-for>
+<sc-if value="{{ hero.typing }}" hint-placeholder-val="{{ false }}">
+<div class="nb-pop" style="align-self: flex-start; background-color: #FFFFFF; border: 1px solid #E8E1D6; padding: 12px 14px; border-radius: 18px 18px 18px 4px">
+<span class="nb-typing" aria-label="пише…"><span></span><span></span><span></span></span>
 </div>
+</sc-if>
+<sc-if value="{{ hero.done }}" hint-placeholder-val="{{ true }}">
+<div class="nb-pop" style="align-self: flex-start; display: flex; align-items: center; gap: 6px; font-size: 12px; color: #1F9D63; padding-left: 4px">
+<span style="width: 6px; height: 6px; border-radius: 50%; background-color: #1F9D63"></span>
+отговорено за 4 сек. · записано в CORE
+</div>
+</sc-if>
 </div>
 </div>
 
@@ -131,22 +173,33 @@ details[open] .nb-plus{transform:rotate(45deg)}
 </div>
 </section>
 
+<div class="nb-marquee-wrap" aria-label="Браншове" style="position: relative; z-index: 1; border-top: 1px solid #E8E1D6; border-bottom: 1px solid #E8E1D6; padding-top: 18px; padding-bottom: 18px; overflow: hidden; background-color: rgba(255,255,255,.5)">
+<div class="nb-marquee" style="gap: 0">
+<div class="nb-h" style="display: flex; gap: 48px; padding-right: 48px; font-size: 22px; color: #6F6A62; white-space: nowrap; font-weight: 500">
+<span>Клиники</span><span style="color: #1F9D63">●</span><span>Автокъщи</span><span style="color: #1F9D63">●</span><span>Салони за красота</span><span style="color: #1F9D63">●</span><span>Агенции за имоти</span><span style="color: #1F9D63">●</span><span>Хотели</span><span style="color: #1F9D63">●</span><span>Ресторанти</span><span style="color: #1F9D63">●</span><span>Онлайн магазини</span><span style="color: #1F9D63">●</span><span>Автосервизи</span><span style="color: #1F9D63">●</span>
+</div>
+<div class="nb-h" aria-hidden="true" style="display: flex; gap: 48px; padding-right: 48px; font-size: 22px; color: #6F6A62; white-space: nowrap; font-weight: 500">
+<span>Клиники</span><span style="color: #1F9D63">●</span><span>Автокъщи</span><span style="color: #1F9D63">●</span><span>Салони за красота</span><span style="color: #1F9D63">●</span><span>Агенции за имоти</span><span style="color: #1F9D63">●</span><span>Хотели</span><span style="color: #1F9D63">●</span><span>Ресторанти</span><span style="color: #1F9D63">●</span><span>Онлайн магазини</span><span style="color: #1F9D63">●</span><span>Автосервизи</span><span style="color: #1F9D63">●</span>
+</div>
+</div>
+</div>
+
 <section style="position: relative; z-index: 1; padding-top: 88px; padding-bottom: 88px; background-color: #F3EEE6">
 <div class="nb-wrap" style="display: flex; flex-direction: column; gap: 40px">
-<div style="display: flex; flex-direction: column; gap: 12px; max-width: 720px">
+<div class="nb-reveal" style="display: flex; flex-direction: column; gap: 12px; max-width: 720px">
 <span style="font-size: 14px; color: #6F6A62; font-weight: 500">Проблемът</span>
 <h2 class="nb-h" style="font-size: clamp(30px, 3.6vw, 44px); line-height: 1.12">Колко запитвания останаха без отговор тази седмица?</h2>
 </div>
-<div class="nb-g3">
-<div class="nb-card" style="background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 10px">
+<div class="nb-g3 nb-reveal">
+<div class="nb-card nb-tilt" style="background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 10px">
 <span style="font-size: 13px; color: #6F6A62">Неделя, 21:14</span>
 <p style="margin: 0; font-size: 18px">Съобщение в неделя вечер, на което сте отговорили в понеделник на обяд.</p>
 </div>
-<div class="nb-card" style="background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 10px">
+<div class="nb-card nb-tilt" style="background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 10px">
 <span style="font-size: 13px; color: #6F6A62">„Ще помисля“</span>
 <p style="margin: 0; font-size: 18px">Клиент, който каза „ще помисля“ и никой не му се обади.</p>
 </div>
-<div class="nb-card" style="background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 10px">
+<div class="nb-card nb-tilt" style="background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 10px">
 <span style="font-size: 13px; color: #6F6A62">Таблица_клиенти_final2.xlsx</span>
 <p style="margin: 0; font-size: 18px">Таблица, която никой не обновява.</p>
 </div>
@@ -156,25 +209,25 @@ details[open] .nb-plus{transform:rotate(45deg)}
 
 <section id="produkti" style="position: relative; z-index: 1; padding-top: 104px; padding-bottom: 104px">
 <div class="nb-wrap" style="display: flex; flex-direction: column; gap: 44px">
-<div style="display: flex; flex-direction: column; gap: 12px; max-width: 760px">
+<div class="nb-reveal" style="display: flex; flex-direction: column; gap: 12px; max-width: 760px">
 <span style="font-size: 14px; color: #6F6A62; font-weight: 500">Какво прави NextBot</span>
 <h2 class="nb-h" style="font-size: clamp(30px, 3.6vw, 44px); line-height: 1.12">Една система от първото съобщение до следващата покупка.</h2>
 </div>
 
 <div style="display: flex; flex-direction: column; gap: 14px">
 <div style="display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600"><span style="color: #1F9D63">01</span> Приема клиента</div>
-<div class="nb-g3">
-<a href="#web" class="nb-card" style="text-decoration: none; background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 16px; padding: 26px; display: flex; flex-direction: column; gap: 8px">
+<div class="nb-g3 nb-reveal">
+<a href="#web" class="nb-card nb-tilt" style="text-decoration: none; background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 16px; padding: 26px; display: flex; flex-direction: column; gap: 8px">
 <span class="nb-h" style="font-size: 20px">WEB</span>
 <span style="font-size: 14px; color: #6F6A62">Изработка на уебсайт</span>
 <span style="font-size: 16px">Бърз сайт на български, с чат асистент от първия ден.</span>
 </a>
-<a href="#neo" class="nb-card" style="text-decoration: none; background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 16px; padding: 26px; display: flex; flex-direction: column; gap: 8px">
+<a href="#neo" class="nb-card nb-tilt" style="text-decoration: none; background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 16px; padding: 26px; display: flex; flex-direction: column; gap: 8px">
 <span class="nb-h" style="font-size: 20px">NEO</span>
 <span style="font-size: 14px; color: #6F6A62">Чат асистент</span>
 <span style="font-size: 16px">Отговаря в сайта, Viber и Messenger и записва часове.</span>
 </a>
-<a href="#aria" class="nb-card" style="text-decoration: none; background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 16px; padding: 26px; display: flex; flex-direction: column; gap: 8px">
+<a href="#aria" class="nb-card nb-tilt" style="text-decoration: none; background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 16px; padding: 26px; display: flex; flex-direction: column; gap: 8px">
 <span style="display: flex; align-items: center; justify-content: space-between; gap: 8px"><span class="nb-h" style="font-size: 20px">ARIA</span><span style="font-size: 12px; padding: 3px 10px; border-radius: 999px; background-color: #F3EEE6; color: #6F6A62">Скоро</span></span>
 <span style="font-size: 14px; color: #6F6A62">Гласов асистент</span>
 <span style="font-size: 16px">Вдига телефона, когато вие не можете.</span>
@@ -182,10 +235,10 @@ details[open] .nb-plus{transform:rotate(45deg)}
 </div>
 </div>
 
-<div class="nb-g2">
+<div class="nb-g2 nb-reveal">
 <div style="display: flex; flex-direction: column; gap: 14px">
 <div style="display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600"><span style="color: #1F9D63">02</span> Записва и напомня</div>
-<a href="#core" class="nb-card" style="text-decoration: none; background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 16px; padding: 26px; display: flex; flex-direction: column; gap: 8px; flex-grow: 1">
+<a href="#core" class="nb-card nb-tilt" style="text-decoration: none; background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 16px; padding: 26px; display: flex; flex-direction: column; gap: 8px; flex-grow: 1">
 <span class="nb-h" style="font-size: 20px">CORE</span>
 <span style="font-size: 14px; color: #6F6A62">Система за клиенти</span>
 <span style="font-size: 16px">Всички клиенти на едно място, с напомняния кога да се обадите и отчет за собственика.</span>
@@ -193,7 +246,7 @@ details[open] .nb-plus{transform:rotate(45deg)}
 </div>
 <div style="display: flex; flex-direction: column; gap: 14px">
 <div style="display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600"><span style="color: #1F9D63">03</span> Връща го отново</div>
-<a href="#echo" class="nb-card" style="text-decoration: none; background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 16px; padding: 26px; display: flex; flex-direction: column; gap: 8px; flex-grow: 1">
+<a href="#echo" class="nb-card nb-tilt" style="text-decoration: none; background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 16px; padding: 26px; display: flex; flex-direction: column; gap: 8px; flex-grow: 1">
 <span class="nb-h" style="font-size: 20px">ECHO</span>
 <span style="font-size: 14px; color: #6F6A62">Повторни клиенти и отзиви</span>
 <span style="font-size: 16px">Напомня за следващия час и моли за отзив в Google след всяка покупка.</span>
@@ -201,34 +254,37 @@ details[open] .nb-plus{transform:rotate(45deg)}
 </div>
 </div>
 
-<a href="#studio" class="nb-card" style="text-decoration: none; background-color: #1F1D1A; color: #FAF7F2; border-radius: 16px; padding: 28px 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="#studio" class="nb-card nb-tilt" style="text-decoration: none; background-color: #1F1D1A; color: #FAF7F2; border-radius: 16px; padding: 28px 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
 <span style="display: flex; flex-direction: column; gap: 4px">
 <span class="nb-h" style="font-size: 20px">STUDIO</span>
 <span style="font-size: 16px; color: #D9D0C2">Имате нещо специфично? Автоматизации и софтуер по поръчка.</span>
 </span>
-<span style="font-size: 15px; font-weight: 500">Разкажете ни →</span>
+<span style="font-size: 15px; font-weight: 500">Разкажете ни <span class="nb-arrow">→</span></span>
 </a>
 </div>
 </section>
 
 <section style="position: relative; z-index: 1; padding-top: 88px; padding-bottom: 88px; background-color: #F3EEE6">
 <div class="nb-wrap" style="display: flex; flex-direction: column; gap: 40px">
-<div style="display: flex; flex-direction: column; gap: 12px; max-width: 720px">
+<div class="nb-reveal" style="display: flex; flex-direction: column; gap: 12px; max-width: 720px">
 <span style="font-size: 14px; color: #6F6A62; font-weight: 500">Как започваме</span>
 <h2 class="nb-h" style="font-size: clamp(30px, 3.6vw, 44px); line-height: 1.12">От разговор до работещ асистент за 7 дни.</h2>
 </div>
-<ol class="nb-g3" style="list-style: none; margin: 0; padding: 0">
-<li style="display: flex; flex-direction: column; gap: 10px; border-top: 1px solid #D9D0C2; padding-top: 20px">
+<ol class="nb-g3 nb-reveal" style="list-style: none; margin: 0; padding: 0">
+<li style="display: flex; flex-direction: column; gap: 10px">
+<div style="height: 2px; background-color: #E2D9CC; margin-bottom: 10px"><div class="nb-line"></div></div>
 <span class="nb-h" style="font-size: 15px; color: #1F9D63">Ден 1</span>
 <span class="nb-h" style="font-size: 22px">Разговор, 15 минути</span>
 <span style="color: #6F6A62">Разказвате как работите и къде се губят клиенти.</span>
 </li>
-<li style="display: flex; flex-direction: column; gap: 10px; border-top: 1px solid #D9D0C2; padding-top: 20px">
+<li style="display: flex; flex-direction: column; gap: 10px">
+<div style="height: 2px; background-color: #E2D9CC; margin-bottom: 10px"><div class="nb-line"></div></div>
 <span class="nb-h" style="font-size: 15px; color: #1F9D63">Дни 2–7</span>
 <span class="nb-h" style="font-size: 22px">Настройка</span>
 <span style="color: #6F6A62">Учим асистента от сайта и документите ви и го свързваме с каналите ви.</span>
 </li>
-<li style="display: flex; flex-direction: column; gap: 10px; border-top: 1px solid #D9D0C2; padding-top: 20px">
+<li style="display: flex; flex-direction: column; gap: 10px">
+<div style="height: 2px; background-color: #E2D9CC; margin-bottom: 10px"><div class="nb-line"></div></div>
 <span class="nb-h" style="font-size: 15px; color: #1F9D63">Всяка седмица</span>
 <span class="nb-h" style="font-size: 22px">Работи и отчита</span>
 <span style="color: #6F6A62">Получавате отчет: колко запитвания и колко записани часове.</span>
@@ -273,12 +329,12 @@ details[open] .nb-plus{transform:rotate(45deg)}
 
 <section id="ceni" style="position: relative; z-index: 1; padding-top: 88px; padding-bottom: 88px; background-color: #F3EEE6">
 <div class="nb-wrap" style="display: flex; flex-direction: column; gap: 40px">
-<div style="display: flex; flex-direction: column; gap: 12px; max-width: 720px">
+<div class="nb-reveal" style="display: flex; flex-direction: column; gap: 12px; max-width: 720px">
 <span style="font-size: 14px; color: #6F6A62; font-weight: 500">Цени</span>
 <h2 class="nb-h" style="font-size: clamp(30px, 3.6vw, 44px); line-height: 1.12">Ясни цени, месечно, без годишен договор.</h2>
 </div>
-<div class="nb-g3" style="align-items: stretch">
-<div class="nb-card" style="background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 16px; padding: 30px; display: flex; flex-direction: column; gap: 18px">
+<div class="nb-g3 nb-reveal" style="align-items: stretch">
+<div class="nb-card nb-tilt" style="background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 16px; padding: 30px; display: flex; flex-direction: column; gap: 18px">
 <span class="nb-h" style="font-size: 20px">Старт</span>
 <span style="display: flex; align-items: baseline; gap: 6px"><span class="nb-h" style="font-size: 42px">99 €</span><span style="color: #6F6A62; font-size: 15px">/ месец</span></span>
 <span style="font-size: 14px; color: #6F6A62">Настройка 390 €</span>
@@ -289,7 +345,7 @@ details[open] .nb-plus{transform:rotate(45deg)}
 </ul>
 <a href="#razgovor" class="nb-btn" style="margin-top: auto; text-align: center; text-decoration: none; padding: 13px 20px; border-radius: 999px; border: 1px solid #D9D0C2; font-weight: 500">Запазете разговор</a>
 </div>
-<div class="nb-card" style="background-color: #FFFFFF; border: 2px solid #1F1D1A; border-radius: 16px; padding: 30px; display: flex; flex-direction: column; gap: 18px; position: relative">
+<div class="nb-card nb-tilt" style="background-color: #FFFFFF; border: 2px solid #1F1D1A; border-radius: 16px; padding: 30px; display: flex; flex-direction: column; gap: 18px; position: relative">
 <span style="display: flex; align-items: center; justify-content: space-between; gap: 8px"><span class="nb-h" style="font-size: 20px">Растеж</span><span style="font-size: 12px; padding: 3px 10px; border-radius: 999px; background-color: #1F1D1A; color: #FAF7F2">Най-често избиран</span></span>
 <span style="display: flex; align-items: baseline; gap: 6px"><span class="nb-h" style="font-size: 42px">199 €</span><span style="color: #6F6A62; font-size: 15px">/ месец</span></span>
 <span style="font-size: 14px; color: #6F6A62">Настройка 690 €</span>
@@ -301,7 +357,7 @@ details[open] .nb-plus{transform:rotate(45deg)}
 </ul>
 <a href="#razgovor" class="nb-btn" style="margin-top: auto; text-align: center; text-decoration: none; padding: 13px 20px; border-radius: 999px; background-color: #1F1D1A; color: #FAF7F2; font-weight: 500">Запазете разговор</a>
 </div>
-<div class="nb-card" style="background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 16px; padding: 30px; display: flex; flex-direction: column; gap: 18px">
+<div class="nb-card nb-tilt" style="background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 16px; padding: 30px; display: flex; flex-direction: column; gap: 18px">
 <span class="nb-h" style="font-size: 20px">Про</span>
 <span style="display: flex; align-items: baseline; gap: 6px"><span style="color: #6F6A62; font-size: 15px">от</span><span class="nb-h" style="font-size: 42px">399 €</span><span style="color: #6F6A62; font-size: 15px">/ месец</span></span>
 <span style="font-size: 14px; color: #6F6A62">Настройка по договаряне</span>
@@ -314,12 +370,12 @@ details[open] .nb-plus{transform:rotate(45deg)}
 <a href="#razgovor" class="nb-btn" style="margin-top: auto; text-align: center; text-decoration: none; padding: 13px 20px; border-radius: 999px; border: 1px solid #D9D0C2; font-weight: 500">Запазете разговор</a>
 </div>
 </div>
-<div id="web" class="nb-card" style="background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 16px; padding: 24px 28px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<div id="web" class="nb-card nb-tilt" style="background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 16px; padding: 24px 28px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
 <span style="display: flex; flex-direction: column; gap: 2px">
 <span style="font-weight: 600">Нужен ви е и сайт?</span>
 <span style="color: #6F6A62; font-size: 15px">Визитка от 490 € · Бизнес сайт от 990 € · Онлайн магазин от 1 900 €. С 1 месец NEO безплатно.</span>
 </span>
-<a href="#razgovor" style="font-weight: 500; font-size: 15px">Изработка на сайт →</a>
+<a href="#razgovor" style="font-weight: 500; font-size: 15px">Изработка на сайт <span class="nb-arrow">→</span></a>
 </div>
 <p style="margin: 0; font-size: 14px; color: #6F6A62">Цените са без ДДС. Ако до 14 дни не ви пести време, връщаме таксата за настройка.</p>
 </div>
@@ -327,7 +383,7 @@ details[open] .nb-plus{transform:rotate(45deg)}
 
 <section style="position: relative; z-index: 1; padding-top: 104px; padding-bottom: 72px">
 <div class="nb-wrap">
-<div style="background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 24px; padding: 48px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 32px">
+<div class="nb-reveal" style="background-color: #FFFFFF; border: 1px solid #E8E1D6; border-radius: 24px; padding: 48px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 32px">
 <div style="display: flex; flex-direction: column; gap: 12px; max-width: 620px">
 <span style="font-size: 14px; color: #6F6A62; font-weight: 500">Пилотна програма</span>
 <h2 class="nb-h" style="font-size: clamp(28px, 3.2vw, 40px); line-height: 1.12">Търсим първите 10 бизнеса.</h2>
@@ -344,7 +400,7 @@ details[open] .nb-plus{transform:rotate(45deg)}
 <section id="za-nas" style="position: relative; z-index: 1; padding-top: 72px; padding-bottom: 104px">
 <div class="nb-wrap" style="display: flex; flex-direction: column; gap: 32px; max-width: 860px">
 <h2 class="nb-h" style="font-size: clamp(30px, 3.6vw, 44px); line-height: 1.12">Често задавани въпроси</h2>
-<div style="display: flex; flex-direction: column; border-top: 1px solid #E8E1D6">
+<div class="nb-reveal" style="display: flex; flex-direction: column; border-top: 1px solid #E8E1D6">
 <details style="border-bottom: 1px solid #E8E1D6; padding: 20px 0">
 <summary style="display: flex; justify-content: space-between; gap: 16px; font-weight: 500; font-size: 18px">Ще звучи ли като робот?<span class="nb-plus" aria-hidden="true" style="font-size: 22px; line-height: 1">+</span></summary>
 <p style="margin: 12px 0 0; color: #6F6A62">Пише кратко и учтиво, на български и по вашите правила. Одобрявате тона, преди да тръгне.</p>
@@ -375,11 +431,11 @@ details[open] .nb-plus{transform:rotate(45deg)}
 
 <section id="razgovor" style="position: relative; z-index: 1; padding-bottom: 96px">
 <div class="nb-wrap">
-<div style="background-color: #1F1D1A; color: #FAF7F2; border-radius: 28px; padding: 64px 48px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 22px; position: relative; overflow: hidden">
+<div class="nb-zoom" style="background-color: #1F1D1A; color: #FAF7F2; border-radius: 28px; padding: 64px 48px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 22px; position: relative; overflow: hidden">
 <div class="nb-blob nb-b2" style="width: 320px; height: 320px; top: -140px; right: -60px; background-color: #3A352E; opacity: .8"></div>
 <h2 class="nb-h" style="position: relative; font-size: clamp(30px, 4vw, 50px); line-height: 1.1; max-width: 760px">15 минути са достатъчни, за да видите къде губите клиенти.</h2>
 <div style="position: relative; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px">
-<a href="#razgovor" class="nb-btn" style="background-color: #FAF7F2; color: #1F1D1A; text-decoration: none; padding: 15px 28px; border-radius: 999px; font-weight: 500">Запазете разговор</a>
+<a href="#razgovor" class="nb-btn" style="background-color: #FAF7F2; color: #1F1D1A; text-decoration: none; padding: 15px 28px; border-radius: 999px; font-weight: 500">Запазете разговор <span class="nb-arrow">→</span></a>
 <a href="#razgovor" class="nb-btn" style="color: #FAF7F2; text-decoration: none; padding: 14px 24px; border-radius: 999px; font-weight: 500; border: 1px solid #4A443C">Пишете ни във Viber</a>
 </div>
 <span style="position: relative; font-size: 15px; color: #D9D0C2">или се обадете: +359 894 288 119</span>
@@ -417,11 +473,42 @@ details[open] .nb-plus{transform:rotate(45deg)}
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":6200}}'>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":6300}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { active: 'auto' };
+    this.state = { active: 'auto', step: 7 };
+  }
+  componentDidMount() {
+    var self = this;
+    var reduce = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+    this.setState({ step: 0 });
+    this.timer = setInterval(function () {
+      var next = self.state.step + 1;
+      self.setState({ step: next > 10 ? 0 : next });
+    }, 1300);
+  }
+  componentWillUnmount() {
+    if (this.timer) clearInterval(this.timer);
+  }
+  heroVals() {
+    var step = this.state.step;
+    var user = 'align-self: flex-end; max-width: 80%; background-color: #F3EEE6; padding: 10px 14px; border-radius: 18px 18px 4px 18px; font-size: 15px';
+    var bot = 'align-self: flex-start; max-width: 84%; background-color: #FFFFFF; border: 1px solid #E8E1D6; padding: 10px 14px; border-radius: 18px 18px 18px 4px; font-size: 15px';
+    var script = [
+      { at: 1, who: 'u', text: 'Здравейте, има ли свободен час утре?' },
+      { at: 3, who: 'b', text: 'Здравейте! Утре има в 10:30 и 14:00. Кой час ви е удобен?' },
+      { at: 4, who: 'u', text: '10:30, благодаря.' },
+      { at: 6, who: 'b', text: 'Записах ви за утре в 10:30. Ще получите напомняне вечерта.' }
+    ];
+    return {
+      msgs: script.filter(function (m) { return step >= m.at; }).map(function (m) {
+        return { text: m.text, style: m.who === 'u' ? user : bot };
+      }),
+      typing: step === 2 || step === 5,
+      done: step >= 7
+    };
   }
   renderVals() {
     var user = 'align-self: flex-end; max-width: 80%; background-color: #F3EEE6; padding: 10px 14px; border-radius: 18px 18px 4px 18px; font-size: 15px';
@@ -468,6 +555,7 @@ class Component extends DCLogic {
     var cur = data[active];
     var delays = ['0s', '.4s', '.8s', '1.2s'];
     return {
+      hero: this.heroVals(),
       industries: industries,
       current: {
         business: cur.business,

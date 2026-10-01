@@ -2,7 +2,8 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { MessageSquare, X, Send, Sparkles } from 'lucide-react'
+import { MessageSquare, X } from 'lucide-react'
+import { LiveDot } from '@/components/brand/LiveDot'
 
 type Message = {
   id: string
@@ -20,6 +21,10 @@ type ChatWidgetProps = {
   quickActions?: string[]
   accentColor?: string
   position?: 'bottom-right' | 'bottom-left'
+  /** floating: launcher button + window in the corner. inline: always-open chat inside the page. */
+  variant?: 'floating' | 'inline'
+  /** Shown in the header instead of the bot name (e.g. „Дентален кабинет „Усмивка“"). */
+  businessName?: string
   onConversationStart?: (conversationId: string) => void
 }
 
@@ -32,13 +37,16 @@ export function ChatWidget({
   quickActions = [],
   accentColor = '#6366f1',
   position = 'bottom-right',
+  variant = 'floating',
+  businessName,
 }: ChatWidgetProps) {
-  const [isOpen, setIsOpen] = useState(false)
+  const inline = variant === 'inline'
+  const [isOpen, setIsOpen] = useState(inline)
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [isStreaming, setIsStreaming] = useState(false)
   const [hasGreeted, setHasGreeted] = useState(false)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const abortControllerRef = useRef<AbortController | null>(null)
 
@@ -46,8 +54,10 @@ export function ChatWidget({
 
   const defaultQuickActions = quickActions.length > 0 ? quickActions : ['Цени и наличност', 'Записване на час', 'Връзка с човек']
 
+  // Scroll only the message list - never the page (the inline chat sits in the middle of the homepage).
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    const el = scrollRef.current
+    if (el) el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' })
   }, [messages, isStreaming])
 
   useEffect(() => {
@@ -60,7 +70,8 @@ export function ChatWidget({
         timestamp: new Date(),
       }])
     }
-    if (isOpen) {
+    // Inline chat must not grab focus (and scroll the page) on load.
+    if (isOpen && !inline) {
       setTimeout(() => inputRef.current?.focus(), 100)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -160,136 +171,145 @@ export function ChatWidget({
   }
 
   const positionClasses = position === 'bottom-right' ? 'right-6 bottom-6' : 'left-6 bottom-6'
+  const title = businessName || botName
+
+  const panel = (
+    <>
+      {/* Header */}
+      <div className="flex shrink-0 items-center gap-2.5 border-b border-[#F0EAE0] px-5 py-4">
+        <LiveDot className="h-2 w-2" />
+        <span className="truncate text-[15px] font-semibold text-ink">{title}</span>
+        <span className="ml-auto shrink-0 text-[12px] text-stone">{botName} · чат в сайта</span>
+        {!inline && (
+          <button
+            type="button"
+            onClick={() => setIsOpen(false)}
+            aria-label="Затвори чата"
+            className="-mr-1 ml-1 flex h-8 w-8 items-center justify-center rounded-full text-stone hover:bg-cream-deep hover:text-ink"
+          >
+            <X className="size-4" aria-hidden="true" />
+          </button>
+        )}
+      </div>
+
+      {/* Messages */}
+      <div
+        ref={scrollRef}
+        className={`flex flex-col gap-2.5 overflow-y-auto bg-[#FCFAF7] px-5 py-5 ${inline ? 'h-[300px]' : 'flex-1'}`}
+        aria-live="polite"
+      >
+        {messages.map((msg) => (
+          <motion.div
+            key={msg.id}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+            className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+          >
+            <div
+              className={
+                msg.role === 'user'
+                  ? 'max-w-[80%] rounded-[18px_18px_4px_18px] bg-cream-deep px-3.5 py-2.5 text-[15px] leading-relaxed text-ink'
+                  : 'max-w-[84%] rounded-[18px_18px_18px_4px] border border-line bg-white px-3.5 py-2.5 text-[15px] leading-relaxed text-ink'
+              }
+            >
+              <p className="whitespace-pre-wrap">
+                {msg.content || (
+                  <span className="flex gap-1 py-1" aria-label="Пише…">
+                    <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-stone/50" style={{ animationDelay: '0ms' }} />
+                    <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-stone/50" style={{ animationDelay: '150ms' }} />
+                    <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-stone/50" style={{ animationDelay: '300ms' }} />
+                  </span>
+                )}
+              </p>
+            </div>
+          </motion.div>
+        ))}
+
+        {/* Suggestions until the visitor writes something */}
+        {messages.length <= 1 && defaultQuickActions.length > 0 && (
+          <div className="mt-1 flex flex-wrap gap-2">
+            {defaultQuickActions.map((action) => (
+              <button
+                key={action}
+                type="button"
+                onClick={() => sendMessage(action)}
+                className="rounded-full border border-line bg-white px-3.5 py-1.5 text-[14px] text-ink transition-colors hover:border-ink/30"
+              >
+                {action}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Input */}
+      <form onSubmit={handleSubmit} className="flex shrink-0 gap-2.5 border-t border-[#F0EAE0] px-4 py-3.5">
+        <label htmlFor={`chat-input-${variant}`} className="sr-only">
+          Вашето съобщение
+        </label>
+        <input
+          id={`chat-input-${variant}`}
+          ref={inputRef}
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Напишете съобщение…"
+          disabled={isStreaming}
+          className="min-w-0 flex-1 rounded-full border border-line bg-cream px-4 py-2.5 text-[15px] text-ink outline-none placeholder:text-stone focus:border-ink/40 disabled:opacity-60"
+        />
+        <button
+          type="submit"
+          aria-label="Изпрати"
+          disabled={!input.trim() || isStreaming}
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-ink text-cream transition-[transform,opacity] hover:-translate-y-px disabled:opacity-40"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </button>
+      </form>
+    </>
+  )
+
+  if (inline) {
+    return <div className="flex flex-col overflow-hidden">{panel}</div>
+  }
 
   return (
     <>
-      {/* Chat bubble button */}
+      {/* Launcher */}
       <AnimatePresence>
         {!isOpen && (
           <motion.button
+            type="button"
+            aria-label="Отвори чата"
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 260, damping: 20 }}
             onClick={() => setIsOpen(true)}
-            className={`fixed ${positionClasses} z-50 w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-110 active:scale-95`}
+            className={`fixed ${positionClasses} z-50 flex h-14 w-14 items-center justify-center rounded-full shadow-soft transition-transform hover:-translate-y-0.5`}
             style={{ backgroundColor: accentColor }}
           >
-            <MessageSquare className="size-6 text-white" />
-            {/* Pulse ring */}
-            <span
-              className="absolute inset-0 rounded-full animate-ping opacity-20"
-              style={{ backgroundColor: accentColor }}
-            />
+            <MessageSquare className="size-6 text-cream" aria-hidden="true" />
           </motion.button>
         )}
       </AnimatePresence>
 
-      {/* Chat window */}
+      {/* Window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            role="dialog"
+            aria-label={`Чат с ${botName}`}
+            initial={{ opacity: 0, y: 20, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-            className={`fixed ${positionClasses} z-50 w-[380px] h-[560px] max-h-[80vh] bg-background border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden`}
+            exit={{ opacity: 0, y: 20, scale: 0.97 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+            className={`fixed ${positionClasses} z-50 flex h-[560px] max-h-[80vh] w-[380px] max-w-[calc(100vw-3rem)] flex-col overflow-hidden rounded-[24px] border border-line bg-white shadow-soft`}
           >
-            {/* Header */}
-            <div
-              className="px-4 py-3 flex items-center gap-3 shrink-0"
-              style={{ backgroundColor: accentColor }}
-            >
-              <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
-                <Sparkles className="size-5 text-white" />
-              </div>
-              <div className="flex-1">
-                <div className="text-sm font-semibold text-white">{botName}</div>
-                <div className="text-xs text-white/70 flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
-                  На линия
-                </div>
-              </div>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-              >
-                <X className="size-4 text-white" />
-              </button>
-            </div>
-
-            {/* Messages */}
-            <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
-              {messages.map((msg) => (
-                <motion.div
-                  key={msg.id}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                >
-                  <div className={`max-w-[80%] px-3.5 py-2.5 text-sm leading-relaxed ${
-                    msg.role === 'user'
-                      ? 'rounded-2xl rounded-tr-md text-white'
-                      : 'bg-muted rounded-2xl rounded-tl-md text-foreground'
-                  }`}
-                    style={msg.role === 'user' ? { backgroundColor: accentColor } : undefined}
-                  >
-                    <p className="whitespace-pre-wrap">{msg.content || (
-                      <span className="flex gap-1">
-                        <span className="w-1.5 h-1.5 bg-muted-foreground/40 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                        <span className="w-1.5 h-1.5 bg-muted-foreground/40 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                        <span className="w-1.5 h-1.5 bg-muted-foreground/40 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
-                      </span>
-                    )}</p>
-                  </div>
-                </motion.div>
-              ))}
-              <div ref={messagesEndRef} />
-            </div>
-
-            {/* Quick actions (only show when no user messages yet) */}
-            {messages.length <= 1 && (
-              <div className="px-4 pb-2 flex flex-wrap gap-1.5">
-                {defaultQuickActions.map((action, i) => (
-                  <button
-                    key={i}
-                    onClick={() => sendMessage(action)}
-                    className="px-3 py-1.5 rounded-full border border-border text-xs font-medium text-muted-foreground hover:bg-muted transition-colors"
-                  >
-                    {action}
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {/* Input */}
-            <form onSubmit={handleSubmit} className="px-4 py-3 border-t border-border shrink-0">
-              <div className="flex items-center gap-2">
-                <input
-                  ref={inputRef}
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="Напишете съобщение…"
-                  disabled={isStreaming}
-                  className="flex-1 bg-muted rounded-full px-4 py-2.5 text-sm outline-none placeholder:text-muted-foreground disabled:opacity-50"
-                />
-                <button
-                  type="submit"
-                  disabled={!input.trim() || isStreaming}
-                  className="w-9 h-9 rounded-full flex items-center justify-center transition-all disabled:opacity-30"
-                  style={{ backgroundColor: input.trim() && !isStreaming ? accentColor : undefined }}
-                >
-                  <Send className={`size-4 ${input.trim() && !isStreaming ? 'text-white' : 'text-muted-foreground'}`} />
-                </button>
-              </div>
-            </form>
-
-            {/* Powered by */}
-            <div className="px-4 pb-2 text-center">
-              <span className="text-[10px] text-muted-foreground">Powered by NextBot AI</span>
-            </div>
+            {panel}
           </motion.div>
         )}
       </AnimatePresence>

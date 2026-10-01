@@ -20,7 +20,11 @@ const config: Config = {
   			ink: 'rgb(var(--ink) / <alpha-value>)',
   			stone: 'rgb(var(--stone) / <alpha-value>)',
   			line: 'rgb(var(--line) / <alpha-value>)',
-  			online: 'rgb(var(--online) / <alpha-value>)',
+  			online: {
+  				DEFAULT: 'rgb(var(--online) / <alpha-value>)',
+  				// darker green for small TEXT (WCAG AA 4.5:1 on white and cream); the dot keeps `online`
+  				text: '#157A4C'
+  			},
   			'nb-bg': '#0a0a0a',
   			'nb-surface': '#141414',
   			'nb-surface-el': '#1e1e1e',

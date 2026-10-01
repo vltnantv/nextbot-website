@@ -1,82 +1,59 @@
 import Link from 'next/link'
 import { Logo } from '@/components/brand/Logo'
 import { COMPANY, telHref } from '@/lib/company'
-import { CTA, LEGAL, MAIN_LINKS, PRODUCTS, SOLUTIONS, type NavItem } from '@/lib/site-nav'
+import { LEGAL } from '@/lib/site-nav'
 
-function Column({ title, items }: { title: string; items: NavItem[] }) {
-  return (
-    <div>
-      <p className="mb-3 text-[13px] font-medium uppercase tracking-wide text-stone">{title}</p>
-      <ul className="space-y-2">
-        {items.map((item) => (
-          <li key={item.href}>
-            <Link href={item.href} className="text-[15px] text-ink/80 transition-colors hover:text-ink">
-              {item.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
+// Layout from design/homepage-mockup.html: company · Продукти · Контакти · Правни.
+const FOOTER_PRODUCTS = [
+  { label: 'Изработка на сайт', href: '/izrabotka-na-sait' }, // TODO step 5
+  { label: 'NEO', href: '/neo' },
+  { label: 'CORE', href: '/core' }, // TODO step 5
+  { label: 'ECHO', href: '/echo' }, // TODO step 5
+]
+
+const link = 'text-stone no-underline transition-colors hover:text-ink'
 
 export function Footer() {
-  const year = new Date().getFullYear()
   return (
-    <footer className="border-t border-line bg-white">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
-          <div>
-            <Link href="/" aria-label="nextbot — начало" className="inline-block">
-              <Logo size={20} />
-            </Link>
-            <p className="mt-4 max-w-xs text-[15px] leading-relaxed text-stone">
-              Всеки клиент получава отговор. Веднага.
-            </p>
-            <div className="mt-5 space-y-1.5 text-[15px]">
-              <a href={`mailto:${COMPANY.email}`} className="block text-ink/80 hover:text-ink">
-                {COMPANY.email}
-              </a>
-              <a href={telHref(COMPANY.phone)} className="block text-ink/80 hover:text-ink">
-                {COMPANY.phone}
-              </a>
-              {COMPANY.viber && (
-                <a href={`viber://chat?number=${COMPANY.viber.replace(/[\s+]/g, '')}`} className="block text-ink/80 hover:text-ink">
-                  Viber
-                </a>
-              )}
-            </div>
-            <Link
-              href={CTA.href}
-              className="mt-6 inline-flex rounded-full bg-ink px-4 py-2.5 text-[15px] font-medium text-cream hover:opacity-90"
-            >
-              {CTA.label}
-            </Link>
-          </div>
-          <Column title="Продукти" items={PRODUCTS} />
-          <Column title="Решения" items={SOLUTIONS} />
-          <Column title="Компания" items={MAIN_LINKS} />
+    <footer className="relative z-[1] border-t border-line pb-12 pt-10">
+      <div className="mx-auto flex max-w-[1200px] flex-wrap justify-between gap-8 px-6 text-[14px] text-stone">
+        <div className="flex flex-col gap-2">
+          <Link href="/" aria-label="nextbot — начало" className="self-start">
+            <Logo size={19} />
+          </Link>
+          <span>
+            {COMPANY.name} · ЕИК {COMPANY.eik}
+          </span>
+          <span>{COMPANY.address ? `${COMPANY.address}, ${COMPANY.city}` : COMPANY.city}</span>
         </div>
 
-        <div className="flex flex-col gap-4 border-t border-line py-6 text-[13px] text-stone sm:flex-row sm:items-center sm:justify-between">
-          <p className="flex flex-wrap gap-x-4 gap-y-1">
-            <span>
-              © {year} {COMPANY.name}
-            </span>
-            <span>ЕИК {COMPANY.eik}</span>
-            <span>ДДС {COMPANY.vat}</span>
-            <span>{COMPANY.address ? `${COMPANY.address}, ${COMPANY.city}` : COMPANY.city}</span>
-          </p>
-          <ul className="flex flex-wrap gap-x-4 gap-y-1">
-            {LEGAL.map((item) => (
-              <li key={item.href}>
-                <Link href={item.href} className="hover:text-ink">
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+        <nav aria-label="Продукти" className="flex flex-col gap-2">
+          <span className="font-medium text-ink">Продукти</span>
+          {FOOTER_PRODUCTS.map((p) => (
+            <Link key={p.href} href={p.href} className={link}>
+              {p.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="flex flex-col gap-2">
+          <span className="font-medium text-ink">Контакти</span>
+          <a href={telHref(COMPANY.phone)} className={link}>
+            {COMPANY.phone}
+          </a>
+          <a href={`mailto:${COMPANY.email}`} className={link}>
+            {COMPANY.email}
+          </a>
         </div>
+
+        <nav aria-label="Правни" className="flex flex-col gap-2">
+          <span className="font-medium text-ink">Правни</span>
+          {LEGAL.map((l) => (
+            <Link key={l.href} href={l.href} className={link}>
+              {l.label}
+            </Link>
+          ))}
+        </nav>
       </div>
     </footer>
   )
