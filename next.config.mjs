@@ -31,10 +31,23 @@ const nextConfig = {
     // Old pages with outdated prices and dashboard references (not in BRAND.md). Temporary until
     // step 5 adds the final redirects of all old addresses.
     const outdated = ["/documentation", "/api-docs"];
-    return [...hidden, ...outdated].flatMap((source) => [
-      { source, destination: "/", permanent: false },
-      { source: `${source}/:path*`, destination: "/", permanent: false },
-    ]);
+    // Old addresses that now have a Bulgarian page (permanent: these are the final addresses).
+    const moved = [
+      ["/about", "/za-nas"],
+      ["/book-demo", "/razgovor"],
+      ["/privacy", "/poveritelnost"],
+      ["/gdpr", "/poveritelnost"],
+      ["/legal", "/poveritelnost"],
+      ["/terms", "/usloviya"],
+      ["/cookies", "/biskvitki"],
+    ];
+    return [
+      ...[...hidden, ...outdated].flatMap((source) => [
+        { source, destination: "/", permanent: false },
+        { source: `${source}/:path*`, destination: "/", permanent: false },
+      ]),
+      ...moved.map(([source, destination]) => ({ source, destination, permanent: true })),
+    ];
   },
 };
 

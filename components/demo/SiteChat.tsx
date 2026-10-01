@@ -9,7 +9,8 @@ import { ChatWidget } from '@/components/demo/ChatWidget'
  */
 export function SiteChat() {
   const pathname = usePathname()
-  if (pathname === '/') return null
+  // pages that already show the chat inline
+  if (pathname === '/' || pathname === '/demo') return null
   return (
     <ChatWidget
       industry="hotel"

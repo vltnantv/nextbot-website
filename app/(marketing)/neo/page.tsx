@@ -14,8 +14,8 @@ export const metadata: Metadata = {
   description: 'NEO отговаря на клиентите ви в сайта на български, записва часове и събира данните им. Настройваме го за 7 дни.',
 }
 
-const TRY = { label: 'Пробвайте бота', href: '/#demo' } // TODO step 5: chat on this page or /demo
-const PRICES = '/#ceni' // TODO step 5: /ceni
+const TRY = { label: 'Пробвайте бота', href: '/demo' }
+const PRICES = '/ceni'
 
 const CHANNELS: { name: string; status: 'наличен' | 'скоро' }[] = [
   { name: 'Във вашия сайт', status: 'наличен' },

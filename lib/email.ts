@@ -9,6 +9,7 @@ const notificationEmail = process.env.NOTIFICATION_EMAIL || 'info@nextbot.me'
 
 interface DemoBooking {
   name: string
+  /** optional on /razgovor */
   email: string
   phone: string
   company: string
@@ -188,7 +189,7 @@ function demoConfirmationContent(data: DemoBooking) {
         ${nextStep('3', 'Работи и отчита', 'Всяка седмица получавате отчет: колко запитвания и колко записани часове.')}
       </table>
 
-      <a href="https://www.nextbot.me/#demo" style="display: inline-block; padding: 13px 26px; background-color: #1F1D1A; color: #FAF7F2; font-family: ${font}; font-size: 15px; font-weight: 500; text-decoration: none; border-radius: 999px;">Пробвайте NEO междувременно</a>
+      <a href="https://www.nextbot.me/demo" style="display: inline-block; padding: 13px 26px; background-color: #1F1D1A; color: #FAF7F2; font-family: ${font}; font-size: 15px; font-weight: 500; text-decoration: none; border-radius: 999px;">Пробвайте NEO междувременно</a>
 
       <p style="margin: 28px 0 0; font-family: ${font}; font-size: 14px; color: #6F6A62; line-height: 1.6;">
         Въпроси? Отговорете на този имейл или се обадете на +359 894 288 119 (и във Viber).
@@ -225,16 +226,16 @@ export async function sendDemoNotification(data: DemoBooking) {
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
               ${infoRow('Име', data.name)}
               ${divider()}
-              ${infoRow('Имейл', `<a href="mailto:${data.email}" style="color: #1F1D1A;">${data.email}</a>`)}
+              ${infoRow('Имейл', data.email ? `<a href="mailto:${data.email}" style="color: #1F1D1A;">${data.email}</a>` : '—')}
               ${divider()}
               ${infoRow('Телефон', data.phone || '—')}
               ${divider()}
-              ${infoRow('Фирма', data.company || '—')}
+              ${infoRow('Бизнес и бранш', data.company || '—')}
               ${divider()}
               ${infoRow('Дата', data.preferredDate || '—')}
               ${divider()}
               ${infoRow('Час', data.preferredTime || '—')}
-              ${data.message ? `${divider()}${infoRow('Съобщение', data.message)}` : ''}
+              ${data.message ? `${divider()}${infoRow('Бележка', data.message)}` : ''}
             </table>
           </td></tr>
         </table>
@@ -243,7 +244,7 @@ export async function sendDemoNotification(data: DemoBooking) {
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top: 24px;">
           <tr>
             <td align="center">
-              <a href="mailto:${data.email}" style="display: inline-block; padding: 12px 26px; background-color: #1F1D1A; color: #FAF7F2; font-family: ${font}; font-size: 14px; font-weight: 500; text-decoration: none; border-radius: 999px;">Отговорете на ${data.name.split(' ')[0]}</a>
+              <a href="${data.phone ? `tel:${data.phone.replace(/\s/g, '')}` : `mailto:${data.email}`}" style="display: inline-block; padding: 12px 26px; background-color: #1F1D1A; color: #FAF7F2; font-family: ${font}; font-size: 14px; font-weight: 500; text-decoration: none; border-radius: 999px;">Обадете се на ${data.name.split(' ')[0]}</a>
             </td>
           </tr>
         </table>
@@ -251,7 +252,8 @@ export async function sendDemoNotification(data: DemoBooking) {
     `)
   })
 
-  // Confirmation to the customer
+  // Confirmation to the customer - only when they left an email (it is optional)
+  if (!data.email) return
   await getResend().emails.send({
     from: 'NextBot <noreply@nextbot.me>',
     to: data.email,

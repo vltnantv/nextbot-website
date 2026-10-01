@@ -48,6 +48,8 @@ export const WEB_RULES = {
 }
 
 export const GUARANTEE_DAYS = 14
+/** Annual payment: this many months free (copy/ceni-zanas-razgovor.md „Гаранция“) */
+export const ANNUAL_FREE_MONTHS = 2
 export const SETUP_DAYS = 7
 
 /**

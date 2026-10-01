@@ -1,14 +1,14 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server'
 
+// ARIA waiting list (form on /aria): name, phone or email, business. Delivered by email via Web3Forms.
 export async function POST(request: Request) {
   try {
-    const { email } = await request.json();
+    const { name, contact, business } = await request.json()
+    const clean = (v: unknown) => (typeof v === 'string' ? v.trim().slice(0, 200) : '')
+    const data = { name: clean(name), contact: clean(contact), business: clean(business) }
 
-    if (!email) {
-      return NextResponse.json(
-        { success: false, error: 'Email is required' },
-        { status: 400 }
-      );
+    if (!data.name || !data.contact) {
+      return NextResponse.json({ success: false, error: 'Име и телефон или имейл са задължителни' }, { status: 400 })
     }
 
     const response = await fetch('https://api.web3forms.com/submit', {
@@ -17,25 +17,19 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         access_key: process.env.WEB3FORMS_ACCESS_KEY,
         to: 'valentinantov03@gmail.com',
-        subject: '🎤 New Aria Waitlist Signup',
-        from_name: 'Nextbot Website',
-        email,
-        message: `New Aria waitlist signup: ${email}`,
+        subject: `ARIA — нов в списъка: ${data.name}`,
+        from_name: 'NextBot сайт',
+        name: data.name,
+        message: `Име: ${data.name}\nТелефон или имейл: ${data.contact}\nБизнес: ${data.business || '—'}`,
       }),
-    });
+    })
 
-    const data = await response.json();
+    const result = await response.json()
+    if (!result.success) throw new Error(result.message || 'Web3Forms submission failed')
 
-    if (!data.success) {
-      throw new Error(data.message || 'Web3Forms submission failed');
-    }
-
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Aria waitlist error:', error);
-    return NextResponse.json(
-      { success: false, error: 'Failed to submit waitlist signup' },
-      { status: 500 }
-    );
+    console.error('Aria waitlist error:', error)
+    return NextResponse.json({ success: false, error: 'Неуспешно записване' }, { status: 500 })
   }
 }

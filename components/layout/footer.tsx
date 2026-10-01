@@ -3,12 +3,13 @@ import { Logo } from '@/components/brand/Logo'
 import { COMPANY, telHref } from '@/lib/company'
 import { LEGAL } from '@/lib/site-nav'
 
-// Layout from design/homepage-mockup.html: company · Продукти · Контакти · Правни.
+// Layout from design/homepage-mockup.html: logo · Продукти · Контакти · Правни.
+// No company name, ЕИК or address until there is a company - only email and phone.
 const FOOTER_PRODUCTS = [
-  { label: 'Изработка на сайт', href: '/izrabotka-na-sait' }, // TODO step 5
+  { label: 'Изработка на сайт', href: '/izrabotka-na-sait' },
   { label: 'NEO', href: '/neo' },
-  { label: 'CORE', href: '/core' }, // TODO step 5
-  { label: 'ECHO', href: '/echo' }, // TODO step 5
+  { label: 'CORE', href: '/core' },
+  { label: 'ECHO', href: '/echo' },
 ]
 
 const link = 'text-stone no-underline transition-colors hover:text-ink'
@@ -21,10 +22,6 @@ export function Footer() {
           <Link href="/" aria-label="nextbot — начало" className="self-start">
             <Logo size={19} />
           </Link>
-          <span>
-            {COMPANY.name} · ЕИК {COMPANY.eik}
-          </span>
-          <span>{COMPANY.address ? `${COMPANY.address}, ${COMPANY.city}` : COMPANY.city}</span>
         </div>
 
         <nav aria-label="Продукти" className="flex flex-col gap-2">

@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   description: `Бърз и модерен сайт на български с чат асистент от първия ден. Визитка от ${eur(card.from!)}, бизнес сайт от ${eur(business.from!)}, онлайн магазин от ${eur(shop.from!)}.`,
 }
 
-const PACKAGES = '/#ceni' // TODO step 5: /ceni
+const PACKAGES = '/ceni'
 
 // Bullet points per offer, as in copy/web.md
 const OFFERS = [

@@ -1,12 +1,7 @@
-// Company and contact details, shown in the footer and on contact pages.
-// Values come from the previous site; BRAND.md lists them as "to confirm" - check before going live.
+// Contact details, shown in the footer and on /za-nas.
+// No company yet: name, ЕИК and address are NOT shown anywhere until there is one (Valentin, 01.10.2026).
+// [ПОТВЪРДИ] copy/ceni-zanas-razgovor.md „Фирмени данни“: наименование, ЕИК, адрес - add here once they exist.
 export const COMPANY = {
-  name: "Nextbot EOOD",
-  eik: "207218192",
-  vat: "BG207218192",
-  city: "София",
-  /** Street address: not known yet. Shown only when filled in. */
-  address: null as string | null,
   email: "info@nextbot.me",
   /** TO CONFIRM (BRAND.md open question) */
   phone: "+359 894 288 119",

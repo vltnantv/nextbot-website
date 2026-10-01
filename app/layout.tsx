@@ -103,17 +103,9 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Organization",
               name: "NextBot",
-              legalName: "Nextbot EOOD",
               url: "https://www.nextbot.me",
               logo: "https://www.nextbot.me/logo-icon.png",
               description: "NextBot отговаря на клиентите ви в сайта, Viber, Messenger и по телефона, денем и нощем, на български.",
-              foundingDate: "2024",
-              founder: { "@type": "Person", name: "Valentin Antov" },
-              address: {
-                "@type": "PostalAddress",
-                addressLocality: "София",
-                addressCountry: "BG",
-              },
               contactPoint: {
                 "@type": "ContactPoint",
                 telephone: "+359-894-288-119",

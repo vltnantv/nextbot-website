@@ -17,15 +17,15 @@ export const metadata: Metadata = {
   description: 'CORE пази клиентите, етапите и напомнянията за обаждане в една проста система на български. Без таблици и тетрадки.',
 }
 
-const PRICES = '/#ceni' // TODO step 5: /ceni
+const PRICES = '/ceni'
 
 // „Сайт и NEO → CORE → ECHO (повторни клиенти и отзиви)“
 const FLOW = ['Сайт и NEO', 'CORE', 'ECHO (повторни клиенти и отзиви)']
 
 const AUDIENCE = [
-  { label: 'автокъщи и сервизи', href: '/za/avtokashti' }, // TODO step 5
-  { label: 'клиники и салони', href: '/za/kliniki' }, // TODO step 5
-  { label: 'агенции за имоти', href: '/za/imoti' }, // TODO step 5
+  { label: 'автокъщи и сервизи', href: '/za/avtokashti' },
+  { label: 'клиники и салони', href: '/za/kliniki' },
+  { label: 'агенции за имоти', href: '/za/imoti' },
 ]
 
 export default function CorePage() {

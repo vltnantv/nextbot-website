@@ -4,7 +4,7 @@ import { useRef, useState } from 'react'
 import { ChatWidget } from '@/components/demo/ChatWidget'
 import { Float } from '@/components/motion/Float'
 import { Reveal } from '@/components/motion/Reveal'
-import { EYEBROW, H2, WRAP } from './ui'
+import { EYEBROW, H, H2, WRAP } from './ui'
 
 // Industries from the mockup. `industry` is the context the real /api/chat uses.
 const INDUSTRIES = [
@@ -38,7 +38,8 @@ const INDUSTRIES = [
   },
 ] as const
 
-export function TryIt() {
+/** `page`: used as the /demo page - the title becomes the h1 (copy/UNIQUE.md „Демо“). */
+export function TryIt({ page = false }: { page?: boolean }) {
   const [active, setActive] = useState<(typeof INDUSTRIES)[number]['key']>('auto')
   const tabs = useRef<(HTMLButtonElement | null)[]>([])
   const current = INDUSTRIES.find((i) => i.key === active)!
@@ -53,12 +54,18 @@ export function TryIt() {
   }
 
   return (
-    <section id="demo" className="relative z-[1] py-[104px]">
+    <section id="demo" className={`relative z-[1] ${page ? 'pb-[104px] pt-14' : 'py-[104px]'}`}>
       <div className={`${WRAP} grid items-center gap-10 min-[900px]:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] min-[900px]:gap-12`}>
         <Reveal className="flex min-w-0 flex-col gap-5">
           <div id="branshove" className="flex flex-col gap-5">
-            <span className={EYEBROW}>Пробвайте сами</span>
-            <h2 className={H2}>Пишете му както би писал ваш клиент.</h2>
+            {page ? (
+              <h1 className={`${H} text-[clamp(38px,5vw,64px)] leading-[1.04]`}>Пишете му както би писал ваш клиент.</h1>
+            ) : (
+              <>
+                <span className={EYEBROW}>Пробвайте сами</span>
+                <h2 className={H2}>Пишете му както би писал ваш клиент.</h2>
+              </>
+            )}
             <p className="m-0 text-stone">Изберете бранш и пишете. Отговаря истинският NEO.</p>
             <div role="tablist" aria-label="Бранш" className="flex flex-wrap gap-2">
               {INDUSTRIES.map((ind, i) => {
