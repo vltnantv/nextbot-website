@@ -35,3 +35,15 @@ export function normalizePhone(raw: string | null | undefined): NormalizedPhone 
   // national without the 0: 885930101
   return bg(digits)
 }
+
+/** For display only: +359885930101 → „+359 88 593 0101“, +35924231234 → „+359 2 423 1234“. Others unchanged. */
+export function formatPhone(e164: string | null | undefined): string {
+  if (!e164) return ''
+  const m = /^\+359(\d+)$/.exec(e164)
+  if (!m) return e164
+  const n = m[1]
+  if (n.startsWith('2') && n.length === 8) return `+359 2 ${n.slice(1, 4)} ${n.slice(4)}` // Sofia
+  if (/^(8[7-9]|98)/.test(n) && n.length === 9) return `+359 ${n.slice(0, 2)} ${n.slice(2, 5)} ${n.slice(5)}` // mobile
+  if (n.length === 8) return `+359 ${n.slice(0, 2)} ${n.slice(2, 5)} ${n.slice(5)}` // e.g. Plovdiv 32, Varna 52
+  return `+359 ${n.slice(0, 3)} ${n.slice(3, 6)} ${n.slice(6)}`
+}

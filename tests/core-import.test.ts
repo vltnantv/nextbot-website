@@ -59,3 +59,12 @@ test('classify: duplicates by phone, existing, blocked, no phone', () => {
     ['new', 'duplicate', 'exists', 'blocked', 'no_phone', 'invalid_phone', 'no_name'],
   )
 })
+
+test('phone for display', async () => {
+  const { formatPhone } = await import('../lib/phone')
+  assert.equal(formatPhone('+359885930101'), '+359 88 593 0101')
+  assert.equal(formatPhone('+35924231234'), '+359 2 423 1234')
+  assert.equal(formatPhone('+35952601234'), '+359 52 601 234')
+  assert.equal(formatPhone('+442079460958'), '+442079460958')
+  assert.equal(formatPhone(null), '')
+})

@@ -36,6 +36,12 @@ async function knownPhones(db: Db) {
   return { existing, blocked }
 }
 
+/** First line of each imported lead's history (lead_events, lib/supabase/core-crm.sql). Best effort. */
+async function logImport(db: Db, ids: { id: string }[]) {
+  if (!ids.length) return
+  await db.from('lead_events').insert(ids.map(({ id }) => ({ lead_id: id, type: 'import', body: 'Внесен от Google Maps' })))
+}
+
 /** The full schema has tenants (leads.tenant_id is required); the demo schema has none. */
 async function tenantId(db: Db): Promise<string | null> {
   const probe = await db.from('leads').select('tenant_id').limit(1)
@@ -95,16 +101,20 @@ export async function POST(req: NextRequest) {
     let skipped = 0
     for (let i = 0; i < toInsert.length; i += BATCH) {
       const batch = toInsert.slice(i, i + BATCH)
-      const { error } = await db.from('leads').insert(batch)
+      const { data: ids, error } = await db.from('leads').insert(batch).select('id')
       if (!error) {
         inserted += batch.length
+        await logImport(db, ids ?? [])
         continue
       }
       if (error.code !== '23505') throw error
       // someone added one of these phones meanwhile: insert one by one and skip the duplicates
       for (const row of batch) {
-        const one = await db.from('leads').insert(row)
-        if (!one.error) inserted++
+        const one = await db.from('leads').insert(row).select('id')
+        if (!one.error) {
+          inserted++
+          await logImport(db, one.data ?? [])
+        }
         else if (one.error.code === '23505') skipped++
         else throw one.error
       }
