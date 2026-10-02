@@ -12,7 +12,7 @@ export function dbErrorMessage(error: { code?: string; message?: string } | null
   if (!error) return 'Неизвестна грешка в базата.'
   // undefined column / table: the SQL for the import has not been run yet
   if (error.code === '42703' || error.code === '42P01' || /does not exist|could not find/i.test(error.message ?? '')) {
-    return 'Базата още не е подготвена. Пуснете lib/supabase/import-google-maps.sql в Supabase → SQL Editor.'
+    return `Базата още не е подготвена. Пуснете lib/supabase/import-google-maps.sql в Supabase → SQL Editor. (${error.message ?? error.code})`
   }
   // Supabase answered with an HTML error page (Cloudflare 52x): the project is still starting after a pause
   if (/<!DOCTYPE|<html|\b52[0-9]\b/i.test(error.message ?? '')) {

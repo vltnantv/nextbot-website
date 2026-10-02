@@ -1,7 +1,7 @@
 'use client'
 
 import Papa from 'papaparse'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { INPUT } from '@/components/forms/fields'
 import { classify, REQUIRED_COLUMNS, STATUS_LABEL, type ClassifiedRow, type GoogleMapsRow, type RowStatus } from '@/lib/core-import'
 import { normalizePhone } from '@/lib/phone'
@@ -47,6 +47,7 @@ export function CoreImport() {
   const [shown, setShown] = useState(PAGE)
   const [importing, setImporting] = useState(false)
   const [result, setResult] = useState<string | null>(null)
+  const previewRef = useRef<HTMLElement>(null)
 
   const loadKnown = useCallback(async () => {
     try {
@@ -99,6 +100,7 @@ export function CoreImport() {
           return
         }
         setRows(res.data)
+        setTimeout(() => previewRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50)
       },
       error: (err) => setFileError(`Файлът не може да се прочете: ${err.message}`),
     })
@@ -159,8 +161,15 @@ export function CoreImport() {
         <h2 className="m-0 font-display text-[22px] font-semibold">1. Файл</h2>
         <label className="flex flex-wrap items-center gap-4">
           <span className={SECONDARY + ' inline-flex cursor-pointer items-center'}>Изберете CSV файл</span>
-          <input type="file" accept=".csv,text/csv" className="sr-only" onChange={(e) => e.target.files?.[0] && onFile(e.target.files[0])} />
-          <span className="text-[15px] text-stone">{fileName ?? 'results.csv от gmaps-output'}</span>
+          <input type="file" accept=".csv,text/csv" className="sr-only" onChange={(e) => {
+              const file = e.target.files?.[0]
+              if (file) onFile(file)
+              e.target.value = '' // the same file can be chosen again
+            }}
+          />
+          <span className="text-[15px] text-stone">
+            {fileName ? `${fileName} · ${rows.length} реда · прегледът е по-долу` : 'results.csv от gmaps-output'}
+          </span>
         </label>
         {fileError && (
           <p role="alert" className="m-0 text-[15px] text-[#9A3B2E]">
@@ -171,7 +180,7 @@ export function CoreImport() {
 
       {/* 2. preview */}
       {rows.length > 0 && (
-        <section className="flex flex-col gap-5 rounded-[24px] border border-line bg-white p-6 shadow-soft">
+        <section ref={previewRef} className="flex scroll-mt-6 flex-col gap-5 rounded-[24px] border border-line bg-white p-6 shadow-soft">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <h2 className="m-0 font-display text-[22px] font-semibold">2. Преглед</h2>
             <span className="text-[15px] text-stone">{rows.length} реда във файла</span>
@@ -268,7 +277,7 @@ export function CoreImport() {
             </button>
           )}
 
-          <div className="flex flex-wrap items-center gap-4 border-t border-line pt-5">
+          <div className="sticky bottom-0 z-10 -mx-6 -mb-6 flex flex-wrap items-center gap-4 rounded-b-[24px] border-t border-line bg-white/95 px-6 py-4 backdrop-blur">
             <button type="button" onClick={doImport} disabled={importing || selected.size === 0 || !!dbError} className={PRIMARY}>
               {importing ? 'Внасям…' : `Внеси ${selected.size} като „Нов“`}
             </button>
