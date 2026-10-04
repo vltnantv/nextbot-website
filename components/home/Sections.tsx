@@ -98,12 +98,12 @@ export function CoreSection() {
       side={
         <div className="flex flex-col gap-2">
           <span className={TAG}>Пример с измислени данни</span>
-          <ProductFrame what="CORE · Днес">
+          <ProductFrame what="CORE · Днес" bar={false}>
             <Image
               src="/screens/core-dnes.png"
-              alt="Екранът „Днес“ в CORE: закъснели обаждания, обаждания за днес и нови клиенти без дата, с бутон „Звънях“ на всеки ред."
-              width={2560}
-              height={1640}
+              alt="Екранът „Днес“ в CORE: закъснели обаждания и обаждания за днес, с етап, телефон и срок на всеки ред."
+              width={1960}
+              height={1354}
               sizes="(min-width: 960px) 640px, 100vw"
               className="block h-auto w-full"
             />
