@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { AriaNote } from '@/components/visuals/AriaNote'
 import { EchoPhone } from '@/components/visuals/EchoPhone'
+import { IndustryToday } from '@/components/visuals/IndustryToday'
 import { NeoInbox } from '@/components/visuals/NeoInbox'
 import { StudioFlow } from '@/components/visuals/StudioFlow'
 import { WebShowcase } from '@/components/visuals/WebShowcase'
@@ -34,6 +35,12 @@ export default function VisualsPreview() {
         <span style={label}>Примерна автоматизация.</span>
         <StudioFlow />
       </section>
+      {(['avtokashti', 'kliniki', 'imoti', 'hoteli'] as const).map((k) => (
+        <section key={k} data-visual={`bransh-${k}`} style={{ maxWidth: 760, display: 'grid', gap: 8 }}>
+          <span style={label}>Пример с измислени данни</span>
+          <IndustryToday industry={k} />
+        </section>
+      ))}
     </div>
   )
 }

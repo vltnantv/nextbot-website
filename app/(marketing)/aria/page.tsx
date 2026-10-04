@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Reveal } from '@/components/motion/Reveal'
 import { WaitlistForm } from '@/components/forms/WaitlistForm'
 import { RingingPhone } from '@/components/signature/RingingPhone'
+import { AriaNote } from '@/components/visuals/AriaNote'
 import { FaqList, ProductHero, Section } from '@/components/page/blocks'
 
 // Text: copy/aria-studio.md (/aria) - word for word; h1 and subtitle from copy/UNIQUE.md („Телефонът звъни“).
@@ -38,7 +39,15 @@ export default function AriaPage() {
         </div>
       </Section>
 
-      <Section title="Въпроси" narrow>
+      {/* copy/VISUALS.md: ARIA is coming - only the note it will leave, no fake app */}
+      <Section>
+        <Reveal className="flex flex-col gap-2">
+          <span className="text-[14px] text-stone">Скоро. Пример как ще изглежда бележката.</span>
+          <AriaNote />
+        </Reveal>
+      </Section>
+
+      <Section title="Въпроси" deep narrow>
         <FaqList
           items={[
             { q: 'Кога ще е готов?', a: 'Още не знаем точна дата. Ще пишем на хората от списъка първи.' },

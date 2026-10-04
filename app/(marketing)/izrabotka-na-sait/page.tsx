@@ -4,6 +4,7 @@ import { Reveal } from '@/components/motion/Reveal'
 import { Stagger } from '@/components/motion/Stagger'
 import { BeforeAfter } from '@/components/signature/BeforeAfter'
 import { WebCalc } from '@/components/signature/WebCalc'
+import { WebShowcase } from '@/components/visuals/WebShowcase'
 import { Tilt } from '@/components/motion/Tilt'
 import { Arrow } from '@/components/home/Arrow'
 import { BTN_PRIMARY, BTN_SECONDARY, CARD, H } from '@/components/home/ui'
@@ -63,6 +64,13 @@ export default function WebPage() {
             { title: 'Човек за поддръжка.', text: 'Промени по текстове и цени правим ние.' },
           ]}
         />
+      </Section>
+
+      {/* copy/VISUALS.md: our own site is real work - no made-up client sites until there are real ones */}
+      <Section>
+        <Reveal>
+          <WebShowcase />
+        </Reveal>
       </Section>
 
       <Section id="ceni" title="Цени">

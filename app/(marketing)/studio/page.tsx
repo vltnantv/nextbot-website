@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Reveal } from '@/components/motion/Reveal'
 import { TaskPicker } from '@/components/signature/TaskPicker'
+import { StudioFlow } from '@/components/visuals/StudioFlow'
 import { Cards, EndBlock, FaqList, Lines, ProductHero, Section } from '@/components/page/blocks'
 import { CTA } from '@/lib/site-nav'
 import { STUDIO_FROM, eur } from '@/lib/prices'
@@ -45,6 +46,11 @@ export default function StudioPage() {
             'Калкулатор за оферта, който клиентът попълва сам.',
           ]}
         />
+        {/* copy/VISUALS.md: an example automation as a scheme */}
+        <Reveal className="mt-4 flex flex-col gap-2">
+          <span className="text-[14px] text-stone">Примерна автоматизация.</span>
+          <StudioFlow />
+        </Reveal>
       </Section>
 
       {/* Signature (copy/UNIQUE.md „Избор на задача“) in place of the shared „Как работим“ block
