@@ -85,7 +85,7 @@ export function NeoSection() {
   )
 }
 
-/** §4.4 CORE - a real screenshot of „Днес“ (/core/dnes) with made-up demo data, screen on the left. */
+/** §4.4 CORE - a real screenshot of „Днес“ (/vatreshno/dnes) with made-up demo data, screen on the left. */
 export function CoreSection() {
   return (
     <Feature

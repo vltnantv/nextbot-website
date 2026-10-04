@@ -53,12 +53,12 @@ function NextCall({ value, onChange }: { value: string | null; onChange: (v: str
         {PRESETS.map((p) => {
           const d = addDays(today, p.days)
           return (
-            <button key={p.days} type="button" className="pill" aria-pressed={value === d} onClick={() => onChange(d)}>
+            <button key={p.days} type="button" aria-pressed={value === d} onClick={() => onChange(d)}>
               {p.label}
             </button>
           )
         })}
-        <button type="button" className="pill" aria-pressed={value === null} onClick={() => onChange(null)}>
+        <button type="button" aria-pressed={value === null} onClick={() => onChange(null)}>
           Без дата
         </button>
       </div>
@@ -78,7 +78,7 @@ export function CallDialog({ lead, onClose, onSaved }: { lead: CrmLead; onClose:
   const save = async () => {
     setBusy(true)
     try {
-      const { lead: saved } = await crmApi<{ lead: CrmLead }>(`/api/core/leads/${lead.id}/events`, {
+      const { lead: saved } = await crmApi<{ lead: CrmLead }>(`/api/vatreshno/leads/${lead.id}/events`, {
         method: 'POST',
         body: JSON.stringify({ type: 'call', body, status, next_call_at: next }),
       })
@@ -102,7 +102,8 @@ export function CallDialog({ lead, onClose, onSaved }: { lead: CrmLead; onClose:
         Етап
         <div className="stepper" role="radiogroup" aria-label="Етап">
           {STAGES.map((s) => (
-            <button key={s.id} type="button" role="radio" aria-checked={status === s.id} className={status === s.id ? 'cur' : ''} onClick={() => setStatus(s.id)}>
+            <button key={s.id} type="button" role="radio" aria-checked={status === s.id} onClick={() => setStatus(s.id)}>
+              <i style={{ background: `var(--s-${s.id})` }} />
               {s.label}
             </button>
           ))}
@@ -113,7 +114,7 @@ export function CallDialog({ lead, onClose, onSaved }: { lead: CrmLead; onClose:
         <button type="button" className="btn" onClick={onClose}>
           Отказ
         </button>
-        <button type="button" className="btn pri" onClick={save} disabled={busy}>
+        <button type="button" className="btn dark" onClick={save} disabled={busy}>
           Запиши
         </button>
       </div>
@@ -136,7 +137,7 @@ export function NotNowDialog({ lead, onCancel, onConfirm }: { lead: CrmLead; onC
         <button type="button" className="btn" onClick={onCancel}>
           Отказ
         </button>
-        <button type="button" className="btn pri" onClick={() => onConfirm(next, reason)}>
+        <button type="button" className="btn dark" onClick={() => onConfirm(next, reason)}>
           Премести в „Не сега“
         </button>
       </div>

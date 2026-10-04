@@ -1,15 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { isLocalRequest } from '@/lib/local-only'
+import { coreEnabled } from '@/lib/local-only'
 import { normalizePhone } from '@/lib/phone'
 import { dbErrorMessage, getAdminSupabase } from '@/lib/supabase/admin'
 
-// „Не ми звънете“ list (page /core/vnos). Local only: 404 anywhere but `npm run dev` on localhost.
+// Never pre-render: this answers only at request time, behind CORE_LOCAL (no lead data in the build output).
+export const dynamic = 'force-dynamic'
+
+// „Не ми звънете“ list (page /vatreshno/vnos). Local only: 404 anywhere but `npm run dev` on localhost.
 // A number on this list is never imported again, even if the lead was deleted from CORE.
 
 const notFound = () => new NextResponse(null, { status: 404 })
 
 export async function GET(req: NextRequest) {
-  if (!isLocalRequest(req.headers.get('host'))) return notFound()
+  if (!coreEnabled()) return notFound()
   const db = getAdminSupabase()
   if (!db) return NextResponse.json({ error: 'Липсват ключовете за Supabase в .env.local.' }, { status: 503 })
   const { data, error } = await db.from('do_not_call').select('phone, reason, created_at').order('created_at', { ascending: false })
@@ -18,7 +21,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  if (!isLocalRequest(req.headers.get('host'))) return notFound()
+  if (!coreEnabled()) return notFound()
   const db = getAdminSupabase()
   if (!db) return NextResponse.json({ error: 'Липсват ключовете за Supabase в .env.local.' }, { status: 503 })
   const body = await req.json().catch(() => null)
@@ -31,7 +34,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  if (!isLocalRequest(req.headers.get('host'))) return notFound()
+  if (!coreEnabled()) return notFound()
   const db = getAdminSupabase()
   if (!db) return NextResponse.json({ error: 'Липсват ключовете за Supabase в .env.local.' }, { status: 503 })
   const body = await req.json().catch(() => null)

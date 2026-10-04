@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { badRequest, coreDb, dbError, LEAD_FIELDS } from '@/lib/core-api'
 import { isIsoDay, isStage } from '@/lib/crm'
 
+// Never pre-render: this answers only at request time, behind CORE_LOCAL (no lead data in the build output).
+export const dynamic = 'force-dynamic'
+
 // A note or a call on a lead. Local only.
 // { type: 'note', body }                                       → note in the history
 // { type: 'call', body?, status?, next_call_at? (day or null) } → „Звънях“: last contact = now, optional

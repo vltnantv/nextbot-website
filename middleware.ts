@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { isLocalRequest } from '@/lib/local-only'
 
-// Local-only tools: the CORE app under /core/… (board, „Днес“, lead pages, import) and its API.
-// /core itself is the public product page and is not matched. Checked here, before the page starts streaming, so the public
-// site answers a real 404 (status and page) and nothing about the tool - not even its title - is sent.
+// Internal CORE app: everything under /vatreshno and /api/vatreshno is 404 unless CORE_LOCAL=1 is in the
+// environment. CORE_LOCAL lives only in .env.local (Valentin's computer), never in Vercel.
+// Checked here, before anything is sent, so the public site does not even reveal a page title.
+// /core is the public product page and is not matched.
 export function middleware(req: NextRequest) {
-  if (isLocalRequest(req.headers.get('host'))) return NextResponse.next()
+  if (process.env.CORE_LOCAL === '1') return NextResponse.next()
   return NextResponse.rewrite(new URL('/_not-found', req.url), { status: 404 })
 }
 
 export const config = {
-  matcher: ['/core/:path+', '/api/core/:path*'],
+  matcher: ['/vatreshno', '/vatreshno/:path*', '/api/vatreshno', '/api/vatreshno/:path*'],
 }

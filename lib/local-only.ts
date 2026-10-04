@@ -1,11 +1,7 @@
-// Tools that must exist only on Valentin's computer (e.g. the CORE import at /core/vnos).
-// Both checks must pass: a development server (`npm run dev` - Vercel always builds for production)
-// and a request to localhost. Everywhere else the page and its API answer 404.
+// The internal CORE app (/vatreshno/… and /api/vatreshno/…) with Valentin's real lead data.
+// It exists only where CORE_LOCAL=1 is set - that is only in .env.local on Valentin's computer, never in
+// Vercel. Everywhere else every page and API under /vatreshno answers 404 (middleware.ts + these checks).
 
-const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1', '[::1]'])
-
-export function isLocalRequest(host: string | null | undefined): boolean {
-  if (process.env.NODE_ENV !== 'development') return false
-  const name = (host ?? '').toLowerCase().replace(/:\d+$/, '')
-  return LOCAL_HOSTS.has(name)
+export function coreEnabled(): boolean {
+  return process.env.CORE_LOCAL === '1'
 }

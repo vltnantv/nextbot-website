@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { classify, type GoogleMapsRow, type RowStatus } from '@/lib/core-import'
-import { isLocalRequest } from '@/lib/local-only'
+import { coreEnabled } from '@/lib/local-only'
 import { normalizePhone } from '@/lib/phone'
 import { dbErrorMessage, getAdminSupabase } from '@/lib/supabase/admin'
 
-// CORE import from a Google Maps CSV (page /core/vnos). Local only: 404 anywhere but `npm run dev` on localhost.
+// Never pre-render: this answers only at request time, behind CORE_LOCAL (no lead data in the build output).
+export const dynamic = 'force-dynamic'
+
+// CORE import from a Google Maps CSV (page /vatreshno/vnos). Local only: 404 anywhere but `npm run dev` on localhost.
 // GET  → phones already in CORE and on „Не ми звънете“ (for the preview)
 // POST → { rows } the rows ticked in the preview; everything is checked again here before inserting
 
@@ -53,7 +56,7 @@ async function tenantId(db: Db): Promise<string | null> {
 }
 
 export async function GET(req: NextRequest) {
-  if (!isLocalRequest(req.headers.get('host'))) return notFound()
+  if (!coreEnabled()) return notFound()
   const db = getAdminSupabase()
   if (!db) return NextResponse.json({ error: 'Липсват ключовете за Supabase в .env.local.' }, { status: 503 })
   try {
@@ -65,7 +68,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  if (!isLocalRequest(req.headers.get('host'))) return notFound()
+  if (!coreEnabled()) return notFound()
   const db = getAdminSupabase()
   if (!db) return NextResponse.json({ error: 'Липсват ключовете за Supabase в .env.local.' }, { status: 503 })
 

@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { badRequest, coreDb, dbError, LEAD_FIELDS } from '@/lib/core-api'
 import { isIsoDay, isStage, STAGE_LABEL } from '@/lib/crm'
 
+// Never pre-render: this answers only at request time, behind CORE_LOCAL (no lead data in the build output).
+export const dynamic = 'force-dynamic'
+
 // One lead with its history (GET) and changes from the board / lead page (PATCH). Local only.
 // PATCH { status?, reason?, position?, next_call_at? (YYYY-MM-DD or null) } - every change is logged.
 

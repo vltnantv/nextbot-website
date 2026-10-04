@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { badRequest, coreDb, dbError } from '@/lib/core-api'
 
+// Never pre-render: this answers only at request time, behind CORE_LOCAL (no lead data in the build output).
+export const dynamic = 'force-dynamic'
+
 // Order of the cards in one board column, after a drop: { ids: [...] } → position = index. Local only.
 const MAX = 2000
 const PARALLEL = 20

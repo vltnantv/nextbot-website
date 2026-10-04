@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { coreDb, dbError, LEAD_FIELDS } from '@/lib/core-api'
 import type { CrmLead } from '@/lib/crm'
 
+// Never pre-render: this answers only at request time, behind CORE_LOCAL (no lead data in the build output).
+export const dynamic = 'force-dynamic'
+
 // All leads for the board and „Днес“, with the last note or call result of each. Local only.
 const PAGE = 1000
 

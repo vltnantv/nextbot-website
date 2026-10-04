@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { isLocalRequest } from './local-only'
+import { coreEnabled } from './local-only'
 import { dbErrorMessage, getAdminSupabase } from './supabase/admin'
 
 // Shared start of every CORE API route: local only (404 elsewhere) and a server-side Supabase client.
@@ -7,7 +7,7 @@ import { dbErrorMessage, getAdminSupabase } from './supabase/admin'
 export type Db = NonNullable<ReturnType<typeof getAdminSupabase>>
 
 export function coreDb(req: NextRequest): { db: Db; error?: undefined } | { db?: undefined; error: NextResponse } {
-  if (!isLocalRequest(req.headers.get('host'))) return { error: new NextResponse(null, { status: 404 }) }
+  if (!coreEnabled()) return { error: new NextResponse(null, { status: 404 }) }
   const db = getAdminSupabase()
   if (!db) return { error: NextResponse.json({ error: 'Липсват ключовете за Supabase в .env.local.' }, { status: 503 }) }
   return { db }

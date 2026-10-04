@@ -6,7 +6,7 @@ import { INPUT } from '@/components/forms/fields'
 import { classify, REQUIRED_COLUMNS, STATUS_LABEL, type ClassifiedRow, type GoogleMapsRow, type RowStatus } from '@/lib/core-import'
 import { normalizePhone } from '@/lib/phone'
 
-// /core/vnos: upload → preview (counts, table, ticks) → import the ticked rows as „Нов“.
+// /vatreshno/vnos: upload → preview (counts, table, ticks) → import the ticked rows as „Нов“.
 // Plus the „Не ми звънете“ list: add / remove numbers; a listed number is never imported again.
 
 type Known = { existing: Set<string>; blocked: Set<string> }
@@ -52,8 +52,8 @@ export function CoreImport() {
   const loadKnown = useCallback(async () => {
     try {
       const [k, list] = await Promise.all([
-        api<{ existing: string[]; blocked: string[] }>('/api/core/import'),
-        api<Dnc[]>('/api/core/dnc'),
+        api<{ existing: string[]; blocked: string[] }>('/api/vatreshno/import'),
+        api<Dnc[]>('/api/vatreshno/dnc'),
       ])
       setKnown({ existing: new Set(k.existing), blocked: new Set(k.blocked) })
       setDnc(list)
@@ -112,7 +112,7 @@ export function CoreImport() {
     setImporting(true)
     setResult(null)
     try {
-      const r = await api<{ inserted: number; skipped: number }>('/api/core/import', { method: 'POST', body: JSON.stringify({ rows: picked }) })
+      const r = await api<{ inserted: number; skipped: number }>('/api/vatreshno/import', { method: 'POST', body: JSON.stringify({ rows: picked }) })
       setResult(`Внесени: ${r.inserted} като „Нов“.${r.skipped ? ` Пропуснати като вече съществуващи: ${r.skipped}.` : ''}`)
       await loadKnown() // the imported phones are now „Вече в CORE“
     } catch (e) {
@@ -124,7 +124,7 @@ export function CoreImport() {
 
   const block = async (phone: string, reason: string | null) => {
     try {
-      await api('/api/core/dnc', { method: 'POST', body: JSON.stringify({ phone, reason }) })
+      await api('/api/vatreshno/dnc', { method: 'POST', body: JSON.stringify({ phone, reason }) })
       await loadKnown()
     } catch (e) {
       setDbError((e as Error).message)
@@ -133,7 +133,7 @@ export function CoreImport() {
 
   const unblock = async (phone: string) => {
     try {
-      await api('/api/core/dnc', { method: 'DELETE', body: JSON.stringify({ phone }) })
+      await api('/api/vatreshno/dnc', { method: 'DELETE', body: JSON.stringify({ phone }) })
       await loadKnown()
     } catch (e) {
       setDbError((e as Error).message)
@@ -312,7 +312,7 @@ function DncPanel({
   const normalized = normalizePhone(phone)?.e164 ?? null
 
   return (
-    <section className="flex flex-col gap-5 rounded-[24px] border border-line bg-white p-6 shadow-soft">
+    <section id="ne-mi-zvanete" className="flex scroll-mt-6 flex-col gap-5 rounded-[24px] border border-line bg-white p-6 shadow-soft">
       <div className="flex flex-col gap-1">
         <h2 className="m-0 font-display text-[22px] font-semibold">Не ми звънете · {list.length}</h2>
         <p className="m-0 text-[15px] text-stone">Тези номера не се внасят повторно, дори ако клиентът е изтрит от CORE.</p>

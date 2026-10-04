@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="bg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CORE — образец</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@500;600&family=Onest:wght@400;500&display=swap&subset=cyrillic" rel="stylesheet">
+<style>
+:root{
+  --cream:#FAF7F2; --cream-deep:#F3EEE6; --white:#FFFFFF; --ink:#1F1D1A; --stone:#6F6A62;
+  --mute:#A39D93; --line:#E8E1D6; --line-soft:#F0EBE2; --online:#1F9D63; --late:#B4442E;
+  --s-new:#8C857A; --s-called:#C59A3D; --s-meeting:#3F7FB8; --s-offer:#8A5BB0; --s-client:#1F9D63; --s-notnow:#B9B2A6;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--cream);color:var(--ink);font:400 14px/1.45 Onest,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.num{font-variant-numeric:tabular-nums}
+.app{display:grid;grid-template-columns:232px 1fr;min-height:100vh}
+
+/* sidebar */
+aside{border-right:1px solid var(--line);padding:22px 14px;display:flex;flex-direction:column;gap:22px;background:var(--cream)}
+.logo{font:600 19px/1 Geologica,sans-serif;letter-spacing:-.02em;padding:0 10px;display:flex;align-items:center;gap:6px}
+.logo i{width:7px;height:7px;border-radius:50%;background:var(--online);display:inline-block;margin-top:5px}
+.logo small{font:500 11px Onest;color:var(--mute);letter-spacing:.04em;margin-left:6px;margin-top:3px}
+nav{display:flex;flex-direction:column;gap:2px}
+nav a{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;border-radius:8px;color:var(--stone);text-decoration:none;cursor:pointer}
+nav a:hover{background:var(--cream-deep);color:var(--ink)}
+nav a.on{background:var(--white);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
+nav a span{font-size:12px;color:var(--mute)}
+nav a.on span.late{color:var(--late)}
+.navlabel{font-size:11px;color:var(--mute);padding:0 10px 6px;letter-spacing:.04em}
+.me{margin-top:auto;display:flex;align-items:center;gap:10px;padding:8px 10px;color:var(--stone);font-size:13px}
+.me b{width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--cream);font:500 11px Onest;display:grid;place-items:center}
+
+/* main */
+main{padding:28px 40px 60px;max-width:1080px;width:100%}
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+h1{font:600 26px/1.1 Geologica,sans-serif;letter-spacing:-.02em}
+.sub{color:var(--stone);margin-top:6px}
+.sub b{font-weight:500;color:var(--ink)}
+.sub .l{color:var(--late)}
+.demo{font-size:11px;color:var(--mute);border:1px dashed var(--line);border-radius:6px;padding:3px 7px;white-space:nowrap}
+.tools{display:flex;gap:8px;align-items:center}
+.search{border:1px solid var(--line);background:var(--white);border-radius:8px;padding:7px 10px;width:220px;color:var(--mute);font-size:13px}
+kbd{font:500 11px Onest;color:var(--mute);border:1px solid var(--line);border-radius:4px;padding:0 4px;background:var(--white)}
+
+/* list */
+.group{margin-top:26px}
+.gh{display:flex;gap:8px;align-items:baseline;font-size:12px;color:var(--stone);letter-spacing:.03em;padding:0 8px 8px}
+.gh b{font-weight:500;color:var(--ink)}
+.row{display:grid;grid-template-columns:28px minmax(0,1.6fr) 120px 150px 110px 96px;align-items:center;gap:14px;padding:11px 8px;border-top:1px solid var(--line-soft);border-radius:8px;cursor:pointer}
+.group .row:last-child{border-bottom:1px solid var(--line-soft)}
+.row:hover{background:var(--white);border-color:transparent}
+.row:hover + .row{border-top-color:transparent}
+.av{width:28px;height:28px;border-radius:50%;background:var(--cream-deep);color:var(--stone);font:500 11px Onest;display:grid;place-items:center}
+.who b{font-weight:500}
+.who p{color:var(--stone);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.who p q{color:var(--mute)}
+.stage{display:flex;align-items:center;gap:7px;color:var(--stone);font-size:13px}
+.stage i{width:7px;height:7px;border-radius:50%}
+.tel{color:var(--ink);text-decoration:none;font-size:13px}
+.tel:hover{text-decoration:underline;text-underline-offset:3px}
+.due{font-size:13px;color:var(--stone)}
+.due.l{color:var(--late)}
+.act{display:flex;justify-content:flex-end;gap:4px;opacity:0;transition:opacity .15s}
+.row:hover .act{opacity:1}
+.btn{font:500 13px Onest;border:1px solid var(--line);background:var(--white);color:var(--ink);border-radius:8px;padding:5px 10px;cursor:pointer}
+.btn.dark{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+.more{border:none;background:none;color:var(--mute);width:28px;border-radius:6px;cursor:pointer;font-size:16px}
+.more:hover{background:var(--cream-deep);color:var(--ink)}
+.stars{color:var(--mute)}
+
+/* board */
+.board{display:none;grid-template-columns:repeat(6,minmax(170px,1fr));gap:12px;margin-top:22px;overflow-x:auto;padding-bottom:10px}
+.col{background:var(--cream-deep);border-radius:12px;padding:10px;min-height:420px}
+.ch{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--stone);padding:2px 4px 10px}
+.ch i{width:7px;height:7px;border-radius:50%}
+.ch b{font-weight:500;color:var(--ink)}
+.ch span{margin-left:auto;color:var(--mute)}
+.card{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:10px 11px;margin-bottom:8px;cursor:grab;transition:box-shadow .15s, transform .15s}
+.card:hover{box-shadow:0 1px 2px rgba(31,29,26,.04),0 8px 20px rgba(31,29,26,.06);transform:translateY(-1px)}
+.card b{font-weight:500;font-size:13.5px;display:block}
+.card p{font-size:12px;color:var(--stone);margin-top:2px}
+.card .f{display:flex;justify-content:space-between;margin-top:9px;font-size:12px;color:var(--mute)}
+.card .f .l{color:var(--late)}
+
+.seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--white)}
+.seg button{font:500 13px Onest;border:none;background:none;padding:6px 12px;color:var(--stone);cursor:pointer}
+.seg button.on{background:var(--ink);color:var(--cream)}
+@media (max-width:900px){.app{grid-template-columns:1fr}aside{display:none}main{padding:20px 16px}.row{grid-template-columns:28px 1fr 96px}.row .stage,.row .tel,.row .due{display:none}.act{opacity:1}.search{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <div class="logo">nextbot<i></i><small>CORE</small></div>
+    <div>
+      <div class="navlabel">РАБОТА</div>
+      <nav>
+        <a class="on" data-v="list">Днес <span class="late num">2 закъснели</span></a>
+        <a data-v="board">Табло <span class="num">24</span></a>
+        <a>Всички лийдове <span class="num">36</span></a>
+      </nav>
+    </div>
+    <div>
+      <div class="navlabel">ДАННИ</div>
+      <nav>
+        <a>Внос</a>
+        <a>Не ми звънете <span class="num">0</span></a>
+      </nav>
+    </div>
+    <div class="me"><b>В</b>Валентин</div>
+  </aside>
+
+  <main>
+    <div class="top">
+      <div>
+        <h1 id="title">Днес</h1>
+        <p class="sub num">неделя, 4 октомври · <span class="l">2 закъснели</span> · <b>3</b> за днес · <b>3</b> нови без дата</p>
+      </div>
+      <div class="tools">
+        <span class="demo">Демо данни</span>
+        <div class="search">Търсене <kbd>/</kbd></div>
+        <div class="seg"><button class="on" data-v="list">Списък</button><button data-v="board">Табло</button></div>
+      </div>
+    </div>
+
+    <section id="list">
+      <div class="group">
+        <div class="gh"><b>Закъснели</b><span class="num">2</span></div>
+        <div class="row">
+          <div class="av">ПК</div>
+          <div class="who"><b>Петър Колев</b><p>Автокъща · <q>Иска оглед в събота.</q></p></div>
+          <div class="stage"><i style="background:var(--s-meeting)"></i>Среща</div>
+          <a class="tel num">+359 88 XXX XX 01</a>
+          <div class="due l num">преди 2 дни</div>
+          <div class="act"><button class="btn dark">Звънях</button><button class="more" title="Още">⋯</button></div>
+        </div>
+        <div class="row">
+          <div class="av">МА</div>
+          <div class="who"><b>Мартин Андреев</b><p>Автокъща · <q>Не вдигна. Пуснах SMS.</q></p></div>
+          <div class="stage"><i style="background:var(--s-called)"></i>Звънях</div>
+          <a class="tel num">+359 88 XXX XX 02</a>
+          <div class="due l num">вчера</div>
+          <div class="act"><button class="btn dark">Звънях</button><button class="more">⋯</button></div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="gh"><b>За днес</b><span class="num">3</span></div>
+        <div class="row">
+          <div class="av">ДС</div>
+          <div class="who"><b>Десислава Стоянова</b><p>Дентален кабинет · <q>Чака оферта за избелване.</q></p></div>
+          <div class="stage"><i style="background:var(--s-offer)"></i>Оферта</div>
+          <a class="tel num">+359 88 XXX XX 03</a>
+          <div class="due num">днес</div>
+          <div class="act"><button class="btn dark">Звънях</button><button class="more">⋯</button></div>
+        </div>
+        <div class="row">
+          <div class="av">ХВ</div>
+          <div class="who"><b>Христо Василев</b><p>Агенция за имоти · <q>Ще мисли до петък.</q></p></div>
+          <div class="stage"><i style="background:var(--s-called)"></i>Звънях</div>
+          <a class="tel num">+359 88 XXX XX 04</a>
+          <div class="due num">днес</div>
+          <div class="act"><button class="btn dark">Звънях</button><button class="more">⋯</button></div>
+        </div>
+        <div class="row">
+          <div class="av">ЕП</div>
+          <div class="who"><b>Елена Петрова</b><p>Хотел · <q>Среща за сайта и чата.</q></p></div>
+          <div class="stage"><i style="background:var(--s-meeting)"></i>Среща</div>
+          <a class="tel num">+359 88 XXX XX 05</a>
+          <div class="due num">днес, 15:00</div>
+          <div class="act"><button class="btn dark">Звънях</button><button class="more">⋯</button></div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="gh"><b>Нови без дата</b><span class="num">3</span></div>
+        <div class="row">
+          <div class="av">СП</div>
+          <div class="who"><b>Салон „Пример“</b><p>Салон за красота · <span class="stars num">★ 4.9 · 64 отзива</span></p></div>
+          <div class="stage"><i style="background:var(--s-new)"></i>Нов</div>
+          <a class="tel num">+359 88 XXX XX 07</a>
+          <div class="due num">—</div>
+          <div class="act"><button class="btn dark">Звънях</button><button class="more">⋯</button></div>
+        </div>
+        <div class="row">
+          <div class="av">АД</div>
+          <div class="who"><b>Автокъща „Демо“</b><p>Автокъща · <span class="stars num">★ 4.6 · 128 отзива</span> · няма чат в сайта</p></div>
+          <div class="stage"><i style="background:var(--s-new)"></i>Нов</div>
+          <a class="tel num">+359 88 XXX XX 06</a>
+          <div class="due num">—</div>
+          <div class="act"><button class="btn dark">Звънях</button><button class="more">⋯</button></div>
+        </div>
+        <div class="row">
+          <div class="av">КО</div>
+          <div class="who"><b>Клиника „Образец“</b><p>Дентален кабинет · <span class="stars num">★ 4.8 · 210 отзива</span></p></div>
+          <div class="stage"><i style="background:var(--s-new)"></i>Нов</div>
+          <a class="tel num">+359 88 XXX XX 08</a>
+          <div class="due num">—</div>
+          <div class="act"><button class="btn dark">Звънях</button><button class="more">⋯</button></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="board" id="board">
+      <div class="col"><div class="ch"><i style="background:var(--s-new)"></i><b>Нов</b><span class="num">12</span></div>
+        <div class="card"><b>Автокъща „Демо“</b><p>Автокъща · София</p><div class="f num"><span>★ 4.6</span><span>без дата</span></div></div>
+        <div class="card"><b>Салон „Пример“</b><p>Салон · Пловдив</p><div class="f num"><span>★ 4.9</span><span>без дата</span></div></div>
+        <div class="card"><b>Клиника „Образец“</b><p>Дентален · София</p><div class="f num"><span>★ 4.8</span><span>без дата</span></div></div>
+      </div>
+      <div class="col"><div class="ch"><i style="background:var(--s-called)"></i><b>Звънях</b><span class="num">6</span></div>
+        <div class="card"><b>Мартин Андреев</b><p>Автокъща</p><div class="f num"><span>Не вдигна</span><span class="l">вчера</span></div></div>
+        <div class="card"><b>Христо Василев</b><p>Имоти</p><div class="f num"><span>Мисли</span><span>днес</span></div></div>
+      </div>
+      <div class="col"><div class="ch"><i style="background:var(--s-meeting)"></i><b>Среща</b><span class="num">3</span></div>
+        <div class="card"><b>Петър Колев</b><p>Автокъща</p><div class="f num"><span>Оглед</span><span class="l">преди 2 дни</span></div></div>
+        <div class="card"><b>Елена Петрова</b><p>Хотел</p><div class="f num"><span>Сайт + чат</span><span>днес</span></div></div>
+      </div>
+      <div class="col"><div class="ch"><i style="background:var(--s-offer)"></i><b>Оферта</b><span class="num">2</span></div>
+        <div class="card"><b>Десислава Стоянова</b><p>Дентален</p><div class="f num"><span>Растеж</span><span>днес</span></div></div>
+      </div>
+      <div class="col"><div class="ch"><i style="background:var(--s-client)"></i><b>Клиент</b><span class="num">0</span></div></div>
+      <div class="col"><div class="ch"><i style="background:var(--s-notnow)"></i><b>Не сега</b><span class="num">1</span></div>
+        <div class="card"><b>Хотел „Тест“</b><p>Хотел · Варна</p><div class="f num"><span>след сезона</span><span>3 ноем.</span></div></div>
+      </div>
+    </section>
+  </main>
+</div>
+<script>
+const show=v=>{
+  document.getElementById('list').style.display=v==='list'?'block':'none';
+  document.getElementById('board').style.display=v==='board'?'grid':'none';
+  document.getElementById('title').textContent=v==='list'?'Днес':'Табло';
+  document.querySelectorAll('[data-v]').forEach(e=>e.classList.toggle('on',e.dataset.v===v));
+};
+document.querySelectorAll('[data-v]').forEach(e=>e.addEventListener('click',()=>show(e.dataset.v)));
+</script>
+</body>
+</html>

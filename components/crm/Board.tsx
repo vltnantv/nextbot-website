@@ -1,6 +1,5 @@
 'use client'
 
-import { formatPhone } from '@/lib/phone'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useMemo, useState } from 'react'
@@ -20,12 +19,12 @@ import {
 } from '@dnd-kit/core'
 import { SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { callState, STAGES, STAGE_LABEL, todayIso, type CrmLead, type Stage } from '@/lib/crm'
-import { crmApi, useCrm } from './CrmShell'
+import { STAGES, STAGE_LABEL, todayIso, type CrmLead, type Stage } from '@/lib/crm'
+import { crmApi, useCrm, ViewSwitch } from './CrmShell'
 import { NotNowDialog } from './Dialogs'
-import { CallChip, Icon, Rating } from './ui'
+import { dueText } from './ui'
 
-// Board (/core/tablo): 6 stage columns; cards are dragged with mouse, finger or keyboard (dnd-kit).
+// Board (/vatreshno/tablo): 6 stage columns; cards are dragged with mouse, finger or keyboard (dnd-kit).
 // The card moves at once; if saving fails it goes back. Dropping on „Не сега“ asks for the next call date.
 
 /** Keyboard: ← → move the card to the previous / next column; ↑ ↓ move it inside the column. */
@@ -47,23 +46,17 @@ const keyboardCoordinates: KeyboardCoordinateGetter = (event, args) => {
 
 const byPosition = (a: CrmLead, b: CrmLead) => (a.position ?? 0) - (b.position ?? 0) || (a.created_at < b.created_at ? 1 : -1)
 
+/** Card (core-app.html): name, category, and a footer with the last note (or rating) and the next call. */
 function CardBody({ lead, today }: { lead: CrmLead; today: string }) {
+  const due = dueText(lead.next_call_at, today)
   return (
     <>
-      <span className="nm">{lead.name}</span>
-      <span className="cr">
-        {lead.category ?? '—'}
-        {lead.rating != null && (
-          <>
-            {' · '}
-            <Rating rating={lead.rating} count={lead.review_count} />
-          </>
-        )}
-      </span>
-      <span className="ft">
-        {lead.phone && <span className="num cr">{formatPhone(lead.phone)}</span>}
-        <CallChip next={lead.next_call_at} today={today} />
-      </span>
+      <b>{lead.name}</b>
+      <p>{lead.category ?? '—'}</p>
+      <div className="f num">
+        <span>{lead.last_note ?? (lead.rating != null && Number.isFinite(Number(lead.rating)) ? `★ ${Number(lead.rating).toFixed(1)}` : '')}</span>
+        <span className={due.late ? 'l' : ''}>{lead.next_call_at ? due.text : 'без дата'}</span>
+      </div>
     </>
   )
 }
@@ -71,20 +64,19 @@ function CardBody({ lead, today }: { lead: CrmLead; today: string }) {
 function Card({ lead, today }: { lead: CrmLead; today: string }) {
   const router = useRouter()
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: lead.id, data: { status: lead.status } })
-  const late = callState(lead.next_call_at, today) === 'late'
   return (
     <div
       ref={setNodeRef}
       style={{ transform: CSS.Transform.toString(transform), transition }}
-      className={`card ${late ? 'late' : ''} ${isDragging ? 'dragging' : ''}`}
+      className={`card ${isDragging ? 'dragging' : ''}`}
       {...attributes}
       {...listeners}
       aria-roledescription="карта"
       aria-label={`${lead.name}, ${STAGE_LABEL[lead.status]}. Интервал за местене, Enter на името за отваряне.`}
-      onClick={() => router.push(`/core/lead/${lead.id}`)}
+      onClick={() => router.push(`/vatreshno/lead/${lead.id}`)}
     >
       <CardBody lead={lead} today={today} />
-      <Link href={`/core/lead/${lead.id}`} className="sr-only" onClick={(e) => e.stopPropagation()}>
+      <Link href={`/vatreshno/lead/${lead.id}`} className="sr-only" onClick={(e) => e.stopPropagation()}>
         Отвори {lead.name}
       </Link>
     </div>
@@ -95,16 +87,17 @@ function Column({ stage, leads, today }: { stage: Stage; leads: CrmLead[]; today
   const { setNodeRef, isOver } = useDroppable({ id: `col:${stage}`, data: { status: stage } })
   return (
     <section ref={setNodeRef} className={`col ${isOver ? 'over' : ''}`} aria-label={STAGE_LABEL[stage]}>
-      <div className="colh">
-        {STAGE_LABEL[stage]}
-        <span className="sum num">{leads.length}</span>
+      <div className="ch">
+        <i style={{ background: `var(--s-${stage})` }} />
+        <b>{STAGE_LABEL[stage]}</b>
+        <span className="num">{leads.length}</span>
       </div>
       <SortableContext items={leads.map((l) => l.id)} strategy={verticalListSortingStrategy}>
         {leads.map((l) => (
           <Card key={l.id} lead={l} today={today} />
         ))}
       </SortableContext>
-      {leads.length === 0 && <div className="empty">Пуснете карта тук</div>}
+      {leads.length === 0 && <div className="colempty">Пуснете карта тук</div>}
     </section>
   )
 }
@@ -163,10 +156,10 @@ export function Board() {
     )
     try {
       if (status !== lead.status) {
-        const res = await crmApi<{ lead?: CrmLead }>(`/api/core/leads/${lead.id}`, { method: 'PATCH', body: JSON.stringify({ status, ...extra }) })
+        const res = await crmApi<{ lead?: CrmLead }>(`/api/vatreshno/leads/${lead.id}`, { method: 'PATCH', body: JSON.stringify({ status, ...extra }) })
         if (res.lead) replace({ ...res.lead, position: pos.get(lead.id)! })
       }
-      await crmApi('/api/core/leads/reorder', { method: 'POST', body: JSON.stringify({ ids: order }) })
+      await crmApi('/api/vatreshno/leads/reorder', { method: 'POST', body: JSON.stringify({ ids: order }) })
       if (status !== lead.status) toast(`${lead.name} → ${STAGE_LABEL[status]}`)
     } catch (err) {
       setLeads(snapshot) // back where it was
@@ -211,28 +204,22 @@ export function Board() {
   return (
     <>
       <div className="top">
-        <div className="grow">
+        <div>
           <h1>Табло</h1>
-          <div className="sub">Влачете картите между етапите. Натиснете карта, за да я отворите.</div>
+          <p className="sub num">{loading ? 'Зареждам…' : `${visible.length} от ${leads.length} · влачете картите между етапите`}</p>
         </div>
-        <label className="search">
-          <Icon name="search" />
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Търсене по име или телефон" aria-label="Търсене" />
-        </label>
-      </div>
-
-      <div className="toolbar">
-        <select className="sel" value={category} onChange={(e) => setCategory(e.target.value)} aria-label="Категория">
-          <option value="">Всички категории</option>
-          {categories.map((c) => (
-            <option key={c} value={c}>
-              {c}
-            </option>
-          ))}
-        </select>
-        <span style={{ color: 'var(--faint)', fontSize: 12.5 }} className="num">
-          {loading ? 'Зареждам…' : `${visible.length} от ${leads.length}`}
-        </span>
+        <div className="tools">
+          <input className="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Търсене по име или телефон" aria-label="Търсене" />
+          <select className="sel" value={category} onChange={(e) => setCategory(e.target.value)} aria-label="Категория">
+            <option value="">Всички категории</option>
+            {categories.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
+          <ViewSwitch />
+        </div>
       </div>
 
       <DndContext sensors={sensors} collisionDetection={closestCorners} onDragStart={onDragStart} onDragEnd={onDragEnd} onDragCancel={() => setActiveId(null)}>
