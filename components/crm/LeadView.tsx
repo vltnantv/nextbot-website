@@ -18,7 +18,7 @@ function eventText(e: CrmEvent): { title: string; body?: string | null; dot?: st
     case 'note':
       return { title: 'Бележка', body: e.body }
     case 'call':
-      return { title: e.next_call_at ? `Звънях · следващо обаждане ${formatDay(e.next_call_at)}` : 'Звънях', body: e.body, dot: 'var(--ink)' }
+      return { title: e.next_call_at ? `Звънях · следващо обаждане ${formatDay(e.next_call_at)}` : 'Звънях', body: e.body, dot: 'var(--k-ink)' }
     case 'stage':
       return {
         title: `${STAGE_LABEL[e.from_status as Stage] ?? e.from_status ?? '—'} → ${STAGE_LABEL[e.to_status as Stage] ?? e.to_status}`,
@@ -133,7 +133,7 @@ export function LeadView({ id }: { id: string }) {
 
       <div className="lead">
         <div>
-          <div className="block">
+          <div className="sect">
             <p className="sec">Етап</p>
             <div className="stepper" role="radiogroup" aria-label="Етап">
               {STAGES.map((s) => (
@@ -145,7 +145,7 @@ export function LeadView({ id }: { id: string }) {
             </div>
           </div>
 
-          <div className="block">
+          <div className="sect">
             <p className="sec">Данни</p>
             <dl className="kv">
               <dt>Телефон</dt>
@@ -173,7 +173,7 @@ export function LeadView({ id }: { id: string }) {
             </dl>
           </div>
 
-          <div className="block" style={{ borderBottom: 0 }}>
+          <div className="sect" style={{ borderBottom: 0 }}>
             <p className="sec">Следващо обаждане</p>
             <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
               <input
@@ -195,7 +195,7 @@ export function LeadView({ id }: { id: string }) {
         </div>
 
         <div>
-          <div className="block">
+          <div className="sect">
             <p className="sec">Бележка</p>
             <div className="note">
               <textarea
