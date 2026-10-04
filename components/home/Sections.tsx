@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { Reveal } from '@/components/motion/Reveal'
 import { DayClock } from '@/components/signature/DayClock'
@@ -9,9 +10,10 @@ import { H2, H3, LINK, SECTION, TAG, TEXT, WRAP } from './refresh'
 // Homepage sections after copy/DESIGN-REFRESH.md §4 (2-7). Hairline rows instead of cards, alternating
 // two-column sections with a product screen, one link each. Text reused from copy/ and the approved homepage.
 
-/** §4.2 Honest line instead of client logos - only the real number; hidden without it. */
+/** §4.2 Honest line instead of client logos - the real number from lib/prices.ts.
+ *  Hidden when there is no number or no spot is taken yet (spotsLeft = total). */
 export function PilotLine() {
-  if (PILOT.spotsLeft === null) return null
+  if (PILOT.spotsLeft === null || PILOT.spotsLeft >= PILOT.total) return null
   return (
     <section className="relative z-[1]">
       <div className={WRAP}>
@@ -33,18 +35,17 @@ function Feature({
   text,
   href,
   link,
-  screen,
+  side,
   flip = false,
-  children,
 }: {
   tag: string
   title: string
   text: string
   href: string
   link: string
-  screen: string
+  /** the product: a real screen or a live component, never a drawing */
+  side: React.ReactNode
   flip?: boolean
-  children?: React.ReactNode
 }) {
   return (
     <section className={SECTION}>
@@ -58,15 +59,14 @@ function Feature({
           </Link>
         </Reveal>
         <Reveal soft delay={0.1} className={`min-w-0 min-[960px]:col-span-7 ${flip ? 'min-[960px]:order-1' : ''}`}>
-          <ProductFrame what={screen} />
+          {side}
         </Reveal>
-        {children && <div className="min-w-0 min-[960px]:col-span-12">{children}</div>}
       </div>
     </section>
   )
 }
 
-/** §4.3 NEO - the homepage signature (copy/UNIQUE.md „Часовник на деня“) stays as part of this section. */
+/** §4.3 NEO - the homepage signature (copy/UNIQUE.md „Часовник на деня“) in place of a product screen. */
 export function NeoSection() {
   return (
     <Feature
@@ -75,17 +75,17 @@ export function NeoSection() {
       text="NEO отговаря на въпросите на клиентите в сайта ви, записва им час и запазва данните им, за да ги потърсите."
       href="/neo"
       link="Повече за NEO"
-      screen="NEO · разговор"
-    >
-      <Reveal soft className="mt-6 border-t border-line pt-10">
-        <p className={`${TAG} mb-6`}>Докато вие работите, спите или сте на обяд. Пример.</p>
-        <DayClock />
-      </Reveal>
-    </Feature>
+      side={
+        <div className="flex flex-col gap-2">
+          <span className={TAG}>Докато вие работите, спите или сте на обяд. Пример.</span>
+          <DayClock />
+        </div>
+      }
+    />
   )
 }
 
-/** §4.4 CORE - screen on the left, text on the right. */
+/** §4.4 CORE - a real screenshot of „Днес“ (/core/dnes) with made-up demo data, screen on the left. */
 export function CoreSection() {
   return (
     <Feature
@@ -95,7 +95,21 @@ export function CoreSection() {
       text="CORE замества тетрадките, таблиците и бележките. Записва всяко запитване, пази историята и ви напомня кого да потърсите днес."
       href="/core"
       link="Повече за CORE"
-      screen="CORE · Днес"
+      side={
+        <div className="flex flex-col gap-2">
+          <span className={TAG}>Пример с измислени данни</span>
+          <ProductFrame what="CORE · Днес">
+            <Image
+              src="/screens/core-dnes.png"
+              alt="Екранът „Днес“ в CORE: закъснели обаждания, обаждания за днес и нови клиенти без дата, с бутон „Звънях“ на всеки ред."
+              width={2560}
+              height={1640}
+              sizes="(min-width: 960px) 640px, 100vw"
+              className="block h-auto w-full"
+            />
+          </ProductFrame>
+        </div>
+      }
     />
   )
 }

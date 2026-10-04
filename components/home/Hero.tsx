@@ -20,8 +20,7 @@ export function Hero() {
           </span>
           <WordReveal fast text="Всеки клиент получава отговор. Веднага." mutedFrom={4} className={H1} />
           <p className={`${TEXT} text-stone`}>
-            NextBot отговаря на запитвания в сайта, Viber и Messenger, записва клиентите и ви напомня кога да се обадите. Денем и нощем,
-            на български.
+            NextBot отговаря на запитвания в сайта ви, записва клиентите и ви напомня кога да се обадите. Денем и нощем, на български.
           </p>
           <div className="flex flex-wrap items-center gap-x-7 gap-y-4">
             <Link href={CTA.href} className={BTN}>
@@ -33,7 +32,8 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="min-w-0 min-[960px]:col-span-6">
+        <div className="flex min-w-0 flex-col gap-3 min-[960px]:col-span-6">
+          <span className={TAG}>Пример</span>
           <HeroChat />
         </div>
 

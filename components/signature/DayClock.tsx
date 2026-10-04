@@ -51,15 +51,15 @@ export function DayClock() {
     <div ref={ref} className="flex flex-col gap-10">
       {/* the strip; on narrow screens it stays under the header while the cards scroll past */}
       <div className="relative z-10 bg-cream pb-3 pt-9 max-[999px]:sticky max-[999px]:top-[88px]" aria-hidden="true">
-        <div className="relative h-2 rounded-full bg-line">
+        <div className="relative h-[2px] bg-line">
           <motion.div
-            className="absolute inset-0 origin-left rounded-full bg-ink"
+            className="absolute inset-0 origin-left bg-ink"
             style={live ? { scaleX: scrollYProgress } : undefined}
           />
           {MOMENTS.map((m, i) => (
             <span
               key={m.time}
-              className="absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-cream bg-stone"
+              className="absolute top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-cream bg-stone"
               style={{ left: `${m.at * 100}%` }}
             >
               <span
@@ -70,7 +70,7 @@ export function DayClock() {
           ))}
           {/* moving arrow: a full-width layer translated by the scroll progress (transform only) */}
           <motion.div className="pointer-events-none absolute inset-0" style={live ? { x } : { x: '100%' }}>
-            <span className="absolute -top-9 -translate-x-1/2 rounded-full bg-ink px-2.5 py-1 text-[13px] font-medium tabular-nums text-cream">
+            <span className="absolute -top-9 -translate-x-1/2 rounded-[6px] bg-ink px-2.5 py-1 text-[13px] font-medium tabular-nums text-cream">
               {live ? <motion.span>{time}</motion.span> : '24:00'}
             </span>
             <span className="absolute -top-[9px] h-0 w-0 -translate-x-1/2 border-x-[6px] border-t-[7px] border-x-transparent border-t-ink" />
@@ -84,7 +84,7 @@ export function DayClock() {
       </div>
 
       {/* the messages of the day */}
-      <ol className="m-0 grid list-none gap-4 p-0 min-[600px]:grid-cols-2 min-[1000px]:grid-cols-4">
+      <ol className="m-0 grid list-none gap-4 p-0 min-[600px]:grid-cols-2">
         {MOMENTS.map((m, i) => {
           const on = i < reached
           return (
