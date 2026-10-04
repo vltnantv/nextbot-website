@@ -2,7 +2,7 @@
 
 import { stagger, useAnimate, useReducedMotion } from 'framer-motion'
 import { useEffect } from 'react'
-import { EASE, WORDS } from '@/lib/motion'
+import { EASE, WORDS, WORDS_FAST } from '@/lib/motion'
 
 /**
  * Headline that appears word by word behind a mask (MOTION.md: y 100%→0, 60 ms between words).
@@ -15,6 +15,7 @@ export function WordReveal({
   className,
   mutedFrom,
   delay = 0.1,
+  fast = false,
 }: {
   text: string
   as?: 'h1' | 'h2'
@@ -22,6 +23,8 @@ export function WordReveal({
   /** index of the first word shown in the muted colour (the homepage „Веднага.“) */
   mutedFrom?: number
   delay?: number
+  /** DESIGN-REFRESH.md §6: shorter and quicker (homepage h1) */
+  fast?: boolean
 }) {
   const [scope, animate] = useAnimate<HTMLHeadingElement>()
   const reduce = useReducedMotion()
@@ -29,8 +32,9 @@ export function WordReveal({
 
   useEffect(() => {
     if (reduce || !scope.current) return
-    animate('[data-word]', { y: ['100%', '0%'] }, { duration: WORDS.duration, ease: EASE, delay: stagger(WORDS.stagger, { startDelay: delay }) })
-  }, [reduce, animate, scope, delay])
+    const w = fast ? WORDS_FAST : WORDS
+    animate('[data-word]', { y: ['100%', '0%'] }, { duration: w.duration, ease: EASE, delay: stagger(w.stagger, { startDelay: delay }) })
+  }, [reduce, animate, scope, delay, fast])
 
   return (
     <Tag ref={scope} className={className} aria-label={text}>

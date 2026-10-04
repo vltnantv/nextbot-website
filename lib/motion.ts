@@ -58,3 +58,7 @@ export const FINAL_SCALE = 0.98
 
 /** Media query for devices with a real mouse (Tilt, Magnetic) */
 export const HOVER_QUERY = '(hover: hover) and (pointer: fine)'
+
+/** DESIGN-REFRESH.md §6 (homepage): sections fade in with 12 px, 500 ms, once; the h1 words are faster */
+export const REVEAL_SOFT = { y: 12, duration: 0.5 }
+export const WORDS_FAST = { stagger: 0.035, duration: 0.5 }

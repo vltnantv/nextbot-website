@@ -5,7 +5,8 @@ import { useEffect, useRef, useState } from 'react'
 import { EASE } from '@/lib/motion'
 import { useMounted } from '@/components/motion/useMounted'
 
-// Homepage signature (copy/UNIQUE.md „Часовник на деня“): a day strip 08:00–24:00. While you scroll an
+// Homepage signature (copy/UNIQUE.md „Часовник на деня“), inside the NEO section (DESIGN-REFRESH.md §4: signatures
+// stay, as part of the sections). Hairline rows, no cards.: a day strip 08:00–24:00. While you scroll an
 // arrow moves along it and at 12:40, 19:15, 22:47 and 23:58 a client message pops up, each „отговорено“.
 // The messages are illustrations reused from copy/ (home, neo, branshove) and the block is labelled „Пример“.
 // Server / no JS / reduced motion: the whole day is shown, arrow at the end.
@@ -49,7 +50,7 @@ export function DayClock() {
   return (
     <div ref={ref} className="flex flex-col gap-10">
       {/* the strip; on narrow screens it stays under the header while the cards scroll past */}
-      <div className="relative z-10 bg-cream-deep pb-3 pt-9 max-[999px]:sticky max-[999px]:top-[88px]" aria-hidden="true">
+      <div className="relative z-10 bg-cream pb-3 pt-9 max-[999px]:sticky max-[999px]:top-[88px]" aria-hidden="true">
         <div className="relative h-2 rounded-full bg-line">
           <motion.div
             className="absolute inset-0 origin-left rounded-full bg-ink"
@@ -58,7 +59,7 @@ export function DayClock() {
           {MOMENTS.map((m, i) => (
             <span
               key={m.time}
-              className="absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-cream-deep bg-stone"
+              className="absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-cream bg-stone"
               style={{ left: `${m.at * 100}%` }}
             >
               <span
@@ -93,7 +94,7 @@ export function DayClock() {
               initial={false}
               animate={on ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 16, scale: 0.96 }}
               transition={{ duration: 0.5, ease: EASE }}
-              className="flex flex-col gap-3 rounded-card border border-line bg-white p-5 shadow-soft"
+              className="flex flex-col gap-2.5 border-t border-line pt-4"
             >
               <span className="font-display text-[15px] font-semibold tabular-nums text-stone">{m.time}</span>
               <span className="self-start rounded-[18px] rounded-tl-[6px] bg-cream-deep px-3.5 py-2.5 text-[15px] leading-snug">{m.text}</span>

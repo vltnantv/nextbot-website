@@ -1,6 +1,7 @@
 'use client'
 
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
+import { usePathname } from 'next/navigation'
 import { BLOBS as B } from '@/lib/motion'
 import { useMounted } from './useMounted'
 
@@ -27,8 +28,11 @@ function Blob({ b }: { b: (typeof BLOBS)[number] }) {
   )
 }
 
-/** Decorative background, fixed behind every marketing page. Hidden from screen readers. */
+/** Decorative background, fixed behind the marketing pages. Hidden from screen readers.
+ *  Not on the homepage: DESIGN-REFRESH.md §2 (plain cream background). Other pages follow when refreshed. */
 export function Blobs() {
+  const pathname = usePathname()
+  if (pathname === '/') return null
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       {BLOBS.map((b) => (

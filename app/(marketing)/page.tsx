@@ -1,26 +1,22 @@
-import { DayStrip } from '@/components/home/DayStrip'
 import { Faq } from '@/components/home/Faq'
 import { FinalCta } from '@/components/home/FinalCta'
 import { Hero } from '@/components/home/Hero'
-import { Marquee } from '@/components/home/Marquee'
-import { Pilot } from '@/components/home/Pilot'
 import { Pricing } from '@/components/home/Pricing'
-import { Problem } from '@/components/home/Problem'
-import { Products } from '@/components/home/Products'
-import { TryIt } from '@/components/home/TryIt'
+import { CoreSection, HowWeStart, Industries, MoreProducts, NeoSection, PilotLine } from '@/components/home/Sections'
 
-// Homepage - design/homepage-mockup.html (approved mockup; reference only, not imported).
+// Homepage - copy/DESIGN-REFRESH.md §4 (it wins over MOTION.md for look and layout): ten sections,
+// the product in the centre, hairline rows instead of cards, a plain cream background.
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <Marquee />
-      <Problem />
-      <Products />
-      <DayStrip />
-      <TryIt />
+      <PilotLine />
+      <NeoSection />
+      <CoreSection />
+      <MoreProducts />
+      <Industries />
+      <HowWeStart />
       <Pricing />
-      <Pilot />
       <Faq />
       <FinalCta />
     </>

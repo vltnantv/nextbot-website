@@ -1,7 +1,7 @@
 import { Accordion } from '@/components/motion/Accordion'
 import { Reveal } from '@/components/motion/Reveal'
 import { SETUP_DAYS } from '@/lib/prices'
-import { H2 } from './ui'
+import { H2, SECTION, WRAP } from './refresh'
 
 const QUESTIONS = [
   {
@@ -27,12 +27,12 @@ const QUESTIONS = [
 
 export function Faq() {
   return (
-    <section id="za-nas" className="relative z-[1] pb-[104px] pt-[72px]">
-      <div className="mx-auto flex w-full max-w-[860px] flex-col gap-8 px-6">
-        <Reveal>
+    <section id="vaprosi" className={SECTION}>
+      <div className={`${WRAP} grid gap-8 min-[960px]:grid-cols-12 min-[960px]:gap-12`}>
+        <Reveal soft className="min-[960px]:col-span-4">
           <h2 className={H2}>Често задавани въпроси</h2>
         </Reveal>
-        <Reveal className="flex flex-col border-t border-line">
+        <Reveal soft className="flex flex-col border-t border-line min-[960px]:col-span-8">
           {QUESTIONS.map(({ q, a }) => (
             <Accordion key={q} q={q}>
               {a}

@@ -2,7 +2,7 @@
 
 import { useAnimate, useInView, useReducedMotion } from 'framer-motion'
 import { useEffect } from 'react'
-import { EASE, REVEAL, VIEWPORT } from '@/lib/motion'
+import { EASE, REVEAL, REVEAL_SOFT, VIEWPORT } from '@/lib/motion'
 
 /**
  * Float-in once when scrolled into view (MOTION.md: opacity 0→1, y 24→0, 700 ms, once, margin -80px).
@@ -16,6 +16,7 @@ export function Reveal({
   as: Tag = 'div',
   id,
   scale,
+  soft = false,
 }: {
   children: React.ReactNode
   className?: string
@@ -24,6 +25,8 @@ export function Reveal({
   id?: string
   /** start scale, e.g. 0.98 for the final call */
   scale?: number
+  /** DESIGN-REFRESH.md §6: 12 px, 500 ms (homepage) */
+  soft?: boolean
 }) {
   const [scope, animate] = useAnimate<HTMLDivElement>()
   const inView = useInView(scope, VIEWPORT)
@@ -31,8 +34,9 @@ export function Reveal({
 
   useEffect(() => {
     if (!inView || reduce || !scope.current) return
-    animate(scope.current, { opacity: [0, 1], y: [REVEAL.y, 0], ...(scale ? { scale: [scale, 1] } : {}) }, { duration: REVEAL.duration, ease: EASE, delay })
-  }, [inView, reduce, animate, scope, delay, scale])
+    const r = soft ? REVEAL_SOFT : REVEAL
+    animate(scope.current, { opacity: [0, 1], y: [r.y, 0], ...(scale ? { scale: [scale, 1] } : {}) }, { duration: r.duration, ease: EASE, delay })
+  }, [inView, reduce, animate, scope, delay, scale, soft])
 
   const El = Tag as 'div'
   return (
