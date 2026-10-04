@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Reveal } from '@/components/motion/Reveal'
 import { EchoTimeline } from '@/components/signature/EchoTimeline'
+import { EchoPhone } from '@/components/visuals/EchoPhone'
 import { EndBlock, FaqList, ProductHero, Section, TextLink } from '@/components/page/blocks'
 import { CTA } from '@/lib/site-nav'
 
@@ -31,15 +32,21 @@ export default function EchoPage() {
         <EchoTimeline />
       </Section>
 
-      {/* „Пример за съобщение“ removed (Valentin, 01.10.2026): the same two messages are in the timeline above. */}
+      {/* copy/VISUALS.md: ECHO is not a program yet - the messages as the client gets them, on a phone */}
+      <Section>
+        <Reveal className="flex flex-col items-center gap-2">
+          <span className="text-[14px] text-stone">Пример за съобщения</span>
+          <EchoPhone />
+        </Reveal>
+      </Section>
 
-      <Section title="Връзка с останалото">
+      <Section title="Връзка с останалото" deep>
         <Reveal>
           <p className="m-0 max-w-[640px] text-[19px]">ECHO работи със списъка на клиентите в CORE. Знае кой кога е идвал и кому да пише.</p>
         </Reveal>
       </Section>
 
-      <Section title="Въпроси" deep narrow>
+      <Section title="Въпроси" narrow>
         <FaqList
           items={[
             // [ПРОВЕРИ с юрист] - not shown until checked (copy/echo.md):

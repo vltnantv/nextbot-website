@@ -3,6 +3,7 @@ import { Float } from '@/components/motion/Float'
 import { Reveal } from '@/components/motion/Reveal'
 import { Typing } from '@/components/motion/Typing'
 import { NightShift } from '@/components/signature/NightShift'
+import { NeoInbox } from '@/components/visuals/NeoInbox'
 import { CARD, H } from '@/components/home/ui'
 import { Cards, EndBlock, FaqList, ProductHero, Section, TextLink } from '@/components/page/blocks'
 import { CTA } from '@/lib/site-nav'
@@ -65,6 +66,14 @@ export default function NeoPage() {
             </div>
           </Float>
           <p className="m-0 text-center text-[14px] text-stone">Примерът е илюстрация. Цените и часовете се вземат от вашия бизнес.</p>
+        </Reveal>
+      </Section>
+
+      {/* Second view (copy/VISUALS.md): „Входяща кутия“ with made-up conversations */}
+      <Section>
+        <Reveal className="flex flex-col gap-2">
+          <span className="text-[14px] text-stone">Пример с измислени данни</span>
+          <NeoInbox />
         </Reveal>
       </Section>
 

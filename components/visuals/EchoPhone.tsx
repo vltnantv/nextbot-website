@@ -1,11 +1,18 @@
 // ECHO (copy/VISUALS.md): ECHO is not a program yet, so no fake interface - a phone with the three messages the
 // client receives, one under the other. Plain grey bubbles, no Viber or other brand logo. A small grey label over
-// each. Message texts as in copy/VISUALS.md (from copy/echo.md); made-up name „Мария“, link shown as [връзка].
+// each. Texts approved by Valentin (04.10.2026); made-up name „Мария“; the review link is underlined text.
 
-const MESSAGES = [
-  { when: 'след посещението', text: 'Здравейте, Мария! Напомняме Ви за утре в 10:30 ч. Ако не можете да дойдете, отговорете тук и ще преместим часа.' },
-  { when: 'ден 1', text: 'Как мина посещението? Ако сте доволна, ще ни помогне отзив: [връзка]' },
-  { when: 'ден 180', text: 'Отдавна не сме се виждали. Тази седмица имаме …' },
+const MESSAGES: { when: string; text: React.ReactNode }[] = [
+  { when: 'ден преди часа', text: 'Здравейте, Мария! Напомняме Ви за утре в 10:30 ч. Ако не можете да дойдете, отговорете тук и ще преместим часа.' },
+  {
+    when: 'ден след посещението',
+    text: (
+      <>
+        Как мина посещението? Ако сте доволна, ще ни помогне отзив: <span className="underline decoration-1 underline-offset-[3px]">Оставете отзив</span>
+      </>
+    ),
+  },
+  { when: 'след 6 месеца', text: 'Отдавна не сме се виждали. Ако е време за профилактичен преглед, отговорете тук и ще ви запишем.' },
 ]
 
 export function EchoPhone() {
