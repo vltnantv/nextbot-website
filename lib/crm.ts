@@ -117,3 +117,6 @@ export function positionBetween(before: number | null | undefined, after: number
   if (after == null) return before + 1
   return (before + after) / 2
 }
+
+/** Number + word in the right form: plural(1, 'закъснял', 'закъснели') → „1 закъснял“, plural(2, …) → „2 закъснели“. */
+export const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`

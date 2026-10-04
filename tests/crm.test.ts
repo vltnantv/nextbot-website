@@ -69,3 +69,12 @@ test('positions between neighbours', () => {
   assert.equal(positionBetween(4, null), 5)
   assert.equal(positionBetween(1, 2), 1.5)
 })
+
+test('number + word agree', async () => {
+  const { plural } = await import('../lib/crm')
+  assert.equal(plural(1, 'закъснял', 'закъснели'), '1 закъснял')
+  assert.equal(plural(2, 'закъснял', 'закъснели'), '2 закъснели')
+  assert.equal(plural(0, 'закъснял', 'закъснели'), '0 закъснели')
+  assert.equal(plural(1, 'отзив', 'отзива'), '1 отзив')
+  assert.equal(plural(64, 'отзив', 'отзива'), '64 отзива')
+})

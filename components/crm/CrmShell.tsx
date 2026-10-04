@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { todayList, type CrmLead } from '@/lib/crm'
+import { plural, todayList, type CrmLead } from '@/lib/crm'
 
 // Shell of the internal CORE app (design/core-app.html): sidebar with „Работа“ and „Данни“, one shared list of
 // leads for every screen, the „Не ми звънете“ action and a small toast.
@@ -104,7 +104,7 @@ export function CrmShell({ children }: { children: React.ReactNode }) {
             <div className="navlabel">Работа</div>
             <nav className="snav" aria-label="Работа">
               <Link href="/vatreshno/dnes" aria-current={is('/vatreshno/dnes') ? 'page' : undefined}>
-                Днес {late.length > 0 && <span className="late num">{late.length} закъснели</span>}
+                Днес {late.length > 0 && <span className="late num">{plural(late.length, 'закъснял', 'закъснели')}</span>}
               </Link>
               <Link href="/vatreshno/tablo" aria-current={is('/vatreshno/tablo') ? 'page' : undefined}>
                 Табло <span className="num">{loading ? '' : leads.length}</span>

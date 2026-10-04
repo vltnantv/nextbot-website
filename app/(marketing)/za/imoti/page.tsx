@@ -30,6 +30,7 @@ export default function RealEstatePage() {
         { who: 'u', text: 'Може ли оглед в събота?' },
         { who: 'b', text: 'Да. В събота има свободно в 11:00 и 14:00. Кой час ви е удобен?' },
       ]}
+      today="imoti"
       endTitle="Колко купувачи се губят между обявата и огледа?"
     />
   )

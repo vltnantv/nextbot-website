@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useMemo, useState } from 'react'
 import { formatPhone } from '@/lib/phone'
-import { todayIso, todayList, type CrmLead } from '@/lib/crm'
+import { plural, todayIso, todayList, type CrmLead } from '@/lib/crm'
 import { useCrm, ViewSwitch } from './CrmShell'
 import { CallDialog } from './Dialogs'
 import { Avatar, Due, MoreMenu, StageDot, Stars, telHref } from './ui'
@@ -111,9 +111,9 @@ export function Today() {
             {!loading && (
               <>
                 {' · '}
-                {late.length > 0 ? <span className="l">{late.length} закъснели</span> : '0 закъснели'}
+                {late.length > 0 ? <span className="l">{plural(late.length, 'закъснял', 'закъснели')}</span> : '0 закъснели'}
                 {' · '}
-                <b>{due.length}</b> за днес · <b>{fresh.length}</b> нови без дата
+                <b>{due.length}</b> за днес · <b>{fresh.length}</b> {fresh.length === 1 ? 'нов' : 'нови'} без дата
               </>
             )}
           </p>

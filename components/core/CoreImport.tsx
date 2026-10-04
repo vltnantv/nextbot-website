@@ -4,6 +4,7 @@ import Papa from 'papaparse'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { INPUT } from '@/components/forms/fields'
 import { classify, REQUIRED_COLUMNS, STATUS_LABEL, type ClassifiedRow, type GoogleMapsRow, type RowStatus } from '@/lib/core-import'
+import { plural } from '@/lib/crm'
 import { normalizePhone } from '@/lib/phone'
 
 // /vatreshno/vnos: upload → preview (counts, table, ticks) → import the ticked rows as „Нов“.
@@ -168,7 +169,7 @@ export function CoreImport() {
             }}
           />
           <span className="text-[15px] text-stone">
-            {fileName ? `${fileName} · ${rows.length} реда · прегледът е по-долу` : 'results.csv от gmaps-output'}
+            {fileName ? `${fileName} · ${plural(rows.length, 'ред', 'реда')} · прегледът е по-долу` : 'results.csv от gmaps-output'}
           </span>
         </label>
         {fileError && (
@@ -183,7 +184,7 @@ export function CoreImport() {
         <section ref={previewRef} className="flex scroll-mt-6 flex-col gap-5 rounded-[24px] border border-line bg-white p-6 shadow-soft">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <h2 className="m-0 font-display text-[22px] font-semibold">2. Преглед</h2>
-            <span className="text-[15px] text-stone">{rows.length} реда във файла</span>
+            <span className="text-[15px] text-stone">{plural(rows.length, 'ред', 'реда')} във файла</span>
           </div>
 
           <div className="flex flex-wrap gap-2" role="tablist" aria-label="Филтър">

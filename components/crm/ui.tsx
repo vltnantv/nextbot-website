@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { callState, daysBetween, formatDay, relativeDay, STAGE_LABEL, todayIso, type Stage } from '@/lib/crm'
+import { callState, daysBetween, formatDay, plural, relativeDay, STAGE_LABEL, todayIso, type Stage } from '@/lib/crm'
 
 // Shared pieces of the internal CORE app, after design/core-app.html: a stage is a coloured dot with a word,
 // dates are plain text (red when late), no pills, no violet.
@@ -51,7 +51,7 @@ export function Stars({ rating, count }: { rating: number | null | undefined; co
   return (
     <span className="stars num">
       ★ {Number(rating).toFixed(1)}
-      {count != null && Number.isFinite(Number(count)) && <> · {count} отзива</>}
+      {count != null && Number.isFinite(Number(count)) && <> · {plural(Number(count), 'отзив', 'отзива')}</>}
     </span>
   )
 }

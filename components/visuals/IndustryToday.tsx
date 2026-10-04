@@ -1,3 +1,5 @@
+import { plural } from '@/lib/crm'
+
 // Industry pages (copy/VISUALS.md): the cropped „Днес“ screen of CORE with rows from that industry. One component,
 // different data - a live component in the look of design/core-app.html (cream, hairlines, stage as a dot with a
 // word), not a screenshot. Made-up names („Пример“, „Демо“, „Образец“), phones with XXX.
@@ -29,13 +31,13 @@ export const INDUSTRY_ROWS: Record<'avtokashti' | 'kliniki' | 'imoti' | 'hoteli'
   imoti: [
     { name: 'Борис Образец', kind: 'Купувач', note: 'Чака отговор от банката.', stage: 'offer', due: 'вчера', late: true },
     { name: 'Стефан Демо', kind: 'Оглед', note: 'Оглед в събота, 11:00.', stage: 'meeting', due: 'днес' },
-    { name: 'Анна Пример', kind: 'Запитване', note: 'Двустаен в Лозенец до 95 000 €.', stage: 'new', due: 'днес' },
+    { name: 'Анна Пример', kind: 'Запитване', note: 'Двустаен в Лозенец, с паркомясто.', stage: 'new', due: 'днес' },
     { name: 'Десислава Демо', kind: 'Купувач', note: 'Ще мисли до петък.', stage: 'called', due: 'утре' },
   ],
   hoteli: [
     { name: 'Мила Образец', kind: 'Група', note: 'Група от 12 души през юни.', stage: 'offer', due: 'преди 2 дни', late: true },
-    { name: 'Гост Пример', kind: 'Нощувки', note: 'Стая за 2 нощувки от петък.', stage: 'new', due: 'днес' },
-    { name: 'Семейство Демо', kind: 'Въпрос', note: 'Пита за паркинг и закуска.', stage: 'called', due: 'днес' },
+    { name: 'Николай Пример', kind: 'Нощувки', note: 'Стая за 2 нощувки от петък.', stage: 'new', due: 'днес' },
+    { name: 'Анна Демо', kind: 'Въпрос', note: 'Пита за паркинг и закуска.', stage: 'called', due: 'днес' },
     { name: 'Петър Пример', kind: 'Резервация', note: 'Потвърди резервацията.', stage: 'client', due: 'утре' },
   ],
 }
@@ -57,7 +59,7 @@ export function IndustryToday({ industry }: { industry: keyof typeof INDUSTRY_RO
         <div>
           <span className="block font-display text-[22px] font-semibold leading-none tracking-[-0.02em]">Днес</span>
           <span className="mt-2 block text-[13px] text-stone">
-            {late > 0 && <span className="text-[#B4442E]">{late} закъснели · </span>}
+            {late > 0 && <span className="text-[#B4442E]">{plural(late, 'закъснял', 'закъснели')} · </span>}
             <span className="font-medium text-ink">{today}</span> за днес
           </span>
         </div>

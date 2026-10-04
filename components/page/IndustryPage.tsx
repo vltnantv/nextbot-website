@@ -1,6 +1,7 @@
 import { ChatCard, EndBlock, FaqList, Lines, ProductHero, Section, type FaqItem } from './blocks'
 import type { ChatLine } from '@/components/motion/Typing'
 import { Reveal } from '@/components/motion/Reveal'
+import { IndustryToday, type INDUSTRY_ROWS } from '@/components/visuals/IndustryToday'
 import { CTA } from '@/lib/site-nav'
 
 // One skeleton for every industry page (copy/branshove.md): начало, проблем, подпис (in place of
@@ -16,6 +17,7 @@ export function IndustryPage({
   example,
   faq,
   endTitle,
+  today,
 }: {
   eyebrow: string
   title: string
@@ -27,6 +29,8 @@ export function IndustryPage({
   example: ChatLine[]
   faq?: FaqItem[]
   endTitle: string
+  /** CORE „Днес“ with rows from this industry (copy/VISUALS.md) */
+  today?: keyof typeof INDUSTRY_ROWS
 }) {
   return (
     <>
@@ -44,8 +48,17 @@ export function IndustryPage({
         <ChatCard lines={example} />
       </Section>
 
+      {today && (
+        <Section>
+          <Reveal className="flex flex-col gap-2">
+            <span className="text-[14px] text-stone">Пример с измислени данни</span>
+            <IndustryToday industry={today} />
+          </Reveal>
+        </Section>
+      )}
+
       {faq && (
-        <Section title="Въпроси" narrow>
+        <Section title="Въпроси" deep narrow>
           <FaqList items={faq} />
         </Section>
       )}
