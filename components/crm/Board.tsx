@@ -53,7 +53,7 @@ function CardBody({ lead, today }: { lead: CrmLead; today: string }) {
       <span className="nm">{lead.name}</span>
       <span className="cr">
         {lead.category ?? '—'}
-        {lead.rating !== null && (
+        {lead.rating != null && (
           <>
             {' · '}
             <Rating rating={lead.rating} count={lead.review_count} />

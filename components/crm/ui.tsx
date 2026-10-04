@@ -59,12 +59,13 @@ export function Avatar({ name }: { name: string }) {
   return <span className="av">{letters || '•'}</span>
 }
 
-export function Rating({ rating, count }: { rating: number | null; count: number | null }) {
-  if (rating === null) return null
+export function Rating({ rating, count }: { rating: number | null | undefined; count: number | null | undefined }) {
+  // no rating (or a broken value) → show nothing, never „NaN“
+  if (rating == null || !Number.isFinite(Number(rating))) return null
   return (
     <span className="num" style={{ display: 'inline-flex', alignItems: 'center', gap: 3 }}>
       <Icon name="star" size={12} /> {Number(rating).toFixed(1)}
-      {count !== null && <span style={{ color: 'var(--faint)' }}> · {count}</span>}
+      {count != null && Number.isFinite(Number(count)) && <span style={{ color: 'var(--faint)' }}> · {count}</span>}
     </span>
   )
 }

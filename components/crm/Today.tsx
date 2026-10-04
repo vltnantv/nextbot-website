@@ -25,7 +25,7 @@ function Row({ lead, today, onCall, onBlock }: { lead: CrmLead; today: string; o
         </span>
         <span className="ts">
           {lead.category ?? '—'}
-          {lead.rating !== null && (
+          {lead.rating != null && (
             <>
               {' · '}
               <Rating rating={lead.rating} count={lead.review_count} />
