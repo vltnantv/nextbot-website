@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { pageMeta } from '@/lib/seo'
 import { IndustryPage } from '@/components/page/IndustryPage'
 import { BuyerSort } from '@/components/signature/BuyerSort'
 
@@ -6,10 +7,7 @@ import { BuyerSort } from '@/components/signature/BuyerSort'
 // „Как помагаме“ is replaced by the signature (copy/UNIQUE.md). Its copy, for reference:
 //   1. NEO събира бюджет, район и срок. 2. Записва оглед за свободен час на брокера. 3. CORE подрежда купувачите по етап.
 
-export const metadata: Metadata = {
-  title: { absolute: 'NextBot за агенции за имоти' },
-  description: 'Отговаряйте веднага на запитвания за имоти, записвайте огледи и не губете купувачи.',
-}
+export const metadata: Metadata = pageMeta({ title: 'NextBot за агенции за имоти', description: 'Отговаряйте веднага на запитвания за имоти, записвайте огледи и не губете купувачи.', path: '/za/imoti' })
 
 export default function RealEstatePage() {
   return (

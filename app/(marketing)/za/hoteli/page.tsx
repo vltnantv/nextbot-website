@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { pageMeta } from '@/lib/seo'
 import { IndustryPage } from '@/components/page/IndustryPage'
 import { FiveQuestions } from '@/components/signature/FiveQuestions'
 
@@ -9,10 +10,7 @@ import { FiveQuestions } from '@/components/signature/FiveQuestions'
 //   1. NEO отговаря за стаи, цени, паркинг, закуска. 2. Събира данни за дати и брой гости.
 //   3. CORE държи запитванията подредени за обратно обаждане.
 
-export const metadata: Metadata = {
-  title: { absolute: 'NextBot за хотели и къщи за гости' },
-  description: 'Отговаряйте на запитвания за нощувки веднага, на български и на чужд език, и не губете резервации.',
-}
+export const metadata: Metadata = pageMeta({ title: 'NextBot за хотели и къщи за гости', description: 'Отговаряйте на запитвания за нощувки веднага, на български и на чужд език, и не губете резервации.', path: '/za/hoteli' })
 
 export default function HotelsPage() {
   return (

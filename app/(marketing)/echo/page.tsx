@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { pageMeta } from '@/lib/seo'
 import { Reveal } from '@/components/motion/Reveal'
 import { EchoTimeline } from '@/components/signature/EchoTimeline'
 import { EchoPhone } from '@/components/visuals/EchoPhone'
@@ -8,10 +9,7 @@ import { CTA } from '@/lib/site-nav'
 // Text: copy/echo.md - word for word; h1 and subtitle from copy/UNIQUE.md („Пътят на един клиент“).
 // No made-up numbers or reviews. Status: new - the page leads to a call, not „buy now“.
 
-export const metadata: Metadata = {
-  title: { absolute: 'ECHO — върнете клиентите, които вече имате | NextBot' },
-  description: 'ECHO напомня на клиентите за час, пита за отзив в Google след покупка и връща стари клиенти с оферта.',
-}
+export const metadata: Metadata = pageMeta({ title: 'ECHO — върнете клиентите, които вече имате | NextBot', description: 'ECHO напомня на клиентите за час, пита за отзив в Google след покупка и връща стари клиенти с оферта.', path: '/echo' })
 
 export default function EchoPage() {
   return (

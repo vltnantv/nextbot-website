@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { pageMeta } from '@/lib/seo'
 import Link from 'next/link'
 import { Reveal } from '@/components/motion/Reveal'
 import { Stagger } from '@/components/motion/Stagger'
@@ -13,10 +14,7 @@ import { ANNUAL_FREE_MONTHS, GUARANTEE_DAYS, PILOT, PLANS, STUDIO_FROM, WEB_OFFE
 // Text: copy/ceni-zanas-razgovor.md (/ceni) - word for word; h1 and subtitle from copy/UNIQUE.md
 // („Сглобете пакета“). Every price and number is read from lib/prices.ts.
 
-export const metadata: Metadata = {
-  title: 'Цени',
-  description: 'Три пакета за чат асистент и клиентска система, цени за сайтове и изработка по поръчка. В евро, без ДДС.',
-}
+export const metadata: Metadata = pageMeta({ title: 'Цени | NextBot', description: 'Три пакета за чат асистент и клиентска система, цени за сайтове и изработка по поръчка. В евро, без ДДС.', path: '/ceni' })
 
 // Package contents as written in the copy (the wording differs from the homepage cards on purpose).
 const CONTENTS: Record<Plan['id'], string> = {

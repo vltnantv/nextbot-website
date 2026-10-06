@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { pageMeta } from '@/lib/seo'
 import Link from 'next/link'
 import { DrawLine } from '@/components/motion/DrawLine'
 import { Reveal } from '@/components/motion/Reveal'
@@ -12,10 +13,7 @@ import { CTA } from '@/lib/site-nav'
 // Text: copy/core.md - word for word. Status: built on the existing dashboard, so the page talks about
 // the pilot programme, not „buy now“.
 
-export const metadata: Metadata = {
-  title: { absolute: 'CORE — всички ваши клиенти на едно място | NextBot' },
-  description: 'CORE пази клиентите, етапите и напомнянията за обаждане в една проста система на български. Без таблици и тетрадки.',
-}
+export const metadata: Metadata = pageMeta({ title: 'CORE — всички ваши клиенти на едно място | NextBot', description: 'CORE пази клиентите, етапите и напомнянията за обаждане в една проста система на български. Без таблици и тетрадки.', path: '/core' })
 
 const PRICES = '/ceni'
 

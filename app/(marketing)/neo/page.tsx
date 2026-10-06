@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { pageMeta } from '@/lib/seo'
 import { Float } from '@/components/motion/Float'
 import { Reveal } from '@/components/motion/Reveal'
 import { Typing } from '@/components/motion/Typing'
@@ -10,10 +11,7 @@ import { CTA } from '@/lib/site-nav'
 
 // Text: copy/neo.md - word for word. Do not add numbers, reviews or features.
 
-export const metadata: Metadata = {
-  title: { absolute: 'NEO — чат асистент за вашия сайт | NextBot' },
-  description: 'NEO отговаря на клиентите ви в сайта на български, записва часове и събира данните им. Настройваме го за 7 дни.',
-}
+export const metadata: Metadata = pageMeta({ title: 'NEO — чат асистент за вашия сайт | NextBot', description: 'NEO отговаря на клиентите ви в сайта на български, записва часове и събира данните им. Настройваме го за 7 дни.', path: '/neo' })
 
 const TRY = { label: 'Пробвайте бота', href: '/demo' }
 const PRICES = '/ceni'

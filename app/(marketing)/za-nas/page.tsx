@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { pageMeta } from '@/lib/seo'
 import { Reveal } from '@/components/motion/Reveal'
 import { Promises } from '@/components/signature/Promises'
 import { Cards, EndBlock, ProductHero, Section } from '@/components/page/blocks'
@@ -12,10 +13,7 @@ import { CTA } from '@/lib/site-nav'
 //   Still not shown: „София“, the car-sales experience and the former employer. Photo: only a real one.
 // [ПОТВЪРДИ] „Фирмени данни“: наименование, ЕИК, адрес - not shown until there is a company.
 
-export const metadata: Metadata = {
-  title: 'За нас',
-  description: 'NextBot е направен в България от малък екип. Малък екип, на български, с човек за поддръжка.',
-}
+export const metadata: Metadata = pageMeta({ title: 'За нас | NextBot', description: 'NextBot е направен в България от малък екип. Малък екип, на български, с човек за поддръжка.', path: '/za-nas' })
 
 const link = 'text-ink underline decoration-line decoration-2 underline-offset-4 hover:decoration-ink'
 

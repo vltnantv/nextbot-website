@@ -1,3 +1,4 @@
+import { COMPANY } from "@/lib/company";
 import type { Metadata, Viewport } from "next";
 import { Geologica, Onest } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
     template: "%s | NextBot",
   },
   description:
-    "NextBot отговаря на клиентите ви в сайта, Viber, Messenger и по телефона, записва ги в една система и ви напомня кога да се обадите. Денем и нощем, на български.",
+    "NextBot отговаря на запитвания в сайта ви, записва клиентите и ви напомня кога да се обадите. Денем и нощем, на български.",
   metadataBase: new URL("https://www.nextbot.me"),
   icons: {
     icon: [
@@ -49,29 +50,21 @@ export const metadata: Metadata = {
     shortcut: "/favicon.ico",
     apple: "/apple-touch-icon.png",
   },
+  // pages set their own (lib/seo.ts pageMeta); this is the fallback
   openGraph: {
     title: "NextBot — Всеки клиент получава отговор. Веднага.",
-    description:
-      "Чат и гласов асистент на български, система за клиенти и напомняния. Настройваме всичко за 7 дни.",
+    description: "NextBot отговаря на запитвания в сайта ви, записва клиентите и ви напомня кога да се обадите. Денем и нощем, на български.",
     url: "https://www.nextbot.me",
     siteName: "NextBot",
     locale: "bg_BG",
-    images: [
-      {
-        url: "https://www.nextbot.me/logo-icon.png",
-        width: 512,
-        height: 512,
-        alt: "NextBot",
-      },
-    ],
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "NextBot — Всеки клиент получава отговор. Веднага." }],
     type: "website",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "NextBot — Всеки клиент получава отговор. Веднага.",
-    description:
-      "Чат и гласов асистент на български, система за клиенти и напомняния. Настройваме всичко за 7 дни.",
-    images: ["https://www.nextbot.me/logo-icon.png"],
+    description: "NextBot отговаря на запитвания в сайта ви, записва клиентите и ви напомня кога да се обадите. Денем и нощем, на български.",
+    images: ["/og.png"],
   },
   robots: { index: true, follow: true },
 };
@@ -99,18 +92,20 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
+            // schema.org Organization: name, site, phone, email - no company name, ЕИК or address yet
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
               name: "NextBot",
               url: "https://www.nextbot.me",
               logo: "https://www.nextbot.me/logo-icon.png",
-              description: "NextBot отговаря на клиентите ви в сайта, Viber, Messenger и по телефона, денем и нощем, на български.",
+              telephone: COMPANY.phone.replace(/\s/g, ""),
+              email: COMPANY.email,
               contactPoint: {
                 "@type": "ContactPoint",
-                telephone: "+359-894-288-119",
-                email: "info@nextbot.me",
-                contactType: "sales",
+                telephone: COMPANY.phone.replace(/\s/g, ""),
+                email: COMPANY.email,
+                contactType: "customer service",
                 availableLanguage: ["bg"],
               },
             }),

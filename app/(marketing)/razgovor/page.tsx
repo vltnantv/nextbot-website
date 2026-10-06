@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { pageMeta } from '@/lib/seo'
 import { Reveal } from '@/components/motion/Reveal'
 import { Stagger } from '@/components/motion/Stagger'
 import { WordReveal } from '@/components/motion/WordReveal'
@@ -11,10 +12,7 @@ const link = 'text-ink underline decoration-line decoration-2 underline-offset-4
 // Text: copy/ceni-zanas-razgovor.md (/razgovor) - word for word; h1 and subtitle from copy/UNIQUE.md
 // („Изберете час“). „Друг начин: Телефон и Viber“ - confirmed by Valentin, 01.10.2026 (same number).
 
-export const metadata: Metadata = {
-  title: { absolute: 'Запазете 15-минутен разговор | NextBot' },
-  description: 'Разкажете как работите и къде се губят клиенти. Ще ви кажем честно дали и как можем да помогнем.',
-}
+export const metadata: Metadata = pageMeta({ title: 'Запазете 15-минутен разговор | NextBot', description: 'Разкажете как работите и къде се губят клиенти. Ще ви кажем честно дали и как можем да помогнем.', path: '/razgovor' })
 
 export default function BookCallPage() {
   return (

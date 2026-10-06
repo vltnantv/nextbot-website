@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { pageMeta } from '@/lib/seo'
 import Link from 'next/link'
 import { Reveal } from '@/components/motion/Reveal'
 import { Stagger } from '@/components/motion/Stagger'
@@ -25,10 +26,7 @@ const business = offer('Бизнес сайт')
 const shop = offer('Онлайн магазин')
 const support = offer('Поддръжка')
 
-export const metadata: Metadata = {
-  title: { absolute: 'Изработка на сайт за малък бизнес | NextBot' },
-  description: `Бърз и модерен сайт на български с чат асистент от първия ден. Визитка от ${eur(card.from!)}, бизнес сайт от ${eur(business.from!)}, онлайн магазин от ${eur(shop.from!)}.`,
-}
+export const metadata: Metadata = pageMeta({ title: 'Изработка на сайт за малък бизнес | NextBot', description: `Бърз и модерен сайт на български с чат асистент от първия ден. Визитка от ${eur(card.from!)}, бизнес сайт от ${eur(business.from!)}, онлайн магазин от ${eur(shop.from!)}.`, path: '/izrabotka-na-sait' })
 
 const PACKAGES = '/ceni'
 

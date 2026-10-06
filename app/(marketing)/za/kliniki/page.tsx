@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { pageMeta } from '@/lib/seo'
 import { IndustryPage } from '@/components/page/IndustryPage'
 import { WeekCalendar } from '@/components/signature/WeekCalendar'
 
@@ -8,10 +9,7 @@ import { WeekCalendar } from '@/components/signature/WeekCalendar'
 // [ПРОВЕРИ с юрист за здравни данни] - „Важно“ is not shown until checked (copy/branshove.md):
 //   Ботът не дава медицински съвети и не поставя диагнози. Казваме го ясно на клиента.
 
-export const metadata: Metadata = {
-  title: { absolute: 'NextBot за клиники и салони' },
-  description: 'Записвайте часове по всяко време, напомняйте за тях и намалете пропуснатите посещения.',
-}
+export const metadata: Metadata = pageMeta({ title: 'NextBot за клиники и салони', description: 'Записвайте часове по всяко време, напомняйте за тях и намалете пропуснатите посещения.', path: '/za/kliniki' })
 
 export default function ClinicsPage() {
   return (

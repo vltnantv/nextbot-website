@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { pageMeta } from '@/lib/seo'
 import { IndustryPage } from '@/components/page/IndustryPage'
 import { CarStory } from '@/components/signature/CarStory'
 
@@ -8,10 +9,7 @@ import { CarStory } from '@/components/signature/CarStory'
 //   1. NEO отговаря в сайта: модели, цени, лизинг, наличност. 2. Записва тест драйв или оглед за свободен час.
 //   3. CORE пази всеки интерес с етап и дата на обаждане. 4. ECHO напомня за сервиз и пита за отзив.
 
-export const metadata: Metadata = {
-  title: { absolute: 'NextBot за автокъщи и сервизи' },
-  description: 'Отговаряйте на запитванията за коли и сервиз веднага, записвайте огледи и не губете клиент, който е казал „ще помисля“.',
-}
+export const metadata: Metadata = pageMeta({ title: 'NextBot за автокъщи и сервизи', description: 'Отговаряйте на запитванията за коли и сервиз веднага, записвайте огледи и не губете клиент, който е казал „ще помисля“.', path: '/za/avtokashti' })
 
 export default function CarDealersPage() {
   return (
