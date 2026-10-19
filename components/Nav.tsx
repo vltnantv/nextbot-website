@@ -8,6 +8,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { DROPDOWN, EASE, HEADER_MATTE_AFTER } from '@/lib/motion'
 import { Logo } from '@/components/brand/Logo'
 import { cn } from '@/lib/utils'
+import { BTN_SECONDARY } from '@/components/home/ui'
 import { CTA, MAIN_LINKS, PRODUCTS, SOLUTIONS, type NavItem } from '@/lib/site-nav'
 
 type MenuKey = 'products' | 'solutions'
@@ -164,6 +165,10 @@ export function Nav() {
         </div>
 
         <div className="flex items-center gap-2">
+          {/* Вход за клиентите на CORE */}
+          <a href="https://app.nextbot.me/vhod" className={cn(BTN_SECONDARY, 'whitespace-nowrap px-5 py-[10px] text-[15px]')}>
+            Вход
+          </a>
           <Link
             href={CTA.href}
             className="hidden whitespace-nowrap rounded-full bg-ink px-5 py-[11px] text-[15px] font-medium text-cream transition-transform duration-200 hover:-translate-y-px sm:inline-flex"
