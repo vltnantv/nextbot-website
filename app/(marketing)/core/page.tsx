@@ -9,6 +9,10 @@ import { Arrow } from '@/components/home/Arrow'
 import { CARD, H } from '@/components/home/ui'
 import { EndBlock, FaqList, ProductHero, Section, TextLink } from '@/components/page/blocks'
 import { CTA } from '@/lib/site-nav'
+import { CORE_EXTRA_SEAT, PLANS } from '@/lib/prices'
+
+const coreSeats = PLANS.find((p) => p.id === 'core')!.seats
+const bundleSeats = PLANS.find((p) => p.id === 'bundle')!.seats
 
 // Text: copy/core.md - word for word. Status: built on the existing dashboard, so the page talks about
 // the pilot programme, not „buy now“.
@@ -30,7 +34,7 @@ export default function CorePage() {
   return (
     <>
       <ProductHero
-        eyebrow="CORE · Система за клиенти"
+        eyebrow="CORE · Клиенти и продажби"
         // h1 and subtitle: copy/UNIQUE.md („Вашето утро“); the text: copy/core.md
         // (copy/core.md h1 was: Всички клиенти на едно място. И кога да се обадите на всеки.)
         title="Отваряте и знаете на кого да се обадите."
@@ -95,7 +99,7 @@ export default function CorePage() {
         <FaqList
           items={[
             { q: 'Трябва ли да замествам програмите, които ползвам?', a: 'Не. Започваме с това, което вече имате, и прехвърляме клиентите ви.' },
-            { q: 'Колко души могат да работят в системата?', a: 'В Старт — до 2, в Растеж — до 10. В Про — повече, по договаряне.' },
+            { q: 'Колко души могат да работят в системата?', a: `В CORE — до ${coreSeats} души (+${CORE_EXTRA_SEAT} € на месец за всеки следващ), в CORE + NEO — до ${bundleSeats}. За повече: Про, по договаряне.` },
             { q: 'Може ли да прехвърлите клиентите ми от таблица?', a: 'Да. Прехвърляме ги при настройката.' },
             { q: 'Сложно ли е за обучение?', a: 'Показваме го на екипа ви на един разговор. Всичко е на български.' },
             // [ПРОВЕРИ] - not shown until checked (copy/core.md):
@@ -104,7 +108,7 @@ export default function CorePage() {
               q: 'Колко струва?',
               a: (
                 <>
-                  CORE е включен в пакетите Старт, Растеж и Про. <TextLink href={PRICES}>Вижте цените</TextLink>.
+                  CORE е самостоятелен план или част от CORE + NEO. <TextLink href={PRICES}>Вижте цените</TextLink>.
                 </>
               ),
             },

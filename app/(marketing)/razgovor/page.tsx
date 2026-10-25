@@ -32,7 +32,7 @@ export default function BookCallPage() {
                 {[
                   'Питаме как клиентите ви се свързват с вас.',
                   'Показваме NEO с примери от вашия бранш.',
-                  'Ако има смисъл, предлагаме пакет и цена. Без натиск.',
+                  'Ако има смисъл, предлагаме план или разработка и цена. Без натиск.',
                 ].map((s, i) => (
                   <li key={s} className="flex gap-3 text-[17px]">
                     <span className="font-display font-semibold text-online-text">{i + 1}</span>

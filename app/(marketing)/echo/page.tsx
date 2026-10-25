@@ -5,6 +5,7 @@ import { EchoTimeline } from '@/components/signature/EchoTimeline'
 import { EchoPhone } from '@/components/visuals/EchoPhone'
 import { EndBlock, FaqList, ProductHero, Section, TextLink } from '@/components/page/blocks'
 import { CTA } from '@/lib/site-nav'
+import { ECHO_ADDON } from '@/lib/prices'
 
 // Text: copy/echo.md - word for word; h1 and subtitle from copy/UNIQUE.md („Пътят на един клиент“).
 // No made-up numbers or reviews. Status: new - the page leads to a call, not „buy now“.
@@ -15,7 +16,7 @@ export default function EchoPage() {
   return (
     <>
       <ProductHero
-        eyebrow="ECHO · Повторни клиенти и отзиви"
+        eyebrow="ECHO · Напомняния и отзиви"
         // (copy/echo.md h1 was: Най-лесният нов клиент е този, който вече е бил при вас.)
         title="Клиентът не свършва с първата покупка."
         lead="ECHO е следващото съобщение."
@@ -55,7 +56,7 @@ export default function EchoPage() {
               q: 'Включено ли е в цената?',
               a: (
                 <>
-                  ECHO е в пакет Растеж и Про. <TextLink href="/ceni">Вижте цените</TextLink>.
+                  ECHO е добавка към CORE и NEO (+{ECHO_ADDON} €) и е включен в CORE + NEO. <TextLink href="/ceni">Вижте цените</TextLink>.
                 </>
               ),
             },

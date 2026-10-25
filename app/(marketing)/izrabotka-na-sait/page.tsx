@@ -121,13 +121,13 @@ export default function WebPage() {
         </Reveal>
       </Section>
 
-      <Section title="Сайт + пакет Растеж">
+      <Section title="Сайт + CORE + NEO">
         <Reveal className="flex flex-wrap items-center justify-between gap-6">
           <p className="m-0 max-w-[640px] text-[19px]">
-            Ако ползвате и пакет Растеж, изработката на бизнес сайт е с {WEB_RULES.growthDiscountPercent}% отстъпка.
+            Ако ползвате и плана CORE + NEO, изработката на бизнес сайт е с {WEB_RULES.growthDiscountPercent}% отстъпка.
           </p>
           <Link href={PACKAGES} className="group inline-flex items-center gap-1.5 text-[16px] font-medium text-ink">
-            Вижте пакетите <Arrow />
+            Вижте плановете <Arrow />
           </Link>
         </Reveal>
       </Section>

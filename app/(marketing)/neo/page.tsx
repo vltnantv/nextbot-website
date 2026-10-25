@@ -28,7 +28,7 @@ export default function NeoPage() {
   return (
     <>
       <ProductHero
-        eyebrow="NEO · Чат асистент"
+        eyebrow="NEO · Асистент за запитвания"
         // h1 and subtitle: copy/UNIQUE.md („Нощната смяна“); the text: copy/neo.md
         // (copy/neo.md h1 was: Клиентът пише в 22:47. NEO му отговаря веднага.)
         title="Докато спите, NEO е на смяна."
@@ -93,7 +93,7 @@ export default function NeoPage() {
               </li>
             ))}
           </ul>
-          <p className="m-0 text-stone">Започваме със сайта. Другите канали ги добавяме, когато са проверени и работят добре.</p>
+          <p className="m-0 text-stone">Сега NEO работи в сайта. Другите канали са скоро: добавяме ги, когато са проверени и работят добре.</p>
         </Reveal>
       </Section>
 
@@ -127,7 +127,7 @@ export default function NeoPage() {
               q: 'Колко струва?',
               a: (
                 <>
-                  NEO е включен в пакетите Старт, Растеж и Про. <TextLink href={PRICES}>Вижте цените</TextLink>.
+                  NEO е самостоятелен план или част от CORE + NEO. <TextLink href={PRICES}>Вижте цените</TextLink>.
                 </>
               ),
             },

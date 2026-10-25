@@ -16,7 +16,7 @@ export default function StudioPage() {
   return (
     <>
       <ProductHero
-        eyebrow="STUDIO · По поръчка"
+        eyebrow="Системи и автоматизации · по поръчка"
         // (copy/aria-studio.md h1 was: Имате нещо специфично? Ще го направим.)
         title="Какво ви отнема най-много време?"
         lead="Кажете ни. Ще го направим по-кратко."
@@ -78,7 +78,7 @@ export default function StudioPage() {
         />
       </Section>
 
-      <EndBlock title="Разкажете ни какво ви отнема време." primary={CTA} />
+      <EndBlock title="Разкажете ни какво ви отнема време." primary={CTA} secondary={{ label: 'Разработка по поръчка', href: '/razrabotka' }} />
     </>
   )
 }

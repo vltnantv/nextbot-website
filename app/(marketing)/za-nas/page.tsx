@@ -5,6 +5,7 @@ import { Promises } from '@/components/signature/Promises'
 import { Cards, EndBlock, ProductHero, Section } from '@/components/page/blocks'
 import { COMPANY, telHref } from '@/lib/company'
 import { CTA } from '@/lib/site-nav'
+import { SETUP_DAYS } from '@/lib/prices'
 
 // Text: copy/ceni-zanas-razgovor.md (/za-nas) - word for word; h1 and subtitle from copy/UNIQUE.md
 // („Какво обещаваме и какво не“). No company yet: only email and phone (Valentin, 01.10.2026).
@@ -12,8 +13,11 @@ import { CTA } from '@/lib/site-nav'
 // „Кой стои зад NextBot“: only „Валентин, основател“ is shown (Valentin, 01.10.2026).
 //   Still not shown: „София“, the car-sales experience and the former employer. Photo: only a real one.
 // [ПОТВЪРДИ] „Фирмени данни“: наименование, ЕИК, адрес - not shown until there is a company.
+//
+// 25.10.2026 (REBUILD-PLAN.md §5.6): a software company with two lines - ready products and development to order.
+//   „София“ is now shown on purpose (the plan and the footer say „Софтуерна компания от София“).
 
-export const metadata: Metadata = pageMeta({ title: 'За нас | NextBot', description: 'NextBot е направен в България от малък екип. Малък екип, на български, с човек за поддръжка.', path: '/za-nas' })
+export const metadata: Metadata = pageMeta({ title: 'За нас | NextBot', description: 'NextBot е софтуерна компания от София: готови продукти за клиенти, продажби и запитвания и разработка по поръчка. На български, с човек за поддръжка.', path: '/za-nas' })
 
 const link = 'text-ink underline decoration-line decoration-2 underline-offset-4 hover:decoration-ink'
 
@@ -24,7 +28,7 @@ export default function AboutPage() {
         // (copy h1 was: Направено в България. Поддържано от човек.)
         title="Какво обещаваме. И какво не."
         lead="Предпочитаме да сме ясни от самото начало."
-        text="NextBot помага на малки бизнеси да отговарят на клиентите си веднага. Работим на български и сме на телефона, когато имате въпрос."
+        text="NextBot е софтуерна компания от София. Правим готови продукти за клиенти, продажби и запитвания и разработваме софтуер по поръчка. Работим на български и сме на телефона, когато имате въпрос."
       />
 
       {/* Signature (copy/UNIQUE.md „Две колони“) */}
@@ -32,13 +36,29 @@ export default function AboutPage() {
         <Promises />
       </Section>
 
-      <Section title="Кой стои зад NextBot">
+      <Section title="Какво правим">
+        <Cards
+          cols={2}
+          items={[
+            {
+              title: 'Готови продукти.',
+              text: `CORE за клиенти и продажби, NEO асистент за запитвания, ECHO за напомняния и отзиви. С цени на сайта, стартират до ${SETUP_DAYS} дни.`,
+            },
+            {
+              title: 'Разработка по поръчка.',
+              text: 'Сайтове и онлайн магазини, вътрешни системи и мобилни приложения. Цената е след разговор, в писмено предложение.',
+            },
+          ]}
+        />
+      </Section>
+
+      <Section title="Кой стои зад NextBot" deep>
         <Reveal>
           <p className="m-0 font-display text-[24px] font-semibold tracking-[-0.02em]">Валентин, основател</p>
         </Reveal>
       </Section>
 
-      <Section title="Как мислим" deep>
+      <Section title="Как мислим">
         <Cards
           items={[
             { title: 'Просто.', text: 'Без технически думи, без сложни програми.' },
@@ -48,7 +68,7 @@ export default function AboutPage() {
         />
       </Section>
 
-      <Section title="Контакти">
+      <Section title="Контакти" deep>
         <Reveal className="flex flex-col gap-3 text-[20px]">
           <a href={`mailto:${COMPANY.email}`} className={`${link} self-start`}>
             {COMPANY.email}
