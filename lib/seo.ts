@@ -6,7 +6,7 @@ import type { Metadata } from 'next'
 
 export const SITE_URL = 'https://www.nextbot.me'
 export const SITE_NAME = 'NextBot'
-export const OG_IMAGE = { url: '/og.png', width: 1200, height: 630, alt: 'NextBot — Всеки клиент получава отговор. Веднага.' }
+export const OG_IMAGE = { url: '/og.png', width: 1200, height: 630, alt: 'NextBot — Изграждаме софтуера, с който бизнесът ви работи всеки ден.' }
 
 /** Public pages that go into sitemap.xml (no /vatreshno, no legal pages while they are „В подготовка“). */
 export const PUBLIC_PAGES = [

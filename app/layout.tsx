@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     url: "https://www.nextbot.me",
     siteName: "NextBot",
     locale: "bg_BG",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "NextBot — Всеки клиент получава отговор. Веднага." }],
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "NextBot — Изграждаме софтуера, с който бизнесът ви работи всеки ден." }],
     type: "website",
   },
   twitter: {
