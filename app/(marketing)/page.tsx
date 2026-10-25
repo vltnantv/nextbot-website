@@ -1,30 +1,37 @@
 import type { Metadata } from 'next'
 import { pageMeta } from '@/lib/seo'
+import { Calculator } from '@/components/home/Calculator'
+import { CompanyHero } from '@/components/home/CompanyHero'
+import { Development } from '@/components/home/Development'
 import { Faq } from '@/components/home/Faq'
 import { FinalCta } from '@/components/home/FinalCta'
-import { Hero } from '@/components/home/Hero'
+import { HowWeWork } from '@/components/home/HowWeWork'
+import { Industries } from '@/components/home/Industries'
+import { Playground } from '@/components/home/Playground'
 import { Pricing } from '@/components/home/Pricing'
-import { CoreSection, HowWeStart, Industries, MoreProducts, NeoSection, PilotLine } from '@/components/home/Sections'
+import { Principles } from '@/components/home/Principles'
+import { Products } from '@/components/home/Products'
 
-// No „Мета“ in copy/ for the homepage: the title is the h1, the description is the hero paragraph (both approved).
 export const metadata: Metadata = pageMeta({
-  title: 'NextBot — Всеки клиент получава отговор. Веднага.',
-  description: 'NextBot отговаря на запитвания в сайта ви, записва клиентите и ви напомня кога да се обадите. Денем и нощем, на български.',
+  title: 'NextBot — Софтуер за бизнеса: готови продукти и разработка по поръчка',
+  description:
+    'Софтуерна компания от София. CORE за клиенти и продажби, NEO асистент за запитвания, ECHO напомняния, плюс сайтове, системи и приложения по поръчка.',
   path: '/',
 })
 
-// Homepage - copy/DESIGN-REFRESH.md §4 (it wins over MOTION.md for look and layout): ten sections,
-// the product in the centre, hairline rows instead of cards, a plain cream background.
+// Homepage after REBUILD-PLAN.md §4: a software company with two lines - ready products and development
+// to order. The aura sits only behind the shelf, the playground, the calculator and the final block.
 export default function HomePage() {
   return (
     <>
-      <Hero />
-      <PilotLine />
-      <NeoSection />
-      <CoreSection />
-      <MoreProducts />
+      <CompanyHero />
+      <Products />
+      <Playground />
+      <Calculator />
+      <Development />
+      <HowWeWork />
+      <Principles />
       <Industries />
-      <HowWeStart />
       <Pricing />
       <Faq />
       <FinalCta />
