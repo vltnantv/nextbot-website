@@ -1,0 +1,899 @@
+<title>NextBot</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap">
+<style>
+/* Layout: existing nextbot.me look (paper, ink, pill buttons, bordered cards) + warm aura glows behind the interactive demos. */
+:root{
+  --paper:#F6F4EF; --paper-2:#EEEBE4; --card:#FFFFFF;
+  --ink:#1C1B18; --ink-2:#6E6A62; --ink-3:#9C978D; --line:#E2DED5;
+  --g1:#FFB020; --g2:#FF8A00; --g3:#FF5A1F; --g4:#FF2E63;
+  --font:"Manrope","Helvetica Neue",Arial,sans-serif;
+  --r:14px; --r-lg:20px;
+  --shadow:0 1px 2px rgba(28,27,24,.04),0 10px 28px -16px rgba(28,27,24,.16);
+  --aura-op:.85;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#161513; --paper-2:#1F1E1B; --card:#201F1C;
+    --ink:#F0EDE6; --ink-2:#B3AEA3; --ink-3:#7B766C; --line:#33312C;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -16px rgba(0,0,0,.6);
+    --aura-op:.55; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#161513; --paper-2:#1F1E1B; --card:#201F1C;
+  --ink:#F0EDE6; --ink-2:#B3AEA3; --ink-3:#7B766C; --line:#33312C;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -16px rgba(0,0,0,.6);
+  --aura-op:.55; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{letter-spacing:-.02em;text-wrap:balance;margin:0}
+p{margin:0}
+button,input,select{font:inherit;color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+section{padding-block:clamp(56px,8vw,104px);position:relative}
+.eyebrow{font-weight:600;font-size:13px;color:var(--ink-3)}
+.lead{color:var(--ink-2);font-size:clamp(16px,1.3vw,19px);max-width:38em}
+.h2{font-size:clamp(28px,3.6vw,44px);font-weight:800;line-height:1.1;margin-top:10px}
+.dim{color:var(--ink-3)}
+.sec-head{display:grid;gap:14px;max-width:760px;margin-bottom:clamp(28px,4vw,48px)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-weight:700;font-size:15px;padding:13px 22px;border-radius:999px;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer;transition:transform .15s,opacity .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.sm{padding:9px 16px;font-size:14px}
+.btn:focus-visible,summary:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--ink-3);outline-offset:3px}
+.more{font-weight:700;font-size:14px;color:var(--ink);display:inline-flex;gap:8px;align-items:center}
+.more::after{content:"→"}
+
+/* aura (the glow) */
+.aura{position:absolute;pointer-events:none;opacity:var(--aura-op);filter:blur(28px);border-radius:50%;
+  background:radial-gradient(closest-side,var(--g1) 0%,var(--g2) 28%,var(--g3) 55%,var(--g4) 76%,transparent 100%)}
+.aura::before,.aura::after{content:"";position:absolute;inset:-6% 22%;border-radius:40px;background:linear-gradient(90deg,transparent 0,rgba(255,255,255,.55) 50%,transparent 100%);filter:blur(6px)}
+.aura::after{inset:-6% 60% -6% 10%;opacity:.7}
+@media (prefers-reduced-motion:no-preference){.aura{animation:breathe 9s ease-in-out infinite}}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+
+/* nav */
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:28px;height:68px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:20px;letter-spacing:-.02em}
+.logo svg{width:28px;height:28px}
+.links{display:flex;gap:26px;margin-left:auto;font-weight:600;font-size:14px;color:var(--ink-2)}
+.links a:hover{color:var(--ink)}
+.nav-cta{display:flex;gap:10px;align-items:center}
+.nav-cta .btn{padding:10px 18px;font-size:14px}
+@media (max-width:900px){.links{display:none}.nav-cta .ghost{display:none}}
+
+/* hero */
+.hero{padding-block:clamp(48px,7vw,92px) clamp(40px,6vw,76px);overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px,5vw,72px);align-items:center;position:relative}
+.hero h1{font-size:clamp(38px,5.2vw,68px);font-weight:800;line-height:1.02}
+.hero .lead{margin-top:22px}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.hero .fine{margin-top:26px;padding-top:20px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 26px;font-size:13px;color:var(--ink-3)}
+.hero-right{position:relative}
+.hero-right .aura{width:120%;height:120%;left:-10%;top:-10%;z-index:0}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr}}
+
+.shelf{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px;display:grid;gap:10px;box-shadow:var(--shadow);min-width:0;transition:transform .15s}
+a.tile:hover{transform:translateY(-3px)}
+.tile .lab{display:flex;justify-content:space-between;font-size:12px;font-weight:700}
+.tile .lab span:last-child{color:var(--ink-3);font-weight:600}
+.mk{border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:11px}
+.mk .r{display:grid;grid-template-columns:1.2fr 1fr auto;gap:8px;padding:7px 10px;border-top:1px solid var(--line);align-items:center;white-space:nowrap}
+.mk .r:first-child{border-top:0;background:var(--paper-2);color:var(--ink-3);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:9.5px}
+.mk .r span:nth-child(2){color:var(--ink-2);overflow:hidden;text-overflow:ellipsis}
+.chip{font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px;background:var(--paper-2);color:var(--ink-2);white-space:nowrap}
+.chip.ink{background:var(--ink);color:var(--paper)}
+.bub{display:grid;gap:6px}
+.bub span{font-size:11.5px;padding:7px 10px;border-radius:12px;max-width:88%;line-height:1.35}
+.bub .b{background:var(--paper-2);border-bottom-left-radius:3px}
+.bub .u{background:var(--ink);color:var(--paper);justify-self:end;border-bottom-right-radius:3px}
+.site{display:grid;gap:6px}
+.site i{display:block;height:7px;border-radius:4px;background:var(--paper-2)}
+.site i.t{height:14px;width:70%;background:var(--ink);opacity:.85}
+.site .g{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.site .g i{height:34px}
+.app{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.app i{display:block;aspect-ratio:1;border-radius:9px;background:var(--paper-2)}
+.app i:nth-child(2){background:var(--ink);opacity:.85}
+.tile .try{font-size:11px;font-weight:700;color:var(--ink-2)}
+@media (max-width:460px){.shelf{grid-template-columns:1fr}}
+
+/* cards */
+.band{background:var(--paper-2)}
+.band .tile,.band .card{box-shadow:none}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:26px 24px;display:grid;gap:14px;align-content:start;min-width:0}
+.card .name{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.card .name b{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.card .name span{font-size:13px;font-weight:600;color:var(--ink-3)}
+.card h3{font-size:19px;font-weight:700;line-height:1.3}
+.card p{color:var(--ink-2);font-size:15px}
+.card ul{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:14px;color:var(--ink-2)}
+.card li{display:flex;gap:10px}
+.card li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--ink);margin-top:9px;opacity:.6}
+.card .foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-top:14px;border-top:1px solid var(--line);margin-top:4px}
+.card .foot .pr{font-weight:700;font-size:14px;font-variant-numeric:tabular-nums}
+.card .foot .pr small{color:var(--ink-3);font-weight:600}
+@media (max-width:960px){.cards{grid-template-columns:1fr}}
+
+/* playground */
+.play{overflow:hidden}
+.play .aura{width:min(900px,90vw);height:min(900px,90vw);left:50%;top:40%;transform:translate(-50%,-30%);opacity:calc(var(--aura-op) * .55)}
+@media (prefers-reduced-motion:no-preference){.play .aura{animation:none}}
+.tabs{display:inline-flex;gap:4px;padding:4px;border:1px solid var(--line);border-radius:999px;background:var(--card);position:relative;z-index:1}
+.tabs button{font-weight:700;font-size:14px;padding:9px 18px;border-radius:999px;border:0;background:transparent;color:var(--ink-2);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+.stage{position:relative;z-index:1;margin-top:22px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);display:grid;grid-template-columns:1fr 1fr;min-height:480px;overflow:hidden}
+.stage>*{min-width:0}
+.stage .side{padding:clamp(20px,3vw,34px);border-right:1px solid var(--line);display:grid;gap:16px;align-content:start}
+.stage .side h3{font-size:clamp(20px,2vw,26px);font-weight:800}
+.stage .side p{color:var(--ink-2);font-size:15px}
+.stage .main{padding:clamp(16px,2.4vw,26px);background:var(--paper);display:grid}
+.hint{font-size:13px;color:var(--ink-3);padding:10px 12px;border:1px dashed var(--line);border-radius:10px}
+.ctx{display:flex;flex-wrap:wrap;gap:6px}
+.ctx button{font-size:13px;font-weight:600;padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink-2);cursor:pointer}
+.ctx button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+@media (max-width:860px){.stage{grid-template-columns:1fr}.stage .side{border-right:0;border-bottom:1px solid var(--line)}}
+
+/* NEO chat */
+.chat{display:grid;grid-template-rows:auto 1fr auto;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;min-height:400px}
+.chat-head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);font-size:13px;color:var(--ink-2)}
+.chat-head b{color:var(--ink);font-weight:700}
+.chat-body{padding:16px;display:grid;gap:8px;align-content:start;overflow-y:auto;max-height:340px}
+.msg{max-width:84%;padding:10px 13px;border-radius:15px;font-size:14.5px;line-height:1.4;animation:pop .3s ease both}
+.msg.bot{background:var(--paper-2);border-bottom-left-radius:4px}
+.msg.user{background:var(--ink);color:var(--paper);justify-self:end;border-bottom-right-radius:4px}
+.msg.typing{display:flex;gap:4px;padding:13px 15px}
+.msg.typing i{width:6px;height:6px;border-radius:50%;background:var(--ink-3);animation:blink 1s infinite}
+.msg.typing i:nth-child(2){animation-delay:.2s}.msg.typing i:nth-child(3){animation-delay:.4s}
+@keyframes pop{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@keyframes blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.msg{animation:none}}
+.quick{display:flex;gap:6px;flex-wrap:wrap;padding:0 16px 10px}
+.quick button{font-size:12.5px;font-weight:600;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink-2);cursor:pointer}
+.quick button:hover{border-color:var(--ink-3);color:var(--ink)}
+.chat-foot{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--line)}
+.chat-foot input{flex:1;min-width:0;border:1px solid var(--line);border-radius:999px;padding:10px 16px;font-size:14px;background:var(--card)}
+.chat-foot button{width:42px;height:42px;border-radius:50%;border:0;background:var(--ink);color:var(--paper);cursor:pointer;font-size:18px}
+.captured{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--ink);border-radius:var(--r);padding:12px 14px;font-size:13.5px;margin-top:12px}
+.captured b{display:block;font-weight:700}
+.captured small{color:var(--ink-2)}
+.captured .tag{margin-left:auto;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--ink);color:var(--paper);white-space:nowrap}
+
+/* CORE */
+.core{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;font-size:14px}
+.core-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 14px;border-bottom:1px solid var(--line)}
+.seg{display:inline-flex;gap:2px;padding:3px;border:1px solid var(--line);border-radius:999px}
+.seg button{font-size:12.5px;font-weight:700;padding:6px 12px;border-radius:999px;border:0;background:transparent;color:var(--ink-2);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--line)}
+.kpis div{padding:12px 14px;border-right:1px solid var(--line)}
+.kpis div:last-child{border-right:0}
+.kpis b{display:block;font-size:22px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.kpis span{font-size:12px;color:var(--ink-3)}
+.rows{display:grid}
+.row{display:grid;grid-template-columns:1.3fr 1fr auto;gap:10px;align-items:center;padding:11px 14px;border-top:1px solid var(--line);cursor:pointer;text-align:left;background:transparent;border-left:0;border-right:0;border-bottom:0;width:100%}
+.row:first-child{border-top:0}
+.row:hover{background:var(--paper)}
+.row .n{font-weight:700}
+.row .n small{display:block;font-weight:500;color:var(--ink-3);font-size:11.5px}
+.row .i{color:var(--ink-2);font-size:13px}
+.st{font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--paper-2);color:var(--ink-2);border:0;cursor:pointer;white-space:nowrap}
+.st[data-s="0"]{background:var(--ink);color:var(--paper)}
+.st[data-s="3"]{opacity:.55}
+.hist{display:none;padding:0 14px 14px;color:var(--ink-2);font-size:13px;border-top:1px dashed var(--line)}
+.hist.open{display:block}
+.hist div{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
+.hist div:last-child{border-bottom:0}
+.hist b{font-weight:700;color:var(--ink-3);font-variant-numeric:tabular-nums;min-width:48px}
+.row.new .n::after{content:"нов · от NEO";margin-left:8px;font-size:10px;font-weight:700;color:var(--ink-3);border:1px solid var(--line);padding:1px 7px;border-radius:999px;vertical-align:middle}
+.rows.empty::after{content:"Няма клиенти в този списък. Опитайте NEO: когато клиент остави телефон, се появява тук.";display:block;padding:24px 14px;color:var(--ink-3);font-size:13px}
+
+/* ECHO */
+.form{display:grid;gap:12px}
+.form label{display:grid;gap:5px;font-size:12.5px;font-weight:700;color:var(--ink-2)}
+.form input,.form select{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14px;background:var(--card);font-weight:500}
+.form .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.phone{position:relative;max-width:300px;margin:0 auto;background:var(--ink);border-radius:34px;padding:14px;aspect-ratio:9/16.5;display:grid;align-content:start;gap:10px}
+.phone .scr{background:var(--paper);border-radius:24px;height:100%;padding:16px 14px;display:grid;align-content:start;gap:10px;overflow:hidden}
+.phone .time{font-size:11px;color:var(--ink-3);text-align:center;font-weight:600}
+.phone .from{font-size:12px;font-weight:700}
+.sms{background:var(--card);border:1px solid var(--line);border-radius:16px;border-top-left-radius:4px;padding:10px 12px;font-size:13px;line-height:1.4;white-space:pre-line}
+.sent{font-size:11px;color:var(--ink-3);justify-self:end;font-weight:600;opacity:0;transition:opacity .4s}
+.sent.on{opacity:1}
+
+/* calculator */
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:stretch}
+.calc .in{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:clamp(20px,3vw,30px);display:grid;gap:22px;align-content:start}
+.calc label{display:grid;gap:8px;font-size:14px;font-weight:700}
+.calc label span{display:flex;justify-content:space-between;color:var(--ink-2)}
+.calc label span b{color:var(--ink);font-variant-numeric:tabular-nums}
+.calc input[type=range]{width:100%;accent-color:var(--ink)}
+.calc .out{position:relative;overflow:hidden;background:var(--ink);color:var(--paper);border-radius:var(--r-lg);padding:clamp(20px,3vw,30px);display:grid;gap:20px;align-content:center}
+.calc .out .aura{width:120%;height:120%;left:20%;top:-20%;opacity:.45;animation:none}
+.calc .out>*{position:relative}
+.calc .big{font-size:clamp(40px,5vw,64px);font-weight:800;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.calc .big small{font-size:16px;font-weight:600;color:color-mix(in srgb,var(--paper) 65%,transparent);letter-spacing:0}
+.calc .out p{color:color-mix(in srgb,var(--paper) 70%,transparent);font-size:14.5px}
+.calc .out .vs{padding-top:16px;border-top:1px solid color-mix(in srgb,var(--paper) 20%,transparent);font-size:14px;display:grid;gap:4px}
+.calc .out .vs b{font-size:20px;font-variant-numeric:tabular-nums}
+.calc .out .btn{background:var(--paper);color:var(--ink);border-color:var(--paper);justify-self:start}
+@media (max-width:860px){.calc{grid-template-columns:1fr}}
+
+/* process */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;counter-reset:s}
+.step{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:24px 22px;display:grid;gap:10px;align-content:start}
+.step::before{counter-increment:s;content:"0" counter(s);font-weight:800;font-size:13px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.step h3{font-size:19px;font-weight:800}
+.step .t{font-size:12px;font-weight:700;color:var(--ink-3)}
+.step p{color:var(--ink-2);font-size:14px}
+@media (max-width:960px){.steps{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.steps{grid-template-columns:1fr}}
+
+/* principles */
+.pr4{display:grid;grid-template-columns:repeat(4,1fr);gap:28px 24px}
+.pr4 div{display:grid;gap:8px;padding-top:16px;border-top:1.5px solid var(--ink)}
+.pr4 b{font-size:17px;font-weight:800;letter-spacing:-.01em}
+.pr4 p{color:var(--ink-2);font-size:14px}
+@media (max-width:960px){.pr4{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.pr4{grid-template-columns:1fr}}
+
+/* industries */
+.ind{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.ind a{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;display:grid;gap:10px;transition:transform .15s,border-color .15s}
+.ind a:hover{transform:translateY(-2px);border-color:var(--ink-3)}
+.ind .who{font-size:15px;font-weight:800}
+.ind .does{font-size:14px;color:var(--ink-2)}
+@media (max-width:960px){.ind{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.ind{grid-template-columns:1fr}}
+
+/* pricing */
+.toggle{display:inline-flex;align-items:center;gap:4px;padding:4px;border:1px solid var(--line);border-radius:999px;background:var(--card);margin-top:6px}
+.toggle button{font-weight:700;font-size:14px;padding:9px 18px;border-radius:999px;border:0;background:transparent;color:var(--ink-2);cursor:pointer}
+.toggle button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:stretch}
+.plan{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:28px 26px;display:grid;gap:18px;align-content:start;position:relative;min-width:0}
+.plan.best{border-color:var(--ink)}
+.plan .badge{position:absolute;top:-13px;left:26px;font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;background:var(--ink);color:var(--paper)}
+.plan h3{font-size:21px;font-weight:800}
+.plan .for{color:var(--ink-2);font-size:14px;min-height:42px}
+.price{display:flex;align-items:baseline;gap:6px;font-variant-numeric:tabular-nums}
+.price b{font-size:44px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.price span{color:var(--ink-3);font-size:14px;font-weight:600}
+.setup{font-size:14px;color:var(--ink-2);padding:10px 14px;border-radius:10px;background:var(--paper-2)}
+.setup b{color:var(--ink);font-weight:700}
+.plan ul{list-style:none;margin:0;padding:0;display:grid;gap:9px;font-size:14.5px;border-top:1px solid var(--line);padding-top:18px}
+.plan li{display:flex;gap:10px}
+.plan li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--ink);margin-top:9px;opacity:.6}
+.plan .btn{margin-top:4px}
+.dev{margin-top:14px;background:var(--ink);color:var(--paper);border-radius:var(--r-lg);padding:26px 28px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
+.dev h3{font-size:21px;font-weight:800}
+.dev p{color:color-mix(in srgb,var(--paper) 70%,transparent);font-size:14.5px;margin-top:6px;max-width:52em}
+.dev .btn{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.guar{margin-top:22px;display:flex;flex-wrap:wrap;gap:10px 28px;font-size:14px;color:var(--ink-2)}
+.guar b{color:var(--ink);font-weight:700}
+@media (max-width:960px){.plans{grid-template-columns:1fr}.dev{grid-template-columns:1fr}}
+
+/* faq */
+.faq{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+details{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:0 22px}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;align-items:center;padding:18px 0;font-weight:700;font-size:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:22px;color:var(--ink-3);transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{padding:0 0 20px;color:var(--ink-2);font-size:15px}
+@media (max-width:860px){.faq{grid-template-columns:1fr}}
+
+/* final */
+.final{overflow:hidden}
+.final .wrap{position:relative;background:var(--card);border:1px solid var(--line);border-radius:26px;padding:clamp(36px,6vw,68px);display:grid;gap:22px;overflow:hidden}
+.final .aura{width:520px;height:520px;right:-160px;top:-200px;left:auto;opacity:calc(var(--aura-op)*.5)}
+.final .wrap>*{position:relative}
+.final h2{font-size:clamp(28px,4vw,50px);font-weight:800;line-height:1.04;max-width:17em}
+.final .row2{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center}
+.final .tel{font-weight:700;font-size:17px;font-variant-numeric:tabular-nums}
+footer{padding-block:34px;border-top:1px solid var(--line);font-size:13.5px;color:var(--ink-3)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between;align-items:center}
+footer .fl{display:flex;flex-wrap:wrap;gap:20px}
+footer a:hover{color:var(--ink)}
+</style>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="NextBot">
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M26.2 11.3A12 12 0 1 0 28 16"/>
+        <path d="M13 19l9.5-9.5M15 9.5h7.5V17"/>
+      </svg>
+      nextbot
+    </a>
+    <div class="links">
+      <a href="#products">Продукти</a>
+      <a href="#try">Пробвайте</a>
+      <a href="#dev">Разработка</a>
+      <a href="#how">Как работим</a>
+      <a href="#pricing">Цени</a>
+    </div>
+    <div class="nav-cta">
+      <a class="btn ghost" href="https://app.nextbot.me" target="_blank" rel="noopener">Вход</a>
+      <a class="btn" href="#talk">Запазете разговор</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Софтуерна компания · София</p>
+      <h1 style="margin-top:16px">Изграждаме софтуера, с който бизнесът ви работи <span class="dim">всеки ден.</span></h1>
+      <p class="lead">Готови продукти за клиенти, продажби и запитвания, които стартират за дни. И разработка по поръчка, когато нищо готово не ви пасва: сайтове, онлайн магазини, вътрешни системи и приложения.</p>
+      <div class="cta">
+        <a class="btn" href="#try">Пробвайте продуктите</a>
+        <a class="btn ghost" href="#talk">Запазете разговор</a>
+      </div>
+      <div class="fine"><span>На български, с поддръжка от хора</span><span>Без годишен договор за продуктите</span><span>Данните са ваши, винаги</span></div>
+    </div>
+
+    <div class="hero-right">
+      <div class="aura" aria-hidden="true"></div>
+      <div class="shelf" aria-label="Какво изграждаме">
+        <a class="tile" href="#try" data-tab="core">
+          <div class="lab"><span>CORE</span><span>клиенти и продажби</span></div>
+          <div class="mk">
+            <div class="r"><span>Клиент</span><span>Интерес</span><span>Статус</span></div>
+            <div class="r"><span>Георги Илиев</span><span>Golf 8 · лизинг</span><span class="chip ink">Обади се</span></div>
+            <div class="r"><span>Мария Петрова</span><span>Час · 10:30</span><span class="chip">Записана</span></div>
+            <div class="r"><span>Стоян Димов</span><span>Оглед, събота</span><span class="chip">Оферта</span></div>
+          </div>
+          <span class="try">Пробвайте →</span>
+        </a>
+        <a class="tile" href="#try" data-tab="neo">
+          <div class="lab"><span>NEO</span><span>асистент за запитвания</span></div>
+          <div class="bub">
+            <span class="b">Здравейте! С какво мога да помогна?</span>
+            <span class="u">Има ли свободен час утре?</span>
+            <span class="b">Да, в 10:30 и 14:00. Кой ви е удобен?</span>
+          </div>
+          <span class="try">Пробвайте →</span>
+        </a>
+        <a class="tile" href="#dev">
+          <div class="lab"><span>Сайтове</span><span>и онлайн магазини</span></div>
+          <div class="site"><i class="t"></i><i style="width:45%"></i><div class="g"><i></i><i></i><i></i></div></div>
+          <span class="try">Повече →</span>
+        </a>
+        <a class="tile" href="#dev">
+          <div class="lab"><span>По поръчка</span><span>системи и приложения</span></div>
+          <div class="app"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <span class="try">Повече →</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="band" id="products">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Продукти</p>
+      <h2 class="h2">Готови за работа. <span class="dim">Стартират за дни, не за месеци.</span></h2>
+      <p class="lead">Три продукта, които решават най-честите проблеми на един растящ бизнес: кой е клиентът, какво е питал и кой трябва да му се обади.</p>
+    </div>
+    <div class="cards">
+      <article class="card">
+        <div class="name"><b>CORE</b><span>Клиенти и продажби</span></div>
+        <h3>Всеки клиент, всяка сделка, всяко обаждане на едно място.</h3>
+        <p>Замества тетрадките и таблиците. Екипът вижда своите клиенти, собственикът вижда целия екип.</p>
+        <ul>
+          <li>Списък „обади се днес“ за всеки продавач</li>
+          <li>История на всеки клиент</li>
+          <li>Табло на собственика</li>
+          <li>Отделен достъп за всяка фирма и всеки човек</li>
+        </ul>
+        <div class="foot"><span class="pr">от 59 € <small>/ месец</small></span><a class="more" href="#try" data-tab="core">Пробвайте</a></div>
+      </article>
+      <article class="card">
+        <div class="name"><b>NEO</b><span>Асистент за запитвания</span></div>
+        <h3>Отговаря на клиентите ви в сайта, Viber и Messenger. Денем и нощем.</h3>
+        <p>Учи се от сайта и документите ви. Отговаря на въпроси за цени и часове, записва клиента и го подава на вас.</p>
+        <ul>
+          <li>Отговор до 30 секунди, по всяко време</li>
+          <li>Записва име, телефон и въпрос</li>
+          <li>Пита човек, когато не е сигурен</li>
+          <li>Работи заедно с CORE или самостоятелно</li>
+        </ul>
+        <div class="foot"><span class="pr">от 79 € <small>/ месец</small></span><a class="more" href="#try" data-tab="neo">Пробвайте</a></div>
+      </article>
+      <article class="card">
+        <div class="name"><b>ECHO</b><span>Напомняния и отзиви</span></div>
+        <h3>Напомня на клиента за часа и го моли за отзив след това.</h3>
+        <p>Добавка към CORE и NEO. По-малко пропуснати часове, повече отзиви в Google, без някой от екипа да го прави на ръка.</p>
+        <ul>
+          <li>Напомняне ден преди час или оглед</li>
+          <li>Молба за отзив след покупка</li>
+          <li>Съобщения на български, с вашето име</li>
+        </ul>
+        <div class="foot"><span class="pr">+29 € <small>/ месец</small></span><a class="more" href="#try" data-tab="echo">Пробвайте</a></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="play" id="try">
+  <div class="aura" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Пробвайте сега</p>
+      <h2 class="h2">Не ни вярвайте. <span class="dim">Тествайте.</span></h2>
+      <p class="lead">Всичко тук работи. Пишете на асистента, местете клиенти в системата, изпратете си напомняне. Данните са измислени, продуктите са истински.</p>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Продукт за тестване">
+      <button role="tab" id="tab-neo" aria-selected="true" aria-controls="pane-neo">NEO · асистент</button>
+      <button role="tab" id="tab-core" aria-selected="false" aria-controls="pane-core">CORE · клиенти</button>
+      <button role="tab" id="tab-echo" aria-selected="false" aria-controls="pane-echo">ECHO · напомняния</button>
+    </div>
+
+    <!-- NEO -->
+    <div class="stage" id="pane-neo" role="tabpanel" aria-labelledby="tab-neo">
+      <div class="side">
+        <div><p class="eyebrow">NEO</p><h3 style="margin-top:6px">Задайте въпрос, както би го задал ваш клиент.</h3></div>
+        <p>Асистентът е обучен с данните на измислена фирма. Изберете каква и питайте за цени, часове, наличности. Ако оставите телефон, ще видите как клиентът се появява в CORE.</p>
+        <div class="ctx" id="biz">
+          <button type="button" aria-pressed="true" data-b="auto">Автокъща</button>
+          <button type="button" aria-pressed="false" data-b="dent">Дентална клиника</button>
+          <button type="button" aria-pressed="false" data-b="estate">Агенция за имоти</button>
+        </div>
+        <div class="hint">Опитайте: „има ли лизинг“, „колко струва“, „свободен час утре“, „къде се намирате“, или напишете нещо, което не знае.</div>
+        <div class="captured" id="captured" hidden>
+          <div><b id="cap-name">—</b><small id="cap-sub">—</small></div>
+          <span class="tag">→ записан в CORE</span>
+        </div>
+      </div>
+      <div class="main">
+        <div class="chat">
+          <div class="chat-head"><b id="chat-biz">Автокъща „Престиж“</b><span>чат в сайта · на живо</span></div>
+          <div class="chat-body" id="chat"></div>
+          <div class="quick" id="quick"></div>
+          <form class="chat-foot" id="chat-form">
+            <input id="chat-in" type="text" placeholder="Напишете съобщение…" autocomplete="off" aria-label="Съобщение към асистента">
+            <button type="submit" aria-label="Изпрати">↑</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- CORE -->
+    <div class="stage" id="pane-core" role="tabpanel" aria-labelledby="tab-core" hidden>
+      <div class="side">
+        <div><p class="eyebrow">CORE</p><h3 style="margin-top:6px">Това вижда продавачът сутрин. И това вижда собственикът.</h3></div>
+        <p>Кликнете върху статуса, за да го смените. Кликнете върху клиента, за да видите историята. Превключете на „Собственик“, за да видите целия екип.</p>
+        <div class="hint">Всеки клиент, когото NEO запише в чата отляво, се появява тук със статус „Обади се“.</div>
+        <a class="more" href="https://demo.nextbot.me" target="_blank" rel="noopener">Пълното демо на CORE</a>
+      </div>
+      <div class="main">
+        <div class="core">
+          <div class="core-top">
+            <div class="seg" id="view"><button type="button" aria-pressed="true" data-v="rep">Продавач: Иван</button><button type="button" aria-pressed="false" data-v="owner">Собственик</button></div>
+            <div class="seg" id="filt"><button type="button" aria-pressed="true" data-f="today">Обади се днес</button><button type="button" aria-pressed="false" data-f="all">Всички</button></div>
+          </div>
+          <div class="kpis" id="kpis"></div>
+          <div class="rows" id="rows"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ECHO -->
+    <div class="stage" id="pane-echo" role="tabpanel" aria-labelledby="tab-echo" hidden>
+      <div class="side">
+        <div><p class="eyebrow">ECHO</p><h3 style="margin-top:6px">Напомнянето, което клиентът ви получава ден преди часа.</h3></div>
+        <form class="form" id="echo-form">
+          <label>Клиент<input id="e-name" value="Мария Петрова"></label>
+          <div class="two">
+            <label>Услуга<input id="e-svc" value="почистване на зъби"></label>
+            <label>Час<input id="e-time" type="time" value="10:30"></label>
+          </div>
+          <div class="two">
+            <label>Канал<select id="e-ch"><option>Viber</option><option>SMS</option></select></label>
+            <label>Тип<select id="e-type"><option value="rem">Напомняне ден преди</option><option value="rev">Молба за отзив след това</option></select></label>
+          </div>
+          <button class="btn sm" type="submit" id="e-send">Изпрати тестово</button>
+        </form>
+      </div>
+      <div class="main">
+        <div class="phone" aria-label="Телефон на клиента">
+          <div class="scr">
+            <div class="time">утре · 09:00</div>
+            <div class="from" id="e-from">Дентална клиника „Усмивка“ · Viber</div>
+            <div class="sms" id="e-msg"></div>
+            <div class="sent" id="e-sent">доставено ✓</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="calc">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Сметката</p>
+      <h2 class="h2">Колко ви струва запитване <span class="dim">без отговор?</span></h2>
+      <p class="lead">Преместете плъзгачите към вашия бизнес. Числата са приблизителни, но посоката рядко е изненада.</p>
+    </div>
+    <div class="calc">
+      <div class="in">
+        <label>Запитвания на месец<span>писма, чат, обаждания<b id="v-q">80</b></span><input type="range" id="c-q" min="10" max="400" step="10" value="80"></label>
+        <label>Извън работно време<span>вечер, уикенд, обед<b id="v-o">45%</b></span><input type="range" id="c-o" min="0" max="80" step="5" value="45"></label>
+        <label>От тях не се връщат, ако никой не отговори<span>пишат на конкурента<b id="v-l">60%</b></span><input type="range" id="c-l" min="10" max="90" step="5" value="60"></label>
+        <label>Печалба от един клиент<span>средно<b id="v-p">150 €</b></span><input type="range" id="c-p" min="20" max="2000" step="10" value="150"></label>
+      </div>
+      <div class="out">
+        <div class="aura" aria-hidden="true"></div>
+        <div><p class="eyebrow" style="color:inherit;opacity:.7">Изгубени на месец</p><div class="big"><span id="r-eur">3 240</span> <small>€</small></div></div>
+        <p><b id="r-cl">22</b> клиенти месечно пишат, когато никой не може да отговори, и не се връщат.</p>
+        <div class="vs"><span>Планът CORE + NEO струва</span><b>129 € / месец</b><span id="r-x">25 пъти по-малко от изгубеното</span></div>
+        <a class="btn" href="#talk">Да проверим вашите числа</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="dev">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Разработка по поръчка</p>
+      <h2 class="h2">Когато нищо готово не пасва, <span class="dim">го изграждаме за вас.</span></h2>
+      <p class="lead">Същият екип, който прави продуктите, прави и системи по мярка. Започваме от вашия процес, не от технологията.</p>
+    </div>
+    <div class="cards">
+      <article class="card">
+        <div class="name"><b>Сайтове и магазини</b></div>
+        <p>Бърз сайт или онлайн магазин на български, с асистент за запитвания от първия ден. Вие получавате достъп да го променяте сами.</p>
+        <ul><li>Срок 2–4 седмици</li><li>Собствен домейн и хостинг на ваше име</li><li>Свързан с CORE и NEO при желание</li></ul>
+        <div class="foot"><span class="pr">Цена след разговор</span><a class="more" href="#talk">Запитване</a></div>
+      </article>
+      <article class="card">
+        <div class="name"><b>Системи за вашия процес</b></div>
+        <p>Вътрешен софтуер за това, което в момента правите в Excel, на хартия или в няколко програми наведнъж: поръчки, склад, график, фактуриране, отчети.</p>
+        <ul><li>Анализ на процеса на място</li><li>Етапно изграждане с работещи версии</li><li>Поддръжка и развитие след пускането</li></ul>
+        <div class="foot"><span class="pr">Цена след разговор</span><a class="more" href="#talk">Запитване</a></div>
+      </article>
+      <article class="card">
+        <div class="name"><b>Мобилни приложения</b></div>
+        <p>Приложение за клиентите или за екипа ви, когато работата е на терен, а не на бюро. iOS и Android от един код.</p>
+        <ul><li>Записвания, поръчки, известия</li><li>Работи и без интернет на място</li><li>Публикуваме го от ваше име</li></ul>
+        <div class="foot"><span class="pr">Цена след разговор</span><a class="more" href="#talk">Запитване</a></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Как работим</p>
+      <h2 class="h2">Един и същ път, <span class="dim">за продукт или за разработка.</span></h2>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="t">15 минути</span><h3>Разговор</h3><p>Разказвате как работите и къде се губят време и клиенти. Казваме ви честно какво ще помогне и какво не.</p></div>
+      <div class="step"><span class="t">До 2 дни</span><h3>Предложение</h3><p>Получавате кратко писмено предложение: какво правим, за колко време, на каква цена. Без изненади по-късно.</p></div>
+      <div class="step"><span class="t">Дни или седмици</span><h3>Изграждане</h3><p>Продуктите настройваме до 7 дни. Разработката върви на етапи и виждате работеща версия на всеки от тях.</p></div>
+      <div class="step"><span class="t">Постоянно</span><h3>Поддръжка</h3><p>Един телефон за всичко. Следим как работи, оправяме, развиваме. Получавате отчет какво е направено.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">За нас</p>
+      <h2 class="h2">Софтуер за фирми, <span class="dim">направен от хора, които са работили във фирми.</span></h2>
+      <p class="lead">NextBot е софтуерна компания от София. Знаем как изглежда работният ден в автокъща, клиника или магазин, защото сме го живели. Затова правим софтуер, който се ползва, а не софтуер, който се инсталира и забравя.</p>
+    </div>
+    <div class="pr4">
+      <div><b>Говорим на български</b><p>Интерфейсът, съобщенията към клиентите ви и поддръжката са на български. Без преводен софтуер.</p></div>
+      <div><b>Първо процесът, после кодът</b><p>Идваме на място и гледаме как работите, преди да предложим каквото и да е.</p></div>
+      <div><b>Данните са ваши</b><p>Всяка фирма вижда само своите данни. Ако спрете, получавате всичко като файл.</p></div>
+      <div><b>Едно лице за всичко</b><p>Продукт, сайт, система, поддръжка. Един договор, един телефон, един отговорен човек.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Браншове</p>
+      <h2 class="h2">Работим с фирми, <span class="dim">при които клиентът пише, пита и чака.</span></h2>
+    </div>
+    <div class="ind">
+      <a href="#talk"><span class="who">Автокъщи и сервизи</span><span class="does">CORE за екипа продавачи, NEO за въпросите за наличност и лизинг.</span></a>
+      <a href="#talk"><span class="who">Клиники и салони</span><span class="does">Записване на часове в чата, напомняне ден преди, отзив след това.</span></a>
+      <a href="#talk"><span class="who">Агенции за имоти</span><span class="does">Квалифициране на купувачи и огледи, разпределени към брокерите.</span></a>
+      <a href="#talk"><span class="who">Търговия и услуги</span><span class="does">Онлайн магазин, вътрешна система за поръчки и склад, приложение за екипа.</span></a>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Цени на продуктите</p>
+      <h2 class="h2">Месечно, без годишен договор.</h2>
+      <p class="lead">Еднократната настройка покрива обучението, свързването на каналите и въвеждането на екипа. Разработката по поръчка се остойностява след разговор.</p>
+      <div class="toggle" role="group" aria-label="Период на плащане">
+        <button type="button" id="bm" aria-pressed="true">Месечно</button>
+        <button type="button" id="by" aria-pressed="false">Годишно · 2 месеца подарък</button>
+      </div>
+    </div>
+
+    <div class="plans">
+      <article class="plan">
+        <h3>CORE</h3>
+        <p class="for">Имате екип и искате да виждате кой с кого говори и кой е забравен.</p>
+        <div class="price"><b data-m="59" data-y="49">59</b><span>€ / месец · до 3 души</span></div>
+        <div class="setup">Настройка <b>190 €</b> · +15 € / месец за всеки следващ човек</div>
+        <ul>
+          <li>Клиенти, обаждания и сделки на едно място</li>
+          <li>Списък „обади се днес“ за всеки продавач</li>
+          <li>Табло на собственика</li>
+          <li>Внасяме старите ви таблици</li>
+        </ul>
+        <a class="btn ghost" href="#talk">Запазете разговор</a>
+      </article>
+
+      <article class="plan best">
+        <span class="badge">Най-често избиран</span>
+        <h3>CORE + NEO</h3>
+        <p class="for">Цялата верига: асистентът отговаря, системата помни, екипът знае на кого да звънне.</p>
+        <div class="price"><b data-m="129" data-y="108">129</b><span>€ / месец · до 10 души</span></div>
+        <div class="setup">Настройка <b>390 €</b> с посещение на място</div>
+        <ul>
+          <li>NEO във всички канали</li>
+          <li>CORE за до 10 души</li>
+          <li>ECHO включен: напомняния и отзиви</li>
+          <li>Седмичен отчет</li>
+          <li>Приоритетна поддръжка по телефон</li>
+        </ul>
+        <a class="btn" href="#talk">Запазете разговор</a>
+      </article>
+
+      <article class="plan">
+        <h3>NEO</h3>
+        <p class="for">Искате клиентите да получават отговор веднага, а вие – имената и телефоните им.</p>
+        <div class="price"><b data-m="79" data-y="66">79</b><span>€ / месец</span></div>
+        <div class="setup">Настройка <b>290 €</b> еднократно</div>
+        <ul>
+          <li>Асистент в сайта + Viber или Messenger</li>
+          <li>Записва име, телефон и въпрос</li>
+          <li>Записва часове и огледи</li>
+          <li>Месечен отчет</li>
+        </ul>
+        <a class="btn ghost" href="#talk">Запазете разговор</a>
+      </article>
+    </div>
+
+    <div class="dev">
+      <div>
+        <h3>Разработка по поръчка</h3>
+        <p>Сайтове и магазини, вътрешни системи, мобилни приложения. След 15-минутен разговор получавате писмено предложение с обхват, срок и цена до 2 дни.</p>
+      </div>
+      <a class="btn" href="#talk">Поискайте предложение</a>
+    </div>
+
+    <div class="guar">
+      <span><b>14 дни гаранция за продуктите.</b> Ако не ви пестят време, връщаме таксата за настройка.</span>
+      <span><b>Спирате когато решите.</b> Данните остават ваши и ви ги даваме като файл.</span>
+      <span>Цените са без ДДС.</span>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Въпроси</p>
+      <h2 class="h2">Това, което ни питат най-често.</h2>
+    </div>
+    <div class="faq">
+      <details><summary>Продукт или разработка: как да избера?</summary><p>Ако проблемът ви е клиенти, запитвания и продажби, почти винаги продуктът стига и е готов за дни. Ако процесът ви е специфичен (склад, производство, график на екип), говорим за разработка. Казваме ви го в първия разговор.</p></details>
+      <details><summary>Трябва ли да сменям програмите си?</summary><p>Не. Продуктите работят до това, което вече ползвате. При разработка свързваме новата система със сегашните ви програми, вместо да ги заменяме.</p></details>
+      <details><summary>Асистентът ще звучи ли като робот?</summary><p>Не. Говори на естествен български, с вашия тон. Представя се като асистент на фирмата ви и когато не знае нещо, казва, че ще ви свърже с човек.</p></details>
+      <details><summary>Къде се пазят данните?</summary><p>На сървъри в Европейския съюз, отделно за всяка фирма. Само вие и екипът ви имате достъп. При спиране получавате всичко като файл.</p></details>
+      <details><summary>Колко време отнема?</summary><p>Продуктите стартират до 7 дни. Сайт или магазин: 2–4 седмици. По-големите системи вървят на етапи и първата работеща версия обикновено е до месец.</p></details>
+      <details><summary>Какво включва настройката на продуктите?</summary><p>Обучение на асистента по вашите материали, свързване на каналите, въвеждане на екипа в системата и внасяне на старите ви данни. За плана CORE + NEO идваме на място.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="final" id="talk">
+  <div class="wrap">
+    <div class="aura" aria-hidden="true"></div>
+    <p class="eyebrow">Следваща стъпка</p>
+    <h2>15 минути са достатъчни, за да разберем дали можем да ви помогнем.</h2>
+    <p class="lead">Обадете се или ни пишете. Отговаряме лично, в рамките на деня.</p>
+    <div class="row2">
+      <a class="btn" href="#talk">Запазете разговор</a>
+      <span class="tel">+359 894 288 119</span>
+      <span class="tel" style="font-weight:600;color:var(--ink-2)">info@nextbot.me</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 NextBot · София</span>
+    <div class="fl">
+      <a href="#products">Продукти</a>
+      <a href="#dev">Разработка</a>
+      <a href="https://app.nextbot.me" target="_blank" rel="noopener">Вход за клиенти</a>
+      <a href="https://demo.nextbot.me" target="_blank" rel="noopener">Демо</a>
+      <a href="#">Поверителност</a>
+      <a href="#" aria-label="English version">EN</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- tabs ---------- */
+  var tabs=['neo','core','echo'];
+  function showTab(t){
+    tabs.forEach(function(k){
+      $('tab-'+k).setAttribute('aria-selected',String(k===t));
+      $('pane-'+k).hidden=(k!==t);
+    });
+  }
+  tabs.forEach(function(k){$('tab-'+k).addEventListener('click',function(){showTab(k)});});
+  document.querySelectorAll('[data-tab]').forEach(function(a){a.addEventListener('click',function(){showTab(a.dataset.tab)});});
+
+  /* ---------- CORE data ---------- */
+  var STATUS=['Обади се','Говорихме','Записан','Затворен'];
+  var clients=[
+    {n:'Георги Илиев',p:'0888 ••• 412',i:'Golf 8, 2021 · лизинг',s:0,rep:'Иван',h:[['вчера 22:47','Пита в чата за лизинг на Golf 8. Записан оглед утре 11:00.']]},
+    {n:'Мария Петрова',p:'0877 ••• 905',i:'Octavia Combi · оглед',s:2,rep:'Иван',h:[['пон 10:12','Оглед направен. Иска оферта с 20% самоучастие.'],['пон 16:40','Оферта изпратена по имейл.']]},
+    {n:'Стоян Димов',p:'0899 ••• 110',i:'Tiguan 2019 · оферта',s:1,rep:'Иван',h:[['вт 09:30','Говорихме. Ще мисли до петък.']]},
+    {n:'Елена Кирова',p:'0888 ••• 733',i:'Passat · замяна на старо',s:0,rep:'Петя',h:[['вчера 19:15','Пита дали взимаме кола на старо. Чака обаждане.']]},
+    {n:'Николай Тодоров',p:'0898 ••• 221',i:'Kodiaq · тест драйв',s:3,rep:'Петя',h:[['миналата седмица','Купи. Доволен. Молба за отзив изпратена.']]},
+    {n:'Радостина Генова',p:'0887 ••• 648',i:'Golf 7 · цена',s:1,rep:'Петя',h:[['вт 14:05','Говорихме, иска снимки на двигателя.']]}
+  ];
+  var view='rep', filt='today', openIdx=-1;
+  function renderCore(){
+    var list=clients.map(function(c,i){c._i=i;return c}).filter(function(c){return view==='owner'||c.rep==='Иван'}).filter(function(c){return filt==='all'||c.s===0});
+    var rows=$('rows'); rows.innerHTML=''; rows.classList.toggle('empty',list.length===0);
+    list.forEach(function(c){
+      var r=document.createElement('button'); r.type='button'; r.className='row'+(c.isNew?' new':''); r.setAttribute('aria-expanded',String(openIdx===c._i));
+      r.innerHTML='<span class="n">'+c.n+'<small>'+c.p+(view==='owner'?' · '+c.rep:'')+'</small></span><span class="i">'+c.i+'</span>';
+      var st=document.createElement('button'); st.type='button'; st.className='st'; st.dataset.s=c.s; st.textContent=STATUS[c.s]; st.title='Смени статуса';
+      st.addEventListener('click',function(e){e.stopPropagation();c.s=(c.s+1)%4;c.h.push(['сега','Статус: '+STATUS[c.s]]);renderCore();});
+      r.appendChild(st);
+      r.addEventListener('click',function(){openIdx=openIdx===c._i?-1:c._i;renderCore();});
+      rows.appendChild(r);
+      var h=document.createElement('div'); h.className='hist'+(openIdx===c._i?' open':'');
+      h.innerHTML=c.h.map(function(x){return '<div><b>'+x[0]+'</b><span>'+x[1]+'</span></div>'}).join('');
+      rows.appendChild(h);
+    });
+    var all=clients.filter(function(c){return view==='owner'||c.rep==='Иван'});
+    var k=[[all.filter(function(c){return c.s===0}).length,'за обаждане днес'],[all.filter(function(c){return c.s===2}).length,'записани огледи'],[all.filter(function(c){return c.s===3}).length,'затворени този месец']];
+    if(view==='owner'){k[2]=[clients.filter(function(c){return c.rep==='Петя'&&c.s===0}).length+' / '+clients.filter(function(c){return c.rep==='Иван'&&c.s===0}).length,'чакащи: Петя / Иван'];}
+    $('kpis').innerHTML=k.map(function(x){return '<div><b>'+x[0]+'</b><span>'+x[1]+'</span></div>'}).join('');
+  }
+  $('view').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;view=b.dataset.v;$('view').querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});renderCore();});
+  $('filt').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;filt=b.dataset.f;$('filt').querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});renderCore();});
+  renderCore();
+
+  /* ---------- NEO ---------- */
+  var KB={
+    auto:{name:'Автокъща „Престиж“',hello:'Здравейте! Аз съм асистентът на Автокъща „Престиж“. Питайте за наличности, цени, лизинг или запазете оглед.',
+      interest:'лизинг или оглед',
+      quick:['Има ли лизинг?','Колко струва Golf 8?','Оглед утре в 11?','Къде се намирате?'],
+      kb:[
+        [['лизинг','кредит','вноск','финанс'],'Да, работим с три лизингови компании. При 20% самоучастие вноската за Golf 8 (2021) е около 310 € на месец за 60 месеца. Да ви запазя ли оглед?'],
+        [['golf','голф','колко струва','цена'],'Golf 8, 2021, 1.5 TSI, 48 000 км: 24 900 € с ДДС. Пълна сервизна история, един собственик. Искате ли оглед?'],
+        [['оглед','утре','час','кога','посет'],'Може. Утре имаме свободни 11:00 и 15:30. Кой час ви е удобен? Оставете и телефон, за да ви потвърди колегата Иван.'],
+        [['къде','адрес','намира','работно'],'Намираме се на бул. „Ботевградско шосе“ 212, София. Работим понеделник–събота, 9:00–18:00.'],
+        [['старо','замяна','бартер','buy back'],'Да, приемаме автомобил на старо като част от плащането. Пишете марка, година и километри и ще ви дам ориентировъчна оценка до края на деня.'],
+        [['гаранц','сервиз'],'Всички автомобили идват с 12 месеца гаранция на двигател и скоростна кутия. Сервизът ни е на същия адрес.']
+      ]},
+    dent:{name:'Дентална клиника „Усмивка“',hello:'Здравейте! Аз съм асистентът на клиника „Усмивка“. Мога да ви запиша час или да отговоря за цени и услуги.',
+      interest:'час за преглед',
+      quick:['Колко струва почистване?','Свободен час утре?','Боли ли избелването?','Къде сте?'],
+      kb:[
+        [['почист','камък','профилакт'],'Професионалното почистване е 80 лв. и отнема около 40 минути. Включва ултразвук и полиране. Да ви запиша ли час?'],
+        [['час','утре','свобод','запиш','кога'],'Утре имаме свободни 10:30 и 14:00 при д-р Иванова. Кой час ви е удобен? Оставете име и телефон за потвърждение.'],
+        [['избелв','боли','бол'],'Избелването е 350 лв. и е безболезнено; при чувствителни зъби първо правим кратка консултация, която е безплатна.'],
+        [['къде','адрес','намира','работно'],'Намираме се на ул. „Шипка“ 14, София. Работим понеделник–петък, 9:00–19:00, събота до 14:00.'],
+        [['цен','струва','колко'],'Преглед и консултация: безплатно. Почистване: 80 лв. Пломба: от 90 лв. Избелване: 350 лв. За нещо друго питайте директно.'],
+        [['спешн','зъб ме боли','силно'],'При силна болка идвайте днес, пазим часове за спешни случаи. Оставете телефон и ще ви звъннем до 10 минути.']
+      ]},
+    estate:{name:'Агенция „Домове“',hello:'Здравейте! Аз съм асистентът на агенция „Домове“. Питайте за имоти, цени, огледи или условия.',
+      interest:'оглед на имот',
+      quick:['Може ли оглед в събота?','Каква е комисионата?','Има ли двустаен в Лозенец?','Приемате ли кредит?'],
+      kb:[
+        [['оглед','събота','кога','час'],'Да, правим огледи и в събота между 10:00 и 16:00. За кой имот става дума? Оставете телефон и брокерът ще ви потвърди час.'],
+        [['комисион','такса','процент'],'Комисионата при покупка е 2,5% от цената, платима при подписване на предварителен договор. При наем – половин месечен наем.'],
+        [['двустаен','лозенец','апартамент','имот','има ли'],'В Лозенец в момента имаме 3 двустайни: 68 кв.м за 189 000 €, 74 кв.м за 215 000 € и 81 кв.м за 239 000 €. Да ви изпратя ли снимки?'],
+        [['кредит','ипотек','банк'],'Да, работим с кредитни консултанти без такса за вас. Повечето ни клиенти получават одобрение до 10 дни.'],
+        [['къде','адрес','офис'],'Офисът ни е на бул. „Витоша“ 88, София. Приемаме с предварителна уговорка.'],
+        [['наем','под наем'],'Имаме и имоти под наем. Кажете квартал и бюджет и ще ви предложа 3 варианта до края на деня.']
+      ]}
+  };
+  var biz='auto', captured=false;
+  var box=$('chat'), quick=$('quick');
+  function add(cls,text){var d=document.createElement('div');d.className='msg '+cls;d.textContent=text;box.appendChild(d);box.scrollTop=box.scrollHeight;return d;}
+  function botSay(text,cb){
+    if(reduce){add('bot',text);if(cb)cb();return;}
+    var ty=document.createElement('div');ty.className='msg bot typing';ty.innerHTML='<i></i><i></i><i></i>';box.appendChild(ty);box.scrollTop=box.scrollHeight;
+    setTimeout(function(){ty.remove();add('bot',text);if(cb)cb();},600+Math.min(900,text.length*8));
+  }
+  function startChat(){
+    box.innerHTML='';captured=false;$('captured').hidden=true;
+    $('chat-biz').textContent=KB[biz].name;
+    quick.innerHTML='';KB[biz].quick.forEach(function(q){var b=document.createElement('button');b.type='button';b.textContent=q;b.addEventListener('click',function(){send(q)});quick.appendChild(b);});
+    botSay(KB[biz].hello);
+  }
+  function answer(q){
+    var t=q.toLowerCase();
+    var phone=t.replace(/[\s\-\.]/g,'').match(/(\+359|0)8\d{8}/);
+    if(phone){
+      var nameM=q.match(/(?:казвам се|аз съм|името ми е)\s+([А-Яа-яA-Za-z]+)/);
+      var name=nameM?nameM[1]:'Клиент от чата';
+      var disp=phone[0].replace(/(\d{4})\d{3}(\d{3})$/,'$1 ••• $2');
+      if(!captured){captured=true;
+        clients.unshift({n:name,p:disp,i:KB[biz].interest+' · от чата',s:0,rep:'Иван',isNew:true,h:[['сега','Записан от NEO. Иска: '+KB[biz].interest+'.']]});
+        renderCore();
+        $('cap-name').textContent=name+' · '+disp;$('cap-sub').textContent=KB[biz].interest+' · статус „Обади се“';$('captured').hidden=false;
+      }
+      return 'Благодаря, '+(nameM?name:'записах ви')+'! Колегата ще ви звънне в рамките на работния ден, за да потвърди. Приятен ден!';
+    }
+    if(/здравей|добър|здрасти|хей/.test(t))return KB[biz].hello;
+    if(/благодар|мерси|ок|добре|супер/.test(t)&&t.length<25)return 'Моля! Ако искате да запазя час, оставете телефон за потвърждение.';
+    for(var i=0;i<KB[biz].kb.length;i++){var e=KB[biz].kb[i];for(var j=0;j<e[0].length;j++){if(t.indexOf(e[0][j])>-1)return e[1];}}
+    return 'Не съм сигурен за това и не искам да ви подведа. Ще предам въпроса на колега. Оставете телефон и ще ви звъннем днес.';
+  }
+  function send(q){q=(q||'').trim();if(!q)return;add('user',q);$('chat-in').value='';botSay(answer(q));}
+  $('chat-form').addEventListener('submit',function(e){e.preventDefault();send($('chat-in').value);});
+  $('biz').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;biz=b.dataset.b;$('biz').querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});startChat();});
+  startChat();
+
+  /* ---------- ECHO ---------- */
+  function echoMsg(){
+    var n=$('e-name').value.trim()||'Клиент', first=n.split(' ')[0], svc=$('e-svc').value.trim()||'час', time=$('e-time').value||'10:30', ch=$('e-ch').value, type=$('e-type').value;
+    $('e-from').textContent='Дентална клиника „Усмивка“ · '+ch;
+    var m= type==='rem'
+      ? 'Здравейте, '+first+'! Напомняме за вашия час за '+svc+' утре в '+time+' в клиника „Усмивка“, ул. „Шипка“ 14. Ако не можете, отговорете с „не“ и ще ви предложим друг час. До утре!'
+      : 'Здравейте, '+first+'! Благодарим, че бяхте при нас за '+svc+'. Ако сте доволни, ще се радваме на отзив в Google: g.page/usmivka. Отнема 30 секунди и ни помага много. Екипът на „Усмивка“';
+    $('e-msg').textContent=m; $('e-sent').classList.remove('on');
+  }
+  ['e-name','e-svc','e-time','e-ch','e-type'].forEach(function(id){$(id).addEventListener('input',echoMsg);$(id).addEventListener('change',echoMsg);});
+  $('echo-form').addEventListener('submit',function(e){e.preventDefault();echoMsg();var b=$('e-send');b.textContent='Изпраща се…';b.disabled=true;setTimeout(function(){$('e-sent').classList.add('on');b.textContent='Изпратено ✓';setTimeout(function(){b.textContent='Изпрати тестово';b.disabled=false;},1800);},reduce?0:900);});
+  echoMsg();
+
+  /* ---------- calculator ---------- */
+  function fmt(n){return Math.round(n).toLocaleString('bg-BG')}
+  function calc(){
+    var q=+$('c-q').value,o=+$('c-o').value,l=+$('c-l').value,p=+$('c-p').value;
+    $('v-q').textContent=q;$('v-o').textContent=o+'%';$('v-l').textContent=l+'%';$('v-p').textContent=fmt(p)+' €';
+    var lost=q*o/100*l/100, eur=lost*p;
+    $('r-cl').textContent=fmt(lost);$('r-eur').textContent=fmt(eur);
+    var x=eur/129;
+    $('r-x').textContent= x>=1.5 ? fmt(x)+' пъти по-малко от изгубеното' : (x>=.8 ? 'приблизително колкото губите' : 'при тези числа може би не ви трябваме. Кажете ни ги и ще сме честни.');
+  }
+  ['c-q','c-o','c-l','c-p'].forEach(function(id){$(id).addEventListener('input',calc)});
+  calc();
+
+  /* ---------- pricing toggle ---------- */
+  var bm=$('bm'),by=$('by');
+  function set(y){bm.setAttribute('aria-pressed',String(!y));by.setAttribute('aria-pressed',String(!!y));document.querySelectorAll('.price b').forEach(function(b){b.textContent=y?b.dataset.y:b.dataset.m;});}
+  bm.addEventListener('click',function(){set(false)});by.addEventListener('click',function(){set(true)});
+})();
+</script>

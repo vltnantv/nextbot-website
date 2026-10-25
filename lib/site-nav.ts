@@ -2,13 +2,19 @@
 
 export type NavItem = { label: string; href: string; description?: string; badge?: string };
 
+/** Ready products: name + what it is, in one line. */
 export const PRODUCTS: NavItem[] = [
-  { label: "WEB", href: "/izrabotka-na-sait", description: "Изработка на уебсайт" },
-  { label: "NEO", href: "/neo", description: "Чат асистент в сайта и съобщенията" },
+  { label: "CORE", href: "/core", description: "Клиенти и продажби на едно място" },
+  { label: "NEO", href: "/neo", description: "Асистент за запитвания в сайта и съобщенията" },
+  { label: "ECHO", href: "/echo", description: "Напомняния за час и отзиви в Google" },
   { label: "ARIA", href: "/aria", description: "Гласов асистент, който вдига телефона", badge: "Скоро" },
-  { label: "CORE", href: "/core", description: "Всички клиенти на едно място" },
-  { label: "ECHO", href: "/echo", description: "Повторни клиенти и отзиви" },
-  { label: "STUDIO", href: "/studio", description: "Изработка по поръчка" },
+];
+
+/** Development to order. */
+export const DEVELOPMENT: NavItem[] = [
+  { label: "Разработка по поръчка", href: "/razrabotka", description: "Какво правим и как работим" },
+  { label: "Сайтове и онлайн магазини", href: "/izrabotka-na-sait", description: "Бърз сайт на български, с асистент от първия ден" },
+  { label: "Системи и автоматизации", href: "/studio", description: "Софтуер за вашия процес, връзки между програми" },
 ];
 
 export const SOLUTIONS: NavItem[] = [
@@ -20,7 +26,7 @@ export const SOLUTIONS: NavItem[] = [
 
 export const MAIN_LINKS: NavItem[] = [
   { label: "Цени", href: "/ceni" },
-  { label: "Демо", href: "/demo" },
+  { label: "Пробвайте", href: "/demo" },
   { label: "За нас", href: "/za-nas" },
 ];
 

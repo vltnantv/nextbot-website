@@ -9,9 +9,9 @@ import { DROPDOWN, EASE, HEADER_MATTE_AFTER } from '@/lib/motion'
 import { Logo } from '@/components/brand/Logo'
 import { cn } from '@/lib/utils'
 import { BTN_SECONDARY } from '@/components/home/ui'
-import { CTA, MAIN_LINKS, PRODUCTS, SOLUTIONS, type NavItem } from '@/lib/site-nav'
+import { CTA, DEVELOPMENT, MAIN_LINKS, PRODUCTS, SOLUTIONS, type NavItem } from '@/lib/site-nav'
 
-type MenuKey = 'products' | 'solutions'
+type MenuKey = 'products' | 'development' | 'solutions'
 
 function Dropdown({
   id,
@@ -143,6 +143,14 @@ export function Nav() {
             onClose={closeMenu}
           />
           <Dropdown
+            id="development"
+            label="Разработка"
+            items={DEVELOPMENT}
+            open={open === 'development'}
+            onOpen={() => openMenu('development')}
+            onClose={closeMenu}
+          />
+          <Dropdown
             id="solutions"
             label="Решения"
             items={SOLUTIONS}
@@ -193,6 +201,7 @@ export function Nav() {
         <div id="nav-mobile" className="absolute inset-x-0 top-full h-[calc(100dvh-100%)] overflow-y-auto border-t border-line bg-cream px-6 pb-10 pt-4 min-[900px]:hidden">
           {[
             { title: 'Продукти', items: PRODUCTS },
+            { title: 'Разработка', items: DEVELOPMENT },
             { title: 'Решения', items: SOLUTIONS },
           ].map((group) => (
             <div key={group.title} className="mb-6">

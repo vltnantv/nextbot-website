@@ -231,3 +231,24 @@
 }
 .nav-link:hover::after, .nav-link:focus-visible::after, .nav-link[aria-expanded="true"]::after { transform: scaleX(1); }
 @media (prefers-reduced-motion: reduce) { .nav-link::after { transition: none; } }
+
+/* Aura (BRAND.md „Аура“): warm radial glow with two light bars, slow breathing. components/motion/Aura.tsx */
+.nb-aura {
+  filter: blur(28px);
+  background: radial-gradient(closest-side, #ffb020 0%, #ff8a00 28%, #ff5a1f 55%, #ff2e63 76%, transparent 100%);
+  animation: nb-aura 9s ease-in-out infinite;
+  will-change: scale;
+}
+.nb-aura::before,
+.nb-aura::after {
+  content: "";
+  position: absolute;
+  inset: -6% 22%;
+  border-radius: 40px;
+  background: linear-gradient(90deg, transparent 0, rgba(255, 255, 255, 0.55) 50%, transparent 100%);
+  filter: blur(6px);
+}
+.nb-aura::after { inset: -6% 60% -6% 10%; opacity: 0.7; }
+/* `scale` (not transform), so a translate on the element is kept while it breathes */
+@keyframes nb-aura { 0%, 100% { scale: 1; } 50% { scale: 1.06; } }
+@media (prefers-reduced-motion: reduce) { .nb-aura { animation: none !important; } }
