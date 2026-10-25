@@ -53,7 +53,7 @@ export function Sidebar() {
       <div className="px-6 py-6 border-b border-white/10">
         <div className="flex items-center gap-3 mb-2">
           <Image
-            src="/logo.png"
+            src="/logo-icon-white.png"
             alt="Nextbot"
             width={28}
             height={28}

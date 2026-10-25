@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { LiveDot } from "@/components/brand/LiveDot";
+import { LogoMark } from "@/components/brand/LogoMark";
 
 type LogoProps = {
   className?: string;
@@ -8,7 +9,7 @@ type LogoProps = {
 };
 
 /**
- * Word mark: "nextbot" in lower case (Geologica 600, ink) and the green "online" dot that breathes.
+ * Mark (arrow in a circle) + word mark: "nextbot" in lower case (Geologica 600, ink) and the green "online" dot that breathes.
  * Proportions from design/homepage-mockup.html: 23 px word, 9 px dot, 7 px gap, dot slightly low.
  */
 export function Logo({ className, size = 23 }: LogoProps) {
@@ -19,6 +20,7 @@ export function Logo({ className, size = 23 }: LogoProps) {
       style={{ fontSize: size, gap: Math.round(size * 0.3) }}
       aria-label="nextbot"
     >
+      <LogoMark size={Math.round(size * 1.15)} className="mr-[0.05em]" />
       <span aria-hidden="true">nextbot</span>
       <LiveDot style={{ width: dot, height: dot, marginTop: Math.round(size * 0.26) }} />
     </span>
