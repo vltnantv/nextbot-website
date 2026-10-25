@@ -29,3 +29,12 @@ export const LINK = 'font-medium text-ink underline decoration-[#D9D0C2] decorat
 
 /** Hairline between rows */
 export const HAIR = 'border-[#E8E1D6]'
+
+/** White card with a line border and 20 px corners (company homepage: products, development, demos) */
+export const CARD = 'rounded-[20px] border border-line bg-white'
+
+/** Small label inside cards and demos */
+export const EYEBROW = 'text-[13px] font-semibold text-stone'
+
+/** Soft card shadow (shelf tiles, demo stage) */
+export const SHADOW = 'shadow-[0_1px_2px_rgba(31,29,26,.04),0_10px_28px_-16px_rgba(31,29,26,.16)]'
