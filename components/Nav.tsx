@@ -168,7 +168,7 @@ export function Nav() {
           {/* Вход за клиентите на CORE */}
           <a href="https://app.nextbot.me/vhod" className={cn(BTN_SECONDARY, 'whitespace-nowrap px-5 py-[10px] text-[15px]')}>
             Вход
-          </a>
+          </a>{' '}
           <Link
             href={CTA.href}
             className="hidden whitespace-nowrap rounded-full bg-ink px-5 py-[11px] text-[15px] font-medium text-cream transition-transform duration-200 hover:-translate-y-px sm:inline-flex"

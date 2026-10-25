@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { WordReveal } from '@/components/motion/WordReveal'
-import { LiveDot } from '@/components/brand/LiveDot'
 import { CTA } from '@/lib/site-nav'
 import { SETUP_DAYS } from '@/lib/prices'
 import { HeroChat } from './HeroChat'
@@ -15,7 +14,6 @@ export function Hero() {
       <div className={`${WRAP} grid items-start gap-10 min-[960px]:grid-cols-12 min-[960px]:gap-12`}>
         <div className="flex min-w-0 flex-col gap-7 min-[960px]:col-span-6 min-[960px]:pt-6">
           <span className={`${TAG} inline-flex items-center gap-2`}>
-            <LiveDot className="h-2 w-2" />
             На линия денем и нощем · на български
           </span>
           <WordReveal fast text="Всеки клиент получава отговор. Веднага." mutedFrom={4} className={H1} />
@@ -25,7 +23,7 @@ export function Hero() {
           <div className="flex flex-wrap items-center gap-x-7 gap-y-4">
             <Link href={CTA.href} className={BTN}>
               {CTA.label}
-            </Link>
+            </Link>{' '}
             <Link href="/demo" className={`${LINK} text-[16px]`}>
               Пробвайте бота
             </Link>

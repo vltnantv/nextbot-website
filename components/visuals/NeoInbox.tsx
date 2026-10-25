@@ -115,8 +115,7 @@ export function NeoInbox() {
             <span className="block truncate font-medium">{open.name}</span>
             <span className="block text-[13px] text-stone">Дентален кабинет „Пример“ · от сайта</span>
           </span>
-          <span className="flex shrink-0 items-center gap-1.5 text-[13px] text-stone">
-            <i className="inline-block h-[7px] w-[7px] rounded-full bg-online" aria-hidden="true" />
+          <span className="flex shrink-0 items-center text-[13px] text-stone">
             NEO отговаря
           </span>
         </div>

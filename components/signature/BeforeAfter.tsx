@@ -79,7 +79,7 @@ function After() {
       {/* NEO in the corner */}
       <div className="absolute bottom-3 right-3 flex w-[42%] max-w-[220px] flex-col gap-2 rounded-[16px] border border-line bg-white p-3 shadow-[0_12px_32px_rgba(31,29,26,.12)] sm:bottom-5 sm:right-5">
         <span className="flex items-center gap-1.5 text-[12px] font-semibold">
-          <span className="h-2 w-2 rounded-full bg-online" /> NEO
+          NEO
         </span>
         <span className="h-2 w-[80%] rounded-full bg-cream-deep" />
         <span className="h-2 w-[55%] self-end rounded-full bg-ink/80" />
