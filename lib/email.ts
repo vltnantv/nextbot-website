@@ -52,7 +52,7 @@ function emailWrapper(content: string) {
           <tr>
             <td style="padding: 24px 4px 0;">
               <p style="margin: 0; font-family: ${font}; font-size: 13px; color: #6F6A62; line-height: 1.6;">
-                NextBot · Всеки клиент получава отговор. Веднага.<br />
+                NextBot · Изграждаме софтуера, с който бизнесът ви работи всеки ден.<br />
                 <a href="https://www.nextbot.me" style="color: #6F6A62;">nextbot.me</a> · <a href="mailto:info@nextbot.me" style="color: #6F6A62;">info@nextbot.me</a> · +359 894 288 119
               </p>
             </td>

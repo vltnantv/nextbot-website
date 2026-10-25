@@ -17,6 +17,7 @@ export const PUBLIC_PAGES = [
   '/aria',
   '/izrabotka-na-sait',
   '/studio',
+  '/razrabotka',
   '/za/avtokashti',
   '/za/kliniki',
   '/za/imoti',

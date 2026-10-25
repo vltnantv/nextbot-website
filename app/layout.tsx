@@ -35,11 +35,11 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "NextBot — Всеки клиент получава отговор. Веднага.",
+    default: "NextBot — Софтуер за бизнеса",
     template: "%s | NextBot",
   },
   description:
-    "NextBot отговаря на запитвания в сайта ви, записва клиентите и ви напомня кога да се обадите. Денем и нощем, на български.",
+    "Софтуерна компания от София. CORE за клиенти и продажби, NEO асистент за запитвания, ECHO напомняния, плюс сайтове, системи и приложения по поръчка.",
   metadataBase: new URL("https://www.nextbot.me"),
   icons: {
     icon: [
@@ -53,8 +53,8 @@ export const metadata: Metadata = {
   },
   // pages set their own (lib/seo.ts pageMeta); this is the fallback
   openGraph: {
-    title: "NextBot — Всеки клиент получава отговор. Веднага.",
-    description: "NextBot отговаря на запитвания в сайта ви, записва клиентите и ви напомня кога да се обадите. Денем и нощем, на български.",
+    title: "NextBot — Софтуер за бизнеса",
+    description: "Софтуерна компания от София. CORE за клиенти и продажби, NEO асистент за запитвания, ECHO напомняния, плюс сайтове, системи и приложения по поръчка.",
     url: "https://www.nextbot.me",
     siteName: "NextBot",
     locale: "bg_BG",
@@ -63,8 +63,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "NextBot — Всеки клиент получава отговор. Веднага.",
-    description: "NextBot отговаря на запитвания в сайта ви, записва клиентите и ви напомня кога да се обадите. Денем и нощем, на български.",
+    title: "NextBot — Софтуер за бизнеса",
+    description: "Софтуерна компания от София. CORE за клиенти и продажби, NEO асистент за запитвания, ECHO напомняния, плюс сайтове, системи и приложения по поръчка.",
     images: ["/og.png"],
   },
   robots: { index: true, follow: true },
