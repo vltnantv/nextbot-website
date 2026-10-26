@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { sendDemoNotification } from '@/lib/email'
+import { FORM_DOWN } from '@/lib/company'
 
 // /razgovor form: име, телефон, имейл (по желание), бизнес и бранш, удобен час, consent.
 export async function POST(request: Request) {
@@ -23,11 +24,12 @@ export async function POST(request: Request) {
     }
     if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) data.email = ''
 
-    // Emails are best-effort and must not block the answer to the visitor
+    // The email is the only place the request goes, so without it the visitor must not see success
     try {
       await sendDemoNotification(data)
     } catch (emailError) {
-      console.error('Email sending failed (non-blocking):', emailError)
+      console.error('Booking email failed, request not delivered:', emailError)
+      return NextResponse.json({ error: FORM_DOWN }, { status: 503 })
     }
 
     return NextResponse.json({ success: true })

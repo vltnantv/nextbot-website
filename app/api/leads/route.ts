@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendLeadNotification } from '@/lib/email'
+import { FORM_DOWN } from '@/lib/company'
 
 function getSupabase() {
   return createClient(
@@ -26,6 +27,10 @@ export async function POST(req: NextRequest) {
   const { name, email, phone, source, notes } = body
 
   if (!name) return NextResponse.json({ error: 'Name is required' }, { status: 400 })
+  if (!process.env.RESEND_API_KEY) {
+    console.error('Lead not saved: RESEND_API_KEY is not set')
+    return NextResponse.json({ error: FORM_DOWN }, { status: 503 })
+  }
 
   const { data, error } = await supabase
     .from('leads')
@@ -42,15 +47,20 @@ export async function POST(req: NextRequest) {
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  // Send email notification (fire and forget)
-  sendLeadNotification({
-    name,
-    email: email || null,
-    phone: phone || null,
-    source: source || 'web',
-    notes: notes || null,
-    companyName: body.companyName || null,
-  }).catch((err) => console.error('Lead email error:', err))
+  // The lead is saved, but nobody hears about it without the email, so the visitor gets an error
+  try {
+    await sendLeadNotification({
+      name,
+      email: email || null,
+      phone: phone || null,
+      source: source || 'web',
+      notes: notes || null,
+      companyName: body.companyName || null,
+    })
+  } catch (err) {
+    console.error('Lead email failed:', err)
+    return NextResponse.json({ error: FORM_DOWN }, { status: 503 })
+  }
 
   return NextResponse.json(data, { status: 201 })
 }

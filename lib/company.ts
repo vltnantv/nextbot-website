@@ -13,3 +13,6 @@ export const telHref = (phone: string) => `tel:${phone.replace(/\s/g, "")}`;
 
 /** Opens a Viber chat. The number must keep its "+", encoded as %2B. */
 export const viberHref = (phone: string) => `viber://chat?number=${encodeURIComponent(phone.replace(/\s/g, ""))}`;
+
+/** Shown when a form cannot reach us (no RESEND_API_KEY or the send failed), so the visitor still has a way. */
+export const FORM_DOWN = `Формата временно не работи. Обадете се на ${COMPANY.phone} или пишете на ${COMPANY.email}.`;

@@ -7,6 +7,14 @@ function getResend() {
 }
 const notificationEmail = process.env.NOTIFICATION_EMAIL || 'info@nextbot.me'
 
+// Resend returns { error } instead of throwing, so a missing key or a rejected send would pass silently.
+// Team notifications go through this, so the routes can tell the visitor when the form does not work.
+async function deliver(payload: Parameters<Resend['emails']['send']>[0]) {
+  if (!process.env.RESEND_API_KEY) throw new Error('RESEND_API_KEY is not set')
+  const { error } = await getResend().emails.send(payload)
+  if (error) throw new Error(`Resend: ${error.name}: ${error.message}`)
+}
+
 interface DemoBooking {
   name: string
   /** optional on /razgovor */
@@ -192,7 +200,7 @@ function demoConfirmationContent(data: DemoBooking) {
 
 export async function sendDemoNotification(data: DemoBooking) {
   // Notification to team
-  await getResend().emails.send({
+  await deliver({
     from: 'Nextbot <noreply@nextbot.me>',
     to: notificationEmail,
     subject: `Нова заявка за разговор — ${data.name}${data.company ? ` / ${data.company}` : ''}`,
@@ -243,14 +251,15 @@ export async function sendDemoNotification(data: DemoBooking) {
   })
 
   // Confirmation to the customer - only when they left an email (it is optional)
+  // The team already has the request, so a failed confirmation is only logged.
   if (!data.email) return
-  await getResend().emails.send({
+  await deliver({
     from: 'NextBot <noreply@nextbot.me>',
     to: data.email,
     replyTo: 'info@nextbot.me',
     subject: 'Получихме заявката ви за разговор',
     html: emailWrapper(demoConfirmationContent(data))
-  })
+  }).catch((err) => console.error('Demo confirmation email failed:', err))
 }
 
 // ─── Outreach helpers (hotel outreach) ─────────────────────────────────────
@@ -279,7 +288,7 @@ export async function sendLeadNotification(data: LeadCaptureData) {
   if (data.email) contact.push(`<a href="mailto:${data.email}" style="color: #1F1D1A;">${data.email}</a>`)
   if (data.phone) contact.push(`<a href="tel:${data.phone}" style="color: #1F1D1A;">${data.phone}</a>`)
 
-  await getResend().emails.send({
+  await deliver({
     from: 'NextBot <noreply@nextbot.me>',
     to: notificationEmail,
     subject: `Нов клиент от чата — ${data.name}${data.companyName ? ` (${data.companyName})` : ''}`,

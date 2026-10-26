@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { BTN_PRIMARY } from '@/components/home/ui'
 import { EASE } from '@/lib/motion'
 import { CALL_DAYS, CALL_TIMES } from '@/lib/booking'
-import { COMPANY, telHref } from '@/lib/company'
+import { COMPANY, FORM_DOWN, telHref } from '@/lib/company'
 import { INPUT, LABEL } from './fields'
 import { clearNote, takeNote } from './note'
 
@@ -197,10 +197,10 @@ export function RazgovorForm() {
             <button type="submit" disabled={state === 'sending'} className={`${BTN_PRIMARY} btn-shine self-start px-[26px] py-[15px] text-[16px] disabled:opacity-60`}>
               Запазете разговор
             </button>
-            {/* error text is not in the copy - the shortest honest message */}
+            {/* any failure (no email service, send failed, network) - give the visitor the phone and email instead */}
             {state === 'error' && (
               <p role="alert" className="m-0 text-[15px] text-[#9A3B2E]">
-                Не успяхме да изпратим. Опитайте отново.
+                {FORM_DOWN}
               </p>
             )}
           </motion.form>
