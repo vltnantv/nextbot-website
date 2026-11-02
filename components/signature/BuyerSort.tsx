@@ -44,7 +44,7 @@ export function BuyerSort() {
             <motion.span
               initial={false}
               animate={{ opacity: sorted ? 1 : 0 }}
-              className="font-display text-[15px] font-semibold text-online-text"
+              className="font-display text-[15px] font-semibold text-ink"
               aria-hidden={!sorted || undefined}
             >
               {i + 1}

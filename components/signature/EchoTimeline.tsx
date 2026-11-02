@@ -48,7 +48,7 @@ export function EchoTimeline() {
             <li key={s.day} className="relative flex flex-col gap-3">
               <span aria-hidden="true" className="absolute -left-12 top-0.5 h-6 w-6 rounded-full border-[3px] border-cream bg-ink shadow-[0_0_0_1px_#E2D9CC]" />
               <span className="flex flex-wrap items-baseline gap-x-3">
-                <span className="font-display text-[15px] font-semibold text-online-text">{s.day}</span>
+                <span className="font-display text-[15px] font-semibold text-ink">{s.day}</span>
                 <span className="font-display text-[22px] font-semibold tracking-[-0.02em]">{s.title}</span>
               </span>
               {s.message && (

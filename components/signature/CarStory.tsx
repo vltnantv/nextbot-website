@@ -28,7 +28,7 @@ export function CarStory() {
             {f.bubble === 'b' && <span className="self-start rounded-[18px] rounded-bl-[6px] bg-ink px-3.5 py-2.5 text-[15px] leading-snug text-cream">{f.text}</span>}
             {f.bubble === 'note' && (
               <span className="flex items-center gap-2 text-[16px] font-medium">
-                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-online/15 text-online-text" aria-hidden="true">
+                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-ink/5 text-ink" aria-hidden="true">
                   ✓
                 </span>
                 {f.text}

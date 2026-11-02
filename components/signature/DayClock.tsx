@@ -98,7 +98,7 @@ export function DayClock() {
             >
               <span className="font-display text-[15px] font-semibold tabular-nums text-stone">{m.time}</span>
               <span className="self-start rounded-[18px] rounded-tl-[6px] bg-cream-deep px-3.5 py-2.5 text-[15px] leading-snug">{m.text}</span>
-              <span className="text-[13px] font-medium text-online-text">✓ отговорено</span>
+              <span className="text-[13px] font-medium text-ink">✓ отговорено</span>
             </motion.li>
           )
         })}

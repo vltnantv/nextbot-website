@@ -58,7 +58,7 @@ export function WeekCalendar() {
                         <>
                           <span className="absolute inset-0 rounded-[8px] border-2 border-dashed border-line" />
                           <motion.span
-                            className="absolute inset-0 rounded-[8px] bg-online"
+                            className="absolute inset-0 rounded-[8px] bg-ink"
                             initial={false}
                             animate={filled ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.6 }}
                             transition={reduce ? { duration: 0 } : { duration: 0.4, ease: EASE, delay: filled ? delay : 0 }}

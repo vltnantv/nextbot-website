@@ -9,7 +9,7 @@ import { Arrow } from '@/components/home/Arrow'
 import { BTN_PRIMARY, BTN_SECONDARY, CARD, H } from '@/components/home/ui'
 import { FaqList, ProductHero, Section } from '@/components/page/blocks'
 import { CTA } from '@/lib/site-nav'
-import { ANNUAL_FREE_MONTHS, GUARANTEE_DAYS, PILOT, PLANS, STUDIO_FROM, WEB_OFFERS, eur, type Plan } from '@/lib/prices'
+import { ANNUAL_FREE_MONTHS, GUARANTEE_DAYS, PILOT, PLANS, WEB_OFFERS, eur, type Plan } from '@/lib/prices'
 
 // Text: copy/ceni-zanas-razgovor.md (/ceni) - word for word; h1 and subtitle from copy/UNIQUE.md
 // („Сглобете пакета“). Every price and number is read from lib/prices.ts.
@@ -77,13 +77,6 @@ export default function PricesPage() {
             <p className="m-0 text-[16px] text-stone">{web}.</p>
             <Link href="/izrabotka-na-sait" className="group mt-auto text-[15px] font-medium text-ink">
               Изработка на сайт <Arrow />
-            </Link>
-          </Tilt>
-          <Tilt className={`${CARD} flex flex-col gap-3 p-7`}>
-            <span className={`${H} text-[20px]`}>STUDIO</span>
-            <p className="m-0 text-[16px] text-stone">От {eur(STUDIO_FROM)} на проект.</p>
-            <Link href="/studio" className="group mt-auto text-[15px] font-medium text-ink">
-              STUDIO <Arrow />
             </Link>
           </Tilt>
           <Tilt className={`${CARD} flex flex-col gap-3 p-7`}>

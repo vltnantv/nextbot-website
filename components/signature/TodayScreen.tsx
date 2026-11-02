@@ -83,7 +83,7 @@ export function TodayScreen() {
                         initial={reduce ? false : { opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.2, ease: EASE }}
-                        className="shrink-0 rounded-full bg-online/15 px-4 py-2 text-[14px] font-medium text-online-text"
+                        className="shrink-0 rounded-full bg-ink/5 px-4 py-2 text-[14px] font-medium text-ink"
                       >
                         ✓ Готово
                       </motion.span>

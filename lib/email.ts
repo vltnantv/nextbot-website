@@ -103,7 +103,7 @@ function demoConfirmationContent(data: DemoBooking) {
     : 'ще го уточним заедно'
   return `
     <td style="padding: 36px;">
-      <p style="margin: 0 0 18px; font-family: ${font}; font-size: 13px; color: #1F9D63; font-weight: 600;">Получихме заявката ви</p>
+      <p style="margin: 0 0 18px; font-family: ${font}; font-size: 13px; color: #1F1D1A; font-weight: 600;">Получихме заявката ви</p>
       <h1 style="margin: 0 0 10px; font-family: ${font}; font-size: 24px; font-weight: 600; color: #1F1D1A; letter-spacing: -0.02em; line-height: 1.25;">Благодарим, ${firstName}!</h1>
       <p style="margin: 0 0 28px; font-family: ${font}; font-size: 16px; color: #6F6A62; line-height: 1.6;">
         Ще ви се обадим, за да потвърдим часа за 15-минутния разговор.

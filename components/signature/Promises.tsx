@@ -24,7 +24,7 @@ function Column({ title, items, yes, scope }: { title: string; items: string[]; 
       <ul ref={scope} data-stagger="" className="m-0 flex list-none flex-col gap-3 p-0">
         {items.map((t) => (
           <li key={t} className="flex items-start gap-3 text-[18px] leading-snug">
-            <span aria-hidden="true" className={`mt-0.5 shrink-0 ${yes ? 'text-online' : 'text-stone'}`}>
+            <span aria-hidden="true" className={`mt-0.5 shrink-0 ${yes ? 'text-ink' : 'text-stone'}`}>
               {yes ? '✓' : '×'}
             </span>
             {t}

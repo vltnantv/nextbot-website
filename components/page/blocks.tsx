@@ -133,7 +133,7 @@ export function Steps({ items }: { items: CardItem[] }) {
         {items.map((s, i) => (
           <li key={s.title} className="flex flex-col gap-2.5">
             <DrawLine className="h-3 w-full" delay={i * 0.35} />
-            <span className={`${H} text-[15px] text-online-text`}>{i + 1}</span>
+            <span className={`${H} text-[15px] text-ink`}>{i + 1}</span>
             <span className={`${H} text-[22px]`}>{s.title}</span>
             <span className="text-stone">{s.text}</span>
           </li>
@@ -163,7 +163,7 @@ export function Points({ items, cols = 3 }: { items: React.ReactNode[]; cols?: 2
       {items.map((item, i) => (
         <li key={i}>
           <Tilt className={`${CARD} flex h-full flex-col gap-2.5 p-7`}>
-            <span className={`${H} text-[15px] text-online-text`}>{i + 1}</span>
+            <span className={`${H} text-[15px] text-ink`}>{i + 1}</span>
             <p className="m-0 text-[17px]">{item}</p>
           </Tilt>
         </li>

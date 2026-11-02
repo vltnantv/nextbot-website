@@ -35,7 +35,7 @@ export default function BookCallPage() {
                   'Ако има смисъл, предлагаме пакет и цена. Без натиск.',
                 ].map((s, i) => (
                   <li key={s} className="flex gap-3 text-[17px]">
-                    <span className="font-display font-semibold text-online-text">{i + 1}</span>
+                    <span className="font-display font-semibold text-ink">{i + 1}</span>
                     {s}
                   </li>
                 ))}
