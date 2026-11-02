@@ -1,16 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
-import { createClient } from '@supabase/supabase-js'
+import { parseChatMessages } from '@/lib/chat-input'
+import { clientIp, createRateLimiter, HOUR } from '@/lib/rate-limit'
 
 function getOpenAI() {
   return new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
-}
-
-function getSupabase() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  )
 }
 
 const toneInstructions: Record<string, string> = {
@@ -38,97 +32,36 @@ const languageInstructions: Record<string, string> = {
   ru: 'Respond in Russian (Русский). Always use Russian unless the user writes in another language.',
 }
 
+// 20 chat requests per visitor IP per hour (each answer is one request to OpenAI)
+const limit = createRateLimiter({ limit: 20, windowMs: HOUR })
+
+// The site demo chat (components/demo/ChatWidget.tsx). No database: the old dashboard options
+// (botId, saveToDb) are gone, so a visitor cannot read or write any stored data through here.
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json()
-    const { messages, botId, industry, tone, language, conversationId, saveToDb, channel, customerName, customerEmail } = body
-
-    if (!messages || !Array.isArray(messages) || messages.length === 0) {
-      return NextResponse.json({ error: 'Messages are required' }, { status: 400 })
+    const rl = limit(clientIp(req.headers))
+    if (!rl.ok) {
+      return NextResponse.json(
+        { error: 'Too many requests' },
+        { status: 429, headers: { 'Retry-After': String(rl.retryAfterSec) } },
+      )
     }
+
+    const body = await req.json().catch(() => null)
+    const parsed = parseChatMessages(body?.messages)
+    if (!parsed.ok) return NextResponse.json({ error: parsed.error }, { status: 400 })
+    const { industry, tone, language } = body as Record<string, unknown>
 
     const openai = getOpenAI()
-    // Supabase is only needed for saved conversations and dashboard bots (saveToDb / botId). The site demo
-    // chat uses neither, so connect lazily: without Supabase keys the chat still answers.
-    let supabaseClient: ReturnType<typeof getSupabase> | null = null
-    const db = () => (supabaseClient ??= getSupabase())
 
-    // Optionally create or use existing conversation
-    let convId = conversationId
-    if (saveToDb && !convId) {
-      try {
-        const { data: conv } = await db()
-          .from('conversations')
-          .insert({
-            channel: channel || 'web',
-            customer_name: customerName || 'Website Visitor',
-            customer_email: customerEmail || null,
-            status: 'active',
-          })
-          .select('id')
-          .single()
-        if (conv) convId = conv.id
-      } catch {
-        // Table may not exist yet — continue without persistence
-      }
-    }
+    // only known keys pick a text; anything else falls back to the default
+    const pick = (map: Record<string, string>, key: unknown, fallback: string) =>
+      typeof key === 'string' && Object.prototype.hasOwnProperty.call(map, key) ? map[key] : map[fallback]
 
-    // Save the user message
-    const lastUserMessage = messages[messages.length - 1]
-    if (saveToDb && convId && lastUserMessage?.role === 'user') {
-      try {
-        await db().from('messages').insert({
-          conversation_id: convId,
-          role: 'user',
-          content: lastUserMessage.content,
-        })
-      } catch { /* ignore */ }
-    }
-
-    // Build system prompt
-    let systemPrompt = 'You are Neo, an AI assistant.'
-
-    // If botId provided, fetch bot config and knowledge from DB
-    if (botId) {
-      try {
-        const { data: bot } = await db().from('bots').select('*').eq('id', botId).single()
-        if (bot) {
-          systemPrompt = `You are ${bot.name || 'Neo'}, an AI assistant.\n`
-          systemPrompt += toneInstructions[bot.tone] || toneInstructions.professional
-          systemPrompt += '\n' + (industryContexts[bot.industry] || industryContexts.custom)
-          systemPrompt += '\n' + (languageInstructions[bot.language] || languageInstructions.bg)
-
-          if (bot.welcome_message) {
-            systemPrompt += `\n\nWhen greeting users for the first time, use something similar to: "${bot.welcome_message}"`
-          }
-
-          const { data: knowledge } = await db()
-            .from('knowledge')
-            .select('title, content, type')
-            .eq('bot_id', botId)
-
-          if (knowledge && knowledge.length > 0) {
-            systemPrompt += '\n\n--- KNOWLEDGE BASE ---\nUse the following information to answer questions accurately:\n\n'
-            knowledge.forEach((k) => {
-              systemPrompt += `[${k.type.toUpperCase()}] ${k.title}:\n${k.content}\n\n`
-            })
-            systemPrompt += '--- END KNOWLEDGE BASE ---\nAlways prefer information from the knowledge base. If you don\'t have the answer, say so honestly.'
-          }
-        }
-      } catch {
-        // Bot lookup failed — use demo mode
-      }
-    } else {
-      // Demo mode — use passed params
-      const t = tone || 'professional'
-      const ind = industry || 'hotel'
-      const lang = language || 'bg' // the site is Bulgarian only (BRAND.md)
-
-      systemPrompt = `You are Neo, an AI assistant.\n`
-      systemPrompt += toneInstructions[t] || toneInstructions.professional
-      systemPrompt += '\n' + (industryContexts[ind] || industryContexts.custom)
-      systemPrompt += '\n' + (languageInstructions[lang] || languageInstructions.bg)
-    }
+    let systemPrompt = `You are Neo, an AI assistant.\n`
+    systemPrompt += pick(toneInstructions, tone, 'professional')
+    systemPrompt += '\n' + pick(industryContexts, industry ?? 'hotel', 'custom')
+    systemPrompt += '\n' + pick(languageInstructions, language, 'bg') // the site is Bulgarian only (BRAND.md)
 
     systemPrompt += '\n\nIMPORTANT RULES:\n'
     systemPrompt += '- Keep responses concise (2-4 sentences unless more detail is requested)\n'
@@ -142,10 +75,7 @@ export async function POST(req: NextRequest) {
       model: 'gpt-4o-mini',
       messages: [
         { role: 'system', content: systemPrompt },
-        ...messages.map((m: { role: string; content: string }) => ({
-          role: m.role as 'user' | 'assistant' | 'system',
-          content: m.content,
-        })),
+        ...parsed.messages,
       ],
       stream: true,
       max_tokens: 500,
@@ -153,36 +83,18 @@ export async function POST(req: NextRequest) {
     })
 
     const encoder = new TextEncoder()
-    let fullResponse = ''
 
     const readable = new ReadableStream({
       async start(controller) {
         for await (const chunk of stream) {
           const content = chunk.choices[0]?.delta?.content
           if (content) {
-            fullResponse += content
             controller.enqueue(encoder.encode(`data: ${JSON.stringify({ content })}\n\n`))
           }
         }
 
-        // Send conversation ID back if created
-        if (convId) {
-          controller.enqueue(encoder.encode(`data: ${JSON.stringify({ conversationId: convId })}\n\n`))
-        }
-
         controller.enqueue(encoder.encode('data: [DONE]\n\n'))
         controller.close()
-
-        // Save assistant response to DB after stream completes
-        if (saveToDb && convId && fullResponse) {
-          try {
-            await db().from('messages').insert({
-              conversation_id: convId,
-              role: 'assistant',
-              content: fullResponse,
-            })
-          } catch { /* ignore */ }
-        }
       },
     })
 

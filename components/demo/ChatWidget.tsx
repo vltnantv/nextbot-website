@@ -255,6 +255,7 @@ export function ChatWidget({
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Напишете съобщение…"
+          maxLength={1000}
           disabled={isStreaming}
           className="min-w-0 flex-1 rounded-full border border-line bg-cream px-4 py-2.5 text-[15px] text-ink outline-none placeholder:text-stone focus:border-ink/40 disabled:opacity-60"
         />

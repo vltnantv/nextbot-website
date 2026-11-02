@@ -1,8 +1,22 @@
 import { NextResponse } from 'next/server'
 import { sendDemoNotification } from '@/lib/email'
+import { clientIp, createRateLimiter, HOUR } from '@/lib/rate-limit'
 
 // /razgovor form: име, телефон, имейл (по желание), бизнес и бранш, удобен час, consent.
+// The request is only delivered by email, so if the email to the team does not go out the visitor gets an
+// error and can try again or call (the form shows „Не успяхме да изпратим“).
+
+// 5 requests per visitor IP per hour
+const limit = createRateLimiter({ limit: 5, windowMs: HOUR })
+
 export async function POST(request: Request) {
+  const rl = limit(clientIp(request.headers))
+  if (!rl.ok) {
+    return NextResponse.json(
+      { error: 'Твърде много заявки. Опитайте по-късно.' },
+      { status: 429, headers: { 'Retry-After': String(rl.retryAfterSec) } },
+    )
+  }
   try {
     const body = await request.json()
     // values go into an HTML email: trim, cap and escape them
@@ -23,16 +37,12 @@ export async function POST(request: Request) {
     }
     if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) data.email = ''
 
-    // Emails are best-effort and must not block the answer to the visitor
-    try {
-      await sendDemoNotification(data)
-    } catch (emailError) {
-      console.error('Email sending failed (non-blocking):', emailError)
-    }
+    await sendDemoNotification(data)
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Booking error:', error)
+    // no personal data in the log: only the error message
+    console.error('Booking error:', error instanceof Error ? error.message : 'unknown')
     return NextResponse.json({ error: 'Неуспешна заявка' }, { status: 500 })
   }
 }
