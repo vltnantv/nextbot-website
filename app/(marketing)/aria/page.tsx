@@ -9,7 +9,7 @@ import { FaqList, ProductHero, Section } from '@/components/page/blocks'
 // Text: copy/aria-studio.md (/aria) - word for word; h1 and subtitle from copy/UNIQUE.md („Телефонът звъни“).
 // Not available yet: no „buy“, a waiting list instead. No demo recording until there is a real one.
 
-export const metadata: Metadata = pageMeta({ title: 'ARIA — гласов асистент, който вдига телефона | NextBot', description: 'ARIA вдига, когато вие не можете, отговаря на български и записва час. Скоро. Запишете се в списъка.', path: '/aria' })
+export const metadata: Metadata = pageMeta({ title: 'ARIA — гласов асистент, който вдига телефона | NextBot', description: 'ARIA вдига, когато вие не можете, отговаря на български и записва час. Скоро. Запишете се в списъка.', path: '/aria', noindex: true })
 
 export default function AriaPage() {
   return (

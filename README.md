@@ -32,7 +32,6 @@ npm install
 cp .env.local.example .env.local
 
 # Edit .env.local and add your configuration
-# IMPORTANT: Add your Voiceflow Project ID
 
 # Start development server
 npm run dev
@@ -42,26 +41,8 @@ Open [http://localhost:3001](http://localhost:3001) in your browser.
 
 ## 🔧 Environment Variables
 
-Create a `.env.local` file in the root directory:
-
-```env
-# Required - Voiceflow Project ID
-NEXT_PUBLIC_VOICEFLOW_PROJECT_ID=your_project_id_here
-
-# Optional - Google Analytics
-NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
-
-# Site URL (for production)
-NEXT_PUBLIC_SITE_URL=https://nextbot.me
-```
-
-### Getting Your Voiceflow Project ID
-
-1. Go to [Voiceflow Creator](https://creator.voiceflow.com)
-2. Open your project
-3. Go to **Settings** → **Integration**
-4. Copy the **Project ID**
-5. Paste it in `.env.local`
+Copy `.env.local.example` to `.env.local`. Every variable is described there
+(Resend for the /razgovor form, OpenAI for the site chat, Web3Forms for the ARIA waiting list).
 
 ## 📜 Scripts
 
@@ -96,9 +77,7 @@ nextbot-website/
 │   │   ├── FAQ.tsx
 │   │   └── FinalCTA.tsx
 │   ├── layout/             # Layout components
-│   │   ├── header.tsx
 │   │   └── footer.tsx
-│   └── VoiceflowWidget.tsx # Chat widget
 ├── lib/
 │   ├── utils.ts            # Utility functions
 │   └── constants.ts        # Site configuration
@@ -124,7 +103,7 @@ nextbot-website/
 
 - **Interactive Pricing Calculator** - Real-time price updates
 - **FAQ Accordion** - Smooth animations, category filtering
-- **Voiceflow Chat Widget** - Custom styled AI assistant
+- **NEO chat** - the site chat (`components/demo/ChatWidget.tsx`, `/api/chat`)
 - **Responsive Navigation** - Fixed header with smooth scroll
 - **Animated Sections** - Framer Motion scroll triggers
 
@@ -135,9 +114,9 @@ nextbot-website/
 1. Push code to GitHub
 2. Import project in [Vercel](https://vercel.com)
 3. Add environment variables in Vercel dashboard:
-   - `NEXT_PUBLIC_VOICEFLOW_PROJECT_ID`
-   - `NEXT_PUBLIC_GA_ID` (optional)
-   - `NEXT_PUBLIC_SITE_URL`
+   - `RESEND_API_KEY`, `NOTIFICATION_EMAIL` (the /razgovor form)
+   - `OPENAI_API_KEY` (the site chat)
+   - `WEB3FORMS_ACCESS_KEY` (the ARIA waiting list)
 4. Deploy!
 
 ### Manual Build & Deploy

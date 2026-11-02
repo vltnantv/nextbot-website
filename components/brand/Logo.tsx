@@ -1,26 +1,34 @@
 import { cn } from "@/lib/utils";
-import { LiveDot } from "@/components/brand/LiveDot";
 
 type LogoProps = {
   className?: string;
-  /** Font size of the word mark in px (header 23, footer 19 - as in the mockup). */
+  /** Size in px of the old word mark's text (header 23, footer 19); the mark is drawn a bit larger. */
   size?: number;
 };
 
 /**
- * Word mark: "nextbot" in lower case (Geologica 600, ink) and the green "online" dot that breathes.
- * Proportions from design/homepage-mockup.html: 23 px word, 9 px dot, 7 px gap, dot slightly low.
+ * The logo: the arrow in the circle (public/logo-mark.png, from public/logo-icon.png). It is used as a mask,
+ * so it takes the text colour (ink) on any background.
  */
 export function Logo({ className, size = 23 }: LogoProps) {
-  const dot = Math.round(size * 0.39);
+  const side = Math.round(size * 1.4);
   return (
     <span
-      className={cn("inline-flex items-center font-display font-semibold leading-none tracking-[-0.02em] text-ink", className)}
-      style={{ fontSize: size, gap: Math.round(size * 0.3) }}
+      role="img"
       aria-label="nextbot"
-    >
-      <span aria-hidden="true">nextbot</span>
-      <LiveDot style={{ width: dot, height: dot, marginTop: Math.round(size * 0.26) }} />
-    </span>
+      className={cn("inline-block shrink-0 bg-ink align-middle", className)}
+      style={{
+        width: side,
+        height: side,
+        WebkitMaskImage: "url(/logo-mark.png)",
+        maskImage: "url(/logo-mark.png)",
+        WebkitMaskSize: "contain",
+        maskSize: "contain",
+        WebkitMaskRepeat: "no-repeat",
+        maskRepeat: "no-repeat",
+        WebkitMaskPosition: "center",
+        maskPosition: "center",
+      }}
+    />
   );
 }

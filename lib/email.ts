@@ -35,10 +35,10 @@ function emailWrapper(content: string) {
     <tr>
       <td align="center">
         <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width: 560px; width: 100%;">
-          <!-- Word mark: nextbot + green "online" dot -->
+          <!-- Word mark: nextbot (text, no image: email clients often block images) -->
           <tr>
             <td align="left" style="padding: 0 4px 24px;">
-              <a href="https://www.nextbot.me" style="text-decoration: none; font-family: ${font}; font-size: 21px; font-weight: 600; color: #1F1D1A; letter-spacing: -0.02em;">nextbot<span style="color: #1F9D63;">&nbsp;&#9679;</span></a>
+              <a href="https://www.nextbot.me" style="text-decoration: none; font-family: ${font}; font-size: 21px; font-weight: 600; color: #1F1D1A; letter-spacing: -0.02em;">nextbot</a>
             </td>
           </tr>
           <!-- Card -->
@@ -103,7 +103,7 @@ function demoConfirmationContent(data: DemoBooking) {
     : 'ще го уточним заедно'
   return `
     <td style="padding: 36px;">
-      <p style="margin: 0 0 18px; font-family: ${font}; font-size: 13px; color: #1F9D63; font-weight: 600;">&#9679;&nbsp; Получихме заявката ви</p>
+      <p style="margin: 0 0 18px; font-family: ${font}; font-size: 13px; color: #1F9D63; font-weight: 600;">Получихме заявката ви</p>
       <h1 style="margin: 0 0 10px; font-family: ${font}; font-size: 24px; font-weight: 600; color: #1F1D1A; letter-spacing: -0.02em; line-height: 1.25;">Благодарим, ${firstName}!</h1>
       <p style="margin: 0 0 28px; font-family: ${font}; font-size: 16px; color: #6F6A62; line-height: 1.6;">
         Ще ви се обадим, за да потвърдим часа за 15-минутния разговор.
@@ -210,48 +210,4 @@ export async function sendDemoNotification(data: DemoBooking) {
   } catch (e) {
     console.error('Confirmation email failed:', e instanceof Error ? e.message : 'unknown')
   }
-}
-
-// ─── Lead Capture Notification ──────────────────────────────────────────────
-
-interface LeadCaptureData {
-  name: string
-  email?: string | null
-  phone?: string | null
-  source?: string
-  notes?: string | null
-  companyName?: string
-}
-
-export async function sendLeadNotification(data: LeadCaptureData) {
-  const contact: string[] = []
-  if (data.email) contact.push(`<a href="mailto:${data.email}" style="color: #1F1D1A;">${data.email}</a>`)
-  if (data.phone) contact.push(`<a href="tel:${data.phone}" style="color: #1F1D1A;">${data.phone}</a>`)
-
-  await getResend().emails.send({
-    from: 'NextBot <noreply@nextbot.me>',
-    to: notificationEmail,
-    subject: `Нов клиент от чата — ${data.name}${data.companyName ? ` (${data.companyName})` : ''}`,
-    html: emailWrapper(`
-      <td style="padding: 36px;">
-        <p style="margin: 0 0 14px; font-family: ${font}; font-size: 13px; color: #1F9D63; font-weight: 600;">&#9679;&nbsp; Нов клиент</p>
-        <h1 style="margin: 0 0 22px; font-family: ${font}; font-size: 22px; font-weight: 600; color: #1F1D1A; letter-spacing: -0.02em;">${data.name}</h1>
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border: 1px solid #E8E1D6; border-radius: 12px;">
-          <tr><td style="padding: 4px 20px 0;">
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-              ${infoRow('Контакт', contact.length ? contact.join(' · ') : '—')}
-              ${data.notes ? `${divider()}${infoRow('Интерес', data.notes)}` : ''}
-              ${divider()}
-              ${infoRow('Източник', data.source || 'Чат в сайта')}
-              ${data.companyName ? `${divider()}${infoRow('Бизнес', data.companyName)}` : ''}
-            </table>
-          </td></tr>
-        </table>
-        ${data.email ? `
-        <p style="margin: 24px 0 0;">
-          <a href="mailto:${data.email}" style="display: inline-block; padding: 12px 26px; background-color: #1F1D1A; color: #FAF7F2; font-family: ${font}; font-size: 14px; font-weight: 500; text-decoration: none; border-radius: 999px;">Отговорете на ${data.name.split(' ')[0]}</a>
-        </p>` : ''}
-      </td>
-    `)
-  })
 }

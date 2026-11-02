@@ -8,15 +8,13 @@ export const SITE_URL = 'https://www.nextbot.me'
 export const SITE_NAME = 'NextBot'
 export const OG_IMAGE = { url: '/og.png', width: 1200, height: 630, alt: 'NextBot — Всеки клиент получава отговор. Веднага.' }
 
-/** Public pages that go into sitemap.xml (no /vatreshno, no legal pages while they are „В подготовка“). */
+/** Public pages that go into sitemap.xml (no legal pages while they are „В подготовка“; /aria and /studio are hidden). */
 export const PUBLIC_PAGES = [
   '/',
   '/neo',
   '/core',
   '/echo',
-  '/aria',
   '/izrabotka-na-sait',
-  '/studio',
   '/za/avtokashti',
   '/za/kliniki',
   '/za/imoti',

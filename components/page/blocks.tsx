@@ -11,7 +11,6 @@ import { Tilt } from '@/components/motion/Tilt'
 import { Typing, type ChatLine } from '@/components/motion/Typing'
 import { WordReveal } from '@/components/motion/WordReveal'
 import { FINAL_SCALE } from '@/lib/motion'
-import { LiveDot } from '@/components/brand/LiveDot'
 import { BTN_PRIMARY, BTN_SECONDARY, CARD, EYEBROW, H, H2, WRAP } from '@/components/home/ui'
 
 export type LinkProps = { label: string; href: string }
@@ -42,7 +41,6 @@ export function ProductHero({
         <div className="flex min-w-0 max-w-[760px] flex-col gap-6">
           {eyebrow && (
             <div className="inline-flex items-center gap-2 self-start rounded-full border border-line bg-white px-3.5 py-1.5 text-[14px] text-stone">
-              <LiveDot className="h-2 w-2" />
               {eyebrow}
             </div>
           )}

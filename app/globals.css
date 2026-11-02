@@ -79,7 +79,7 @@
     --ink: 31 29 26;           /* #1F1D1A headings, text, primary buttons */
     --stone: 111 106 98;       /* #6F6A62 secondary text */
     --line: 232 225 214;       /* #E8E1D6 borders, dividers */
-    --online: 31 157 99;       /* #1F9D63 ONLY the "online" dot and "answered" */
+    --online: 31 157 99;       /* #1F9D63 "answered" and ✓ marks (no green dots anywhere) */
   }
 
   /* shadcn variables (ui components and the hidden dashboard) - unchanged. */

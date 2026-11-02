@@ -49,7 +49,7 @@ export function FiveQuestions() {
                       className="flex flex-col gap-2"
                     >
                       <span className="flex items-center gap-1.5 text-[13px] font-semibold">
-                        <span className="h-2 w-2 rounded-full bg-online" aria-hidden="true" /> NEO
+                        NEO
                       </span>
                       <span className="text-[16px] leading-snug">{item.a}</span>
                     </motion.span>

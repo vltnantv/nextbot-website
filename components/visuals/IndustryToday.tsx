@@ -12,7 +12,7 @@ const STAGE: Record<Stage, { label: string; color: string }> = {
   called: { label: 'Звънях', color: '#C59A3D' },
   meeting: { label: 'Среща', color: '#3F7FB8' },
   offer: { label: 'Оферта', color: '#8A6A4A' },
-  client: { label: 'Клиент', color: '#1F9D63' },
+  client: { label: 'Клиент', color: '#1F1D1A' },
 }
 
 export const INDUSTRY_ROWS: Record<'avtokashti' | 'kliniki' | 'imoti' | 'hoteli', Row[]> = {

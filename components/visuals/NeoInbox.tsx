@@ -97,7 +97,6 @@ export function NeoInbox() {
                     </span>
                     <span className="block truncate text-[13px] text-stone">{last.text}</span>
                     <span className="mt-1 flex items-center gap-1.5 text-[13px] text-stone">
-                      <i className="inline-block h-[7px] w-[7px] rounded-full bg-online" aria-hidden="true" />
                       отговорено
                     </span>
                   </span>
@@ -116,7 +115,6 @@ export function NeoInbox() {
             <span className="block text-[13px] text-stone">Дентален кабинет „Пример“ · от сайта</span>
           </span>
           <span className="flex shrink-0 items-center gap-1.5 text-[13px] text-stone">
-            <i className="inline-block h-[7px] w-[7px] rounded-full bg-online" aria-hidden="true" />
             NEO отговаря
           </span>
         </div>

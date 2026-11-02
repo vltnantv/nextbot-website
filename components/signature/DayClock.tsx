@@ -63,7 +63,7 @@ export function DayClock() {
               style={{ left: `${m.at * 100}%` }}
             >
               <span
-                className="absolute inset-0 rounded-full bg-online transition-opacity duration-300 motion-reduce:transition-none"
+                className="absolute inset-0 rounded-full bg-ink transition-opacity duration-300 motion-reduce:transition-none"
                 style={{ opacity: i < reached ? 1 : 0 }}
               />
             </span>

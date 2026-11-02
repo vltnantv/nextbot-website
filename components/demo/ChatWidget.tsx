@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MessageSquare, X } from 'lucide-react'
-import { LiveDot } from '@/components/brand/LiveDot'
 
 type Message = {
   id: string
@@ -177,7 +176,6 @@ export function ChatWidget({
     <>
       {/* Header */}
       <div className="flex shrink-0 items-center gap-2.5 border-b border-[#F0EAE0] px-5 py-4">
-        <LiveDot className="h-2 w-2" />
         <span className="truncate text-[15px] font-semibold text-ink">{title}</span>
         <span className="ml-auto shrink-0 text-[12px] text-stone">{botName} · чат в сайта</span>
         {!inline && (

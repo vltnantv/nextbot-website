@@ -1,14 +1,13 @@
 // Site structure from BRAND.md. Menu and footer read from here so they never drift apart.
+// /aria and /studio are hidden for now: not in the menu, footer or sitemap, and noindex (the pages still work).
 
 export type NavItem = { label: string; href: string; description?: string; badge?: string };
 
 export const PRODUCTS: NavItem[] = [
   { label: "WEB", href: "/izrabotka-na-sait", description: "Изработка на уебсайт" },
   { label: "NEO", href: "/neo", description: "Чат асистент в сайта и съобщенията" },
-  { label: "ARIA", href: "/aria", description: "Гласов асистент, който вдига телефона", badge: "Скоро" },
   { label: "CORE", href: "/core", description: "Всички клиенти на едно място" },
   { label: "ECHO", href: "/echo", description: "Повторни клиенти и отзиви" },
-  { label: "STUDIO", href: "/studio", description: "Изработка по поръчка" },
 ];
 
 export const SOLUTIONS: NavItem[] = [

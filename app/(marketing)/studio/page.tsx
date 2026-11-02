@@ -10,7 +10,7 @@ import { STUDIO_FROM, eur } from '@/lib/prices'
 // Text: copy/aria-studio.md (/studio) - word for word; h1 and subtitle from copy/UNIQUE.md
 // („Какво ви отнема време?“). The price comes from lib/prices.ts.
 
-export const metadata: Metadata = pageMeta({ title: 'STUDIO — автоматизации и програми по поръчка | NextBot', description: `Имате нещо специфично? Свързваме програми, автоматизираме рутинна работа и правим софтуер по нужда. От ${eur(STUDIO_FROM)} на проект.`, path: '/studio' })
+export const metadata: Metadata = pageMeta({ title: 'STUDIO — автоматизации и програми по поръчка | NextBot', description: `Имате нещо специфично? Свързваме програми, автоматизираме рутинна работа и правим софтуер по нужда. От ${eur(STUDIO_FROM)} на проект.`, path: '/studio', noindex: true })
 
 export default function StudioPage() {
   return (

@@ -15,7 +15,6 @@ export function AriaNote() {
         <dd className="m-0 leading-snug">Иска час за четвъртък следобед. Записан за 15:00.</dd>
       </dl>
       <p className="m-0 mt-4 flex items-center gap-1.5 border-t border-line pt-3 text-[13px] text-stone">
-        <i className="inline-block h-[7px] w-[7px] rounded-full bg-online" aria-hidden="true" />
         записано
       </p>
     </div>

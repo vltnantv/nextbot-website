@@ -97,7 +97,6 @@ export function Typing({
         )}
         {doneLabel && count === lines.length && !typing && (
           <motion.div key="done" className="flex items-center gap-1.5 self-start pl-1 text-[12px] text-online-text" {...anim}>
-            <span className="h-1.5 w-1.5 rounded-full bg-online" />
             {doneLabel}
           </motion.div>
         )}
