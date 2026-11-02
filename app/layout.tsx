@@ -1,7 +1,6 @@
 import { COMPANY } from "@/lib/company";
 import type { Metadata, Viewport } from "next";
 import { Geologica, Onest } from "next/font/google";
-import { Toaster } from "@/components/ui/sonner";
 import { ScrollObserver } from "@/components/ScrollObserver";
 import { HydrationMark } from "@/components/motion/HydrationMark";
 import "@/styles/tokens.css";
@@ -118,7 +117,6 @@ export default function RootLayout({
         <HydrationMark />
         <ScrollObserver />
         {children}
-        <Toaster />
       </body>
     </html>
   );

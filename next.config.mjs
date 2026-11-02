@@ -13,8 +13,8 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   async redirects() {
-    // No login or accounts at this stage (BRAND.md): the dashboard and auth pages stay in the code
-    // but are hidden. Temporary (307) so they can come back by deleting these lines.
+    // Addresses of the old dashboard and login pages (deleted from the code): they lead to the homepage,
+    // so old links and bookmarks do not end on a 404.
     const hidden = [
       "/login",
       "/register",
@@ -28,8 +28,7 @@ const nextConfig = {
       "/channels",
       "/settings",
     ];
-    // Old pages with outdated prices and dashboard references (not in BRAND.md). Temporary until
-    // step 5 adds the final redirects of all old addresses.
+    // Old pages with outdated prices and dashboard references (deleted from the code).
     const outdated = ["/documentation", "/api-docs", "/learn-more", "/demo-live"];
     // Old addresses that now have a Bulgarian page (permanent: these are the final addresses).
     const moved = [

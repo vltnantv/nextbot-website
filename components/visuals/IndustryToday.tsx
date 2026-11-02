@@ -1,4 +1,4 @@
-import { plural } from '@/lib/crm'
+import { plural } from '@/lib/utils'
 
 // Industry pages (copy/VISUALS.md): the cropped „Днес“ screen of CORE with rows from that industry. One component,
 // different data - a live component in the look of design/core-app.html (cream, hairlines, stage as a dot with a
